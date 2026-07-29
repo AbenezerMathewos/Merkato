@@ -3,90 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wolaita Roast — MERKATO</title>
+    <title>Product Details — MERKATO</title>
 </head>
-<body>
+<body bgcolor="#FAFAFA" text="#222222">
 
-    <!-- Header & Navigation -->
-    <header>
-        <a href="index.html">
-            <h1>MERKATO</h1>
-        </a>
-        <nav>
-    <a href="index.html">Home</a> &nbsp; / &nbsp;
-    <a href="shop.html">Shop</a> &nbsp; / &nbsp;
-    <a href="cart.html">Cart (0)</a> &nbsp; / &nbsp;
-    <a href="login.html">Sign In</a>
-</nav>
-    </header>
+    <!-- Header Navigation -->
+    <table width="90%" align="center" cellpadding="8" cellspacing="0">
+        <tr>
+            <td width="30%">
+                <a href="index.html" style="text-decoration:none;">
+                    <font size="6" color="#111111"><strong>MERKATO</strong></font>
+                </a>
+            </td>
+            <td width="70%" align="right">
+                <nav>
+                    <a href="index.html">Home</a> &nbsp;&vert;&nbsp;
+                    <a href="shop.html">Shop Catalog</a> &nbsp;&vert;&nbsp;
+                    <a href="login.html">Account</a> &nbsp;&vert;&nbsp;
+                    <a href="checkout.html">Cart <sup>(0)</sup></a>
+                </nav>
+            </td>
+        </tr>
+    </table>
 
-    <hr>
+    <hr size="1" color="#DDDDDD" width="90%">
 
-    <!-- Main Content -->
     <main>
-        
-        <!-- Breadcrumb -->
-        <p><small><a href="shop.html">&larr; Back to Shop Collection</a></small></p>
+        <!-- Jump Menu Bar -->
+        <table width="90%" align="center" cellpadding="8" cellspacing="0">
+            <tr>
+                <td>
+                    <small>
+                        <strong>Jump to Item:</strong> &nbsp;
+                        <a href="#coffee">Yirgacheffe Coffee</a> &nbsp;&bull;&nbsp;
+                        <a href="#spice">Berbere Spice</a> &nbsp;&bull;&nbsp;
+                        <a href="#pottery">Clay Jebena</a> &nbsp;&bull;&nbsp;
+                        <a href="#scarf">Cotton Scarf</a>
+                    </small>
+                </td>
+                <td align="right">
+                    <small><a href="shop.html">&larr; Back to Full Catalog</a></small>
+                </td>
+            </tr>
+        </table>
 
-        <article>
-            <!-- Product Image -->
-            <figure>
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Wolaita Coffee Beans" width="350" height="350">
-                <figcaption><small>Single-Origin Organic Arabica</small></figcaption>
-            </figure>
+        <br>
 
-            <!-- Product Purchase Details -->
-            <section>
-                <h2>Wolaita Roast</h2>
-                <p><strong>$24.00 USD</strong></p>
+        <!-- ================= ITEM 1: COFFEE ================= -->
+        <section id="coffee">
+            <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- Controlled Image -->
+                    <td width="35%" align="center">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Yirgacheffe Coffee" width="220" height="220" style="object-fit: cover; border: 1px solid #DDDDDD;">
+                        <p><small><em>Grade-1 Natural Arabica</em></small></p>
+                    </td>
 
-                <p>
-                    Hand-harvested from high-altitude micro-lots in Southern Ethiopia. Expect delicate floral notes of jasmine, bright citrus, and a smooth honey finish.
-                </p>
+                    <!-- Product Details -->
+                    <td width="65%">
+                        <mark><font size="1">&nbsp;SINGLE ORIGIN &vert; COFFEE&nbsp;</font></mark>
+                        <h2>Yirgacheffe Micro-Lot Whole Bean (1kg)</h2>
+                        <p><strong><font size="5">$24.00 USD</font></strong></p>
+                        <p>Hand-harvested from high-altitude micro-lots in Southern Ethiopia. Expect delicate floral notes of jasmine, bright citrus, and a smooth honey finish.</p>
 
-                <!-- Selection Form -->
-                <form action="cart.html" method="GET">
-                    <input type="hidden" name="item_name" value="Wolaita Roast">
+                        <form action="checkout.html" method="GET">
+                            <input type="hidden" name="item" value="Yirgacheffe Coffee">
+                            <p>
+                                <label for="roast"><strong>Roast Profile:</strong></label><br>
+                                <select name="roast" id="roast">
+                                    <option value="light">Light Roast (Floral &amp; Citrus)</option>
+                                    <option value="medium" selected>Medium Roast (Balanced)</option>
+                                    <option value="dark">Dark Roast (Bold Cocoa)</option>
+                                </select>
+                            </p>
+                            <p>
+                                <label for="qty1"><strong>Quantity:</strong></label> &nbsp;
+                                <input type="number" id="qty1" name="quantity" value="1" min="1" max="10" size="4">
+                            </p>
+                            <button type="submit">Add Coffee to Cart &amp; Checkout &rarr;</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </section>
 
-                    <p>
-                        <label for="roast"><strong>Roast Profile:</strong></label><br>
-                        <select name="roast" id="roast">
-                            <option value="light">Light Roast (Citrus &amp; Floral)</option>
-                            <option value="medium" selected>Medium Roast (Balanced &amp; Sweet)</option>
-                            <option value="dark">Dark Roast (Bold &amp; Cocoa)</option>
-                        </select>
-                    </p>
+        <br><br>
 
-                    <p>
-                        <label for="quantity"><strong>Quantity:</strong></label><br>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
-                    </p>
+        <!-- ================= ITEM 2: SPICE ================= -->
+        <section id="spice">
+            <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- Controlled Image -->
+                    <td width="35%" align="center">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80" alt="Berbere Spice Blend" width="220" height="220" style="object-fit: cover; border: 1px solid #DDDDDD;">
+                        <p><small><em>Sun-Dried Artisan Spice</em></small></p>
+                    </td>
 
-                    <button type="submit">Add to Cart &rarr;</button>
-                </form>
-            </section>
-        </article>
+                    <!-- Product Details -->
+                    <td width="65%">
+                        <mark><font size="1">&nbsp;ORGANIC &vert; RARE SPICES&nbsp;</font></mark>
+                        <h2>Artisanal Berbere Spice Blend (500g)</h2>
+                        <p><strong><font size="5">$12.00 USD</font></strong></p>
+                        <p>Authentic Ethiopian blend of sun-dried chili peppers, garlic, ginger, sacred basil, and korarima. Hand-ground for rich depth and aroma.</p>
 
-        <hr>
+                        <form action="checkout.html" method="GET">
+                            <input type="hidden" name="item" value="Berbere Spice">
+                            <p>
+                                <label for="qty2"><strong>Quantity:</strong></label> &nbsp;
+                                <input type="number" id="qty2" name="quantity" value="1" min="1" max="10" size="4">
+                            </p>
+                            <button type="submit">Add Spice to Cart &amp; Checkout &rarr;</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </section>
 
-        <!-- Minimal Specs Section -->
-        <section>
-            <h3>Product Overview</h3>
-            <ul>
-                <li><strong>Origin:</strong> Wolaita, Southrn Ethiopia</li>
-                <li><strong>Elevation:</strong> 1,900m – 2,200m</li>
-                <li><strong>Process:</strong> Sun-Dried Natural</li>
-                <li><strong>Weight:</strong> 1kg (2.2 lbs)</li>
-            </ul>
+        <br><br>
+
+        <!-- ================= ITEM 3: POTTERY ================= -->
+        <section id="pottery">
+            <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- Controlled Image -->
+                    <td width="35%" align="center">
+                        <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=400&q=80" alt="Clay Jebena Pot" width="220" height="220" style="object-fit: cover; border: 1px solid #DDDDDD;">
+                        <p><small><em>Hand-Molded Pottery</em></small></p>
+                    </td>
+
+                    <!-- Product Details -->
+                    <td width="65%">
+                        <mark><font size="1">&nbsp;HANDMADE &vert; CERAMICS&nbsp;</font></mark>
+                        <h2>Traditional Clay Jebena Coffee Pot</h2>
+                        <p><strong><font size="5">$18.50 USD</font></strong></p>
+                        <p>Crafted by master potters using natural black clay. Essential for brewing traditional coffee ceremonies with rich, authentic flavor.</p>
+
+                        <form action="checkout.html" method="GET">
+                            <input type="hidden" name="item" value="Clay Jebena">
+                            <p>
+                                <label for="qty3"><strong>Quantity:</strong></label> &nbsp;
+                                <input type="number" id="qty3" name="quantity" value="1" min="1" max="10" size="4">
+                            </p>
+                            <button type="submit">Add Jebena Pot to Cart &amp; Checkout &rarr;</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <br><br>
+
+        <!-- ================= ITEM 4: SCARF ================= -->
+        <section id="scarf">
+            <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- Controlled Image -->
+                    <td width="35%" align="center">
+                        <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=400&q=80" alt="Handwoven Cotton Scarf" width="220" height="220" style="object-fit: cover; border: 1px solid #DDDDDD;">
+                        <p><small><em>100% Handloom Cotton</em></small></p>
+                    </td>
+
+                    <!-- Product Details -->
+                    <td width="65%">
+                        <mark><font size="1">&nbsp;ORGANIC &vert; HERITAGE TEXTILES&nbsp;</font></mark>
+                        <h2>Handwoven Organic Cotton Scarf</h2>
+                        <p><strong><font size="5">$35.00 USD</font></strong></p>
+                        <p>Woven on traditional wooden handlooms using organic hand-spun cotton. Features subtle geometric border embroidery.</p>
+
+                        <form action="checkout.html" method="GET">
+                            <input type="hidden" name="item" value="Cotton Scarf">
+                            <p>
+                                <label for="qty4"><strong>Quantity:</strong></label> &nbsp;
+                                <input type="number" id="qty4" name="quantity" value="1" min="1" max="10" size="4">
+                            </p>
+                            <button type="submit">Add Scarf to Cart &amp; Checkout &rarr;</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
         </section>
 
     </main>
 
-    <hr>
+    <br><hr size="1" color="#DDDDDD" width="90%"><br>
 
     <!-- Footer -->
-    <footer>
-        <p><small>&copy; 2026 MERKATO. Simple, authentic commerce.</small></p>
+    <footer align="center">
+        <p><small>&copy; 2026 MERKATO INC. All rights reserved.</small></p>
     </footer>
 
 </body>
