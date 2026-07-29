@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — MERKATO</title>
+</head>
+<body bgcolor="#FAFAFA" text="#222222">
+
+    <!-- Header Navigation -->
+    <table width="90%" align="center" cellpadding="8" cellspacing="0">
+        <tr>
+            <td width="30%">
+                <a href="index.html" style="text-decoration:none;">
+                    <font size="6" color="#111111"><strong>MERKATO</strong></font>
+                    <font size="2" color="#D9534F"><sup>ADMIN</sup></font>
+                </a>
+            </td>
+            <td width="70%" align="right">
+                <nav>
+                    <a href="index.html">View Storefront</a> &nbsp;&vert;&nbsp;
+                    <a href="shop.html">Supermarket Floor</a> &nbsp;&vert;&nbsp;
+                    <a href="admin.html"><strong>Dashboard</strong></a> &nbsp;&vert;&nbsp;
+                    <a href="login.html">Logout</a>
+                </nav>
+            </td>
+        </tr>
+    </table>
+
+    <hr size="1" color="#DDDDDD" width="90%">
+
+    <main>
+        <!-- Page Title & Stats -->
+        <table width="90%" align="center" cellpadding="8" cellspacing="0">
+            <tr>
+                <td>
+                    <h2>Inventory &amp; Supermarket Stockroom</h2>
+                    <p><small>Add new items, modify ETB prices, or delete stock across all 5 supermarket aisles.</small></p>
+                </td>
+                <td align="right">
+                    <table border="1" cellpadding="8" cellspacing="0" bgcolor="#FFFFFF">
+                        <tr>
+                            <td align="center"><small><strong>Total Items</strong><br><font size="4">18</font></small></td>
+                            <td align="center"><small><strong>Active Aisles</strong><br><font size="4">5</font></small></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+
+        <!-- Product Addition Form -->
+        <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+            <tr>
+                <td>
+                    <h3>Add / Update Item</h3>
+                    <form action="#" method="POST">
+                        <table width="100%" cellpadding="8" cellspacing="0">
+                            <tr valign="top">
+                                <td width="50%">
+                                    <p>
+                                        <label for="title"><strong>Item Title:</strong></label><br>
+                                        <input type="text" id="title" name="title" size="40" placeholder="e.g. Electric Mitad Stove" required>
+                                    </p>
+                                    <p>
+                                        <label for="category"><strong>Supermarket Aisle:</strong></label><br>
+                                        <select id="category" name="category" required>
+                                            <option value="">-- Select Aisle --</option>
+                                            <option value="food">Aisle 1: Food &amp; Spices (የባልትና እና የእህል)</option>
+                                            <option value="home">Aisle 2: Home &amp; Kitchen (የቤት ዕቃዎች)</option>
+                                            <option value="apparel">Aisle 3: Textiles &amp; Apparel (የባህል ጨርቆች)</option>
+                                            <option value="crafts">Aisle 4: Handiwork &amp; Crafts (የዕደ-ጥበብ)</option>
+                                            <option value="electronics">Aisle 5: Electronics &amp; Tech (ኤሌክትሮኒክስ)</option>
+                                        </select>
+                                    </p>
+                                    <p>
+                                        <label for="price"><strong>Price in ETB (ብር):</strong></label><br>
+                                        <input type="number" id="price" name="price" placeholder="18500" required>
+                                    </p>
+                                </td>
+                                <td width="50%">
+                                    <p>
+                                        <label for="stock"><strong>Stock Quantity:</strong></label><br>
+                                        <input type="number" id="stock" name="stock" value="25" required>
+                                    </p>
+                                    <p>
+                                        <label for="image"><strong>Image URL:</strong></label><br>
+                                        <input type="url" id="image" name="image" size="40" placeholder="https://..." required>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <button type="reset">Reset Form</button> &nbsp;
+                                    <button type="submit"><strong>Save Item to Inventory</strong></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <br><br>
+
+        <!-- Inventory List Table -->
+        <table width="90%" align="center" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+            <tr>
+                <td>
+                    <h3>Active Inventory (18 Products)</h3>
+                    
+                    <table width="100%" border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; border-color: #EEEEEE;">
+                        <tr bgcolor="#F5F5F5" align="left">
+                            <th>Item Name</th>
+                            <th>Aisle</th>
+                            <th>Price (ETB)</th>
+                            <th>Stock</th>
+                            <th align="center">Actions</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Yirgacheffe Buna (ቡና)</strong></td>
+                            <td>Aisle 1: Food</td>
+                            <td>2,500 ETB</td>
+                            <td>42 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pure Doro Berbere (በርበሬ)</strong></td>
+                            <td>Aisle 1: Food</td>
+                            <td>1,750 ETB</td>
+                            <td>85 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Magna White Teff (ነጭ ጤፍ)</strong></td>
+                            <td>Aisle 1: Food</td>
+                            <td>4,200 ETB</td>
+                            <td>110 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Digital Electric Mitad (ምጣድ)</strong></td>
+                            <td>Aisle 5: Electronics</td>
+                            <td>18,500 ETB</td>
+                            <td>15 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>55" 4K Smart LED TV</strong></td>
+                            <td>Aisle 5: Electronics</td>
+                            <td>68,000 ETB</td>
+                            <td>8 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Solar Home Power Station</strong></td>
+                            <td>Aisle 5: Electronics</td>
+                            <td>42,000 ETB</td>
+                            <td>12 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>4G Dual-SIM Smartphone</strong></td>
+                            <td>Aisle 5: Electronics</td>
+                            <td>22,500 ETB</td>
+                            <td>30 units</td>
+                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </main>
+
+    <br><hr size="1" color="#DDDDDD" width="90%"><br>
+
+    <footer align="center">
+        <p><small>&copy; 2026 MERKATO INC. Admin Portal.</small></p>
+    </footer>
+
+</body>
+</html>

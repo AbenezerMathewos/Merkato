@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Catalog — MERKATO</title>
+    <title>Supermarket Floor Catalog — MERKATO</title>
 </head>
 <body bgcolor="#FAFAFA" text="#222222">
 
@@ -13,19 +13,20 @@
             <td width="30%">
                 <a href="index.html" style="text-decoration:none;">
                     <font size="6" color="#111111"><strong>MERKATO</strong></font>
+                    <font size="2" color="#666666"><sup>ገበያ</sup></font>
                 </a>
             </td>
             <td width="40%" align="center">
                 <form action="shop.html" method="GET">
-                    <input type="search" name="q" placeholder="Search catalog..." size="30">
+                    <input type="search" name="q" placeholder="Search item or aisle..." size="30">
                     <button type="submit">Search</button>
                 </form>
             </td>
             <td width="30%" align="right">
                 <nav>
                     <a href="index.html">Home</a> &nbsp;&vert;&nbsp;
-                    <a href="shop.html"><strong>Shop</strong></a> &nbsp;&vert;&nbsp;
-                    <a href="login.html">Account</a> &nbsp;&vert;&nbsp;
+                    <a href="shop.html"><strong>Supermarket Floor</strong></a> &nbsp;&vert;&nbsp;
+                    <a href="admin.html">Admin</a> &nbsp;&vert;&nbsp;
                     <a href="checkout.html">Cart <sup>(0)</sup></a>
                 </nav>
             </td>
@@ -34,85 +35,235 @@
 
     <hr size="1" color="#DDDDDD" width="90%">
 
-    <!-- Main Grid -->
     <main>
-        <table width="90%" align="center" cellpadding="12" cellspacing="0">
-            <tr valign="top">
-                
-                <!-- Filter Sidebar -->
-                <td width="22%" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-                    <h3>Collection Filter</h3>
-                    <details open>
-                        <summary><strong>Categories</strong></summary>
-                        <p><input type="checkbox" id="c1" checked> <label for="c1">All Items</label></p>
-                        <p><input type="checkbox" id="c2"> <label for="c2">Coffee &amp; Teas</label></p>
-                        <p><input type="checkbox" id="c3"> <label for="c3">Spices</label></p>
-                        <p><input type="checkbox" id="c4"> <label for="c4">Ceramics</label></p>
-                        <p><input type="checkbox" id="c5"> <label for="c5">Textiles</label></p>
-                    </details>
+        <!-- Supermarket Aisle Jump Directory -->
+        <table width="90%" align="center" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+            <tr>
+                <td>
+                    <strong>🛒 Jump to Aisle:</strong> &nbsp;&nbsp;
+                    <a href="#aisle-food"><mark>&nbsp;Aisle 1: Spices &amp; Food (የባልትና እና የእህል)&nbsp;</mark></a> &nbsp;&bull;&nbsp;
+                    <a href="#aisle-home"><mark>&nbsp;Aisle 2: Home &amp; Kitchen (የቤት ዕቃዎች)&nbsp;</mark></a> &nbsp;&bull;&nbsp;
+                    <a href="#aisle-apparel"><mark>&nbsp;Aisle 3: Textiles &amp; Clothing (የባህል ጨርቆች)&nbsp;</mark></a> &nbsp;&bull;&nbsp;
+                    <a href="#aisle-crafts"><mark>&nbsp;Aisle 4: Handiwork &amp; Crafts (የዕደ-ጥበብ)&nbsp;</mark></a> &nbsp;&bull;&nbsp;
+                    <a href="#aisle-electronics"><mark>&nbsp;Aisle 5: Electronics &amp; Tech (ኤሌክትሮኒክስ)&nbsp;</mark></a>
                 </td>
-
-                <td width="3%"></td> <!-- Spacer Column -->
-
-                <!-- 2x2 Clean Product Grid -->
-                <td width="75%">
-                    <table width="100%" cellpadding="12" cellspacing="12">
-                        <!-- Row 1 -->
-                        <tr valign="top">
-                            <!-- Item 1: Coffee -->
-                            <td width="50%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-                                <a href="product-detail.html#coffee">
-                                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" alt="Yirgacheffe Coffee" width="150" height="150" style="object-fit: cover; border: 1px solid #F0F0F0;">
-                                </a>
-                                <h4><a href="product-detail.html#coffee" style="text-decoration:none; color:#111;">Yirgacheffe Roast (1kg)</a></h4>
-                                <p><strong>$24.00 USD</strong></p>
-                                <a href="product-detail.html#coffee"><button type="button">Inspect Item &rarr;</button></a>
-                            </td>
-
-                            <!-- Item 2: Spice -->
-                            <td width="50%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-                                <a href="product-detail.html#spice">
-                                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" alt="Spices" width="150" height="150" style="object-fit: cover; border: 1px solid #F0F0F0;">
-                                </a>
-                                <h4><a href="product-detail.html#spice" style="text-decoration:none; color:#111;">Artisanal Berbere Spice</a></h4>
-                                <p><strong>$12.00 USD</strong></p>
-                                <a href="product-detail.html#spice"><button type="button">Inspect Item &rarr;</button></a>
-                            </td>
-                        </tr>
-
-                        <!-- Row 2 -->
-                        <tr valign="top">
-                            <!-- Item 3: Pottery -->
-                            <td width="50%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-                                <a href="product-detail.html#pottery">
-                                    <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Pottery" width="150" height="150" style="object-fit: cover; border: 1px solid #F0F0F0;">
-                                </a>
-                                <h4><a href="product-detail.html#pottery" style="text-decoration:none; color:#111;">Clay Jebena Coffee Pot</a></h4>
-                                <p><strong>$18.50 USD</strong></p>
-                                <a href="product-detail.html#pottery"><button type="button">Inspect Item &rarr;</button></a>
-                            </td>
-
-                            <!-- Item 4: Scarf -->
-                            <td width="50%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-                                <a href="product-detail.html#scarf">
-                                    <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" alt="Textile" width="150" height="150" style="object-fit: cover; border: 1px solid #F0F0F0;">
-                                </a>
-                                <h4><a href="product-detail.html#scarf" style="text-decoration:none; color:#111;">Handwoven Cotton Scarf</a></h4>
-                                <p><strong>$35.00 USD</strong></p>
-                                <a href="product-detail.html#scarf"><button type="button">Inspect Item &rarr;</button></a>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-
             </tr>
         </table>
+
+        <br><br>
+
+        <!-- ================= AISLE 1: FOOD & SPICES ================= -->
+        <section id="aisle-food">
+            <table width="90%" align="center" cellpadding="6" cellspacing="0" bgcolor="#111111">
+                <tr>
+                    <td><font color="#FFFFFF" size="4"><strong>&nbsp;AISLE 1: SPICES, GRAINS &amp; FOODSTUFF (የባልትና እና የእህል ውጤቶች)</strong></font></td>
+                </tr>
+            </table>
+
+            <table width="90%" align="center" cellpadding="12" cellspacing="12" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- 1. Buna -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#buna"><img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Yirgacheffe Buna (ቡና)</h4>
+                        <p><strong>2,500 ETB</strong> / 1kg</p>
+                        <a href="product-detail.html#buna"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 2. Berbere -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#berbere"><img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Pure Doro Berbere (በርበሬ)</h4>
+                        <p><strong>1,750 ETB</strong> / 1kg</p>
+                        <a href="product-detail.html#berbere"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 3. Teff -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#teff"><img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Magna White Teff (ነጭ ጤፍ)</h4>
+                        <p><strong>4,200 ETB</strong> / 25kg Bag</p>
+                        <a href="product-detail.html#teff"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <!-- 4. Shiro -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#shiro"><img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Miten Shiro Powder (ሚተን ሽሮ)</h4>
+                        <p><strong>650 ETB</strong> / 1kg</p>
+                        <a href="product-detail.html#shiro"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 5. Korerima -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#korerima"><img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Black Cardamom (ኮረሪማ)</h4>
+                        <p><strong>850 ETB</strong> / 250g</p>
+                        <a href="product-detail.html#korerima"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 6. Kibe -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#kibe"><img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Traditional Kibe (የሀገር ቅቤ)</h4>
+                        <p><strong>2,200 ETB</strong> / 1kg</p>
+                        <a href="product-detail.html#kibe"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <br><br>
+
+        <!-- ================= AISLE 2: HOME & KITCHENWARE ================= -->
+        <section id="aisle-home">
+            <table width="90%" align="center" cellpadding="6" cellspacing="0" bgcolor="#111111">
+                <tr>
+                    <td><font color="#FFFFFF" size="4"><strong>&nbsp;AISLE 2: HOME &amp; KITCHENWARE (የቤት እና የኩሽና ዕቃዎች)</strong></font></td>
+                </tr>
+            </table>
+
+            <table width="90%" align="center" cellpadding="12" cellspacing="12" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- 7. Jebena -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#jebena"><img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Clay Jebena (ጀበና)</h4>
+                        <p><strong>850 ETB</strong></p>
+                        <a href="product-detail.html#jebena"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 8. Sini -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#sini"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Sini Coffee Cups (ሲኒ - Set of 6)</h4>
+                        <p><strong>1,200 ETB</strong></p>
+                        <a href="product-detail.html#sini"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 9. Rekebot -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#rekebot"><img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Wooden Rekebot Tray (ረከቦት)</h4>
+                        <p><strong>6,500 ETB</strong></p>
+                        <a href="product-detail.html#rekebot"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <br><br>
+
+        <!-- ================= AISLE 3: TEXTILES & APPAREL ================= -->
+        <section id="aisle-apparel">
+            <table width="90%" align="center" cellpadding="6" cellspacing="0" bgcolor="#111111">
+                <tr>
+                    <td><font color="#FFFFFF" size="4"><strong>&nbsp;AISLE 3: TEXTILES &amp; CULTURAL APPAREL (የባህል ጨርቆች)</strong></font></td>
+                </tr>
+            </table>
+
+            <table width="90%" align="center" cellpadding="12" cellspacing="12" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- 10. Kemis -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#kemis"><img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Habesha Kemis (ሀበሻ ቀሚስ)</h4>
+                        <p><strong>12,000 ETB</strong></p>
+                        <a href="product-detail.html#kemis"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 11. Netela -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#netela"><img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Cotton Netela (ነጠላ)</h4>
+                        <p><strong>2,800 ETB</strong></p>
+                        <a href="product-detail.html#netela"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 12. Gabi -->
+                    <td width="33%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#gabi"><img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Heavy Cotton Gabi (ጋቢ)</h4>
+                        <p><strong>4,500 ETB</strong></p>
+                        <a href="product-detail.html#gabi"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <br><br>
+
+        <!-- ================= AISLE 4: CRAFTS & HANDIWORK ================= -->
+        <section id="aisle-crafts">
+            <table width="90%" align="center" cellpadding="6" cellspacing="0" bgcolor="#111111">
+                <tr>
+                    <td><font color="#FFFFFF" size="4"><strong>&nbsp;AISLE 4: CRAFTS &amp; HANDIWORK (የቅርጻ ቅርፅ እና የዕደ-ጥበብ)</strong></font></td>
+                </tr>
+            </table>
+
+            <table width="90%" align="center" cellpadding="12" cellspacing="12" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- 13. Mesob -->
+                    <td width="50%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#mesob"><img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Woven Mesob Basket (መሶብ)</h4>
+                        <p><strong>8,500 ETB</strong></p>
+                        <a href="product-detail.html#mesob"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 14. Barchuma -->
+                    <td width="50%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#barchuma"><img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Carved Barchuma Stool (በርጩማ)</h4>
+                        <p><strong>3,200 ETB</strong></p>
+                        <a href="product-detail.html#barchuma"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <br><br>
+
+        <!-- ================= AISLE 5: ELECTRONICS & TECH ================= -->
+        <section id="aisle-electronics">
+            <table width="90%" align="center" cellpadding="6" cellspacing="0" bgcolor="#003366">
+                <tr>
+                    <td><font color="#FFFFFF" size="4"><strong>&nbsp;AISLE 5: ELECTRONICS &amp; HOME TECH (ኤሌክትሮኒክስ)</strong></font></td>
+                </tr>
+            </table>
+
+            <table width="90%" align="center" cellpadding="12" cellspacing="12" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <tr valign="top">
+                    <!-- 15. Mitad -->
+                    <td width="25%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#mitad"><img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Electric Mitad (የእንጀራ ምጣድ)</h4>
+                        <p><strong>18,500 ETB</strong></p>
+                        <a href="product-detail.html#mitad"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 16. TV -->
+                    <td width="25%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#tv"><img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>55" 4K Smart TV</h4>
+                        <p><strong>68,000 ETB</strong></p>
+                        <a href="product-detail.html#tv"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 17. Solar -->
+                    <td width="25%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#solar"><img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>Solar Power Generator System</h4>
+                        <p><strong>42,000 ETB</strong></p>
+                        <a href="product-detail.html#solar"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                    <!-- 18. Smartphone -->
+                    <td width="25%" align="center" style="border: 1px solid #F0F0F0;">
+                        <a href="product-detail.html#phone"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80" width="150" height="150" style="object-fit:cover;"></a>
+                        <h4>4G Dual-SIM Smartphone</h4>
+                        <p><strong>22,500 ETB</strong></p>
+                        <a href="product-detail.html#phone"><button type="button">Inspect &rarr;</button></a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
     </main>
 
     <br><hr size="1" color="#DDDDDD" width="90%"><br>
 
     <footer align="center">
-        <p><small>&copy; 2026 MERKATO INC. All rights reserved.</small></p>
+        <p><small>&copy; 2026 MERKATO INC. Digital Supermarket Catalog.</small></p>
     </footer>
 
 </body>
