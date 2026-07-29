@@ -3,69 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MERKATO — Artisanal Marketplace</title>
+    <title>MERKATO — Artisanal Heritage</title>
 </head>
-<body>
+<body bgcolor="#FAFAFA" text="#222222">
+
+    <!-- Top Announcement -->
+    <table width="100%" bgcolor="#111111" cellpadding="6" cellspacing="0">
+        <tr>
+            <td align="center">
+                <font color="#FFFFFF" size="2">
+                    ✨ <strong>COMPLIMENTARY EXPRESS SHIPPING</strong> ON ORDERS OVER $50 &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+                </font>
+            </td>
+        </tr>
+    </table>
+
+    <br>
 
     <!-- Header & Navigation -->
-    <header>
-        <a href="index.html">
-            <h1>MERKATO</h1>
-        </a>
-        <nav>
-    <a href="index.html">Home</a> &nbsp; / &nbsp;
-    <a href="shop.html">Shop</a> &nbsp; / &nbsp;
-    <a href="cart.html">Cart (0)</a> &nbsp; / &nbsp;
-    <a href="login.html">Sign In</a>
-</nav>
-    </header>
+    <table width="90%" align="center" cellpadding="8" cellspacing="0">
+        <tr>
+            <!-- Brand Logo -->
+            <td width="25%">
+                <a href="index.html" style="text-decoration:none;">
+                    <font size="6" color="#111111"><strong>MERKATO</strong></font>
+                    <font size="2" color="#888888"><sup>&reg;</sup></font>
+                </a>
+            </td>
 
-    <hr>
+            <!-- Search Bar -->
+            <td width="45%" align="center">
+                <form action="shop.html" method="GET">
+                    <input type="search" name="q" placeholder="Search coffee, rare spices, textiles..." size="32" required>
+                    <button type="submit">Search</button>
+                </form>
+            </td>
+
+            <!-- Nav Links -->
+            <td width="30%" align="right">
+                <nav>
+                    <a href="index.html"><strong>Home</strong></a> &nbsp;&vert;&nbsp;
+                    <a href="shop.html">Shop</a> &nbsp;&vert;&nbsp;
+                    <a href="login.html">Account</a> &nbsp;&vert;&nbsp;
+                    <a href="checkout.html">Cart <sup>(0)</sup></a>
+                </nav>
+            </td>
+        </tr>
+    </table>
+
+    <hr size="1" color="#DDDDDD" width="90%">
 
     <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section>
-            <h2>Artisanal Goods &amp; Organic Harvest</h2>
-            <p>Carefully curated coffee, rare spices, and handwoven textiles straight from local artisans.</p>
-            <p><a href="shop.html">Browse Collection &rarr;</a></p>
-        </section>
+        
+        <!-- Hero Section Frame -->
+        <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #EEEEEE;">
+            <tr>
+                <td width="60%" valign="middle">
+                    <mark><font size="1">&nbsp;THE HERITAGE COLLECTION 2026&nbsp;</font></mark>
+                    <h2>Artisanal Goods &amp; Rare Organic Harvests</h2>
+                    <p>
+                        <em>Connecting local master craftsmen and specialty coffee growers directly with discerning collectors worldwide. Uncompromising quality and timeless heritage.</em>
+                    </p>
+                    <p>
+                        <a href="shop.html"><button type="button">Explore Collection &rarr;</button></a>
+                    </p>
+                </td>
+                <td width="40%" align="center">
+                    <figure>
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Specialty Coffee Dripping" width="220" height="220" style="object-fit: cover;">
+                        <figcaption><small><em>Grade-1 Yirgacheffe Arabica</em></small></figcaption>
+                    </figure>
+                </td>
+            </tr>
+        </table>
 
-        <hr>
+        <br><br>
 
-        <!-- Featured Products -->
-        <section>
-            <h3>Selected Pieces</h3>
+        <!-- Featured Products Section -->
+        <table width="90%" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td><h3>Selected Masterpieces</h3></td>
+                <td align="right"><a href="shop.html">View All (4 Items) &rarr;</a></td>
+            </tr>
+        </table>
 
-            <div>
-                <!-- Item 1: Wolaita Coffee -->
-                <article>
-                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Wolaita Coffee Beans" width="220" height="220">
-                    <h4>Wolaita Roast</h4>
-                    <p>Single-origin arabica coffee beans.</p>
-                    <p><strong>$24.00</strong></p>
-                    <a href="product-detail.html">View Item &rarr;</a>
-                </article>
+        <!-- Product Cards Grid -->
+        <table width="90%" align="center" cellpadding="12" cellspacing="12">
+            <tr valign="top">
+                
+                <!-- Product Card 1 -->
+                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                    <a href="product-detail.html">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" alt="Yirgacheffe Coffee" width="160" height="160" style="object-fit: cover;">
+                    </a>
+                    <br><br>
+                    <font size="1" color="#666666"><code>COFFEE &vert; SINGLE ORIGIN</code></font>
+                    <h4 style="margin: 6px 0;"><a href="product-detail.html" style="text-decoration:none; color:#111;">Yirgacheffe Roast (1kg)</a></h4>
+                    <p style="margin: 4px 0;"><strong>$24.00 USD</strong></p>
+                    <p style="margin: 4px 0;"><font color="#FFA500">★★★★★</font> <small>(4.9)</small></p>
+                    <br>
+                    <a href="product-detail.html"><button type="button">Inspect Item &rarr;</button></a>
+                </td>
 
-                <br>
+                <!-- Product Card 2 -->
+                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                    <a href="product-detail.html">
+                        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" alt="Spices" width="160" height="160" style="object-fit: cover;">
+                    </a>
+                    <br><br>
+                    <font size="1" color="#666666"><code>SPICES &vert; SUN-DRIED</code></font>
+                    <h4 style="margin: 6px 0;"><a href="product-detail.html" style="text-decoration:none; color:#111;">Berbere Spice Blend</a></h4>
+                    <p style="margin: 4px 0;"><strong>$12.00 USD</strong></p>
+                    <p style="margin: 4px 0;"><font color="#FFA500">★★★★★</font> <small>(4.8)</small></p>
+                    <br>
+                    <a href="product-detail.html"><button type="button">Inspect Item &rarr;</button></a>
+                </td>
 
-                <!-- Item 2: Organic Cotton Scarf -->
-                <article>
-                    <img src="https://images.unsplash.com/photo-1633980990942-80e0da50977e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Handwoven Cotton Scarf" width="220" height="220">
-                    <h4>Handwoven Cotton Scarf</h4>
-                    <p>100% organic, hand-loomed textile.</p>
-                    <p><strong>$35.00</strong></p>
-                    <a href="product-detail.html">View Item &rarr;</a>
-                </article>
-            </div>
-        </section>
+                <!-- Product Card 3 -->
+                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                    <a href="product-detail.html">
+                        <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Pottery" width="160" height="160" style="object-fit: cover;">
+                    </a>
+                    <br><br>
+                    <font size="1" color="#666666"><code>CERAMICS &vert; HANDMADE</code></font>
+                    <h4 style="margin: 6px 0;"><a href="product-detail.html" style="text-decoration:none; color:#111;">Clay Jebena Pot</a></h4>
+                    <p style="margin: 4px 0;"><strong>$18.50 USD</strong></p>
+                    <p style="margin: 4px 0;"><font color="#FFA500">★★★★★</font> <small>(5.0)</small></p>
+                    <br>
+                    <a href="product-detail.html"><button type="button">Inspect Item &rarr;</button></a>
+                </td>
+
+                <!-- Product Card 4 -->
+                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                    <a href="product-detail.html">
+                        <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" alt="Textiles" width="160" height="160" style="object-fit: cover;">
+                    </a>
+                    <br><br>
+                    <font size="1" color="#666666"><code>TEXTILES &vert; HANDLOOM</code></font>
+                    <h4 style="margin: 6px 0;"><a href="product-detail.html" style="text-decoration:none; color:#111;">Cotton Scarf</a></h4>
+                    <p style="margin: 4px 0;"><strong>$35.00 USD</strong></p>
+                    <p style="margin: 4px 0;"><font color="#FFA500">★★★★★</font> <small>(4.9)</small></p>
+                    <br>
+                    <a href="product-detail.html"><button type="button">Inspect Item &rarr;</button></a>
+                </td>
+
+            </tr>
+        </table>
+
     </main>
 
-    <hr>
+    <br><hr size="1" color="#DDDDDD" width="90%"><br>
 
     <!-- Footer -->
-    <footer>
-        <p><small>&copy; 2026 MERKATO. Simple, authentic commerce.</small></p>
+    <footer align="center">
+        <p><small>&copy; 2026 MERKATO INC. All rights reserved.</small></p>
     </footer>
 
 </body>
