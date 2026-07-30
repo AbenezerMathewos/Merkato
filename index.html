@@ -3,143 +3,486 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MERKATO — Digital Market</title>
+    <title>MERKATO</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.6;
+        }
+        
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .top-bar {
+            background: #111;
+            color: #fff;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 13px;
+        }
+        
+        .top-bar code {
+            background: #333;
+            padding: 2px 10px;
+            border-radius: 4px;
+            color: #ffd700;
+        }
+        
+        .header {
+            background: #fff;
+            padding: 15px 0;
+            border-radius: 6px;
+            margin: 15px 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-svg {
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #111;
+            line-height: 1;
+        }
+        
+        .logo-text sup {
+            font-size: 12px;
+            color: #008000;
+            font-weight: 600;
+        }
+        
+        .logo-text:hover {
+            color: #008000;
+        }
+        
+        .nav a {
+            color: #444;
+            font-size: 14px;
+            margin: 0 8px;
+            padding-bottom: 3px;
+        }
+        
+        .nav a:hover {
+            color: #111;
+            border-bottom: 2px solid #008000;
+            text-decoration: none;
+        }
+        
+        .nav a.active {
+            color: #008000;
+            border-bottom: 2px solid #008000;
+        }
+        
+        .nav .cart {
+            background: #d9534f;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+        
+        .search-form {
+            display: flex;
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .search-form input {
+            flex: 1;
+            padding: 8px 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+        
+        .search-form input:focus {
+            outline: none;
+            border-color: #008000;
+        }
+        
+        .search-form button {
+            padding: 8px 16px;
+            background: #008000;
+            color: #fff;
+            border: 1px solid #008000;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .search-form button:hover {
+            background: #006600;
+        }
+        
+        .divider {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+        
+        .hero {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 25px;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .hero-content .tag {
+            background: #fff3cd;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .hero-content h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .hero-content h1 span {
+            color: #008000;
+        }
+        
+        .hero-content p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .hero img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: #008000;
+            color: #fff;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #006600;
+            text-decoration: none;
+        }
+        
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 12px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .section-header h2 {
+            font-size: 22px;
+        }
+        
+        .section-header a {
+            font-size: 14px;
+            color: #008000;
+            font-weight: bold;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .product-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-color: #008000;
+        }
+        
+        .product-card img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .product-card .aisle {
+            font-size: 11px;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .product-card h3 {
+            font-size: 15px;
+            margin: 8px 0 4px;
+        }
+        
+        .product-card h3 a {
+            color: #111;
+        }
+        
+        .product-card h3 a:hover {
+            color: #008000;
+            text-decoration: none;
+        }
+        
+        .product-card .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 6px 0 12px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #888;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .logo-wrapper {
+                justify-content: center;
+            }
+            
+            .search-form {
+                max-width: 100%;
+            }
+            
+            .nav {
+                text-align: center;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 26px;
+            }
+            
+            .hero img {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 22px;
+            }
+            
+            .nav a {
+                font-size: 12px;
+                margin: 0 5px;
+            }
+            
+            .logo-svg {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo-text {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
-<body bgcolor="#FAFAFA" text="#222222">
+<body>
 
-    <!-- Top Announcement -->
-    <table width="100%" bgcolor="#111111" cellpadding="6" cellspacing="0">
-        <tr>
-            <td align="center">
-                <font color="#FAFAFA" size="2">
-                     <strong>Free Delivery</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
-                </font>
-            </td>
-        </tr>
-    </table>
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
 
-    <br>
-
-    <!-- Header & Navigation -->
-    <table width="90%" align="center" cellpadding="8" cellspacing="0">
-        <tr>
-            <td width="25%">
-                <a href="index.html" style="text-decoration:none;">
-                    <font size="6" color="#111111"><strong>MERKATO</strong></font>
-                    <font size="2" color="#008000"><sup>ሱፐርማርኬት</sup></font>
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#008000" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="44" fill="#f0f8f0"/>
+                        <path d="M50 10 C65 30 80 45 50 70 C20 45 35 30 50 10Z" fill="#008000" opacity="0.3"/>
+                        <path d="M30 45 L45 55 L70 40" stroke="#008000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 50 L50 60 L75 45" stroke="#008000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#008000" stroke-width="2"/>
+                        <circle cx="38" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="62" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="45" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <text x="50" y="88" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">MERKATO</text>
+                    </svg>
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
                 </a>
-            </td>
 
-            <td width="45%" align="center">
-                <form action="shop.html" method="GET">
-                    <input type="search" name="q" placeholder="Search coffee, electronics, teff, spices..." size="32" required>
+                <form class="search-form" action="shop.html">
+                    <input type="search" placeholder="Search coffee, electronics, teff..." required>
                     <button type="submit">Search</button>
                 </form>
-            </td>
 
-            <td width="30%" align="right">
-                <nav>
-                    <a href="index.html"><strong>Home</strong></a> &nbsp;&vert;&nbsp;
-                    <a href="shop.html">Shop Catalog</a> &nbsp;&vert;&nbsp;
-                    <a href="admin.html">Admin</a> &nbsp;&vert;&nbsp;
-                    <a href="checkout.html">Cart <sup>(0)</sup></a>
+                <nav class="nav">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="checkout.html">Cart <span class="cart">0</span></a>
                 </nav>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </header>
+    </div>
 
-    <hr size="1" color="#DDDDDD" width="90%">
+    <hr class="divider">
 
     <main>
-        <!-- Hero Banner -->
-        <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #EEEEEE;">
-            <tr>
-                <td width="60%" valign="middle">
-                    <mark><font size="1">&nbsp;የ2018/2026 የሀገር ውስጥ ምርቶች&nbsp;</font></mark>
-                    <h2>Authentic Ethiopian Supermarket &amp; Electronics</h2>
-                    <p>
-                        From premium <strong>Yirgacheffe Buna</strong> and organic <strong>White Teff</strong> to modern <strong>Smart TVs</strong> and <strong>Electric Mitad Stoves</strong>. Quality guaranteed.
-                    </p>
-                    <p>
-                        <a href="shop.html"><button type="button">Browse Supermarket Floor &rarr;</button></a>
-                    </p>
-                </td>
-                <td width="40%" align="center">
-                    <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Specialty Ethiopian Coffee Beans" width="220" height="220" style="object-fit: cover; border: 1px solid #E0E0E0;">
-                </td>
-            </tr>
-        </table>
+        <div class="container">
 
-        <br><br>
+            <section class="hero">
+                <div class="hero-content">
+                    <div class="tag">የ2018/2026 የሀገር ውስጥ ምርቶች</div>
+                    <h1>Authentic Ethiopian <br><span>Supermarket</span> &amp; <span>Electronics</span></h1>
+                    <p>From premium Yirgacheffe Buna to modern Smart TVs and Electric Mitad Stoves. Quality guaranteed.</p>
+                    <a href="shop.html" class="btn">Browse Supermarket &rarr;</a>
+                </div>
+                <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Coffee">
+            </section>
 
-        <!-- Department Highlights -->
-        <table width="90%" align="center" cellpadding="0" cellspacing="0">
-            <tr>
-                <td><h3>Featured Supermarket Aisles</h3></td>
-                <td align="right"><a href="shop.html">View All 18 Items &rarr;</a></td>
-            </tr>
-        </table>
+            <div class="section-header">
+                <h2>Featured Supermarket Aisles</h2>
+                <a href="shop.html">View All 18 Items &rarr;</a>
+            </div>
 
-        <!-- Featured Products Matrix -->
-        <table width="90%" align="center" cellpadding="12" cellspacing="12">
-            <tr valign="top">
-                
-                <!-- Item 1: Buna -->
-                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+            <div class="product-grid">
+
+                <div class="product-card">
                     <a href="product-detail.html#buna">
-                        <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Yirgacheffe Coffee" width="160" height="160" style="object-fit: cover;">
+                        <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Coffee">
                     </a>
-                    <br><br>
-                    <font size="1" color="#666666"><code>AISLE 1 &vert; FOOD</code></font>
-                    <h4 style="margin: 6px 0;"><a href="product-detail.html#buna" style="text-decoration:none; color:#111;">Yirgacheffe Buna (.)</a></h4>
-                    <p style="margin: 4px 0;"><strong>2,500 ETB</strong></p>
-                    <a href="product-detail.html#buna"><button type="button">Inspect Item &rarr;</button></a>
-                </td>
+                    <div class="aisle">AISLE 1 | FOOD</div>
+                    <h3><a href="product-detail.html#buna">Yirgacheffe Buna</a></h3>
+                    <div class="price">2,500 ETB</div>
+                    <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
+                </div>
 
-                <!-- Item 2: Mitad -->
-                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <div class="product-card">
                     <a href="product-detail.html#mitad">
-                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" alt="Electric Mitad" width="160" height="160" style="object-fit: cover;">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" alt="Mitad">
                     </a>
-                    <br><br>
-                    <font size="1" color="#666666"><code>AISLE 5 &vert; ELECTRONICS</code></font>
-                    <h4 style="margin: 6px 0;"><a href="product-detail.html#mitad" style="text-decoration:none; color:#111;">Digital Electric Mitad (ምጣድ)</a></h4>
-                    <p style="margin: 4px 0;"><strong>18,500 ETB</strong></p>
-                    <a href="product-detail.html#mitad"><button type="button">Inspect Item &rarr;</button></a>
-                </td>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#mitad">Digital Electric Mitad</a></h3>
+                    <div class="price">18,500 ETB</div>
+                    <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
+                </div>
 
-                <!-- Item 3: Habesha Kemis -->
-                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <div class="product-card">
                     <a href="product-detail.html#kemis">
-                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Habesha Kemis" width="160" height="160" style="object-fit: cover;">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Kemis">
                     </a>
-                    <br><br>
-                    <font size="1" color="#666666"><code>AISLE 3 &vert; APPAREL</code></font>
-                    <h4 style="margin: 6px 0;"><a href="product-detail.html#kemis" style="text-decoration:none; color:#111;">Habesha Kemis (ሀበሻ ቀሚስ)</a></h4>
-                    <p style="margin: 4px 0;"><strong>12,000 ETB</strong></p>
-                    <a href="product-detail.html#kemis"><button type="button">Inspect Item &rarr;</button></a>
-                </td>
+                    <div class="aisle">AISLE 3 | APPAREL</div>
+                    <h3><a href="product-detail.html#kemis">Habesha Kemis</a></h3>
+                    <div class="price">12,000 ETB</div>
+                    <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                </div>
 
-                <!-- Item 4: Smart TV -->
-                <td width="25%" align="center" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
+                <div class="product-card">
                     <a href="product-detail.html#tv">
-                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80" alt="4K Smart TV" width="160" height="160" style="object-fit: cover;">
+                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80" alt="TV">
                     </a>
-                    <br><br>
-                    <font size="1" color="#666666"><code>AISLE 5 &vert; ELECTRONICS</code></font>
-                    <h4 style="margin: 6px 0;"><a href="product-detail.html#tv" style="text-decoration:none; color:#111;">55" 4K Smart TV</a></h4>
-                    <p style="margin: 4px 0;"><strong>68,000 ETB</strong></p>
-                    <a href="product-detail.html#tv"><button type="button">Inspect Item &rarr;</button></a>
-                </td>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#tv">55" 4K Smart TV</a></h3>
+                    <div class="price">68,000 ETB</div>
+                    <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
+                </div>
 
-            </tr>
-        </table>
+            </div>
+
+        </div>
     </main>
 
-    <br><hr size="1" color="#DDDDDD" width="90%"><br>
+    <hr class="divider">
 
-    <footer align="center">
-        <p><small>&copy; 2026 MERKATO INC. All rights reserved.</small></p>
+    <footer class="footer">
+        <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
     </footer>
 
 </body>
