@@ -4,286 +4,401 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
-<meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
-<meta name="author" content="ABENEZER MATHEWOS">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23008000'/></svg>">
+    <link rel="stylesheet" href="style.css">
     <title>Admin Dashboard — MERKATO</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23008000'/><path d='M 22 75 L 22 25 L 50 60 L 78 25 L 78 75' stroke='%23FFFFFF' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='50' cy='63' r='4' fill='%23FFD700'/></svg>">
-<link rel="stylesheet" href="style.css">
 </head>
-<body bgcolor="#FAFAFA" text="#222222">
+<body>
 
-    <!-- Header Navigation -->
-    <table width="90%" align="center" cellpadding="8" cellspacing="0">
-        <tr>
-            <td width="30%">
-                <a href="index.html" style="text-decoration:none;">
-                    <font size="6" color="#111111"><strong>MERKATO</strong></font>
-                    <font size="2" color="#D9534F"><sup>ADMIN</sup></font>
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header" id="mainHeader">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper" aria-label="MERKATO Home">
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#008000" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="44" fill="#f0f8f0"/>
+                        <path d="M50 10 C65 30 80 45 50 70 C20 45 35 30 50 10Z" fill="#008000" opacity="0.3"/>
+                        <path d="M30 45 L45 55 L70 40" stroke="#008000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 50 L50 60 L75 45" stroke="#008000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#008000" stroke-width="2"/>
+                        <circle cx="38" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="62" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="45" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <text x="50" y="88" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">MERKATO</text>
+                    </svg>
+                    <span class="logo-text">MERKATO<sup>ADMIN</sup></span>
                 </a>
-            </td>
-            <td width="70%" align="right">
-                <nav>
-                    <a href="index.html">View Storefront</a> &nbsp;&vert;&nbsp;
-                    <a href="shop.html">Supermarket Floor</a> &nbsp;&vert;&nbsp;
-                    <a href="admin.html"><strong>Dashboard</strong></a> &nbsp;&vert;&nbsp;
+
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="index.html">Storefront</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="admin.html" class="active">Dashboard</a>
                     <a href="login.html">Logout</a>
                 </nav>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </header>
+    </div>
 
-    <hr size="1" color="#DDDDDD" width="90%">
+    <hr class="divider">
 
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>Admin Dashboard</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <main>
-        <!-- Page Title & Stats -->
-        <table width="90%" align="center" cellpadding="8" cellspacing="0">
-            <tr>
-                <td>
-                    <h2>Inventory &amp; Supermarket Stockroom</h2>
-                    <p><small>Add new items, modify ETB prices, or delete stock across all 5 supermarket aisles.</small></p>
-                </td>
-                <td align="right">
-                    <table border="1" cellpadding="8" cellspacing="0" bgcolor="#FFFFFF">
-                        <tr>
-                            <td align="center"><small><strong>Total Items</strong><br><font size="4">18</font></small></td>
-                            <td align="center"><small><strong>Active Aisles</strong><br><font size="4">5</font></small></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+        <div class="container">
 
-        <br>
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+                <div>
+                    <h1>Inventory &amp; Supermarket Stockroom</h1>
+                    <p>Add new items, modify ETB prices, or delete stock across all 5 supermarket aisles.</p>
+                </div>
+                <div class="stats-box">
+                    <div class="stat-item">
+                        <small>Total Items</small>
+                        <span class="number">18</span>
+                    </div>
+                    <div class="stat-item">
+                        <small>Active Aisles</small>
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Product Addition Form -->
-        <table width="90%" align="center" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-            <tr>
-                <td>
-                    <h3>Add / Update Item</h3>
-                    <form action="#" method="POST">
-                        <table width="100%" cellpadding="8" cellspacing="0">
-                            <tr valign="top">
-                                <td width="50%">
-                                    <p>
-                                        <label for="title"><strong>Item Title:</strong></label><br>
-                                        <input type="text" id="title" name="title" size="40" placeholder="e.g. Electric Mitad Stove" required>
-                                    </p>
-                                    <p>
-                                        <label for="category"><strong>Supermarket Aisle:</strong></label><br>
-                                        <select id="category" name="category" required>
-                                            <option value="">-- Select Aisle --</option>
-                                            <option value="food">Aisle 1: Food &amp; Spices</option>
-                                            <option value="home">Aisle 2: Home &amp; Kitchen </option>
-                                            <option value="apparel">Aisle 3: Textiles &amp; Apparel</option>
-                                            <option value="crafts">Aisle 4: Handiwork &amp; Crafts </option>
-                                            <option value="electronics">Aisle 5: Electronics &amp; Tech </option>
-                                        </select>
-                                    </p>
-                                    <p>
-                                        <label for="price"><strong>Price in ETB (ብር):</strong></label><br>
-                                        <input type="number" id="price" name="price" placeholder="18500" required>
-                                    </p>
-                                </td>
-                                <td width="50%">
-                                    <p>
-                                        <label for="stock"><strong>Stock Quantity:</strong></label><br>
-                                        <input type="number" id="stock" name="stock" value="25" required>
-                                    </p>
-                                    <p>
-                                        <label for="image"><strong>Image URL:</strong></label><br>
-                                        <input type="url" id="image" name="image" size="40" placeholder="https://..." required>
-                                    </p>
+            <!-- ADD / UPDATE FORM -->
+            <div class="card">
+                <h2 class="card-title">Add / Update Item</h2>
+                <form action="#" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="title">Item Title:</label>
+                            <input type="text" id="title" name="title" placeholder="e.g. Electric Mitad Stove" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Supermarket Aisle:</label>
+                            <select id="category" name="category" required>
+                                <option value="">-- Select Aisle --</option>
+                                <option value="food">Aisle 1: Food &amp; Spices</option>
+                                <option value="home">Aisle 2: Home &amp; Kitchen</option>
+                                <option value="apparel">Aisle 3: Textiles &amp; Apparel</option>
+                                <option value="crafts">Aisle 4: Handiwork &amp; Crafts</option>
+                                <option value="electronics">Aisle 5: Electronics &amp; Tech</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="price">Price in ETB (ብር):</label>
+                            <input type="number" id="price" name="price" placeholder="18500" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stock">Stock Quantity:</label>
+                            <input type="number" id="stock" name="stock" value="25" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image URL:</label>
+                            <input type="url" id="image" name="image" placeholder="https://..." required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary">Reset Form</button>
+                        <button type="submit" class="btn btn-primary"><strong>Save Item to Inventory</strong></button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- INVENTORY TABLE -->
+            <div class="card">
+                <h2 class="card-title">Active Inventory (18 Products)</h2>
+                
+                <div class="table-wrapper">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Item Name</th>
+                                <th>Aisle</th>
+                                <th>Price (ETB)</th>
+                                <th>Stock</th>
+                                <th style="text-align:center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>Yirgacheffe Buna (ቡና)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>2,500 ETB</td>
+                                <td><span class="stock-badge stock-medium">42 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" align="right">
-                                    <button type="reset">Reset Form</button> &nbsp;
-                                    <button type="submit"><strong>Save Item to Inventory</strong></button>
+                                <td>2</td>
+                                <td><strong>Pure Doro Berbere (በርበሬ)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>1,750 ETB</td>
+                                <td><span class="stock-badge stock-high">85 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
-                        </table>
-                    </form>
-                </td>
-            </tr>
-        </table>
-
-        <br><br>
-
-        <!-- Inventory List Table - ALL 18 PRODUCTS -->
-        <table width="90%" align="center" cellpadding="12" cellspacing="0" bgcolor="#FFFFFF" style="border: 1px solid #E0E0E0;">
-            <tr>
-                <td>
-                    <h3>Active Inventory (18 Products)</h3>
-                    
-                    <table width="100%" border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; border-color: #EEEEEE;">
-                        <tr bgcolor="#F5F5F5" align="left">
-                            <th>#</th>
-                            <th>Item Name</th>
-                            <th>Aisle</th>
-                            <th>Price (ETB)</th>
-                            <th>Stock</th>
-                            <th align="center">Actions</th>
-                        </tr>
-                        <!-- AISLE 1: FOOD & SPICES -->
-                        <tr>
-                            <td>1</td>
-                            <td><strong>Sidama Buna</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>2,500 ETB</td>
-                            <td>42 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><strong>Pure Doro Berbere</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>1,750 ETB</td>
-                            <td>85 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><strong>Magna White Teff</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>4,200 ETB</td>
-                            <td>110 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td><strong>Miten Shiro Powder</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>650 ETB</td>
-                            <td>200 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td><strong>Ethiopian Black Cardamom</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>850 ETB</td>
-                            <td>75 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td><strong>Traditional Spiced Kibe</strong></td>
-                            <td>Aisle 1: Food</td>
-                            <td>2,200 ETB</td>
-                            <td>60 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <!-- AISLE 2: HOME & KITCHENWARE -->
-                        <tr>
-                            <td>7</td>
-                            <td><strong>Clay Jebena Coffee Pot </strong></td>
-                            <td>Aisle 2: Home</td>
-                            <td>850 ETB</td>
-                            <td>45 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td><strong>Sini Ceramic Cups</strong></td>
-                            <td>Aisle 2: Home</td>
-                            <td>1,200 ETB</td>
-                            <td>30 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td><strong>Handcrafted Wooden Rekebot</strong></td>
-                            <td>Aisle 2: Home</td>
-                            <td>6,500 ETB</td>
-                            <td>18 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <!-- AISLE 3: TEXTILES & APPAREL -->
-                        <tr>
-                            <td>10</td>
-                            <td><strong>Handwoven Habesha Kemis</strong></td>
-                            <td>Aisle 3: Apparel</td>
-                            <td>12,000 ETB</td>
-                            <td>25 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>11</td>
-                            <td><strong>Cotton Netela Shawl</strong></td>
-                            <td>Aisle 3: Apparel</td>
-                            <td>2,800 ETB</td>
-                            <td>40 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <td><strong>Heavy Cotton Gabi</strong></td>
-                            <td>Aisle 3: Apparel</td>
-                            <td>4,500 ETB</td>
-                            <td>35 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <!-- AISLE 4: CRAFTS & HANDIWORK -->
-                        <tr>
-                            <td>13</td>
-                            <td><strong>Large Woven Mesob Basket</strong></td>
-                            <td>Aisle 4: Crafts</td>
-                            <td>8,500 ETB</td>
-                            <td>12 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>14</td>
-                            <td><strong>Carved Wooden Barchuma Stool</strong></td>
-                            <td>Aisle 4: Crafts</td>
-                            <td>3,200 ETB</td>
-                            <td>20 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <!-- AISLE 5: ELECTRONICS & TECH -->
-                        <tr>
-                            <td>15</td>
-                            <td><strong>Digital Electric Mitad</strong></td>
-                            <td>Aisle 5: Electronics</td>
-                            <td>18,500 ETB</td>
-                            <td>15 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>16</td>
-                            <td><strong>55" 4K Smart LED TV</strong></td>
-                            <td>Aisle 5: Electronics</td>
-                            <td>68,000 ETB</td>
-                            <td>8 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>17</td>
-                            <td><strong>Solar Home Power Station</strong></td>
-                            <td>Aisle 5: Electronics</td>
-                            <td>42,000 ETB</td>
-                            <td>12 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
-                        <tr>
-                            <td>18</td>
-                            <td><strong>4G Dual-SIM Smartphone</strong></td>
-                            <td>Aisle 5: Electronics</td>
-                            <td>22,500 ETB</td>
-                            <td>30 units</td>
-                            <td align="center"><button type="button">Edit</button> <button type="button" style="color:red;">Delete</button></td>
-                        </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>Magna White Teff (ነጭ ጤፍ)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>4,200 ETB</td>
+                                <td><span class="stock-badge stock-high">110 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>Miten Shiro Powder (ሚተን ሽሮ)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>650 ETB</td>
+                                <td><span class="stock-badge stock-high">200 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>Ethiopian Black Cardamom (ኮረሪማ)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>850 ETB</td>
+                                <td><span class="stock-badge stock-medium">75 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><strong>Traditional Spiced Kibe (የሀገር ቅቤ)</strong></td>
+                                <td><span class="aisle-badge aisle-food">Aisle 1: Food</span></td>
+                                <td>2,200 ETB</td>
+                                <td><span class="stock-badge stock-medium">60 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><strong>Clay Jebena (ጀበና)</strong></td>
+                                <td><span class="aisle-badge aisle-home">Aisle 2: Home</span></td>
+                                <td>850 ETB</td>
+                                <td><span class="stock-badge stock-medium">45 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td><strong>Sini Ceramic Cups (ሲኒ)</strong></td>
+                                <td><span class="aisle-badge aisle-home">Aisle 2: Home</span></td>
+                                <td>1,200 ETB</td>
+                                <td><span class="stock-badge stock-medium">30 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td><strong>Wooden Rekebot (ረከቦት)</strong></td>
+                                <td><span class="aisle-badge aisle-home">Aisle 2: Home</span></td>
+                                <td>6,500 ETB</td>
+                                <td><span class="stock-badge stock-low">18 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td><strong>Habesha Kemis (ሀበሻ ቀሚስ)</strong></td>
+                                <td><span class="aisle-badge aisle-apparel">Aisle 3: Apparel</span></td>
+                                <td>12,000 ETB</td>
+                                <td><span class="stock-badge stock-medium">25 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td><strong>Cotton Netela (ነጠላ)</strong></td>
+                                <td><span class="aisle-badge aisle-apparel">Aisle 3: Apparel</span></td>
+                                <td>2,800 ETB</td>
+                                <td><span class="stock-badge stock-medium">40 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td><strong>Heavy Cotton Gabi (ጋቢ)</strong></td>
+                                <td><span class="aisle-badge aisle-apparel">Aisle 3: Apparel</span></td>
+                                <td>4,500 ETB</td>
+                                <td><span class="stock-badge stock-medium">35 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>13</td>
+                                <td><strong>Woven Mesob Basket (መሶብ)</strong></td>
+                                <td><span class="aisle-badge aisle-crafts">Aisle 4: Crafts</span></td>
+                                <td>8,500 ETB</td>
+                                <td><span class="stock-badge stock-low">12 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14</td>
+                                <td><strong>Wooden Barchuma Stool (በርጩማ)</strong></td>
+                                <td><span class="aisle-badge aisle-crafts">Aisle 4: Crafts</span></td>
+                                <td>3,200 ETB</td>
+                                <td><span class="stock-badge stock-medium">20 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>15</td>
+                                <td><strong>Electric Mitad (ምጣድ)</strong></td>
+                                <td><span class="aisle-badge aisle-electronics">Aisle 5: Electronics</span></td>
+                                <td>18,500 ETB</td>
+                                <td><span class="stock-badge stock-medium">15 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>16</td>
+                                <td><strong>55" 4K Smart TV</strong></td>
+                                <td><span class="aisle-badge aisle-electronics">Aisle 5: Electronics</span></td>
+                                <td>68,000 ETB</td>
+                                <td><span class="stock-badge stock-low">8 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>17</td>
+                                <td><strong>Solar Power Station</strong></td>
+                                <td><span class="aisle-badge aisle-electronics">Aisle 5: Electronics</span></td>
+                                <td>42,000 ETB</td>
+                                <td><span class="stock-badge stock-low">12 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18</td>
+                                <td><strong>4G Dual-SIM Smartphone</strong></td>
+                                <td><span class="aisle-badge aisle-electronics">Aisle 5: Electronics</span></td>
+                                <td>22,500 ETB</td>
+                                <td><span class="stock-badge stock-medium">30 units</span></td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button type="button" class="btn btn-warning-sm btn-sm">Edit</button>
+                                        <button type="button" class="btn btn-danger-sm btn-sm">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </div>
+
+        </div>
     </main>
 
-    <br><hr size="1" color="#DDDDDD" width="90%"><br>
+    <hr class="divider">
 
-    <footer align="center">
-        <p><small>&copy; 2026 MERKATO INC. Admin Portal.</small></p>
+    <!-- FOOTER -->
+    <footer class="footer" id="mainFooter">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="admin.html">Admin</a> | 
+                <a href="login.html">Sign In</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. Admin Portal. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
     </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
 </body>
 </html>

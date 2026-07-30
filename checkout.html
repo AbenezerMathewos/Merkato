@@ -4,100 +4,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
-<meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
-<meta name="author" content="ABENEZER MATHEWOS">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23008000'/></svg>">
+    <link rel="stylesheet" href="style.css">
     <title>Checkout — MERKATO</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23008000'/><path d='M 22 75 L 22 25 L 50 60 L 78 25 L 78 75' stroke='%23FFFFFF' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='50' cy='63' r='4' fill='%23FFD700'/></svg>"></head>
-<link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-    <!-- Header & Navigation -->
-    <header>
-        <a href="index.html">
-            <h1>MERKATO</h1>
-        </a>
-        <nav>
-    <a href="index.html">Home</a> &nbsp; / &nbsp;
-    <a href="shop.html">Shop</a> &nbsp; / &nbsp;
-    <a href="cart.html">Cart (0)</a> &nbsp; / &nbsp;
-    <a href="login.html">Sign In</a>
-</nav>
-    </header>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
 
-    <hr>
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#008000" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="44" fill="#f0f8f0"/>
+                        <path d="M50 10 C65 30 80 45 50 70 C20 45 35 30 50 10Z" fill="#008000" opacity="0.3"/>
+                        <path d="M30 45 L45 55 L70 40" stroke="#008000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 50 L50 60 L75 45" stroke="#008000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#008000" stroke-width="2"/>
+                        <circle cx="38" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="62" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="45" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <text x="50" y="88" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">MERKATO</text>
+                    </svg>
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
-    <!-- Main Content -->
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">3</span></a>
+                    <a href="login.html">Sign In</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="cart.html">Cart</a> &gt; 
+            <span><strong>Checkout</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <main>
-        <h2>Checkout</h2>
+        <div class="container">
+            <div class="page-title">
+                <h1>📦 Checkout</h1>
+                <p>Complete your order and confirm payment.</p>
+            </div>
 
-        <!-- Order Summary -->
-        <section>
-            <h3>Order Summary</h3>
-            <ul>
-                <li>Wolaita Roast (Medium, 1kg) — <strong>2,500 ETB</strong></li>
-                <li>Shipping — <strong>Free</strong></li>
-            </ul>
-            <p><strong>Total: 2,500 ETB</strong></p>
-        </section>
+            <div class="cart-layout">
+                <!-- Checkout Form -->
+                <div>
+                    <!-- Order Summary -->
+                    <div class="checkout-section">
+                        <h3>Order Summary</h3>
+                        <ul style="list-style:none;padding:0;">
+                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Yirgacheffe Buna (ቡና) × 2 — <strong>5,000 ETB</strong></li>
+                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Digital Electric Mitad (ምጣድ) × 1 — <strong>18,500 ETB</strong></li>
+                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Sini Ceramic Cups (ሲኒ) × 1 — <strong>1,200 ETB</strong></li>
+                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Shipping — <strong style="color:#008000;">Free</strong></li>
+                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;color:#666;">Tax (VAT 15%): 3,705 ETB</li>
+                            <li style="padding:12px 0;font-size:20px;font-weight:700;color:#d9534f;">
+                                Grand Total: <span style="font-size:24px;">28,405 ETB</span>
+                            </li>
+                        </ul>
+                    </div>
 
-        <hr>
+                    <!-- Shipping Information -->
+                    <div class="checkout-section">
+                        <h3>1. Shipping Information</h3>
+                        <form action="#" method="POST">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullname">Full Name:</label>
+                                    <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address:</label>
+                                    <input type="email" id="email" name="email" placeholder="abebe@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Delivery Address:</label>
+                                    <textarea id="address" name="address" rows="2" placeholder="Street name, Sub-city, City" required></textarea>
+                                </div>
+                            </div>
+                    </div>
 
-        <!-- Shipping & Payment Form -->
-        <form action="#" method="POST">
-            
-            <!-- Customer Details -->
-            <section>
-                <h3>1. Shipping Information</h3>
-                <p>
-                    <label for="fullname">Full Name:</label><br>
-                    <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required>
-                </p>
-                <p>
-                    <label for="email">Email Address:</label><br>
-                    <input type="email" id="email" name="email" placeholder="abebe@example.com" required>
-                </p>
-                <p>
-                    <label for="phone">Phone Number:</label><br>
-                    <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567" required>
-                </p>
-                <p>
-                    <label for="address">Delivery Address:</label><br>
-                    <textarea id="address" name="address" rows="3" placeholder="Street name, Sub-city, City" required></textarea>
-                </p>
-            </section>
+                    <!-- Payment Method -->
+                    <div class="checkout-section">
+                        <h3>2. Payment Method</h3>
+                        <div style="display:flex;gap:20px;flex-wrap:wrap;">
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;">
+                                <input type="radio" name="payment" value="telebirr" checked> Telebirr / Mobile Money
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;">
+                                <input type="radio" name="payment" value="cod"> Cash on Delivery
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;">
+                                <input type="radio" name="payment" value="card"> Credit / Debit Card
+                            </label>
+                        </div>
+                    </div>
 
-            <br>
+                    <div style="margin-top:20px;">
+                        <button type="submit" class="btn btn-primary" style="width:100%;padding:16px;font-size:18px;">Complete Order &rarr;</button>
+                    </div>
+                    </form>
+                </div>
 
-            <!-- Payment Method -->
-            <section>
-                <h3>2. Payment Method</h3>
-                <p>
-                    <input type="radio" id="telebirr" name="payment" value="telebirr" checked>
-                    <label for="telebirr">Telebirr / Mobile Money</label>
-                </p>
-                <p>
-                    <input type="radio" id="cod" name="payment" value="cod">
-                    <label for="cod">Cash on Delivery</label>
-                </p>
-                <p>
-                    <input type="radio" id="card" name="payment" value="card">
-                    <label for="card">Credit / Debit Card</label>
-                </p>
-            </section>
+                <!-- Sidebar -->
+                <div class="cart-summary" style="position:sticky;top:100px;">
+                    <h2>📋 Order Summary</h2>
 
-            <br>
+                    <div class="summary-row">
+                        <span class="label">Subtotal (3 items)</span>
+                        <span class="value">24,700 ETB</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Shipping</span>
+                        <span class="value" style="color: #00b894;">FREE</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Tax (VAT 15%)</span>
+                        <span class="value">3,705 ETB</span>
+                    </div>
 
-            <button type="submit">Complete Order &rarr;</button>
+                    <div class="free-shipping">
+                        🎉 <strong>You saved 200 ETB</strong> on shipping!
+                    </div>
 
-        </form>
+                    <div class="summary-row total">
+                        <span class="label">Total</span>
+                        <span class="value">28,405 ETB</span>
+                    </div>
+
+                    <a href="cart.html" class="continue-shopping" style="color:#ffd700;">← Back to Cart</a>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <hr>
+    <hr class="divider">
 
-    <!-- Footer -->
-    <footer>
-        <p><small>&copy; 2026 MERKATO. Simple, authentic commerce.</small></p>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="admin.html">Admin</a> | 
+                <a href="cart.html">Cart</a> | 
+                <a href="login.html">Sign In</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
     </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
 </body>
 </html>

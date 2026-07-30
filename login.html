@@ -4,91 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
-<meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
-<meta name="author" content="ABENEZER MATHEWOS">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23008000'/></svg>">
+    <link rel="stylesheet" href="style.css">
     <title>Account Sign In — MERKATO</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23008000'/><path d='M 22 75 L 22 25 L 50 60 L 78 25 L 78 75' stroke='%23FFFFFF' stroke-width='12' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='50' cy='63' r='4' fill='%23FFD700'/></svg>"></head>
-<link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-    <!-- Header & Navigation -->
-    <header>
-        <a href="index.html">
-            <h1>MERKATO</h1>
-        </a>
-        <nav>
-            <a href="index.html">Home</a> &nbsp; / &nbsp;
-            <a href="shop.html">Shop</a> &nbsp; / &nbsp;
-            <a href="cart.html">Cart (0)</a> &nbsp; / &nbsp;
-            <a href="login.html"><strong>Sign In</strong></a>
-        </nav>
-    </header>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
 
-    <hr>
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#008000" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="44" fill="#f0f8f0"/>
+                        <path d="M50 10 C65 30 80 45 50 70 C20 45 35 30 50 10Z" fill="#008000" opacity="0.3"/>
+                        <path d="M30 45 L45 55 L70 40" stroke="#008000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 50 L50 60 L75 45" stroke="#008000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#008000" stroke-width="2"/>
+                        <circle cx="38" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="62" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="45" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <text x="50" y="88" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">MERKATO</text>
+                    </svg>
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
-    <!-- Main Content -->
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="login.html" class="active">Sign In</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>Sign In</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <main>
-        
-        <!-- Sign In Section -->
-        <section>
-            <h2>Sign In to Your Account</h2>
-            <form action="index.html" method="GET">
-                <p>
-                    <label for="login-email">Email Address:</label><br>
-                    <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
-                </p>
-                <p>
-                    <label for="login-password">Password:</label><br>
-                    <input type="password" id="login-password" name="password" placeholder="••••••••" required>
-                </p>
-                <p>
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember"><small>Remember me</small></label>
-                </p>
-                <button type="submit">Sign In &rarr;</button>
-            </form>
-        </section>
+        <div class="container">
+            <div class="login-container">
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Sign in to your MERKATO account</p>
 
-        <hr>
-
-        <!-- New Account Section -->
-        <section>
-            <h3>New to Merkato?</h3>
-            <p>Create an account to track your orders, save delivery addresses, and receive special offers.</p>
-
-            <details>
-                <summary><strong>Create an Account</strong></summary>
-                <br>
+                <!-- Sign In Form -->
                 <form action="index.html" method="GET">
-                    <p>
-                        <label for="reg-name">Full Name:</label><br>
-                        <input type="text" id="reg-name" name="fullname" placeholder="Abebe Bikila" required>
-                    </p>
-                    <p>
-                        <label for="reg-email">Email Address:</label><br>
-                        <input type="email" id="reg-email" name="email" placeholder="name@example.com" required>
-                    </p>
-                    <p>
-                        <label for="reg-phone">Phone Number:</label><br>
-                        <input type="tel" id="reg-phone" name="phone" placeholder="+251 91 123 4567" required>
-                    </p>
-                    <p>
-                        <label for="reg-password">Create Password:</label><br>
-                        <input type="password" id="reg-password" name="password" placeholder="••••••••" required minlength="6">
-                    </p>
-                    <button type="submit">Create Account &rarr;</button>
+                    <div class="form-group">
+                        <label for="login-email">Email Address:</label>
+                        <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                        <label style="display:flex;align-items:center;gap:6px;font-size:14px;color:#666;">
+                            <input type="checkbox" name="remember"> Remember me
+                        </label>
+                        <a href="#" style="font-size:14px;">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px;">Sign In →</button>
                 </form>
-            </details>
-        </section>
 
+                <hr style="margin:25px 0;border:0;height:1px;background:#e0e0e0;">
+
+                <!-- Create Account -->
+                <div>
+                    <h3 style="text-align:center;margin-bottom:10px;">New to MERKATO?</h3>
+                    <p style="text-align:center;color:#666;font-size:14px;margin-bottom:20px;">
+                        Create an account to track your orders, save delivery addresses, and receive special offers.
+                    </p>
+
+                    <details style="border:1px solid #e0e0e0;border-radius:8px;padding:15px;">
+                        <summary style="font-weight:600;cursor:pointer;color:#008000;">Create an Account</summary>
+                        <br>
+                        <form action="index.html" method="GET">
+                            <div class="form-group">
+                                <label for="reg-name">Full Name:</label>
+                                <input type="text" id="reg-name" name="fullname" placeholder="Abebe Bikila" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-email">Email Address:</label>
+                                <input type="email" id="reg-email" name="email" placeholder="name@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-phone">Phone Number:</label>
+                                <input type="tel" id="reg-phone" name="phone" placeholder="+251 91 123 4567" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-password">Create Password:</label>
+                                <input type="password" id="reg-password" name="password" placeholder="••••••••" required minlength="6">
+                                <small style="color:#666;display:block;margin-top:4px;">Password must be at least 6 characters</small>
+                            </div>
+                            <button type="submit" class="btn btn-success" style="width:100%;padding:12px;font-size:16px;">Create Account →</button>
+                        </form>
+                    </details>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <hr>
+    <hr class="divider">
 
-    <!-- Footer -->
-    <footer>
-        <p><small>&copy; 2026 MERKATO. Simple, authentic commerce.</small></p>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="admin.html">Admin</a> | 
+                <a href="cart.html">Cart</a> | 
+                <a href="login.html">Sign In</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
     </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
 </body>
 </html>
