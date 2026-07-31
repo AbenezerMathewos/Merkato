@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - User Profile">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, profile, account">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <title>My Profile — MERKATO</title>
+    <style>
+        .profile-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-header .avatar {
+            font-size: 72px;
+            margin-bottom: 10px;
+        }
+        .profile-header h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+        .profile-header p {
+            color: #888;
+            font-size: 14px;
+        }
+        .profile-field {
+            margin-bottom: 20px;
+        }
+        .profile-field label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .profile-field input,
+        .profile-field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        .profile-field input:focus,
+        .profile-field textarea:focus {
+            outline: none;
+            border-color: #008000;
+            box-shadow: 0 0 0 3px rgba(0,128,0,0.1);
+            background: #fff;
+        }
+        .profile-field .hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .profile-actions .btn {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+        .profile-join-date {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #888;
+        }
+        .profile-join-date strong {
+            color: #1a1a2e;
+        }
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 25px 20px;
+                margin: 20px 15px;
+            }
+            .profile-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#008000" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="44" fill="#f0f8f0"/>
+                        <path d="M50 10 C65 30 80 45 50 70 C20 45 35 30 50 10Z" fill="#008000" opacity="0.3"/>
+                        <path d="M30 45 L45 55 L70 40" stroke="#008000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M35 50 L50 60 L75 45" stroke="#008000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="6" fill="#ffd700" stroke="#008000" stroke-width="2"/>
+                        <circle cx="38" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="62" cy="42" r="3" fill="#008000" opacity="0.4"/>
+                        <circle cx="45" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <circle cx="55" cy="38" r="2" fill="#008000" opacity="0.3"/>
+                        <text x="50" y="88" font-family="Arial" font-size="12" font-weight="bold" fill="#008000" text-anchor="middle">MERKATO</text>
+                    </svg>
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+<nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="returns.html">Returns</a>
+    <a href="admin.html">Admin</a>
+    <a href="cart.html">Cart <span class="cart">0</span></a>
+    <!-- Sign In link will be replaced by JavaScript when logged in -->
+    <a href="login.html" class="nav-login">Sign In</a>
+</nav>
+            </div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>My Profile</strong></span>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="avatar">👤</div>
+                    <h1>My Profile</h1>
+                    <p>Manage your account information</p>
+                </div>
+
+                <form id="profileForm">
+                    <div class="profile-field">
+                        <label for="profile-name">Full Name *</label>
+                        <input type="text" id="profile-name" name="name" placeholder="Your full name" required>
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profile-email">Email Address *</label>
+                        <input type="email" id="profile-email" name="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profile-phone">Phone Number</label>
+                        <input type="tel" id="profile-phone" name="phone" placeholder="+251 91 123 4567">
+                        <div class="hint">Enter your phone number for delivery updates</div>
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="profile-address">Delivery Address</label>
+                        <textarea id="profile-address" name="address" rows="3" placeholder="Street name, Sub-city, City"></textarea>
+                        <div class="hint">Your default delivery address</div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button type="submit" class="btn btn-primary">💾 Save Profile</button>
+                        <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+                    </div>
+                </form>
+
+                <div class="profile-join-date">
+                    🗓️ Member since: <strong id="profile-join-date">Loading...</strong>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="script.js"></script>
+
+</body>
+</html>
