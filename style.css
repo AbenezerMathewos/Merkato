@@ -1611,3 +1611,4 @@ body .testimonials { gap:17px; } body .testimonial { position:relative; border:0
 .footer { margin-top:55px; padding:35px 0 28px; background:var(--ink); color:rgba(255,253,248,.62); border:0; }.footer a { color:#fffdf8; }.footer a:hover { color:#f4cf63; }.back-to-top { background:var(--clay); border-radius:50% 50% 4px 50%; }
 @media (max-width:768px) { .hero { min-height:auto; padding:42px 26px; }.hero img { width:210px; height:210px; }.trust-strip { grid-template-columns:1fr; }.trust-strip > div + div { border-left:0; border-top:1px solid #e5dbcc; }.market-note { grid-template-columns:1fr; }.market-note-art { min-height:210px; }.product-card img { height:180px; } }
 @media (max-width:480px) { .hero-proof { gap:16px; }.hero-proof span + span { padding-left:16px; }.hero-content h1 { font-size:39px; }.market-note-copy { padding:35px 25px; } }
+
