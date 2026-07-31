@@ -6,18 +6,16 @@
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
     <meta name="author" content="MERKATO INC">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
-<link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
     <title>Product Details — MERKATO</title>
 </head>
 <body>
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
     </div>
 
-    <!-- HEADER -->
     <div class="container">
         <header class="header">
             <div class="header-inner">
@@ -39,23 +37,22 @@
                 </a>
 
                 <nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="login.html">Sign In</a>
-</nav>
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart" id="cartCount">0</span></a>
+                    <a href="login.html">Sign In</a>
+                </nav>
             </div>
         </header>
     </div>
 
     <hr class="divider">
 
-    <!-- BREADCRUMB -->
     <div class="container">
         <div class="breadcrumb">
             <a href="index.html">Home</a> &gt; 
@@ -64,33 +61,10 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <main>
         <div class="container">
 
-            <!-- JUMP DIRECTORY -->
-            <div class="card" style="margin-bottom:20px;">
-                <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;">
-                    <div>
-                        <strong>Fast Jump:</strong>
-                        <a href="#buna" style="margin:0 5px;">Buna</a> &bull;
-                        <a href="#teff" style="margin:0 5px;">Teff</a> &bull;
-                        <a href="#berbere" style="margin:0 5px;">Berbere</a> &bull;
-                        <a href="#shiro" style="margin:0 5px;">Shiro</a> &bull;
-                        <a href="#kemis" style="margin:0 5px;">Kemis</a> &bull;
-                        <a href="#mesob" style="margin:0 5px;">Mesob</a> &bull;
-                        <a href="#mitad" style="margin:0 5px;">Mitad</a> &bull;
-                        <a href="#tv" style="margin:0 5px;">Smart TV</a> &bull;
-                        <a href="#solar" style="margin:0 5px;">Solar</a> &bull;
-                        <a href="#phone" style="margin:0 5px;">Phone</a>
-                    </div>
-                    <div>
-                        <a href="shop.html" class="btn btn-sm btn-secondary">&larr; Back to Shop</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== PRODUCT 1: BUNA ===== -->
+            <!-- PRODUCT 1: BUNA -->
             <section id="buna" data-product-id="1" data-aisle="food" data-price="2500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -101,17 +75,24 @@
                         <h2 style="margin:10px 0 5px;">Yirgacheffe Buna (የይርጋጨፌ ቡና) - 1kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,500 ETB</div>
                         <p style="color:#555;">Grade-1 sun-dried natural Arabica coffee beans from Southern Ethiopia. Famous for bright floral aroma and citrus finish.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Yirgacheffe Buna">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="buna"
+                                data-product-name="Yirgacheffe Buna (ቡና)"
+                                data-product-price="2500"
+                                data-product-image="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 2: BERBERE ===== -->
+            <!-- PRODUCT 2: BERBERE -->
             <section id="berbere" data-product-id="2" data-aisle="food" data-price="1750">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -122,17 +103,24 @@
                         <h2 style="margin:10px 0 5px;">Pure Doro Berbere (የወጥ በርበሬ) - 1kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">1,750 ETB</div>
                         <p style="color:#555;">Hand-blended chili powder enriched with garlic, ginger, sacred basil, and korerima. Essential for authentic Doro Wat.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Doro Berbere">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="berbere"
+                                data-product-name="Pure Doro Berbere (በርበሬ)"
+                                data-product-price="1750"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 3: TEFF ===== -->
+            <!-- PRODUCT 3: TEFF -->
             <section id="teff" data-product-id="3" data-aisle="food" data-price="4200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -143,17 +131,24 @@
                         <h2 style="margin:10px 0 5px;">Magna White Teff Grain (ነጭ ጤፍ) - 25kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">4,200 ETB</div>
                         <p style="color:#555;">Premium grade Magna white teff grain sourced from Ada'a, Bishoftu. Gluten-free and ideal for soft, spongy Injera.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Magna White Teff">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="teff"
+                                data-product-name="Magna White Teff (ነጭ ጤፍ)"
+                                data-product-price="4200"
+                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 4: SHIRO ===== -->
+            <!-- PRODUCT 4: SHIRO -->
             <section id="shiro" data-product-id="4" data-aisle="food" data-price="650">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -164,17 +159,24 @@
                         <h2 style="margin:10px 0 5px;">Miten Shiro Powder (ሚተን ሽሮ) - 1kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">650 ETB</div>
                         <p style="color:#555;">Roasted chickpea and split-pea flour spiced with garlic, ginger, and berbere for instant flavorful Shiro Wat.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Miten Shiro">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="shiro"
+                                data-product-name="Miten Shiro Powder (ሚተን ሽሮ)"
+                                data-product-price="650"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 5: KORERIMA ===== -->
+            <!-- PRODUCT 5: KORERIMA -->
             <section id="korerima" data-product-id="5" data-aisle="food" data-price="850">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -185,17 +187,24 @@
                         <h2 style="margin:10px 0 5px;">Ethiopian Black Cardamom (ኮረሪማ) - 250g</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">850 ETB</div>
                         <p style="color:#555;">Whole dried korerima pods harvested from Southern rainforests. Adds warm herbal notes to coffee and clarified butter.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Black Cardamom Korerima">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="korerima"
+                                data-product-name="Black Cardamom (ኮረሪማ)"
+                                data-product-price="850"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 6: KIBE ===== -->
+            <!-- PRODUCT 6: KIBE -->
             <section id="kibe" data-product-id="6" data-aisle="food" data-price="2200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -206,17 +215,24 @@
                         <h2 style="margin:10px 0 5px;">Traditional Spiced Kibe (የሀገር ቅቤ) - 1kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,200 ETB</div>
                         <p style="color:#555;">Clarified butter simmered with koseret, korerima, and fenugreek. Essential for Kitfo and savory stews.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Traditional Spiced Kibe">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="kibe"
+                                data-product-name="Traditional Spiced Kibe (የሀገር ቅቤ)"
+                                data-product-price="2200"
+                                data-product-image="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 7: JEBENA ===== -->
+            <!-- PRODUCT 7: JEBENA -->
             <section id="jebena" data-product-id="7" data-aisle="home" data-price="850">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -227,17 +243,24 @@
                         <h2 style="margin:10px 0 5px;">Clay Jebena Coffee Pot (ጀበና)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">850 ETB</div>
                         <p style="color:#555;">Hand-molded black clay coffee pot crafted in Ethiopian highlands. Holds up to 6 cups of freshly brewed coffee.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Clay Jebena">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="jebena"
+                                data-product-name="Clay Jebena (ጀበና)"
+                                data-product-price="850"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 8: SINI ===== -->
+            <!-- PRODUCT 8: SINI -->
             <section id="sini" data-product-id="8" data-aisle="home" data-price="1200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -248,17 +271,24 @@
                         <h2 style="margin:10px 0 5px;">Sini Ceramic Cups (ሲኒ - Set of 6)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">1,200 ETB</div>
                         <p style="color:#555;">Traditional handleless ceramic cups decorated with gold and green accents for coffee ceremonies.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Sini Cup Set">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="sini"
+                                data-product-name="Sini Ceramic Cups (ሲኒ)"
+                                data-product-price="1200"
+                                data-product-image="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 9: REKEBOT ===== -->
+            <!-- PRODUCT 9: REKEBOT -->
             <section id="rekebot" data-product-id="9" data-aisle="home" data-price="6500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -269,17 +299,24 @@
                         <h2 style="margin:10px 0 5px;">Handcrafted Wooden Rekebot (ረከቦት)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">6,500 ETB</div>
                         <p style="color:#555;">Carved wooden coffee ceremony tray table with storage drawer for coffee beans, incense, and cups.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Wooden Rekebot">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="rekebot"
+                                data-product-name="Wooden Rekebot (ረከቦት)"
+                                data-product-price="6500"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 10: KEMIS ===== -->
+            <!-- PRODUCT 10: KEMIS -->
             <section id="kemis" data-product-id="10" data-aisle="apparel" data-price="12000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -290,17 +327,24 @@
                         <h2 style="margin:10px 0 5px;">Handwoven Habesha Kemis (ሀበሻ ቀሚስ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">12,000 ETB</div>
                         <p style="color:#555;">Traditional organic cotton woven dress featuring intricate hand-embroidered border patterns (Tilet).</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Habesha Kemis">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="kemis"
+                                data-product-name="Habesha Kemis (ሀበሻ ቀሚስ)"
+                                data-product-price="12000"
+                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 11: NETELA ===== -->
+            <!-- PRODUCT 11: NETELA -->
             <section id="netela" data-product-id="11" data-aisle="apparel" data-price="2800">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -311,17 +355,24 @@
                         <h2 style="margin:10px 0 5px;">Cotton Netela Shawl (ነጠላ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,800 ETB</div>
                         <p style="color:#555;">Light two-layered handloom cotton scarf with elegant matching colorful border artwork.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Cotton Netela">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="netela"
+                                data-product-name="Cotton Netela (ነጠላ)"
+                                data-product-price="2800"
+                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 12: GABI ===== -->
+            <!-- PRODUCT 12: GABI -->
             <section id="gabi" data-product-id="12" data-aisle="apparel" data-price="4500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -332,17 +383,24 @@
                         <h2 style="margin:10px 0 5px;">Heavy Four-Layer Cotton Gabi (ጋቢ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">4,500 ETB</div>
                         <p style="color:#555;">Warm hand-spun 4-layer cotton body wrap designed for cold highland evenings.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Cotton Gabi">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="gabi"
+                                data-product-name="Cotton Gabi (ጋቢ)"
+                                data-product-price="4500"
+                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 13: MESOB ===== -->
+            <!-- PRODUCT 13: MESOB -->
             <section id="mesob" data-product-id="13" data-aisle="crafts" data-price="8500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -353,17 +411,24 @@
                         <h2 style="margin:10px 0 5px;">Large Handwoven Mesob Basket (መሶብ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">8,500 ETB</div>
                         <p style="color:#555;">Iconic colorful woven straw basket designed for serving communal Injera meals in traditional dining settings.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Woven Mesob Basket">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="mesob"
+                                data-product-name="Woven Mesob Basket (መሶብ)"
+                                data-product-price="8500"
+                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 14: BARCHUMA ===== -->
+            <!-- PRODUCT 14: BARCHUMA -->
             <section id="barchuma" data-product-id="14" data-aisle="crafts" data-price="3200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -374,17 +439,24 @@
                         <h2 style="margin:10px 0 5px;">Carved Wooden Barchuma Stool (በርጩማ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">3,200 ETB</div>
                         <p style="color:#555;">Solid three-legged carved wooden stool used during traditional coffee preparation ceremonies.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Carved Barchuma Stool">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="barchuma"
+                                data-product-name="Wooden Barchuma Stool (በርጩማ)"
+                                data-product-price="3200"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 15: MITAD ===== -->
+            <!-- PRODUCT 15: MITAD -->
             <section id="mitad" data-product-id="15" data-aisle="electronics" data-price="18500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -395,17 +467,24 @@
                         <h2 style="margin:10px 0 5px;">Digital Electric Mitad (ምጣድ)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">18,500 ETB</div>
                         <p style="color:#555;">4500W energy-saving electric clay stove engineered for rapid, even Injera baking with temperature regulator.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Electric Mitad Stove">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="mitad"
+                                data-product-name="Electric Mitad (ምጣድ)"
+                                data-product-price="18500"
+                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 16: TV ===== -->
+            <!-- PRODUCT 16: TV -->
             <section id="tv" data-product-id="16" data-aisle="electronics" data-price="68000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -416,38 +495,52 @@
                         <h2 style="margin:10px 0 5px;">55" 4K Ultra-HD Smart LED TV</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">68,000 ETB</div>
                         <p style="color:#555;">High-resolution 4K display with built-in Wi-Fi, YouTube, Netflix, and dual HDMI/USB connectivity.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="55-inch Smart TV">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="tv"
+                                data-product-name="55" 4K Smart TV"
+                                data-product-price="68000"
+                                data-product-image="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 17: SOLAR ===== -->
+            <!-- PRODUCT 17: SOLAR -->
             <section id="solar" data-product-id="17" data-aisle="electronics" data-price="42000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
-                        <img src="https://images.unsplash.com/photo-1681263576084-e054b2d89903?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Solar Power" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;">
+                        <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=400&q=80" alt="Solar Power" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;">
                     </div>
                     <div style="flex:1;min-width:200px;">
                         <span class="aisle-badge aisle-electronics">AISLE 5 | ELECTRONICS</span>
                         <h2 style="margin:10px 0 5px;">Solar Home Power Station (1000W Inverter + Panel)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">42,000 ETB</div>
                         <p style="color:#555;">Reliable backup solar power unit with lithium battery, dual AC outlets, and 4 USB phone charging ports.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Solar Power Station">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="solar"
+                                data-product-name="Solar Power Station"
+                                data-product-price="42000"
+                                data-product-image="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
 
             <br>
 
-            <!-- ===== PRODUCT 18: PHONE ===== -->
+            <!-- PRODUCT 18: PHONE -->
             <section id="phone" data-product-id="18" data-aisle="electronics" data-price="22500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -458,10 +551,17 @@
                         <h2 style="margin:10px 0 5px;">4G Dual-SIM Smartphone (128GB Storage, 5000mAh)</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">22,500 ETB</div>
                         <p style="color:#555;">Long-battery smartphone optimized for Ethiopian networks, Telebirr payments, and multi-app multitasking.</p>
-                        <form action="cart.html" method="GET" style="margin-top:15px;">
-                            <input type="hidden" name="item" value="Dual SIM Smartphone">
-                            <button type="submit" class="btn btn-primary">Add to Cart &amp; Checkout &rarr;</button>
-                        </form>
+                        
+                        <!-- ===== ADD TO CART BUTTON ===== -->
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="phone"
+                                data-product-name="4G Dual-SIM Smartphone"
+                                data-product-price="22500"
+                                data-product-image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=80"
+                                style="margin-top:15px;padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
                     </div>
                 </div>
             </section>
@@ -471,27 +571,26 @@
 
     <hr class="divider">
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-<div class="footer-links">
-    <a href="index.html">Home</a> | 
-    <a href="shop.html">Shop</a> | 
-    <a href="about.html">About</a> | 
-    <a href="contact.html">Contact</a> | 
-    <a href="faq.html">FAQ</a> | 
-    <a href="returns.html">Returns</a> |
-    <a href="admin.html">Admin</a>
-</div>
-
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
             <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>©Abi-Kidan.</small></p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
         </div>
     </footer>
 
-    <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-<script src="script.js"></script>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="script.js"></script>
 
 </body>
 </html>
