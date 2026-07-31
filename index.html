@@ -8,441 +8,199 @@
     <meta name="author" content="MERKATO INC">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23008000'/></svg>">
     <link rel="stylesheet" href="style.css">
-    <title>MERKATO</title>
+    <title>MERKATO — Ethiopian Digital Market</title>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            color: #222;
-            line-height: 1.6;
-        }
-        
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .top-bar {
-            background: #111;
+        /* ===== ADDITIONAL HOME PAGE STYLES ===== */
+        .featured-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: #fff;
-            padding: 8px 0;
-            text-align: center;
-            font-size: 13px;
-        }
-        
-        .top-bar code {
-            background: #333;
-            padding: 2px 10px;
-            border-radius: 4px;
-            color: #ffd700;
-        }
-        
-        .header {
-            background: #fff;
-            padding: 15px 0;
-            border-radius: 6px;
-            margin: 15px 0;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-        }
-        
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo-svg {
-            width: 45px;
-            height: 45px;
-            flex-shrink: 0;
-        }
-        
-        .logo-text {
-            font-size: 28px;
-            font-weight: bold;
-            color: #111;
-            line-height: 1;
-        }
-        
-        .logo-text sup {
-            font-size: 12px;
-            color: #008000;
-            font-weight: 600;
-        }
-        
-        .logo-text:hover {
-            color: #008000;
-        }
-        
-        .nav a {
-            color: #444;
-            font-size: 14px;
-            margin: 0 8px;
-            padding-bottom: 3px;
-        }
-        
-        .nav a:hover {
-            color: #111;
-            border-bottom: 2px solid #008000;
-            text-decoration: none;
-        }
-        
-        .nav a.active {
-            color: #008000;
-            border-bottom: 2px solid #008000;
-        }
-        
-        .nav .cart {
-            background: #d9534f;
-            color: #fff;
-            padding: 2px 8px;
+            padding: 40px 30px;
             border-radius: 12px;
-            font-size: 11px;
-        }
-        
-        .search-form {
-            display: flex;
-            flex: 1;
-            max-width: 400px;
-        }
-        
-        .search-form input {
-            flex: 1;
-            padding: 8px 14px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            font-size: 14px;
-        }
-        
-        .search-form input:focus {
-            outline: none;
-            border-color: #008000;
-        }
-        
-        .search-form button {
-            padding: 8px 16px;
-            background: #008000;
-            color: #fff;
-            border: 1px solid #008000;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .search-form button:hover {
-            background: #006600;
-        }
-        
-        .divider {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 20px 0;
-        }
-        
-        .hero {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
+            margin: 30px 0;
             display: flex;
             align-items: center;
-            gap: 30px;
+            justify-content: space-between;
             flex-wrap: wrap;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 25px;
+            gap: 20px;
         }
-        
-        .hero-content {
+        .featured-banner .content {
             flex: 1;
             min-width: 200px;
         }
-        
-        .hero-content .tag {
-            background: #fff3cd;
-            padding: 3px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            display: inline-block;
+        .featured-banner h3 {
+            font-size: 24px;
+            color: #ffd700;
             margin-bottom: 8px;
         }
-        
-        .hero-content h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+        .featured-banner p {
+            color: rgba(255,255,255,0.8);
+        }
+        .featured-banner .badge {
+            background: #ffd700;
+            color: #1a1a2e;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
         }
         
-        .hero-content h1 span {
-            color: #008000;
-        }
-        
-        .hero-content p {
-            color: #555;
-            margin-bottom: 15px;
-        }
-        
-        .hero img {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 10px 24px;
-            background: #008000;
-            color: #fff;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background: #006600;
-            text-decoration: none;
-        }
-        
-        .btn-sm {
-            padding: 6px 16px;
-            font-size: 12px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .section-header h2 {
-            font-size: 22px;
-        }
-        
-        .section-header a {
-            font-size: 14px;
-            color: #008000;
-            font-weight: bold;
-        }
-        
-        .product-grid {
+        .categories-section {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 30px 0;
         }
-        
-        .product-card {
+        .category-card {
             background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 20px 15px;
             text-align: center;
-            transition: 0.3s;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #1a1a2e;
         }
-        
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             border-color: #008000;
         }
+        .category-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .category-card .name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+        }
         
-        .product-card img {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 6px;
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .testimonial {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        .testimonial .stars {
+            color: #ffd700;
+            font-size: 20px;
             margin-bottom: 10px;
         }
-        
-        .product-card .aisle {
-            font-size: 11px;
-            color: #666;
-            background: #f0f0f0;
-            padding: 2px 10px;
-            border-radius: 10px;
-            display: inline-block;
+        .testimonial .text {
+            color: #555;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.7;
         }
-        
-        .product-card h3 {
-            font-size: 15px;
-            margin: 8px 0 4px;
+        .testimonial .author {
+            margin-top: 12px;
+            font-weight: 600;
+            color: #1a1a2e;
         }
-        
-        .product-card h3 a {
-            color: #111;
-        }
-        
-        .product-card h3 a:hover {
-            color: #008000;
-            text-decoration: none;
-        }
-        
-        .product-card .price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #d9534f;
-            margin: 6px 0 12px;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px 0;
+        .testimonial .author span {
+            font-weight: 400;
             color: #888;
             font-size: 13px;
         }
         
-        .footer a {
-            color: #888;
-        }
-        
-        .footer a:hover {
-            color: #008000;
-        }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #008000;
+        .newsletter {
+            background: linear-gradient(135deg, #008000, #006600);
             color: #fff;
-            padding: 10px 15px;
-            border-radius: 50%;
-            text-decoration: none;
-            font-size: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            z-index: 1000;
-            width: 45px;
-            height: 45px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .newsletter h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .newsletter p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 15px;
+        }
+        .newsletter form {
             display: flex;
-            align-items: center;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
             justify-content: center;
         }
-        
-        .back-to-top:hover {
-            background: #006600;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            text-decoration: none;
-        }
-        
-        .breadcrumb {
-            padding: 10px 15px;
-            background: #fff;
+        .newsletter input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border: none;
             border-radius: 6px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
             font-size: 14px;
         }
-        
-        .breadcrumb a {
+        .newsletter input:focus {
+            outline: none;
+        }
+        .newsletter button {
+            padding: 12px 30px;
+            background: #ffd700;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .newsletter button:hover {
+            background: #f5a623;
+            transform: scale(1.05);
+        }
+
+        .brands-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        .brands-section .brand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #888;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .brands-section .brand:hover {
+            opacity: 1;
             color: #008000;
         }
-        
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-        
+
         @media (max-width: 992px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .categories-section { grid-template-columns: repeat(3, 1fr); }
+            .testimonials { grid-template-columns: 1fr; }
         }
-        
         @media (max-width: 768px) {
-            .header-inner {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .logo-wrapper {
-                justify-content: center;
-            }
-            
-            .search-form {
-                max-width: 100%;
-            }
-            
-            .nav {
-                text-align: center;
-            }
-            
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-            
-            .hero h1 {
-                font-size: 26px;
-            }
-            
-            .hero img {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .back-to-top {
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-                bottom: 15px;
-                right: 15px;
-            }
+            .categories-section { grid-template-columns: repeat(2, 1fr); }
+            .featured-banner { flex-direction: column; text-align: center; }
+            .newsletter form { flex-direction: column; }
+            .newsletter input { width: 100%; }
+            .newsletter button { width: 100%; }
+            .brands-section .brand { font-size: 14px; }
         }
-        
         @media (max-width: 480px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 22px;
-            }
-            
-            .nav a {
-                font-size: 12px;
-                margin: 0 5px;
-            }
-            
-            .logo-svg {
-                width: 35px;
-                height: 35px;
-            }
-            
-            .logo-text {
-                font-size: 22px;
-            }
-            
-            .back-to-top {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
-                bottom: 10px;
-                right: 10px;
-            }
+            .categories-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -479,17 +237,17 @@
                     <button type="submit">Search</button>
                 </form>
 
-               <nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="login.html">Sign In</a>
-</nav>
+                <nav class="nav" aria-label="Main navigation">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart" id="cartCount">0</span></a>
+                    <a href="login.html">Sign In</a>
+                </nav>
             </div>
         </header>
     </div>
@@ -500,7 +258,7 @@
     <div class="container">
         <div class="breadcrumb">
             <a href="index.html">Home</a> &gt; 
-            <span><strong>Featured Products</strong></span>
+            <span><strong>Welcome to MERKATO</strong></span>
         </div>
     </div>
 
@@ -518,6 +276,39 @@
                 </div>
                 <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Specialty Ethiopian Coffee Beans - Yirgacheffe Buna">
             </section>
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner">
+                <div class="content">
+                    <h3>🎉 New Arrivals!</h3>
+                    <p>Discover our latest collection of authentic Ethiopian products, freshly sourced from local artisans.</p>
+                </div>
+                <div class="badge">✨ 20% OFF</div>
+            </div>
+
+            <!-- CATEGORY QUICK LINKS -->
+            <div class="categories-section">
+                <a href="shop.html#aisle-food" class="category-card">
+                    <span class="icon">🌾</span>
+                    <span class="name">Food &amp; Spices</span>
+                </a>
+                <a href="shop.html#aisle-home" class="category-card">
+                    <span class="icon">🏠</span>
+                    <span class="name">Home &amp; Kitchen</span>
+                </a>
+                <a href="shop.html#aisle-apparel" class="category-card">
+                    <span class="icon">👗</span>
+                    <span class="name">Apparel</span>
+                </a>
+                <a href="shop.html#aisle-crafts" class="category-card">
+                    <span class="icon">🎨</span>
+                    <span class="name">Crafts</span>
+                </a>
+                <a href="shop.html#aisle-electronics" class="category-card">
+                    <span class="icon">📱</span>
+                    <span class="name">Electronics</span>
+                </a>
+            </div>
 
             <!-- FEATURED PRODUCTS -->
             <div class="section-header">
@@ -572,6 +363,91 @@
                     <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
                 </div>
 
+                <!-- PRODUCT 5: Teff -->
+                <div class="product-card" data-product-id="5" data-aisle="food" data-price="4200">
+                    <a href="product-detail.html#teff">
+                        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA" alt="Teff Grain">
+                    </a>
+                    <div class="aisle">AISLE 1 | FOOD</div>
+                    <h3><a href="product-detail.html#teff">Magna White Teff (ነጭ ጤፍ)</a></h3>
+                    <div class="price">4,200 ETB</div>
+                    <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 6: Mesob -->
+                <div class="product-card" data-product-id="6" data-aisle="crafts" data-price="8500">
+                    <a href="product-detail.html#mesob">
+                        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM" alt="Mesob Basket">
+                    </a>
+                    <div class="aisle">AISLE 4 | CRAFTS</div>
+                    <h3><a href="product-detail.html#mesob">Woven Mesob Basket (መሶብ)</a></h3>
+                    <div class="price">8,500 ETB</div>
+                    <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 7: Solar -->
+                <div class="product-card" data-product-id="7" data-aisle="electronics" data-price="42000">
+                    <a href="product-detail.html#solar">
+                        <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=300&q=80" alt="Solar Power">
+                    </a>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#solar">Solar Power Station</a></h3>
+                    <div class="price">42,000 ETB</div>
+                    <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 8: Kemis -->
+                <div class="product-card" data-product-id="8" data-aisle="apparel" data-price="12000">
+                    <a href="product-detail.html#kemis">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Habesha Kemis">
+                    </a>
+                    <div class="aisle">AISLE 3 | APPAREL</div>
+                    <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
+                    <div class="price">12,000 ETB</div>
+                    <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+            </div>
+
+            <!-- TESTIMONIALS -->
+            <div class="section-header" style="margin-top:30px;">
+                <h2>⭐ What Our Customers Say</h2>
+            </div>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"MERKATO is a game-changer! I found authentic Ethiopian products I couldn't find anywhere else. The delivery was fast and the quality is outstanding."</div>
+                    <div class="author">Abebe Bikila <span>- Addis Ababa</span></div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"The electric Mitad stove is incredible! Best investment I've made. The customer service team was also very helpful throughout the process."</div>
+                    <div class="author">Tigist Worku <span>- Bishoftu</span></div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"I love how easy it is to find traditional Ethiopian products. The website is user-friendly and the delivery is always on time. Highly recommend!"</div>
+                    <div class="author">Dawit Hailu <span>- Bahir Dar</span></div>
+                </div>
+            </div>
+
+            <!-- BRANDS SECTION -->
+            <div class="brands-section">
+                <span class="brand">🏷️ የገበያ ምርቶች</span>
+                <span class="brand">🏷️ የባህል ጨርቆች</span>
+                <span class="brand">🏷️ ኤሌክትሮኒክስ</span>
+                <span class="brand">🏷️ የእጅ ሥራ</span>
+                <span class="brand">🏷️ የቤት ዕቃዎች</span>
+            </div>
+
+            <!-- NEWSLETTER -->
+            <div class="newsletter">
+                <h3>📧 Join Our Newsletter</h3>
+                <p>Subscribe to get special offers, new product alerts, and exclusive deals!</p>
+                <form action="#" method="POST">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
             </div>
 
         </div>
@@ -582,19 +458,22 @@
     <!-- FOOTER -->
     <footer class="footer" id="mainFooter">
         <div class="container">
-            <div class="footer-links" style="margin-bottom:10px;">
+            <div class="footer-links">
                 <a href="index.html">Home</a> | 
                 <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> | 
                 <a href="admin.html">Admin</a> | 
-                <a href="cart.html">Cart</a> | 
                 <a href="login.html">Sign In</a>
             </div>
             <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>Made with Abi-Kidan</small></p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
         </div>
     </footer>
 
-    <!-- BACK TO TOP BUTTON -->
+    <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
 </body>
