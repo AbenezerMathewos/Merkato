@@ -136,7 +136,7 @@ img {
     gap: 12px;
 }
 
-.logo-svg {
+.logo-gif {
     width: 45px;
     height: 45px;
     flex-shrink: 0;
@@ -144,7 +144,7 @@ img {
     transition: transform 0.3s ease;
 }
 
-.logo-svg:hover {
+.logo-gif:hover {
     transform: rotate(-5deg) scale(1.05);
 }
 
@@ -1392,7 +1392,7 @@ img {
         font-size: 22px;
     }
     
-    .logo-svg {
+    .logo-gif {
         width: 35px;
         height: 35px;
     }
@@ -2006,4 +2006,32 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
 
 .category-card:hover .category-icon {
     transform: scale(1.1) rotate(-5deg);
+}
+
+/* ===== LOGO GIF ===== */
+.logo-gif {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 26px;
+    transition: all 0.3s ease;
+}
+
+.logo-wrapper:hover .logo-gif {
+    transform: scale(1.05) rotate(-3deg);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .logo-gif {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-gif {
+        width: 32px;
+        height: 32px;
+    }
 }
