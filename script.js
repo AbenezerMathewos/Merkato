@@ -1142,7 +1142,7 @@ function updateUserDisplay() {
         <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userMenu">
             <span class="user-avatar" aria-hidden="true">👤</span>
             <span class="user-name">${safeName}</span>
-            <span class="user-chevron" aria-hidden="true">⌄</span>
+            <span class="user-chevron" aria-hidden="true">✨</span>
         </button>
         <div class="user-dropdown" id="userMenu" role="menu">
             <div class="dropdown-header">

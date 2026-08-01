@@ -1993,3 +1993,17 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
         bottom: calc(100% + 12px);
     }
 }
+
+.category-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
