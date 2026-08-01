@@ -164,7 +164,7 @@ function updateUserDisplay() {
     if (userData) {
         const user = JSON.parse(userData);
         currentUser = user;
-        
+
         // Find the navigation container
         const nav = document.querySelector('.nav');
         if (!nav) return;
@@ -214,7 +214,7 @@ function updateUserDisplay() {
             ">
                 <span style="font-size: 16px;">👤</span>
                 <span class="user-name">${user.name}</span>
-                <span style="font-size: 12px; transition: transform 0.3s ease;">▼</span>
+                <span style="font-size: 12px; transition: transform 0.3s ease;">✨</span>
             </div>
             <div class="user-dropdown" style="
                 display: none;
@@ -1093,6 +1093,160 @@ document.querySelectorAll('.back-to-top').forEach(btn => {
 });
 
 // ========================================
+// SEARCH + FLOATING ACCOUNT CONTROL
+// ========================================
+function escapeMarkup(value) {
+    return String(value || '').replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[character]));
+}
+
+function updateUserDisplay() {
+    const nav = document.querySelector('.nav');
+    const signInLink = nav ? nav.querySelector('.nav-login, a[href="login.html"]') : null;
+    const previousDisplay = document.querySelector('.user-dropdown-container');
+    if (previousDisplay) previousDisplay.remove();
+
+    if (signInLink) signInLink.style.display = '';
+
+    const savedUser = localStorage.getItem('merkatoUser');
+    if (!savedUser) return;
+
+    let user;
+    try {
+        user = JSON.parse(savedUser);
+    } catch (error) {
+        localStorage.removeItem('merkatoUser');
+        return;
+    }
+
+    currentUser = user;
+    if (signInLink) signInLink.style.display = 'none';
+
+    let host = document.getElementById('profileContainer');
+    if (!host) {
+        host = document.createElement('div');
+        host.id = 'profileContainer';
+    }
+    // A fixed element inside the blurred header is positioned relative to that header
+    // in some browsers. Keeping this host at the page root makes it viewport-fixed.
+    if (host.parentElement !== document.body) {
+        document.body.appendChild(host);
+    }
+
+    const safeName = escapeMarkup(user.name || 'My account');
+    const safeEmail = escapeMarkup(user.email || '');
+    const userContainer = document.createElement('div');
+    userContainer.className = 'user-dropdown-container';
+    userContainer.innerHTML = `
+        <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userMenu">
+            <span class="user-avatar" aria-hidden="true">👤</span>
+            <span class="user-name">${safeName}</span>
+            <span class="user-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="user-dropdown" id="userMenu" role="menu">
+            <div class="dropdown-header">
+                <div class="name">${safeName}</div>
+                <div class="email">${safeEmail}</div>
+            </div>
+            <a href="profile.html" role="menuitem"><span aria-hidden="true">👤</span> My Profile</a>
+            <button class="logout-link" type="button" role="menuitem"><span aria-hidden="true">↗</span> Log out</button>
+        </div>`;
+    host.appendChild(userContainer);
+
+    const trigger = userContainer.querySelector('.user-trigger');
+    const dropdown = userContainer.querySelector('.user-dropdown');
+    const logout = userContainer.querySelector('.logout-link');
+
+    trigger.addEventListener('click', event => {
+        event.stopPropagation();
+        const isOpen = dropdown.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', String(isOpen));
+    });
+    logout.addEventListener('click', logoutUser);
+    document.addEventListener('click', event => {
+        if (!userContainer.contains(event.target)) {
+            dropdown.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+function searchProducts(searchTerm) {
+    const input = document.querySelector('.search-form input[type="search"]');
+    const filter = (searchTerm === undefined ? input?.value : searchTerm || '').trim().toLowerCase();
+    const cards = Array.from(document.querySelectorAll('.product-card'));
+    if (!cards.length) return 0;
+
+    let matches = 0;
+    cards.forEach(card => {
+        const searchableText = [
+            card.textContent,
+            card.dataset.aisle,
+            card.querySelector('img')?.alt
+        ].join(' ').toLowerCase();
+        const visible = !filter || searchableText.includes(filter);
+        card.hidden = !visible;
+        if (visible) matches += 1;
+    });
+
+    document.querySelectorAll('section[id^="aisle-"]').forEach(section => {
+        const sectionCards = section.querySelectorAll('.product-card');
+        if (sectionCards.length) {
+            section.hidden = Boolean(filter) && !Array.from(sectionCards).some(card => !card.hidden);
+        }
+    });
+
+    let status = document.getElementById('searchStatus');
+    if (!status) {
+        status = document.createElement('div');
+        status.id = 'searchStatus';
+        status.className = 'search-status';
+        const firstAisle = document.querySelector('section[id^="aisle-"]');
+        if (firstAisle) firstAisle.parentNode.insertBefore(status, firstAisle);
+    }
+    if (status) {
+        status.hidden = !filter;
+        status.textContent = filter
+            ? (matches ? `${matches} item${matches === 1 ? '' : 's'} found for “${filter}”.` : `No items found for “${filter}”. Try coffee, teff, spices, electronics, or home.`)
+            : '';
+        status.classList.toggle('is-empty', Boolean(filter) && matches === 0);
+    }
+    return matches;
+}
+
+function initialiseSearch() {
+    const form = document.querySelector('.search-form');
+    const input = form?.querySelector('input[type="search"]');
+    if (!form || !input) return;
+
+    const pageIsShop = /shop\.html$/i.test(window.location.pathname);
+    const initialQuery = new URLSearchParams(window.location.search).get('search') || '';
+    if (pageIsShop && initialQuery) {
+        input.value = initialQuery;
+        searchProducts(initialQuery);
+    }
+
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        const query = input.value.trim();
+        if (!query) return;
+        if (pageIsShop) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('search', query);
+            window.history.replaceState({}, '', url);
+            searchProducts(query);
+        } else {
+            window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        }
+    });
+
+    if (pageIsShop) {
+        input.addEventListener('input', () => searchProducts());
+    }
+}
+
+// ========================================
 // DOM READY - Initialize Everything
 // ========================================
 
@@ -1122,10 +1276,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initAddToCartButtons();
     
-    const searchInput = document.querySelector('.search-form input[type="search"]');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', searchProducts);
-    }
+    initialiseSearch();
     
     const loginForm = document.querySelector('form[action="index.html"]');
     if (loginForm && window.location.pathname.includes('login.html')) {
