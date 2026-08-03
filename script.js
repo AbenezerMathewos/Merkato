@@ -1330,12 +1330,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadCart();
     checkUserOnLoad();
-    
+
     // ===== LOAD WISHLIST =====
-    loadWishlist();   // ← ADD THIS LINE
-    
+    loadWishlist();
+
     // ===== LOAD REVIEWS =====
     loadReviews();
+
+    // ===== CHECKOUT PAGE =====
+    if (window.location.pathname.includes('checkout.html')) {
+        loadCheckoutSummary();
+    }
+
+    // ===== ORDER CONFIRMATION PAGE =====
+    if (window.location.pathname.includes('order-confirmation.html')) {
+        loadOrderConfirmation();
+    }
     
     // ===== DISPLAY REVIEWS ON PRODUCT DETAIL PAGE =====
     if (window.location.pathname.includes('product-detail.html')) {
@@ -1382,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // ===== UPDATE WISHLIST BUTTONS =====
-    updateWishlistButtons();   // ← ADD THIS LINE
+    updateWishlistButtons();
     
     console.log('✅ MERKATO JavaScript Ready!');
 });
@@ -1646,4 +1656,464 @@ function toggleWishlist(button) {
         button.style.color = '#d9534f';
         button.style.background = '#fff5f5';
     }
+}
+
+// ========================================
+// ORDER SYSTEM
+// ========================================
+
+function generateOrderNumber() {
+    const prefix = 'MER';
+    const year = new Date().getFullYear();
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    return `${prefix}-${year}-${random}`;
+}
+
+function processOrder(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const fullname = document.getElementById('fullname')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const address = document.getElementById('address')?.value || '';
+    const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
+    
+    // Validate
+    if (!fullname || !email || !phone || !address) {
+        showNotification('⚠️ Please fill in all required fields');
+        return;
+    }
+    
+    if (cart.length === 0) {
+        showNotification('⚠️ Your cart is empty');
+        return;
+    }
+    
+    // Generate order number
+    const orderNumber = generateOrderNumber();
+    
+    // Calculate totals
+    const subtotal = getCartTotal();
+    const shipping = subtotal > 3000 ? 0 : 200;
+    const tax = subtotal * 0.15;
+    const total = subtotal + shipping + tax;
+    
+    // Create order object
+    const order = {
+        id: orderNumber,
+        date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        items: cart.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            subtotal: item.price * item.quantity
+        })),
+        customer: {
+            name: fullname,
+            email: email,
+            phone: phone,
+            address: address
+        },
+        payment: payment,
+        subtotal: subtotal,
+        shipping: shipping,
+        tax: tax,
+        total: total,
+        status: 'Processing'
+    };
+    
+    // Save order to localStorage
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    orders.unshift(order); // Add to beginning
+    localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+    
+    // Save order number for confirmation page
+    localStorage.setItem('lastOrderNumber', orderNumber);
+    
+    // Clear cart
+    cart = [];
+    saveCart();
+    updateCartCount();
+    
+    // Redirect to confirmation page
+    window.location.href = 'order-confirmation.html';
+}
+
+function loadOrderConfirmation() {
+    const orderNumber = localStorage.getItem('lastOrderNumber');
+    if (!orderNumber) {
+        window.location.href = 'shop.html';
+        return;
+    }
+    
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderNumber);
+    
+    if (!order) {
+        window.location.href = 'shop.html';
+        return;
+    }
+    
+    // Display order details
+    displayOrderConfirmation(order);
+}
+
+function displayOrderConfirmation(order) {
+    const container = document.getElementById('orderConfirmation');
+    if (!container) return;
+    
+    const statusColor = '#008000';
+    
+    let itemsHtml = order.items.map(item => `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+            <span>${item.name} × ${item.quantity}</span>
+            <span>${item.subtotal.toLocaleString()} ETB</span>
+        </div>
+    `).join('');
+    
+    container.innerHTML = `
+        <div style="text-align:center;padding:20px 0 30px;">
+            <div style="font-size:64px;margin-bottom:10px;">🎉</div>
+            <h2 style="color:#1a1a2e;margin-bottom:5px;">Order Confirmed!</h2>
+            <p style="color:#888;">Thank you for your purchase, ${order.customer.name}!</p>
+        </div>
+        
+        <div style="background:#f8f9fa;padding:20px;border-radius:8px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <div style="font-size:13px;color:#888;">Order Number</div>
+                    <div style="font-weight:700;font-size:18px;color:#1a1a2e;">${order.id}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Date</div>
+                    <div style="font-weight:600;color:#1a1a2e;">${order.date}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Status</div>
+                    <div style="font-weight:600;color:#008000;">${order.status}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom:20px;">
+            <h4 style="margin-bottom:10px;">Order Items</h4>
+            ${itemsHtml}
+        </div>
+        
+        <div style="background:#f8f9fa;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                <span>Subtotal</span>
+                <span>${order.subtotal.toLocaleString()} ETB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                <span>Shipping</span>
+                <span style="color:${order.shipping === 0 ? '#008000' : '#d9534f'};">${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;">
+                <span>Tax (VAT 15%)</span>
+                <span>${order.tax.toLocaleString()} ETB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0 0;font-size:20px;font-weight:700;">
+                <span>Total</span>
+                <span style="color:#d9534f;">${order.total.toLocaleString()} ETB</span>
+            </div>
+        </div>
+        
+        <div style="background:#fff3cd;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+            <div style="font-weight:600;color:#856404;">📦 Shipping Information</div>
+            <div style="color:#856404;font-size:14px;margin-top:5px;">
+                ${order.customer.name}<br>
+                ${order.customer.address}<br>
+                📞 ${order.customer.phone}<br>
+                ✉️ ${order.customer.email}
+            </div>
+        </div>
+        
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="shop.html" class="btn btn-primary">Continue Shopping →</a>
+            <a href="orders.html" class="btn btn-secondary">View My Orders</a>
+        </div>
+    `;
+}
+
+// ========================================
+// CHECKOUT FUNCTIONS
+// ========================================
+
+function loadCheckoutSummary() {
+    // Update order summary on checkout page
+    const summaryContainer = document.getElementById('checkoutOrderSummary');
+    const sidebarContainer = document.getElementById('checkoutSidebar');
+    
+    if (!summaryContainer) return;
+    
+    if (cart.length === 0) {
+        summaryContainer.innerHTML = `
+            <div style="text-align:center;padding:20px;color:#888;">
+                <p>Your cart is empty.</p>
+                <a href="shop.html" class="btn btn-sm btn-primary">Shop Now</a>
+            </div>
+        `;
+        if (sidebarContainer) {
+            sidebarContainer.innerHTML = `
+                <div style="text-align:center;padding:20px;color:#888;">
+                    <p>Cart is empty</p>
+                </div>
+            `;
+        }
+        return;
+    }
+    
+    // Build order items list
+    let itemsHtml = '';
+    cart.forEach(item => {
+        itemsHtml += `
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;">
+                <span>${item.name} × ${item.quantity}</span>
+                <strong>${(item.price * item.quantity).toLocaleString()} ETB</strong>
+            </li>
+        `;
+    });
+    
+    // Calculate totals
+    const subtotal = getCartTotal();
+    const shipping = subtotal > 3000 ? 0 : 200;
+    const tax = subtotal * 0.15;
+    const total = subtotal + shipping + tax;
+    const itemCount = getCartCount();
+    
+    const shippingText = shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB';
+    const shippingColor = shipping === 0 ? '#008000' : '#d9534f';
+    
+    // Update main summary
+    summaryContainer.innerHTML = `
+        <ul style="list-style:none;padding:0;">
+            ${itemsHtml}
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;">
+                <span>Shipping</span>
+                <strong style="color:${shippingColor};">${shippingText}</strong>
+            </li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;color:#666;">
+                <span>Tax (VAT 15%)</span>
+                <span>${tax.toLocaleString()} ETB</span>
+            </li>
+            <li style="padding:12px 0;font-size:20px;font-weight:700;color:#d9534f;display:flex;justify-content:space-between;">
+                <span>Grand Total:</span>
+                <span style="font-size:24px;">${total.toLocaleString()} ETB</span>
+            </li>
+        </ul>
+    `;
+    
+    // Update sidebar
+    if (sidebarContainer) {
+        sidebarContainer.innerHTML = `
+            <div class="summary-row">
+                <span class="label">Subtotal (${itemCount} items)</span>
+                <span class="value">${subtotal.toLocaleString()} ETB</span>
+            </div>
+            <div class="summary-row">
+                <span class="label">Shipping</span>
+                <span class="value" style="color: ${shippingColor};">${shippingText}</span>
+            </div>
+            <div class="summary-row">
+                <span class="label">Tax (VAT 15%)</span>
+                <span class="value">${tax.toLocaleString()} ETB</span>
+            </div>
+            <div class="free-shipping">
+                ${shipping === 0 ? '🎉 <strong>You saved 200 ETB</strong> on shipping!' : '💡 Add <strong>' + (3000 - subtotal).toLocaleString() + ' ETB</strong> more for free shipping!'}
+            </div>
+            <div class="summary-row total">
+                <span class="label">Total</span>
+                <span class="value">${total.toLocaleString()} ETB</span>
+            </div>
+        `;
+    }
+}
+
+// ========================================
+// ORDER SYSTEM
+// ========================================
+
+function generateOrderNumber() {
+    const prefix = 'MER';
+    const year = new Date().getFullYear();
+    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    return `${prefix}-${year}-${random}`;
+}
+
+function processOrder(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const fullname = document.getElementById('fullname')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const address = document.getElementById('address')?.value || '';
+    const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
+    
+    // Validate
+    if (!fullname || !email || !phone || !address) {
+        showNotification('⚠️ Please fill in all required fields');
+        return;
+    }
+    
+    if (cart.length === 0) {
+        showNotification('⚠️ Your cart is empty');
+        return;
+    }
+    
+    // Generate order number
+    const orderNumber = generateOrderNumber();
+    
+    // Calculate totals
+    const subtotal = getCartTotal();
+    const shipping = subtotal > 3000 ? 0 : 200;
+    const tax = subtotal * 0.15;
+    const total = subtotal + shipping + tax;
+    
+    // Create order object
+    const order = {
+        id: orderNumber,
+        date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        items: cart.map(item => ({
+            name: item.name,
+            quantity: item.quantity,
+            price: item.price,
+            subtotal: item.price * item.quantity
+        })),
+        customer: {
+            name: fullname,
+            email: email,
+            phone: phone,
+            address: address
+        },
+        payment: payment,
+        subtotal: subtotal,
+        shipping: shipping,
+        tax: tax,
+        total: total,
+        status: 'Processing'
+    };
+    
+    // Save order to localStorage
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    orders.unshift(order); // Add to beginning
+    localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+    
+    // Save order number for confirmation page
+    localStorage.setItem('lastOrderNumber', orderNumber);
+    
+    // Clear cart
+    cart = [];
+    saveCart();
+    updateCartCount();
+    
+    // Redirect to confirmation page
+    showNotification('✅ Order placed successfully! Redirecting...');
+    setTimeout(() => {
+        window.location.href = 'order-confirmation.html';
+    }, 1000);
+}
+
+function loadOrderConfirmation() {
+    const orderNumber = localStorage.getItem('lastOrderNumber');
+    if (!orderNumber) {
+        window.location.href = 'shop.html';
+        return;
+    }
+    
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderNumber);
+    
+    if (!order) {
+        window.location.href = 'shop.html';
+        return;
+    }
+    
+    displayOrderConfirmation(order);
+}
+
+function displayOrderConfirmation(order) {
+    const container = document.getElementById('orderConfirmation');
+    if (!container) return;
+    
+    let itemsHtml = order.items.map(item => `
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+            <span>${item.name} × ${item.quantity}</span>
+            <span>${item.subtotal.toLocaleString()} ETB</span>
+        </div>
+    `).join('');
+    
+    container.innerHTML = `
+        <div style="text-align:center;padding:20px 0 30px;">
+            <div style="font-size:64px;margin-bottom:10px;">🎉</div>
+            <h2 style="color:#1a1a2e;margin-bottom:5px;">Order Confirmed!</h2>
+            <p style="color:#888;">Thank you for your purchase, ${order.customer.name}!</p>
+        </div>
+        
+        <div style="background:#f8f9fa;padding:20px;border-radius:8px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <div style="font-size:13px;color:#888;">Order Number</div>
+                    <div style="font-weight:700;font-size:18px;color:#1a1a2e;">${order.id}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Date</div>
+                    <div style="font-weight:600;color:#1a1a2e;">${order.date}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Status</div>
+                    <div style="font-weight:600;color:#008000;">${order.status}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom:20px;">
+            <h4 style="margin-bottom:10px;">Order Items</h4>
+            ${itemsHtml}
+        </div>
+        
+        <div style="background:#f8f9fa;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                <span>Subtotal</span>
+                <span>${order.subtotal.toLocaleString()} ETB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;">
+                <span>Shipping</span>
+                <span style="color:${order.shipping === 0 ? '#008000' : '#d9534f'};">${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;">
+                <span>Tax (VAT 15%)</span>
+                <span>${order.tax.toLocaleString()} ETB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0 0;font-size:20px;font-weight:700;">
+                <span>Total</span>
+                <span style="color:#d9534f;">${order.total.toLocaleString()} ETB</span>
+            </div>
+        </div>
+        
+        <div style="background:#fff3cd;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
+            <div style="font-weight:600;color:#856404;">📦 Shipping Information</div>
+            <div style="color:#856404;font-size:14px;margin-top:5px;">
+                ${order.customer.name}<br>
+                ${order.customer.address}<br>
+                📞 ${order.customer.phone}<br>
+                ✉️ ${order.customer.email}
+            </div>
+        </div>
+        
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="shop.html" class="btn btn-primary">Continue Shopping →</a>
+            <a href="orders.html" class="btn btn-secondary">View My Orders</a>
+        </div>
+    `;
 }

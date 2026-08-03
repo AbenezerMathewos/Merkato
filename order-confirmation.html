@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Order Confirmation">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, order confirmation">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <title>Order Confirmation — MERKATO</title>
+    <style>
+        .confirmation-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 25px 20px;
+                margin: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+            <div id="profileContainer"></div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="checkout.html">Checkout</a> &gt; 
+            <span><strong>Order Confirmation</strong></span>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="confirmation-container" id="orderConfirmation">
+                <div style="text-align:center;padding:40px;color:#888;">
+                    Loading your order confirmation...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

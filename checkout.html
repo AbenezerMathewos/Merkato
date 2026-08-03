@@ -8,42 +8,39 @@
     <meta name="author" content="MERKATO INC">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
-    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Checkout — MERKATO</title>
 </head>
 <body>
 
     <!-- TOP BAR -->
-    <!-- <div class="top-bar">
+    <div class="top-bar">
         ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
-    </div> -->
+    </div>
 
     <!-- HEADER -->
     <div class="container">
         <header class="header">
             <div class="header-inner">
                 <a href="index.html" class="logo-wrapper">
-    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
-    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
-</a>
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <!-- Sign In link will be replaced by JavaScript when logged in -->
-    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
-         <!-- Profile Floating Container -->
-    <div id="profileContainer"></div>
-</header>
+            <div id="profileContainer"></div>
+        </header>
     </div>
 
     <hr class="divider">
@@ -71,22 +68,16 @@
                     <!-- Order Summary -->
                     <div class="checkout-section">
                         <h3>Order Summary</h3>
-                        <ul style="list-style:none;padding:0;">
-                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Yirgacheffe Buna (ቡና) × 2 — <strong>5,000 ETB</strong></li>
-                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Digital Electric Mitad (ምጣድ) × 1 — <strong>18,500 ETB</strong></li>
-                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Sini Ceramic Cups (ሲኒ) × 1 — <strong>1,200 ETB</strong></li>
-                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;">Shipping — <strong style="color:#008000;">Free</strong></li>
-                            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;color:#666;">Tax (VAT 15%): 3,705 ETB</li>
-                            <li style="padding:12px 0;font-size:20px;font-weight:700;color:#d9534f;">
-                                Grand Total: <span style="font-size:24px;">28,405 ETB</span>
-                            </li>
-                        </ul>
+                        <div id="checkoutOrderSummary">
+                            <!-- Will be populated by JavaScript -->
+                            <div style="text-align:center;padding:20px;color:#888;">Loading your order...</div>
+                        </div>
                     </div>
 
                     <!-- Shipping Information -->
                     <div class="checkout-section">
                         <h3>1. Shipping Information</h3>
-                        <form action="#" method="POST">
+                        <form id="checkoutForm" onsubmit="processOrder(event)">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="fullname">Full Name:</label>
@@ -134,29 +125,10 @@
                 <!-- Sidebar -->
                 <div class="cart-summary" style="position:sticky;top:100px;">
                     <h2>📋 Order Summary</h2>
-
-                    <div class="summary-row">
-                        <span class="label">Subtotal (3 items)</span>
-                        <span class="value">24,700 ETB</span>
+                    <div id="checkoutSidebar">
+                        <!-- Will be populated by JavaScript -->
+                        <div style="text-align:center;padding:20px;color:#888;">Loading...</div>
                     </div>
-                    <div class="summary-row">
-                        <span class="label">Shipping</span>
-                        <span class="value" style="color: #00b894;">FREE</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="label">Tax (VAT 15%)</span>
-                        <span class="value">3,705 ETB</span>
-                    </div>
-
-                    <div class="free-shipping">
-                        🎉 <strong>You saved 200 ETB</strong> on shipping!
-                    </div>
-
-                    <div class="summary-row total">
-                        <span class="label">Total</span>
-                        <span class="value">28,405 ETB</span>
-                    </div>
-
                     <a href="cart.html" class="continue-shopping" style="color:#ffd700;">← Back to Cart</a>
                 </div>
             </div>
@@ -169,15 +141,14 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-links">
-    <a href="index.html">Home</a> | 
-    <a href="shop.html">Shop</a> | 
-    <a href="about.html">About</a> | 
-    <a href="contact.html">Contact</a> | 
-    <a href="faq.html">FAQ</a> | 
-    <a href="returns.html">Returns</a> |
-    <a href="admin.html">Admin</a>
-</div>
-
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
             <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
             <p><small>©Abi-Kidan.</small></p>
         </div>
@@ -185,7 +156,8 @@
 
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
 
 </body>
 </html>
