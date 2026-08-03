@@ -1020,18 +1020,17 @@ function addReview(productId, userName, rating, comment, userEmail) {
         reviews[productId] = [];
     }
     
+    // Generate UNIQUE ID for each review
+    const uniqueId = 'r' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    
     // Check if user has purchased this product
     let verified = false;
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     
-    // Check if any order contains this product
     orders.forEach(order => {
         order.items.forEach(item => {
-            // Try to match product by name
             const productName = productId.toLowerCase();
             const itemName = item.name.toLowerCase();
-            
-            // Check if product name appears in the order item
             if (itemName.includes(productName) || 
                 productName.includes(itemName.split(' ')[0]) ||
                 itemName.includes(productName.split(' ')[0])) {
@@ -1040,15 +1039,12 @@ function addReview(productId, userName, rating, comment, userEmail) {
         });
     });
     
-    // If user is logged in, mark as verified (for demo purposes)
-    // In a real app, this would check actual purchase history
     if (userEmail && !verified) {
-        // For demo: if user is logged in, they're verified
         verified = true;
     }
     
     const newReview = {
-        id: 'r' + Date.now(),
+        id: uniqueId,  // ← UNIQUE ID for every review
         userName: userName || 'Anonymous',
         rating: parseInt(rating),
         comment: comment.trim(),
@@ -1058,7 +1054,8 @@ function addReview(productId, userName, rating, comment, userEmail) {
             day: 'numeric'
         }),
         verified: verified,
-        helpful: 0
+        helpful: 0,
+        notHelpful: 0
     };
     
     reviews[productId].push(newReview);
@@ -1066,7 +1063,7 @@ function addReview(productId, userName, rating, comment, userEmail) {
     displayReviews(productId);
     updateAverageRating(productId);
     
-    showNotification('✅ Your review has been posted! thank you for your feedback.');
+    showNotification('✅ Your review has been posted!');
     return newReview;
 }
 
@@ -1147,10 +1144,38 @@ function displayReviews(productId) {
     `;
     
     productReviews.forEach((review, index) => {
-        // Verified badge styling
+        // Check if user already voted
+        const voted = localStorage.getItem(`helpful_${review.id}`);
+        
         const verifiedBadge = review.verified 
             ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 10px;border-radius:12px;margin-left:6px;font-weight:600;">✓ Verified</span>' 
             : '';
+        
+        // Helpful and Not Helpful counts
+        const helpfulCount = review.helpful || 0;
+        const notHelpfulCount = review.notHelpful || 0;
+        const totalVotes = helpfulCount + notHelpfulCount;
+        
+        // Button styles based on vote status
+        let helpfulButtonStyle, notHelpfulButtonStyle;
+        let helpfulText, notHelpfulText;
+        
+        if (voted === 'helpful') {
+            helpfulButtonStyle = 'background:#e8f5e9;border:1px solid #008000;cursor:default;font-size:13px;color:#008000;padding:4px 12px;border-radius:4px;font-weight:600;';
+            helpfulText = '✅ Helpful';
+            notHelpfulButtonStyle = 'background:none;border:1px solid #ddd;cursor:not-allowed;font-size:13px;color:#ccc;padding:4px 12px;border-radius:4px;opacity:0.5;';
+            notHelpfulText = '👎 Not Helpful';
+        } else if (voted === 'not-helpful') {
+            helpfulButtonStyle = 'background:none;border:1px solid #ddd;cursor:not-allowed;font-size:13px;color:#ccc;padding:4px 12px;border-radius:4px;opacity:0.5;';
+            helpfulText = '👍 Helpful';
+            notHelpfulButtonStyle = 'background:#ffebee;border:1px solid #d9534f;cursor:default;font-size:13px;color:#d9534f;padding:4px 12px;border-radius:4px;font-weight:600;';
+            notHelpfulText = '✅ Not Helpful';
+        } else {
+            helpfulButtonStyle = 'background:none;border:1px solid #ddd;cursor:pointer;font-size:13px;color:#555;padding:4px 12px;border-radius:4px;transition:all 0.2s ease;';
+            helpfulText = '👍 Helpful';
+            notHelpfulButtonStyle = 'background:none;border:1px solid #ddd;cursor:pointer;font-size:13px;color:#555;padding:4px 12px;border-radius:4px;transition:all 0.2s ease;';
+            notHelpfulText = '👎 Not Helpful';
+        }
         
         html += `
             <div style="
@@ -1178,15 +1203,33 @@ function displayReviews(productId) {
                 <div style="margin-top:8px;color:#444;line-height:1.6;">
                     ${review.comment}
                 </div>
-                ${review.helpful > 0 ? `
-                    <div style="margin-top:8px;font-size:12px;color:#888;">
-                        👍 ${review.helpful} people found this helpful
-                    </div>
-                ` : ''}
+                
+                <!-- ===== HELPFUL / NOT HELPFUL BUTTONS ===== -->
+                <div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                    <button onclick="markHelpful('${review.id}', '${productId}', 'helpful')" 
+                            style="${helpfulButtonStyle}"
+                            ${voted ? 'disabled' : ''}
+                            onmouseover="${!voted ? 'this.style.background=\"#e8f5e9\";this.style.borderColor=\"#008000\"' : ''}" 
+                            onmouseout="${!voted ? 'this.style.background=\"none\";this.style.borderColor=\"#ddd\"' : ''}">
+                        ${helpfulText}
+                    </button>
+                    
+                    <button onclick="markHelpful('${review.id}', '${productId}', 'not-helpful')" 
+                            style="${notHelpfulButtonStyle}"
+                            ${voted ? 'disabled' : ''}
+                            onmouseover="${!voted ? 'this.style.background=\"#ffebee\";this.style.borderColor=\"#d9534f\"' : ''}" 
+                            onmouseout="${!voted ? 'this.style.background=\"none\";this.style.borderColor=\"#ddd\"' : ''}">
+                        ${notHelpfulText}
+                    </button>
+                    
+                    <span style="font-size:12px;color:#888;margin-left:5px;">
+                        ${totalVotes > 0 ? `${helpfulCount} 👍 / ${notHelpfulCount} 👎` : 'Be the first to vote'}
+                    </span>
+                </div>
             </div>
         `;
     });
-    
+
     container.innerHTML = html;
 }
 
@@ -1365,4 +1408,43 @@ function updateShopRatings() {
             }
         }
     });
+}
+
+// ========================================
+// HELPFUL VOTES SYSTEM
+// ========================================
+
+function markHelpful(reviewId, productId, voteType) {
+    const productReviews = reviews[productId] || [];
+    const reviewIndex = productReviews.findIndex(r => r.id === reviewId);
+    
+    if (reviewIndex === -1) {
+        showNotification('⚠️ Review not found');
+        return;
+    }
+    
+    // Check if user already voted on THIS review
+    const votedKey = `helpful_${reviewId}`;
+    const voted = localStorage.getItem(votedKey);
+    if (voted) {
+        showNotification('⚠️ You already voted on this review');
+        return;
+    }
+    
+    // Update vote count
+    if (voteType === 'helpful') {
+        reviews[productId][reviewIndex].helpful = (reviews[productId][reviewIndex].helpful || 0) + 1;
+    } else if (voteType === 'not-helpful') {
+        reviews[productId][reviewIndex].notHelpful = (reviews[productId][reviewIndex].notHelpful || 0) + 1;
+    }
+    
+    saveReviews();
+    localStorage.setItem(votedKey, voteType);
+    
+    displayReviews(productId);
+    
+    const message = voteType === 'helpful' 
+        ? '👍 Thank you for your feedback!' 
+        : '👎 Thank you for your honest feedback!';
+    showNotification(message);
 }
