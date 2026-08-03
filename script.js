@@ -2385,8 +2385,8 @@ function showReturnSuccessModal(returnRequest) {
             <div class="modal-icon">✅</div>
             
             <!-- Title -->
-            <h2 class="modal-title">Return Request Submitted! 🎉</h2>
-            <p class="modal-subtitle">We will review your request and contact you within 2-3 business days.</p>
+            <h2 class="modal-title">Return Submitted! 🎉</h2>
+            <p class="modal-subtitle">We'll review and contact you within 2-3 days.</p>
             
             <hr class="modal-divider">
             
@@ -2397,7 +2397,7 @@ function showReturnSuccessModal(returnRequest) {
                     <span class="value highlight">${returnRequest.id}</span>
                 </div>
                 <div class="row">
-                    <span class="label">📦 Order Number</span>
+                    <span class="label">📦 Order</span>
                     <span class="value">${returnRequest.orderNumber}</span>
                 </div>
                 <div class="row">
@@ -2419,25 +2419,23 @@ function showReturnSuccessModal(returnRequest) {
                 ${returnRequest.comments ? `
                     <div class="row" style="border-bottom:none;">
                         <span class="label">💬 Comments</span>
-                        <span class="value" style="font-weight:400;">${returnRequest.comments}</span>
+                        <span class="value" style="font-weight:400;font-size:11px;">${returnRequest.comments}</span>
                     </div>
                 ` : ''}
             </div>
             
-            <hr class="modal-divider">
-            
             <!-- Next Steps -->
-            <div style="background:#f0f8f0;border-radius:8px;padding:12px 16px;margin:10px 0;">
-                <div style="font-size:13px;color:#2e7d32;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <div class="modal-next-steps">
+                <div class="steps-text">
                     <span>📌</span>
-                    <span><strong>Next Steps:</strong> We'll review your request and send you an email confirmation.</span>
+                    <span><strong>Next:</strong> We'll review and email you confirmation.</span>
                 </div>
             </div>
             
             <!-- Buttons -->
             <div class="modal-actions">
-                <button class="btn btn-primary" onclick="closeReturnModal()">✅ OK, Got it!</button>
-                <a href="returns.html" class="btn btn-secondary">📋 View My Returns</a>
+                <button class="btn btn-primary" onclick="closeReturnModal()">✅ OK</button>
+                <a href="returns.html" class="btn btn-secondary">📋 My Returns</a>
             </div>
         </div>
     `;
