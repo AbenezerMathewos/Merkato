@@ -1015,9 +1015,36 @@ function saveReviews() {
     localStorage.setItem('merkatoReviews', JSON.stringify(reviews));
 }
 
-function addReview(productId, userName, rating, comment) {
+function addReview(productId, userName, rating, comment, userEmail) {
     if (!reviews[productId]) {
         reviews[productId] = [];
+    }
+    
+    // Check if user has purchased this product
+    let verified = false;
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    
+    // Check if any order contains this product
+    orders.forEach(order => {
+        order.items.forEach(item => {
+            // Try to match product by name
+            const productName = productId.toLowerCase();
+            const itemName = item.name.toLowerCase();
+            
+            // Check if product name appears in the order item
+            if (itemName.includes(productName) || 
+                productName.includes(itemName.split(' ')[0]) ||
+                itemName.includes(productName.split(' ')[0])) {
+                verified = true;
+            }
+        });
+    });
+    
+    // If user is logged in, mark as verified (for demo purposes)
+    // In a real app, this would check actual purchase history
+    if (userEmail && !verified) {
+        // For demo: if user is logged in, they're verified
+        verified = true;
     }
     
     const newReview = {
@@ -1030,7 +1057,7 @@ function addReview(productId, userName, rating, comment) {
             month: 'long',
             day: 'numeric'
         }),
-        verified: true,
+        verified: verified,
         helpful: 0
     };
     
@@ -1039,7 +1066,7 @@ function addReview(productId, userName, rating, comment) {
     displayReviews(productId);
     updateAverageRating(productId);
     
-    showNotification('✅ Your review has been posted!');
+    showNotification('✅ Your review has been posted! thank you for your feedback.');
     return newReview;
 }
 
@@ -1120,6 +1147,11 @@ function displayReviews(productId) {
     `;
     
     productReviews.forEach((review, index) => {
+        // Verified badge styling
+        const verifiedBadge = review.verified 
+            ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 10px;border-radius:12px;margin-left:6px;font-weight:600;">✓ Verified</span>' 
+            : '';
+        
         html += `
             <div style="
                 background: ${index % 2 === 0 ? '#f8f9fa' : '#fff'};
@@ -1131,9 +1163,9 @@ function displayReviews(productId) {
             " onmouseover="this.style.borderColor='#008000'" onmouseout="this.style.borderColor='#f0f0f0'">
                 <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
                     <div>
-                        <div style="display:flex;align-items:center;gap:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                             <span style="font-weight:600;color:#1a1a2e;">${review.userName}</span>
-                            ${review.verified ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 8px;border-radius:12px;">✓ Verified</span>' : ''}
+                            ${verifiedBadge}
                         </div>
                         <div style="font-size:13px;color:#888;margin-top:2px;">
                             ${review.date}
@@ -1222,14 +1254,18 @@ function submitReview(productId) {
         return;
     }
     
+    // Get user info
     let userName = 'Anonymous';
+    let userEmail = '';
     const userData = localStorage.getItem('merkatoUser');
     if (userData) {
         const user = JSON.parse(userData);
         userName = user.name || 'Anonymous';
+        userEmail = user.email || '';
     }
     
-    addReview(productId, userName, rating, comment);
+    // Pass userEmail to addReview
+    addReview(productId, userName, rating, comment, userEmail);
     
     // Reset form
     ratingInput.value = 0;
@@ -1237,6 +1273,7 @@ function submitReview(productId) {
     selectedRatings[productId] = 0;
     resetStars(productId);
     
+    // Update display
     displayReviews(productId);
     updateAverageRating(productId);
 }
