@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Your saved items wishlist">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, wishlist, saved items">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <title>My Wishlist — MERKATO</title>
+    <style>
+        .wishlist-container {
+            margin: 30px 0;
+        }
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 20px 0;
+        }
+        .wishlist-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .wishlist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #008000;
+        }
+        .wishlist-card img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .wishlist-card h3 {
+            font-size: 15px;
+            margin: 8px 0 4px;
+        }
+        .wishlist-card h3 a {
+            color: #111;
+            text-decoration: none;
+        }
+        .wishlist-card h3 a:hover {
+            color: #008000;
+        }
+        .wishlist-card .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d9534f;
+            margin: 6px 0 12px;
+        }
+        .wishlist-card .remove-btn {
+            background: none;
+            border: none;
+            color: #d9534f;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            transition: all 0.3s ease;
+        }
+        .wishlist-card .remove-btn:hover {
+            transform: scale(1.2);
+            color: #c9302c;
+        }
+        .wishlist-card .move-to-cart-btn {
+            margin-top: 8px;
+        }
+        .wishlist-card .aisle-tag {
+            font-size: 11px;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .empty-wishlist {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-wishlist .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        .empty-wishlist h3 {
+            font-size: 24px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .empty-wishlist p {
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .wishlist-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        @media (max-width: 992px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html" class="active">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+            <div id="profileContainer"></div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>My Wishlist</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>❤️ My Wishlist</h1>
+                <p>Save your favorite products and come back to them later</p>
+            </div>
+
+            <div class="wishlist-container">
+                <div id="wishlistGrid" class="wishlist-grid">
+                    <!-- Wishlist items will be loaded here by JavaScript -->
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading your wishlist...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
