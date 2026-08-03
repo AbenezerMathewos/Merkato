@@ -1327,9 +1327,12 @@ function submitReview(productId) {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Page Loaded:', window.location.pathname);
-    
+
     loadCart();
     checkUserOnLoad();
+    
+    // ===== LOAD WISHLIST =====
+    loadWishlist();   // ← ADD THIS LINE
     
     // ===== LOAD REVIEWS =====
     loadReviews();
@@ -1377,6 +1380,9 @@ document.addEventListener('DOMContentLoaded', function() {
             loginUser();
         });
     }
+    
+    // ===== UPDATE WISHLIST BUTTONS =====
+    updateWishlistButtons();   // ← ADD THIS LINE
     
     console.log('✅ MERKATO JavaScript Ready!');
 });
@@ -1447,4 +1453,197 @@ function markHelpful(reviewId, productId, voteType) {
         ? '👍 Thank you for your feedback!' 
         : '👎 Thank you for your honest feedback!';
     showNotification(message);
+}
+
+// ========================================
+// WISHLIST SYSTEM
+// ========================================
+
+let wishlist = [];
+
+function loadWishlist() {
+    const savedWishlist = localStorage.getItem('merkatoWishlist');
+    if (savedWishlist) {
+        wishlist = JSON.parse(savedWishlist);
+    }
+    updateWishlistCount();
+    displayWishlist();
+}
+
+function saveWishlist() {
+    localStorage.setItem('merkatoWishlist', JSON.stringify(wishlist));
+    updateWishlistCount();
+    displayWishlist();
+}
+
+function addToWishlist(productId, name, price, image, aisle) {
+    // Check if already in wishlist
+    const existing = wishlist.find(item => item.id === productId);
+    if (existing) {
+        showNotification('❤️ Already in wishlist');
+        return;
+    }
+    
+    wishlist.push({
+        id: productId,
+        name: name,
+        price: parseFloat(price),
+        image: image || '',
+        aisle: aisle || ''
+    });
+    
+    saveWishlist();
+    updateWishlistButtons();
+    showNotification(`❤️ ${name} added to wishlist!`);
+}
+
+function removeFromWishlist(productId) {
+    const item = wishlist.find(item => item.id === productId);
+    wishlist = wishlist.filter(item => item.id !== productId);
+    saveWishlist();
+    updateWishlistButtons();
+    if (item) {
+        showNotification(`❌ ${item.name} removed from wishlist`);
+    }
+}
+
+function moveToCart(productId) {
+    const item = wishlist.find(item => item.id === productId);
+    if (!item) {
+        showNotification('⚠️ Item not found in wishlist');
+        return;
+    }
+    
+    // Add to cart
+    addToCart(item.id, item.name, item.price, item.image);
+    
+    // Remove from wishlist
+    removeFromWishlist(productId);
+    
+    showNotification(`🛒 ${item.name} moved to cart!`);
+}
+
+function moveAllToCart() {
+    if (wishlist.length === 0) {
+        showNotification('⚠️ Your wishlist is empty');
+        return;
+    }
+    
+    wishlist.forEach(item => {
+        addToCart(item.id, item.name, item.price, item.image);
+    });
+    
+    // Clear wishlist
+    wishlist = [];
+    saveWishlist();
+    updateWishlistButtons();
+    showNotification('🛒 All items moved to cart!');
+}
+
+function clearWishlist() {
+    if (wishlist.length === 0) {
+        showNotification('⚠️ Your wishlist is already empty');
+        return;
+    }
+    
+    if (confirm('Are you sure you want to clear your entire wishlist?')) {
+        wishlist = [];
+        saveWishlist();
+        updateWishlistButtons();
+        showNotification('🗑️ Wishlist cleared');
+    }
+}
+
+function updateWishlistCount() {
+    const count = wishlist.length;
+    const elements = document.querySelectorAll('.wishlist-count');
+    elements.forEach(el => {
+        el.textContent = count;
+    });
+}
+
+function updateWishlistButtons() {
+    const buttons = document.querySelectorAll('.wishlist-btn');
+    buttons.forEach(btn => {
+        const id = btn.dataset.productId;
+        if (wishlist.find(item => item.id === id)) {
+            btn.textContent = '❤️';
+            btn.style.color = '#d9534f';
+            btn.title = 'Remove from wishlist';
+        } else {
+            btn.textContent = '🤍';
+            btn.style.color = '#888';
+            btn.title = 'Add to wishlist';
+        }
+    });
+}
+
+function displayWishlist() {
+    const grid = document.getElementById('wishlistGrid');
+    if (!grid) return;
+    
+    if (wishlist.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-wishlist" style="grid-column:1/-1;">
+                <div class="icon">🤍</div>
+                <h3>Your wishlist is empty</h3>
+                <p>Browse our products and add items you love!</p>
+                <a href="shop.html" class="btn btn-primary">Start Shopping →</a>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    wishlist.forEach(item => {
+        html += `
+            <div class="wishlist-card" data-product-id="${item.id}">
+                <button class="remove-btn" onclick="removeFromWishlist('${item.id}')" title="Remove from wishlist">✕</button>
+                <a href="product-detail.html#${item.id}">
+                    <img src="${item.image || 'https://via.placeholder.com/130x130?text=No+Image'}" alt="${item.name}">
+                </a>
+                <div class="aisle-tag">${item.aisle || 'Aisle'}</div>
+                <h3><a href="product-detail.html#${item.id}">${item.name}</a></h3>
+                <div class="price">${item.price.toLocaleString()} ETB</div>
+                <button class="btn btn-primary btn-sm move-to-cart-btn" onclick="moveToCart('${item.id}')">
+                    🛒 Move to Cart
+                </button>
+            </div>
+        `;
+    });
+    
+    // Add action buttons at bottom
+    html += `
+        <div style="grid-column:1/-1;text-align:center;padding:20px 0;">
+            <div class="wishlist-actions">
+                <button class="btn btn-success" onclick="moveAllToCart()">🛒 Move All to Cart</button>
+                <button class="btn btn-danger" onclick="clearWishlist()">🗑️ Clear Wishlist</button>
+                <a href="shop.html" class="btn btn-secondary">← Continue Shopping</a>
+            </div>
+        </div>
+    `;
+    
+    grid.innerHTML = html;
+}
+
+function toggleWishlist(button) {
+    const productId = button.dataset.productId;
+    const productName = button.dataset.productName;
+    const productPrice = button.dataset.productPrice;
+    const productImage = button.dataset.productImage || '';
+    const productAisle = button.dataset.aisle || '';
+    
+    // Check if already in wishlist
+    const existing = wishlist.find(item => item.id === productId);
+    if (existing) {
+        removeFromWishlist(productId);
+        button.textContent = '🤍 Wishlist';
+        button.style.color = '#888';
+        button.style.background = 'transparent';
+    } else {
+        addToWishlist(productId, productName, productPrice, productImage, productAisle);
+        button.textContent = '❤️ Wishlist';
+        button.style.color = '#d9534f';
+        button.style.background = '#fff5f5';
+    }
 }
