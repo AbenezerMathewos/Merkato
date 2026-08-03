@@ -1,6 +1,6 @@
 // ========================================
 // MERKATO - Complete JavaScript File
-// Version: 2.0
+// Version: 2.0 (Reviews Fixed)
 // ========================================
 
 console.log('🛒 MERKATO JavaScript Loaded!');
@@ -37,14 +37,12 @@ function loginUser() {
         return false;
     }
     
-    // Get user's name from email
     let userName = email.split('@')[0];
     userName = userName.replace(/[^a-zA-Z]/g, ' ');
     userName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     
     if (!userName) userName = 'User';
     
-    // Check if user already has saved data
     let userData = localStorage.getItem('merkatoUserData');
     let userProfile = null;
     
@@ -148,218 +146,83 @@ function showWelcomeMessage(userName) {
 }
 
 // ========================================
-// USER DISPLAY & DROPDOWN
-// ========================================
-
-// ========================================
-// USER DISPLAY & DROPDOWN - FIXED
-// ========================================
-
-// ========================================
-// USER DISPLAY & DROPDOWN - FIXED
+// USER DISPLAY & DROPDOWN - UPDATED
 // ========================================
 
 function updateUserDisplay() {
-    const userData = localStorage.getItem('merkatoUser');
-    if (userData) {
-        const user = JSON.parse(userData);
-        currentUser = user;
+    const nav = document.querySelector('.nav');
+    const signInLink = nav ? nav.querySelector('.nav-login, a[href="login.html"]') : null;
+    const previousDisplay = document.querySelector('.user-dropdown-container');
+    if (previousDisplay) previousDisplay.remove();
 
-        // Find the navigation container
-        const nav = document.querySelector('.nav');
-        if (!nav) return;
-        
-        // Remove existing user dropdown if any
-        const existingUserDisplay = document.querySelector('.user-dropdown-container');
-        if (existingUserDisplay) {
-            existingUserDisplay.remove();
-        }
-        
-        // Find and HIDE the "Sign In" link (keep it in DOM but hidden)
-        const signInLink = nav.querySelector('.nav-login, a[href="login.html"]');
-        if (signInLink) {
-            signInLink.style.display = 'none';
-        }
-        
-        // Find and REMOVE any standalone "Profile" link
-        const profileLinks = nav.querySelectorAll('a[href="profile.html"]');
-        profileLinks.forEach(link => {
-            link.remove();
-        });
-        
-        // Create user dropdown
-        const userContainer = document.createElement('div');
-        userContainer.className = 'user-dropdown-container';
-        userContainer.style.cssText = `
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-        `;
-        
-        userContainer.innerHTML = `
-            <div class="user-trigger" style="
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 8px 18px;
-                background: linear-gradient(135deg, #008000, #006600);
-                color: #fff;
-                border-radius: 50px;
-                font-weight: 600;
-                font-size: 14px;
-                transition: all 0.3s ease;
-                cursor: pointer;
-                border: 2px solid #ffd700;
-                box-shadow: 0 2px 10px rgba(0,128,0,0.3);
-            ">
-                <span style="font-size: 16px;">👤</span>
-                <span class="user-name">${user.name}</span>
-                <span style="font-size: 12px; transition: transform 0.3s ease;">✨</span>
-            </div>
-            <div class="user-dropdown" style="
-                display: none;
-                position: absolute;
-                right: 0;
-                top: 115%;
-                background: #fff;
-                border-radius: 12px;
-                box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-                min-width: 220px;
-                border: 1px solid #e0e0e0;
-                overflow: hidden;
-                z-index: 1000;
-                animation: dropdownFade 0.3s ease;
-            ">
-                <div style="
-                    padding: 16px 20px;
-                    border-bottom: 1px solid #f0f0f0;
-                    background: linear-gradient(135deg, #f8fff8, #e8f5e9);
-                ">
-                    <div style="font-weight: 700;color: #1a1a2e;font-size: 16px;">${user.name}</div>
-                    <div style="font-size: 12px;color: #888;margin-top: 2px;">${user.email}</div>
-                </div>
-                <a href="profile.html" style="
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 20px;
-                    color: #333;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
-                    border-bottom: 1px solid #f5f5f5;
-                    font-weight: 500;
-                " onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background=''">
-                    <span style="font-size: 18px;">👤</span> My Profile
-                </a>
-                <a href="orders.html" style="
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 20px;
-                    color: #333;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
-                    border-bottom: 1px solid #f5f5f5;
-                    font-weight: 500;
-                " onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background=''">
-                    <span style="font-size: 18px;">📦</span> My Orders
-                </a>
-                <a href="wishlist.html" style="
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 20px;
-                    color: #333;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
-                    border-bottom: 1px solid #f5f5f5;
-                    font-weight: 500;
-                " onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background=''">
-                    <span style="font-size: 18px;">❤️</span> My Wishlist
-                </a>
-                <a href="#" onclick="logoutUser(); return false;" style="
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    padding: 12px 20px;
-                    color: #d9534f;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
-                    font-weight: 600;
-                    border-top: 1px solid #f5f5f5;
-                " onmouseover="this.style.background='#fff5f5'" onmouseout="this.style.background=''">
-                    <span style="font-size: 18px;">🚪</span> Logout
-                </a>
-            </div>
-        `;
-        
-        // Add dropdown animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes dropdownFade {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px) scale(0.95);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                }
-            }
-            .user-trigger:hover {
-                transform: scale(1.03);
-                box-shadow: 0 4px 15px rgba(0,128,0,0.4);
-            }
-            .user-dropdown a:hover {
-                text-decoration: none !important;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Insert dropdown BEFORE the Sign In link (or at the end)
-        if (signInLink) {
-            nav.insertBefore(userContainer, signInLink);
-        } else {
-            nav.appendChild(userContainer);
-        }
-        
-        // Toggle dropdown on click
-        const trigger = userContainer.querySelector('.user-trigger');
-        const dropdown = userContainer.querySelector('.user-dropdown');
-        const arrow = trigger.querySelector('span:last-child');
-        
-        trigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isVisible = dropdown.style.display === 'block';
-            dropdown.style.display = isVisible ? 'none' : 'block';
-            arrow.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!userContainer.contains(e.target)) {
-                dropdown.style.display = 'none';
-                arrow.style.transform = 'rotate(0deg)';
-            }
-        });
-        
-    } else {
-        // User is NOT logged in - show Sign In link
-        const nav = document.querySelector('.nav');
-        if (nav) {
-            // Remove any existing dropdown
-            const existingDropdown = document.querySelector('.user-dropdown-container');
-            if (existingDropdown) {
-                existingDropdown.remove();
-            }
-            
-            // Show Sign In link
-            const signInLink = nav.querySelector('.nav-login, a[href="login.html"]');
-            if (signInLink) {
-                signInLink.style.display = 'inline-block';
-            }
-        }
+    if (signInLink) signInLink.style.display = '';
+
+    const savedUser = localStorage.getItem('merkatoUser');
+    if (!savedUser) return;
+
+    let user;
+    try {
+        user = JSON.parse(savedUser);
+    } catch (error) {
+        localStorage.removeItem('merkatoUser');
+        return;
     }
+
+    currentUser = user;
+    if (signInLink) signInLink.style.display = 'none';
+
+    let host = document.getElementById('profileContainer');
+    if (!host) {
+        host = document.createElement('div');
+        host.id = 'profileContainer';
+    }
+    if (host.parentElement !== document.body) {
+        document.body.appendChild(host);
+    }
+
+    const safeName = escapeMarkup(user.name || 'My account');
+    const safeEmail = escapeMarkup(user.email || '');
+    const userContainer = document.createElement('div');
+    userContainer.className = 'user-dropdown-container';
+    userContainer.innerHTML = `
+        <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userMenu">
+            <span class="user-avatar" aria-hidden="true">👤</span>
+            <span class="user-name">${safeName}</span>
+            <span class="user-chevron" aria-hidden="true">✨</span>
+        </button>
+        <div class="user-dropdown" id="userMenu" role="menu">
+            <div class="dropdown-header">
+                <div class="name">${safeName}</div>
+                <div class="email">${safeEmail}</div>
+            </div>
+            <a href="profile.html" role="menuitem"><span aria-hidden="true">👤</span> My Profile</a>
+            <a href="orders.html" role="menuitem"><span aria-hidden="true">📦</span> My Orders</a>
+            <button class="logout-link" type="button" role="menuitem"><span aria-hidden="true">🚪</span> Logout</button>
+        </div>`;
+    host.appendChild(userContainer);
+
+    const trigger = userContainer.querySelector('.user-trigger');
+    const dropdown = userContainer.querySelector('.user-dropdown');
+    const logout = userContainer.querySelector('.logout-link');
+
+    trigger.addEventListener('click', event => {
+        event.stopPropagation();
+        const isOpen = dropdown.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', String(isOpen));
+    });
+    logout.addEventListener('click', logoutUser);
+    document.addEventListener('click', event => {
+        if (!userContainer.contains(event.target)) {
+            dropdown.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+}
+
+function escapeMarkup(value) {
+    return String(value || '').replace(/[&<>'"]/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[character]));
 }
 
 // ========================================
@@ -376,15 +239,6 @@ function logoutUser() {
         
         showNotification('👋 You have been logged out successfully!');
         
-        // Show Sign In link again
-        const nav = document.querySelector('.nav');
-        if (nav) {
-            const signInLink = nav.querySelector('.nav-login, a[href="login.html"]');
-            if (signInLink) {
-                signInLink.style.display = 'inline-block';
-            }
-        }
-
         setTimeout(() => {
             window.location.reload();
         }, 1000);
@@ -402,11 +256,9 @@ function loadOrders() {
         return;
     }
     
-    // Get orders from localStorage or create sample
     let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     
     if (orders.length === 0) {
-        // Sample orders for demo
         orders = [
             {
                 id: 'MER-2026-001',
@@ -454,7 +306,7 @@ function displayOrders(orders) {
     }
     
     let html = '';
-    orders.forEach((order, index) => {
+    orders.forEach((order) => {
         const statusColor = order.status === 'Delivered' ? '#008000' : 
                            order.status === 'Processing' ? '#ffa500' : 
                            order.status === 'Shipped' ? '#0066cc' : '#d9534f';
@@ -534,41 +386,18 @@ function displayOrders(orders) {
 }
 
 // ========================================
-// LOGOUT FUNCTION
-// ========================================
-
-function logoutUser() {
-    if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('merkatoUser');
-        localStorage.removeItem('merkatoUserData');
-        currentUser = null;
-        sessionStorage.removeItem('welcomeShown');
-        hasShownWelcome = false;
-        
-        showNotification('👋 You have been logged out successfully!');
-        
-        // Reload page to update UI
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-    }
-}
-
-// ========================================
 // PROFILE FUNCTIONS
 // ========================================
 
 function loadUserProfile() {
     const userData = localStorage.getItem('merkatoUser');
     if (!userData) {
-        // Redirect to login if not logged in
         window.location.href = 'login.html';
         return;
     }
     
     const user = JSON.parse(userData);
     
-    // Fill profile fields
     const nameInput = document.getElementById('profile-name');
     const emailInput = document.getElementById('profile-email');
     const phoneInput = document.getElementById('profile-phone');
@@ -640,7 +469,6 @@ function checkUserOnLoad() {
             }
         }
     } else {
-        // If on profile page and not logged in, redirect
         if (window.location.pathname.includes('profile.html')) {
             window.location.href = 'login.html';
         }
@@ -696,7 +524,7 @@ function showWelcomeBack(userName) {
 }
 
 // ========================================
-// CART SYSTEM (Keep all existing cart code)
+// CART SYSTEM
 // ========================================
 
 let cart = [];
@@ -941,6 +769,10 @@ function applyPromo() {
     }
 }
 
+// ========================================
+// NOTIFICATION SYSTEM
+// ========================================
+
 function showNotification(message) {
     let notification = document.querySelector('.notification');
     
@@ -996,181 +828,9 @@ function showNotification(message) {
     }, 3000);
 }
 
-function searchProducts() {
-    const input = document.querySelector('.search-form input[type="search"]');
-    if (!input) return;
-    
-    const filter = input.value.toUpperCase().trim();
-    const productCards = document.querySelectorAll('.product-card');
-    
-    if (productCards.length === 0) return;
-    
-    let found = 0;
-    
-    productCards.forEach(card => {
-        const title = card.querySelector('h3, h4');
-        const aisle = card.querySelector('.aisle, .aisle-tag');
-        let match = false;
-        
-        if (title) {
-            const text = title.textContent.toUpperCase();
-            if (text.includes(filter)) match = true;
-        }
-        
-        if (aisle && !match) {
-            const text = aisle.textContent.toUpperCase();
-            if (text.includes(filter)) match = true;
-        }
-        
-        if (filter === '') {
-            card.style.display = '';
-            found++;
-        } else if (match) {
-            card.style.display = '';
-            found++;
-        } else {
-            card.style.display = 'none';
-        }
-    });
-    
-    let noResults = document.querySelector('.no-results');
-    if (found === 0 && filter !== '') {
-        if (!noResults) {
-            noResults = document.createElement('div');
-            noResults.className = 'no-results';
-            noResults.style.cssText = 'text-align:center;padding:40px;color:#888;grid-column:1/-1;';
-            noResults.innerHTML = '🔍 No products found for "<strong>' + input.value + '</strong>"';
-            const grid = document.querySelector('.product-grid');
-            if (grid) grid.appendChild(noResults);
-        }
-    } else if (noResults) {
-        noResults.remove();
-    }
-}
-
-function initAddToCartButtons() {
-    console.log('Initializing Add to Cart buttons...');
-    
-    const buttons = document.querySelectorAll('.add-to-cart');
-    console.log('Found', buttons.length, 'add to cart buttons');
-    
-    buttons.forEach((button) => {
-        const newButton = button.cloneNode(true);
-        button.parentNode.replaceChild(newButton, button);
-        
-        newButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const productId = this.dataset.productId;
-            const productName = this.dataset.productName;
-            const productPrice = this.dataset.productPrice;
-            const productImage = this.dataset.productImage || '';
-            
-            console.log('Button clicked:', productId, productName, productPrice);
-            
-            if (productId && productName && productPrice) {
-                addToCart(productId, productName, productPrice, productImage);
-            } else {
-                console.error('Missing data attributes on button:', this);
-                showNotification('⚠️ Error adding item to cart');
-            }
-        });
-    });
-}
-
 // ========================================
-// BACK TO TOP
+// SEARCH FUNCTION
 // ========================================
-
-document.querySelectorAll('.back-to-top').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-});
-
-// ========================================
-// SEARCH + FLOATING ACCOUNT CONTROL
-// ========================================
-function escapeMarkup(value) {
-    return String(value || '').replace(/[&<>'"]/g, character => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-    }[character]));
-}
-
-function updateUserDisplay() {
-    const nav = document.querySelector('.nav');
-    const signInLink = nav ? nav.querySelector('.nav-login, a[href="login.html"]') : null;
-    const previousDisplay = document.querySelector('.user-dropdown-container');
-    if (previousDisplay) previousDisplay.remove();
-
-    if (signInLink) signInLink.style.display = '';
-
-    const savedUser = localStorage.getItem('merkatoUser');
-    if (!savedUser) return;
-
-    let user;
-    try {
-        user = JSON.parse(savedUser);
-    } catch (error) {
-        localStorage.removeItem('merkatoUser');
-        return;
-    }
-
-    currentUser = user;
-    if (signInLink) signInLink.style.display = 'none';
-
-    let host = document.getElementById('profileContainer');
-    if (!host) {
-        host = document.createElement('div');
-        host.id = 'profileContainer';
-    }
-    // A fixed element inside the blurred header is positioned relative to that header
-    // in some browsers. Keeping this host at the page root makes it viewport-fixed.
-    if (host.parentElement !== document.body) {
-        document.body.appendChild(host);
-    }
-
-    const safeName = escapeMarkup(user.name || 'My account');
-    const safeEmail = escapeMarkup(user.email || '');
-    const userContainer = document.createElement('div');
-    userContainer.className = 'user-dropdown-container';
-    userContainer.innerHTML = `
-        <button class="user-trigger" type="button" aria-expanded="false" aria-controls="userMenu">
-            <span class="user-avatar" aria-hidden="true">👤</span>
-            <span class="user-name">${safeName}</span>
-            <span class="user-chevron" aria-hidden="true">✨</span>
-        </button>
-        <div class="user-dropdown" id="userMenu" role="menu">
-            <div class="dropdown-header">
-                <div class="name">${safeName}</div>
-                <div class="email">${safeEmail}</div>
-            </div>
-            <a href="profile.html" role="menuitem"><span aria-hidden="true">👤</span> My Profile</a>
-            <button class="logout-link" type="button" role="menuitem"><span aria-hidden="true">↗</span> Log out</button>
-        </div>`;
-    host.appendChild(userContainer);
-
-    const trigger = userContainer.querySelector('.user-trigger');
-    const dropdown = userContainer.querySelector('.user-dropdown');
-    const logout = userContainer.querySelector('.logout-link');
-
-    trigger.addEventListener('click', event => {
-        event.stopPropagation();
-        const isOpen = dropdown.classList.toggle('is-open');
-        trigger.setAttribute('aria-expanded', String(isOpen));
-    });
-    logout.addEventListener('click', logoutUser);
-    document.addEventListener('click', event => {
-        if (!userContainer.contains(event.target)) {
-            dropdown.classList.remove('is-open');
-            trigger.setAttribute('aria-expanded', 'false');
-        }
-    });
-}
 
 function searchProducts(searchTerm) {
     const input = document.querySelector('.search-form input[type="search"]');
@@ -1246,6 +906,341 @@ function initialiseSearch() {
     }
 }
 
+function initAddToCartButtons() {
+    console.log('Initializing Add to Cart buttons...');
+    
+    const buttons = document.querySelectorAll('.add-to-cart');
+    console.log('Found', buttons.length, 'add to cart buttons');
+    
+    buttons.forEach((button) => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        newButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productPrice = this.dataset.productPrice;
+            const productImage = this.dataset.productImage || '';
+            
+            console.log('Button clicked:', productId, productName, productPrice);
+            
+            if (productId && productName && productPrice) {
+                addToCart(productId, productName, productPrice, productImage);
+            } else {
+                console.error('Missing data attributes on button:', this);
+                showNotification('⚠️ Error adding item to cart');
+            }
+        });
+    });
+}
+
+// ========================================
+// BACK TO TOP
+// ========================================
+
+document.querySelectorAll('.back-to-top').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
+
+// ========================================
+// PRODUCT REVIEWS & RATINGS SYSTEM (FIXED)
+// ========================================
+
+let reviews = {};
+let selectedRatings = {};
+
+function loadReviews() {
+    const savedReviews = localStorage.getItem('merkatoReviews');
+    if (savedReviews) {
+        reviews = JSON.parse(savedReviews);
+    } else {
+        reviews = {
+            'buna': [
+                {
+                    id: 'r1',
+                    userName: 'Abebe Bikila',
+                    rating: 5,
+                    comment: 'Excellent coffee! Best Yirgacheffe I\'ve ever had. Rich flavor and amazing aroma.',
+                    date: 'July 20, 2026',
+                    verified: true,
+                    helpful: 12
+                },
+                {
+                    id: 'r2',
+                    userName: 'Tigist Worku',
+                    rating: 4,
+                    comment: 'Very good quality coffee. Fresh and aromatic. Will buy again!',
+                    date: 'July 25, 2026',
+                    verified: true,
+                    helpful: 8
+                }
+            ],
+            'mitad': [
+                {
+                    id: 'r3',
+                    userName: 'Dawit Hailu',
+                    rating: 5,
+                    comment: 'This electric mitad is a game changer! Perfect injera every time.',
+                    date: 'July 18, 2026',
+                    verified: true,
+                    helpful: 15
+                }
+            ],
+            'kemis': [
+                {
+                    id: 'r4',
+                    userName: 'Meron Tekle',
+                    rating: 5,
+                    comment: 'Beautiful traditional dress! The embroidery is stunning. Exactly as pictured.',
+                    date: 'July 22, 2026',
+                    verified: true,
+                    helpful: 6
+                }
+            ]
+        };
+        localStorage.setItem('merkatoReviews', JSON.stringify(reviews));
+    }
+    return reviews;
+}
+
+function saveReviews() {
+    localStorage.setItem('merkatoReviews', JSON.stringify(reviews));
+}
+
+function addReview(productId, userName, rating, comment) {
+    if (!reviews[productId]) {
+        reviews[productId] = [];
+    }
+    
+    const newReview = {
+        id: 'r' + Date.now(),
+        userName: userName || 'Anonymous',
+        rating: parseInt(rating),
+        comment: comment.trim(),
+        date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        verified: true,
+        helpful: 0
+    };
+    
+    reviews[productId].push(newReview);
+    saveReviews();
+    displayReviews(productId);
+    updateAverageRating(productId);
+    
+    showNotification('✅ Your review has been posted!');
+    return newReview;
+}
+
+function getAverageRating(productId) {
+    if (!reviews[productId] || reviews[productId].length === 0) {
+        return 0;
+    }
+    const total = reviews[productId].reduce((sum, review) => sum + review.rating, 0);
+    return (total / reviews[productId].length);
+}
+
+function getReviewCount(productId) {
+    if (!reviews[productId]) return 0;
+    return reviews[productId].length;
+}
+
+function updateAverageRating(productId) {
+    const avg = getAverageRating(productId);
+    const count = getReviewCount(productId);
+    
+    const ratingContainer = document.querySelector(`.product-rating[data-product-id="${productId}"]`);
+    if (ratingContainer) {
+        const stars = ratingContainer.querySelector('.stars');
+        const avgDisplay = ratingContainer.querySelector('.avg-rating');
+        const countDisplay = ratingContainer.querySelector('.review-count');
+        
+        if (stars) {
+            stars.innerHTML = renderStars(avg);
+        }
+        if (avgDisplay) {
+            avgDisplay.textContent = avg.toFixed(1);
+        }
+        if (countDisplay) {
+            countDisplay.textContent = count;
+        }
+    }
+}
+
+function renderStars(rating) {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStar;
+    
+    let starsHtml = '';
+    for (let i = 0; i < fullStars; i++) {
+        starsHtml += '⭐';
+    }
+    if (halfStar) {
+        starsHtml += '⭐';
+    }
+    for (let i = 0; i < emptyStars; i++) {
+        starsHtml += '☆';
+    }
+    return starsHtml;
+}
+
+function displayReviews(productId) {
+    const container = document.querySelector(`.reviews-container[data-product-id="${productId}"]`);
+    if (!container) return;
+    
+    const productReviews = reviews[productId] || [];
+    const total = productReviews.length;
+    
+    if (total === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:30px;color:#888;">
+                <div style="font-size:40px;margin-bottom:10px;">📝</div>
+                <p>No reviews yet. Be the first to review this product!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="margin-bottom:15px;font-size:14px;color:#666;">
+            <strong>${total}</strong> ${total === 1 ? 'review' : 'reviews'}
+        </div>
+    `;
+    
+    productReviews.forEach((review, index) => {
+        html += `
+            <div style="
+                background: ${index % 2 === 0 ? '#f8f9fa' : '#fff'};
+                padding: 16px 20px;
+                border-radius: 8px;
+                margin-bottom: 12px;
+                border: 1px solid #f0f0f0;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.borderColor='#008000'" onmouseout="this.style.borderColor='#f0f0f0'">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-weight:600;color:#1a1a2e;">${review.userName}</span>
+                            ${review.verified ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 8px;border-radius:12px;">✓ Verified</span>' : ''}
+                        </div>
+                        <div style="font-size:13px;color:#888;margin-top:2px;">
+                            ${review.date}
+                        </div>
+                    </div>
+                    <div style="font-size:18px;">
+                        ${'⭐'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                    </div>
+                </div>
+                <div style="margin-top:8px;color:#444;line-height:1.6;">
+                    ${review.comment}
+                </div>
+                ${review.helpful > 0 ? `
+                    <div style="margin-top:8px;font-size:12px;color:#888;">
+                        👍 ${review.helpful} people found this helpful
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// ===== FIXED STAR RATING FUNCTIONS =====
+
+function highlightStars(productId, count) {
+    for (let i = 1; i <= 5; i++) {
+        const star = document.querySelector(`.star-${i}-${productId}`);
+        if (star) {
+            if (i <= count) {
+                star.style.color = '#ffd700';
+                star.textContent = '⭐';
+            } else {
+                star.style.color = '#ddd';
+                star.textContent = '☆';
+            }
+        }
+    }
+}
+
+function resetStars(productId) {
+    const selected = selectedRatings[productId] || 0;
+    for (let i = 1; i <= 5; i++) {
+        const star = document.querySelector(`.star-${i}-${productId}`);
+        if (star) {
+            if (i <= selected) {
+                star.style.color = '#ffd700';
+                star.textContent = '⭐';
+            } else {
+                star.style.color = '#ddd';
+                star.textContent = '☆';
+            }
+        }
+    }
+}
+
+function setRating(productId, count) {
+    selectedRatings[productId] = count;
+    const ratingInput = document.getElementById(`review-rating-${productId}`);
+    if (ratingInput) {
+        ratingInput.value = count;
+    }
+    highlightStars(productId, count);
+}
+
+function submitReview(productId) {
+    const ratingInput = document.getElementById(`review-rating-${productId}`);
+    const commentInput = document.getElementById(`review-comment-${productId}`);
+    
+    if (!ratingInput || !commentInput) {
+        showNotification('⚠️ Review form not found');
+        return;
+    }
+    
+    const rating = parseInt(ratingInput.value);
+    const comment = commentInput.value.trim();
+    
+    if (!rating || rating === 0) {
+        showNotification('⚠️ Please select a star rating');
+        return;
+    }
+    
+    if (!comment) {
+        showNotification('⚠️ Please write a review');
+        return;
+    }
+    
+    let userName = 'Anonymous';
+    const userData = localStorage.getItem('merkatoUser');
+    if (userData) {
+        const user = JSON.parse(userData);
+        userName = user.name || 'Anonymous';
+    }
+    
+    addReview(productId, userName, rating, comment);
+    
+    // Reset form
+    ratingInput.value = 0;
+    commentInput.value = '';
+    selectedRatings[productId] = 0;
+    resetStars(productId);
+    
+    displayReviews(productId);
+    updateAverageRating(productId);
+}
+
 // ========================================
 // DOM READY - Initialize Everything
 // ========================================
@@ -1256,12 +1251,25 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCart();
     checkUserOnLoad();
     
-    // Load profile data if on profile page
+    // ===== LOAD REVIEWS =====
+    loadReviews();
+    
+    // ===== DISPLAY REVIEWS ON PRODUCT DETAIL PAGE =====
+    if (window.location.pathname.includes('product-detail.html')) {
+        const productSections = document.querySelectorAll('section[id]');
+        productSections.forEach(section => {
+            const productId = section.id;
+            if (productId) {
+                displayReviews(productId);
+                updateAverageRating(productId);
+            }
+        });
+    }
+
     if (window.location.pathname.includes('profile.html')) {
         loadUserProfile();
     }
-    
-    // Handle profile form submission
+
     const profileForm = document.getElementById('profileForm');
     if (profileForm) {
         profileForm.addEventListener('submit', function(e) {
@@ -1269,15 +1277,14 @@ document.addEventListener('DOMContentLoaded', function() {
             saveUserProfile();
         });
     }
-    
+
     if (document.querySelector('.cart-items')) {
         displayCartItems();
     }
-    
+
     initAddToCartButtons();
-    
     initialiseSearch();
-    
+
     const loginForm = document.querySelector('form[action="index.html"]');
     if (loginForm && window.location.pathname.includes('login.html')) {
         loginForm.addEventListener('submit', function(e) {

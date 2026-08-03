@@ -19,27 +19,25 @@
     <div class="container">
         <header class="header">
             <div class="header-inner">
-               <a href="index.html" class="logo-wrapper">
-    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
-    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
-</a>
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <!-- Sign In link will be replaced by JavaScript when logged in -->
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
-        <!-- Profile Floating Container -->
-    <div id="profileContainer"></div>
-</header>
+            <div id="profileContainer"></div>
+        </header>
     </div>
 
     <hr class="divider">
@@ -55,7 +53,9 @@
     <main>
         <div class="container">
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 1: BUNA -->
+            <!-- ============================================================ -->
             <section id="buna" data-product-id="1" data-aisle="food" data-price="2500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -63,11 +63,10 @@
                     </div>
                     <div style="flex:1;min-width:200px;">
                         <span class="aisle-badge aisle-food">AISLE 1 | FOOD</span>
-                        <h2 style="margin:10px 0 5px;">Yirgacheffe Buna (የይርጋጨፌ ቡና) - 1kg</h2>
+                        <h2 style="margin:10px 0 5px;">Yirgacheffe Buna - 1kg</h2>
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,500 ETB</div>
                         <p style="color:#555;">Grade-1 sun-dried natural Arabica coffee beans from Southern Ethiopia. Famous for bright floral aroma and citrus finish.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="buna"
@@ -79,11 +78,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - BUNA ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="buna">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-buna" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('buna', 1)" onmouseout="resetStars('buna')" onclick="setRating('buna', 1)">☆</span>
+                                <span class="star-2-buna" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('buna', 2)" onmouseout="resetStars('buna')" onclick="setRating('buna', 2)">☆</span>
+                                <span class="star-3-buna" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('buna', 3)" onmouseout="resetStars('buna')" onclick="setRating('buna', 3)">☆</span>
+                                <span class="star-4-buna" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('buna', 4)" onmouseout="resetStars('buna')" onclick="setRating('buna', 4)">☆</span>
+                                <span class="star-5-buna" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('buna', 5)" onmouseout="resetStars('buna')" onclick="setRating('buna', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-buna" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-buna" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-buna" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('buna')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="buna"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 2: BERBERE -->
+            <!-- ============================================================ -->
             <section id="berbere" data-product-id="2" data-aisle="food" data-price="1750">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -95,7 +139,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">1,750 ETB</div>
                         <p style="color:#555;">Hand-blended chili powder enriched with garlic, ginger, sacred basil, and korerima. Essential for authentic Doro Wat.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="berbere"
@@ -107,11 +150,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - BERBERE ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="berbere">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-berbere" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('berbere', 1)" onmouseout="resetStars('berbere')" onclick="setRating('berbere', 1)">☆</span>
+                                <span class="star-2-berbere" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('berbere', 2)" onmouseout="resetStars('berbere')" onclick="setRating('berbere', 2)">☆</span>
+                                <span class="star-3-berbere" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('berbere', 3)" onmouseout="resetStars('berbere')" onclick="setRating('berbere', 3)">☆</span>
+                                <span class="star-4-berbere" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('berbere', 4)" onmouseout="resetStars('berbere')" onclick="setRating('berbere', 4)">☆</span>
+                                <span class="star-5-berbere" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('berbere', 5)" onmouseout="resetStars('berbere')" onclick="setRating('berbere', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-berbere" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-berbere" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-berbere" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('berbere')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="berbere"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 3: TEFF -->
+            <!-- ============================================================ -->
             <section id="teff" data-product-id="3" data-aisle="food" data-price="4200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -123,7 +211,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">4,200 ETB</div>
                         <p style="color:#555;">Premium grade Magna white teff grain sourced from Ada'a, Bishoftu. Gluten-free and ideal for soft, spongy Injera.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="teff"
@@ -135,11 +222,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - TEFF ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="teff">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-teff" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('teff', 1)" onmouseout="resetStars('teff')" onclick="setRating('teff', 1)">☆</span>
+                                <span class="star-2-teff" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('teff', 2)" onmouseout="resetStars('teff')" onclick="setRating('teff', 2)">☆</span>
+                                <span class="star-3-teff" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('teff', 3)" onmouseout="resetStars('teff')" onclick="setRating('teff', 3)">☆</span>
+                                <span class="star-4-teff" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('teff', 4)" onmouseout="resetStars('teff')" onclick="setRating('teff', 4)">☆</span>
+                                <span class="star-5-teff" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('teff', 5)" onmouseout="resetStars('teff')" onclick="setRating('teff', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-teff" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-teff" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-teff" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('teff')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="teff"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 4: SHIRO -->
+            <!-- ============================================================ -->
             <section id="shiro" data-product-id="4" data-aisle="food" data-price="650">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -151,7 +283,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">650 ETB</div>
                         <p style="color:#555;">Roasted chickpea and split-pea flour spiced with garlic, ginger, and berbere for instant flavorful Shiro Wat.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="shiro"
@@ -163,11 +294,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - SHIRO ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="shiro">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-shiro" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('shiro', 1)" onmouseout="resetStars('shiro')" onclick="setRating('shiro', 1)">☆</span>
+                                <span class="star-2-shiro" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('shiro', 2)" onmouseout="resetStars('shiro')" onclick="setRating('shiro', 2)">☆</span>
+                                <span class="star-3-shiro" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('shiro', 3)" onmouseout="resetStars('shiro')" onclick="setRating('shiro', 3)">☆</span>
+                                <span class="star-4-shiro" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('shiro', 4)" onmouseout="resetStars('shiro')" onclick="setRating('shiro', 4)">☆</span>
+                                <span class="star-5-shiro" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('shiro', 5)" onmouseout="resetStars('shiro')" onclick="setRating('shiro', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-shiro" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-shiro" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-shiro" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('shiro')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="shiro"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 5: KORERIMA -->
+            <!-- ============================================================ -->
             <section id="korerima" data-product-id="5" data-aisle="food" data-price="850">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -179,7 +355,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">850 ETB</div>
                         <p style="color:#555;">Whole dried korerima pods harvested from Southern rainforests. Adds warm herbal notes to coffee and clarified butter.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="korerima"
@@ -191,11 +366,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - KORERIMA ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="korerima">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-korerima" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('korerima', 1)" onmouseout="resetStars('korerima')" onclick="setRating('korerima', 1)">☆</span>
+                                <span class="star-2-korerima" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('korerima', 2)" onmouseout="resetStars('korerima')" onclick="setRating('korerima', 2)">☆</span>
+                                <span class="star-3-korerima" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('korerima', 3)" onmouseout="resetStars('korerima')" onclick="setRating('korerima', 3)">☆</span>
+                                <span class="star-4-korerima" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('korerima', 4)" onmouseout="resetStars('korerima')" onclick="setRating('korerima', 4)">☆</span>
+                                <span class="star-5-korerima" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('korerima', 5)" onmouseout="resetStars('korerima')" onclick="setRating('korerima', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-korerima" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-korerima" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-korerima" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('korerima')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="korerima"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 6: KIBE -->
+            <!-- ============================================================ -->
             <section id="kibe" data-product-id="6" data-aisle="food" data-price="2200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -207,7 +427,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,200 ETB</div>
                         <p style="color:#555;">Clarified butter simmered with koseret, korerima, and fenugreek. Essential for Kitfo and savory stews.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="kibe"
@@ -219,11 +438,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - KIBE ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="kibe">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-kibe" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kibe', 1)" onmouseout="resetStars('kibe')" onclick="setRating('kibe', 1)">☆</span>
+                                <span class="star-2-kibe" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kibe', 2)" onmouseout="resetStars('kibe')" onclick="setRating('kibe', 2)">☆</span>
+                                <span class="star-3-kibe" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kibe', 3)" onmouseout="resetStars('kibe')" onclick="setRating('kibe', 3)">☆</span>
+                                <span class="star-4-kibe" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kibe', 4)" onmouseout="resetStars('kibe')" onclick="setRating('kibe', 4)">☆</span>
+                                <span class="star-5-kibe" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kibe', 5)" onmouseout="resetStars('kibe')" onclick="setRating('kibe', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-kibe" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-kibe" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-kibe" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('kibe')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="kibe"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 7: JEBENA -->
+            <!-- ============================================================ -->
             <section id="jebena" data-product-id="7" data-aisle="home" data-price="850">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -235,7 +499,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">850 ETB</div>
                         <p style="color:#555;">Hand-molded black clay coffee pot crafted in Ethiopian highlands. Holds up to 6 cups of freshly brewed coffee.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="jebena"
@@ -247,11 +510,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - JEBENA ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="jebena">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-jebena" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('jebena', 1)" onmouseout="resetStars('jebena')" onclick="setRating('jebena', 1)">☆</span>
+                                <span class="star-2-jebena" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('jebena', 2)" onmouseout="resetStars('jebena')" onclick="setRating('jebena', 2)">☆</span>
+                                <span class="star-3-jebena" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('jebena', 3)" onmouseout="resetStars('jebena')" onclick="setRating('jebena', 3)">☆</span>
+                                <span class="star-4-jebena" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('jebena', 4)" onmouseout="resetStars('jebena')" onclick="setRating('jebena', 4)">☆</span>
+                                <span class="star-5-jebena" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('jebena', 5)" onmouseout="resetStars('jebena')" onclick="setRating('jebena', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-jebena" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-jebena" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-jebena" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('jebena')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="jebena"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 8: SINI -->
+            <!-- ============================================================ -->
             <section id="sini" data-product-id="8" data-aisle="home" data-price="1200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -263,7 +571,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">1,200 ETB</div>
                         <p style="color:#555;">Traditional handleless ceramic cups decorated with gold and green accents for coffee ceremonies.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="sini"
@@ -275,11 +582,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - SINI ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="sini">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-sini" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('sini', 1)" onmouseout="resetStars('sini')" onclick="setRating('sini', 1)">☆</span>
+                                <span class="star-2-sini" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('sini', 2)" onmouseout="resetStars('sini')" onclick="setRating('sini', 2)">☆</span>
+                                <span class="star-3-sini" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('sini', 3)" onmouseout="resetStars('sini')" onclick="setRating('sini', 3)">☆</span>
+                                <span class="star-4-sini" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('sini', 4)" onmouseout="resetStars('sini')" onclick="setRating('sini', 4)">☆</span>
+                                <span class="star-5-sini" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('sini', 5)" onmouseout="resetStars('sini')" onclick="setRating('sini', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-sini" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-sini" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-sini" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('sini')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="sini"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 9: REKEBOT -->
+            <!-- ============================================================ -->
             <section id="rekebot" data-product-id="9" data-aisle="home" data-price="6500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -291,7 +643,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">6,500 ETB</div>
                         <p style="color:#555;">Carved wooden coffee ceremony tray table with storage drawer for coffee beans, incense, and cups.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="rekebot"
@@ -303,11 +654,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - REKEBOT ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="rekebot">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-rekebot" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('rekebot', 1)" onmouseout="resetStars('rekebot')" onclick="setRating('rekebot', 1)">☆</span>
+                                <span class="star-2-rekebot" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('rekebot', 2)" onmouseout="resetStars('rekebot')" onclick="setRating('rekebot', 2)">☆</span>
+                                <span class="star-3-rekebot" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('rekebot', 3)" onmouseout="resetStars('rekebot')" onclick="setRating('rekebot', 3)">☆</span>
+                                <span class="star-4-rekebot" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('rekebot', 4)" onmouseout="resetStars('rekebot')" onclick="setRating('rekebot', 4)">☆</span>
+                                <span class="star-5-rekebot" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('rekebot', 5)" onmouseout="resetStars('rekebot')" onclick="setRating('rekebot', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-rekebot" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-rekebot" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-rekebot" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('rekebot')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="rekebot"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 10: KEMIS -->
+            <!-- ============================================================ -->
             <section id="kemis" data-product-id="10" data-aisle="apparel" data-price="12000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -319,7 +715,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">12,000 ETB</div>
                         <p style="color:#555;">Traditional organic cotton woven dress featuring intricate hand-embroidered border patterns (Tilet).</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="kemis"
@@ -331,11 +726,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - KEMIS ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="kemis">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-kemis" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kemis', 1)" onmouseout="resetStars('kemis')" onclick="setRating('kemis', 1)">☆</span>
+                                <span class="star-2-kemis" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kemis', 2)" onmouseout="resetStars('kemis')" onclick="setRating('kemis', 2)">☆</span>
+                                <span class="star-3-kemis" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kemis', 3)" onmouseout="resetStars('kemis')" onclick="setRating('kemis', 3)">☆</span>
+                                <span class="star-4-kemis" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kemis', 4)" onmouseout="resetStars('kemis')" onclick="setRating('kemis', 4)">☆</span>
+                                <span class="star-5-kemis" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('kemis', 5)" onmouseout="resetStars('kemis')" onclick="setRating('kemis', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-kemis" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-kemis" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-kemis" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('kemis')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="kemis"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 11: NETELA -->
+            <!-- ============================================================ -->
             <section id="netela" data-product-id="11" data-aisle="apparel" data-price="2800">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -347,7 +787,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">2,800 ETB</div>
                         <p style="color:#555;">Light two-layered handloom cotton scarf with elegant matching colorful border artwork.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="netela"
@@ -359,11 +798,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - NETELA ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="netela">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-netela" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('netela', 1)" onmouseout="resetStars('netela')" onclick="setRating('netela', 1)">☆</span>
+                                <span class="star-2-netela" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('netela', 2)" onmouseout="resetStars('netela')" onclick="setRating('netela', 2)">☆</span>
+                                <span class="star-3-netela" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('netela', 3)" onmouseout="resetStars('netela')" onclick="setRating('netela', 3)">☆</span>
+                                <span class="star-4-netela" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('netela', 4)" onmouseout="resetStars('netela')" onclick="setRating('netela', 4)">☆</span>
+                                <span class="star-5-netela" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('netela', 5)" onmouseout="resetStars('netela')" onclick="setRating('netela', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-netela" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-netela" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-netela" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('netela')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="netela"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 12: GABI -->
+            <!-- ============================================================ -->
             <section id="gabi" data-product-id="12" data-aisle="apparel" data-price="4500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -375,7 +859,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">4,500 ETB</div>
                         <p style="color:#555;">Warm hand-spun 4-layer cotton body wrap designed for cold highland evenings.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="gabi"
@@ -387,11 +870,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - GABI ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="gabi">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-gabi" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('gabi', 1)" onmouseout="resetStars('gabi')" onclick="setRating('gabi', 1)">☆</span>
+                                <span class="star-2-gabi" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('gabi', 2)" onmouseout="resetStars('gabi')" onclick="setRating('gabi', 2)">☆</span>
+                                <span class="star-3-gabi" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('gabi', 3)" onmouseout="resetStars('gabi')" onclick="setRating('gabi', 3)">☆</span>
+                                <span class="star-4-gabi" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('gabi', 4)" onmouseout="resetStars('gabi')" onclick="setRating('gabi', 4)">☆</span>
+                                <span class="star-5-gabi" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('gabi', 5)" onmouseout="resetStars('gabi')" onclick="setRating('gabi', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-gabi" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-gabi" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-gabi" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('gabi')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="gabi"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 13: MESOB -->
+            <!-- ============================================================ -->
             <section id="mesob" data-product-id="13" data-aisle="crafts" data-price="8500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -403,7 +931,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">8,500 ETB</div>
                         <p style="color:#555;">Iconic colorful woven straw basket designed for serving communal Injera meals in traditional dining settings.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="mesob"
@@ -415,11 +942,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - MESOB ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="mesob">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-mesob" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mesob', 1)" onmouseout="resetStars('mesob')" onclick="setRating('mesob', 1)">☆</span>
+                                <span class="star-2-mesob" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mesob', 2)" onmouseout="resetStars('mesob')" onclick="setRating('mesob', 2)">☆</span>
+                                <span class="star-3-mesob" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mesob', 3)" onmouseout="resetStars('mesob')" onclick="setRating('mesob', 3)">☆</span>
+                                <span class="star-4-mesob" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mesob', 4)" onmouseout="resetStars('mesob')" onclick="setRating('mesob', 4)">☆</span>
+                                <span class="star-5-mesob" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mesob', 5)" onmouseout="resetStars('mesob')" onclick="setRating('mesob', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-mesob" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-mesob" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-mesob" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('mesob')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="mesob"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 14: BARCHUMA -->
+            <!-- ============================================================ -->
             <section id="barchuma" data-product-id="14" data-aisle="crafts" data-price="3200">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -431,7 +1003,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">3,200 ETB</div>
                         <p style="color:#555;">Solid three-legged carved wooden stool used during traditional coffee preparation ceremonies.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="barchuma"
@@ -443,11 +1014,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - BARCHUMA ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="barchuma">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-barchuma" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('barchuma', 1)" onmouseout="resetStars('barchuma')" onclick="setRating('barchuma', 1)">☆</span>
+                                <span class="star-2-barchuma" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('barchuma', 2)" onmouseout="resetStars('barchuma')" onclick="setRating('barchuma', 2)">☆</span>
+                                <span class="star-3-barchuma" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('barchuma', 3)" onmouseout="resetStars('barchuma')" onclick="setRating('barchuma', 3)">☆</span>
+                                <span class="star-4-barchuma" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('barchuma', 4)" onmouseout="resetStars('barchuma')" onclick="setRating('barchuma', 4)">☆</span>
+                                <span class="star-5-barchuma" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('barchuma', 5)" onmouseout="resetStars('barchuma')" onclick="setRating('barchuma', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-barchuma" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-barchuma" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-barchuma" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('barchuma')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="barchuma"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 15: MITAD -->
+            <!-- ============================================================ -->
             <section id="mitad" data-product-id="15" data-aisle="electronics" data-price="18500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -459,7 +1075,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">18,500 ETB</div>
                         <p style="color:#555;">4500W energy-saving electric clay stove engineered for rapid, even Injera baking with temperature regulator.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="mitad"
@@ -471,11 +1086,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - MITAD ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="mitad">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-mitad" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mitad', 1)" onmouseout="resetStars('mitad')" onclick="setRating('mitad', 1)">☆</span>
+                                <span class="star-2-mitad" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mitad', 2)" onmouseout="resetStars('mitad')" onclick="setRating('mitad', 2)">☆</span>
+                                <span class="star-3-mitad" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mitad', 3)" onmouseout="resetStars('mitad')" onclick="setRating('mitad', 3)">☆</span>
+                                <span class="star-4-mitad" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mitad', 4)" onmouseout="resetStars('mitad')" onclick="setRating('mitad', 4)">☆</span>
+                                <span class="star-5-mitad" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('mitad', 5)" onmouseout="resetStars('mitad')" onclick="setRating('mitad', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-mitad" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-mitad" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-mitad" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('mitad')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="mitad"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 16: TV -->
+            <!-- ============================================================ -->
             <section id="tv" data-product-id="16" data-aisle="electronics" data-price="68000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -487,7 +1147,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">68,000 ETB</div>
                         <p style="color:#555;">High-resolution 4K display with built-in Wi-Fi, YouTube, Netflix, and dual HDMI/USB connectivity.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="tv"
@@ -499,11 +1158,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - TV ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="tv">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-tv" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('tv', 1)" onmouseout="resetStars('tv')" onclick="setRating('tv', 1)">☆</span>
+                                <span class="star-2-tv" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('tv', 2)" onmouseout="resetStars('tv')" onclick="setRating('tv', 2)">☆</span>
+                                <span class="star-3-tv" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('tv', 3)" onmouseout="resetStars('tv')" onclick="setRating('tv', 3)">☆</span>
+                                <span class="star-4-tv" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('tv', 4)" onmouseout="resetStars('tv')" onclick="setRating('tv', 4)">☆</span>
+                                <span class="star-5-tv" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('tv', 5)" onmouseout="resetStars('tv')" onclick="setRating('tv', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-tv" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-tv" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-tv" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('tv')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="tv"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 17: SOLAR -->
+            <!-- ============================================================ -->
             <section id="solar" data-product-id="17" data-aisle="electronics" data-price="42000">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -515,7 +1219,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">42,000 ETB</div>
                         <p style="color:#555;">Reliable backup solar power unit with lithium battery, dual AC outlets, and 4 USB phone charging ports.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="solar"
@@ -527,11 +1230,56 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ===== REVIEWS SECTION - SOLAR ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="solar">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-solar" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('solar', 1)" onmouseout="resetStars('solar')" onclick="setRating('solar', 1)">☆</span>
+                                <span class="star-2-solar" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('solar', 2)" onmouseout="resetStars('solar')" onclick="setRating('solar', 2)">☆</span>
+                                <span class="star-3-solar" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('solar', 3)" onmouseout="resetStars('solar')" onclick="setRating('solar', 3)">☆</span>
+                                <span class="star-4-solar" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('solar', 4)" onmouseout="resetStars('solar')" onclick="setRating('solar', 4)">☆</span>
+                                <span class="star-5-solar" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('solar', 5)" onmouseout="resetStars('solar')" onclick="setRating('solar', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-solar" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-solar" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-solar" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('solar')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="solar"></div>
+                    </div>
+                </div>
             </section>
 
             <br>
 
+            <!-- ============================================================ -->
             <!-- PRODUCT 18: PHONE -->
+            <!-- ============================================================ -->
             <section id="phone" data-product-id="18" data-aisle="electronics" data-price="22500">
                 <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                     <div style="flex:0 0 250px;text-align:center;">
@@ -543,7 +1291,6 @@
                         <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">22,500 ETB</div>
                         <p style="color:#555;">Long-battery smartphone optimized for Ethiopian networks, Telebirr payments, and multi-app multitasking.</p>
                         
-                        <!-- ===== ADD TO CART BUTTON ===== -->
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="phone"
@@ -553,6 +1300,49 @@
                                 style="margin-top:15px;padding:12px 30px;font-size:16px;">
                             🛒 Add to Cart
                         </button>
+                    </div>
+                </div>
+
+                <!-- ===== REVIEWS SECTION - PHONE ===== -->
+                <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                    <div class="product-rating" data-product-id="phone">
+                        <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                            <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                            <div>
+                                <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                    <span class="avg-rating">0.0</span> / 5.0
+                                </div>
+                                <div style="font-size:14px;color:#888;">
+                                    <span class="review-count">0</span> reviews
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                        <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                        <div style="margin-bottom:12px;">
+                            <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                            <div style="display:flex;gap:4px;font-size:30px;">
+                                <span class="star-1-phone" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('phone', 1)" onmouseout="resetStars('phone')" onclick="setRating('phone', 1)">☆</span>
+                                <span class="star-2-phone" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('phone', 2)" onmouseout="resetStars('phone')" onclick="setRating('phone', 2)">☆</span>
+                                <span class="star-3-phone" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('phone', 3)" onmouseout="resetStars('phone')" onclick="setRating('phone', 3)">☆</span>
+                                <span class="star-4-phone" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('phone', 4)" onmouseout="resetStars('phone')" onclick="setRating('phone', 4)">☆</span>
+                                <span class="star-5-phone" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('phone', 5)" onmouseout="resetStars('phone')" onclick="setRating('phone', 5)">☆</span>
+                            </div>
+                            <input type="hidden" id="review-rating-phone" value="0">
+                            <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <label for="review-comment-phone" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                            <textarea id="review-comment-phone" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                        </div>
+                        <button onclick="submitReview('phone')" class="btn btn-primary">Submit Review</button>
+                    </div>
+                    
+                    <div style="margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                        <div class="reviews-container" data-product-id="phone"></div>
                     </div>
                 </div>
             </section>
@@ -580,7 +1370,6 @@
 
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
-    <!-- ===== JAVASCRIPT ===== -->
     <script src="script.js"></script>
 
 </body>

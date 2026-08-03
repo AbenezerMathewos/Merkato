@@ -133,7 +133,7 @@ img {
 .logo-wrapper {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0.5px;
 }
 
 .logo-gif {
