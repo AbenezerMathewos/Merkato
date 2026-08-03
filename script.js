@@ -2198,7 +2198,7 @@ function getSubscriberCount() {
 updateSubscriberCount();
 
 // ========================================
-// RETURN SYSTEM
+// RETURN SYSTEM - COMPLETE
 // ========================================
 
 function toggleOtherReason() {
@@ -2212,6 +2212,217 @@ function toggleOtherReason() {
         otherInput.classList.remove('show');
         document.getElementById('other-reason-text').required = false;
     }
+}
+
+function submitReturnRequest(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const orderNumber = document.getElementById('order-number').value.trim();
+    const itemToReturn = document.getElementById('item-return').value;
+    const quantity = document.getElementById('quantity').value;
+    const returnReason = document.getElementById('return-reason').value;
+    const otherReason = document.getElementById('other-reason-text').value.trim();
+    const comments = document.getElementById('comments').value.trim();
+    
+    // Validate
+    if (!orderNumber) {
+        showNotification('⚠️ Please enter your order number');
+        return;
+    }
+    
+    if (!itemToReturn) {
+        showNotification('⚠️ Please select an item to return');
+        return;
+    }
+    
+    if (!returnReason) {
+        showNotification('⚠️ Please select a reason for return');
+        return;
+    }
+    
+    if (returnReason === 'other' && !otherReason) {
+        showNotification('⚠️ Please specify your reason');
+        return;
+    }
+    
+    // Check if item is non-returnable
+    const nonReturnableItems = ['buna', 'berbere', 'teff', 'shiro', 'korerima', 'kibe'];
+    if (nonReturnableItems.includes(itemToReturn)) {
+        showNotification('⚠️ This item is non-returnable (food/perishable items)');
+        return;
+    }
+    
+    // Get item name
+    const itemSelect = document.getElementById('item-return');
+    const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+    
+    // Get reason text
+    const reasonSelect = document.getElementById('return-reason');
+    let reasonText = reasonSelect.options[reasonSelect.selectedIndex].text;
+    if (returnReason === 'other') {
+        reasonText = otherReason;
+    }
+    
+    // Create return request
+    const returnRequest = {
+        id: 'RET-' + Date.now().toString().slice(-8),
+        orderNumber: orderNumber,
+        item: itemName,
+        quantity: parseInt(quantity),
+        reason: reasonText,
+        comments: comments,
+        status: 'Pending',
+        date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        dateSubmitted: new Date().toISOString()
+    };
+    
+    // Save to localStorage
+    let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
+    returns.unshift(returnRequest); // Add to beginning
+    localStorage.setItem('merkatoReturns', JSON.stringify(returns));
+    
+    // Reset form
+    document.getElementById('returnForm').reset();
+    document.getElementById('otherReasonInput').classList.remove('show');
+    
+    // Update returns display
+    loadReturnRequests();
+    
+    // Show creative modal
+    showReturnSuccessModal(returnRequest);
+}
+
+function loadReturnRequests() {
+    const returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
+    const container = document.getElementById('returnRequests');
+    
+    if (!container) return;
+    
+    if (returns.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:30px;color:#888;">
+                <div style="font-size:40px;margin-bottom:10px;">📭</div>
+                <p>No return requests found.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = `
+        <div style="margin-bottom:12px;font-size:14px;color:#666;">
+            <strong>${returns.length}</strong> ${returns.length === 1 ? 'request' : 'requests'} found
+        </div>
+    `;
+    
+    returns.forEach((returnReq) => {
+        const statusColor = returnReq.status === 'Pending' ? '#ffa500' :
+                           returnReq.status === 'Approved' ? '#008000' :
+                           returnReq.status === 'Rejected' ? '#d9534f' : '#888';
+        
+        const statusIcon = returnReq.status === 'Pending' ? '⏳' :
+                          returnReq.status === 'Approved' ? '✅' :
+                          returnReq.status === 'Rejected' ? '❌' : '📋';
+        
+        html += `
+            <div style="
+                background: #fff;
+                border-radius: 10px;
+                border: 1px solid #e0e0e0;
+                padding: 16px 20px;
+                margin-bottom: 12px;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.borderColor='#008000'" onmouseout="this.style.borderColor='#e0e0e0'">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                            <strong style="color:#1a1a2e;font-size:15px;">#${returnReq.id}</strong>
+                            <span style="color:#888;font-size:12px;">${returnReq.date}</span>
+                        </div>
+                        <div style="font-size:13px;color:#444;margin-top:4px;">
+                            <strong>Order:</strong> ${returnReq.orderNumber} &nbsp;|&nbsp;
+                            <strong>Item:</strong> ${returnReq.item} × ${returnReq.quantity}
+                        </div>
+                        <div style="font-size:12px;color:#666;margin-top:2px;">
+                            <strong>Reason:</strong> ${returnReq.reason}
+                        </div>
+                        ${returnReq.comments ? `
+                            <div style="font-size:12px;color:#888;margin-top:2px;">
+                                💬 ${returnReq.comments}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                        <span style="
+                            display:inline-block;
+                            padding:3px 14px;
+                            border-radius:20px;
+                            font-size:12px;
+                            font-weight:600;
+                            background: ${statusColor}20;
+                            color: ${statusColor};
+                            white-space:nowrap;
+                        ">
+                            ${statusIcon} ${returnReq.status}
+                        </span>
+                        <span style="font-size:11px;color:#888;">
+                            ${returnReq.status === 'Pending' ? '⏳ Awaiting review' :
+                              returnReq.status === 'Approved' ? '✅ Approved - Refund processing' :
+                              returnReq.status === 'Rejected' ? '❌ Not approved' : ''}
+                        </span>
+                    </div>
+                </div>
+                <!-- Progress bar for pending -->
+                ${returnReq.status === 'Pending' ? `
+                    <div style="margin-top:10px;">
+                        <div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:2px;">
+                            <span>⏳ Reviewing</span>
+                            <span>⏳ Processing</span>
+                            <span>✅ Refund</span>
+                        </div>
+                        <div style="width:100%;height:4px;background:#f0f0f0;border-radius:4px;overflow:hidden;">
+                            <div style="width:33%;height:100%;background:linear-gradient(90deg,#ffa500,#ffd700);border-radius:4px;animation:pulseBar 1.5s ease-in-out infinite;"></div>
+                        </div>
+                    </div>
+                ` : ''}
+                ${returnReq.status === 'Approved' ? `
+                    <div style="margin-top:8px;font-size:12px;color:#008000;display:flex;align-items:center;gap:6px;">
+                        ✅ Your return has been approved. Refund will be processed within 5-7 business days.
+                    </div>
+                ` : ''}
+                ${returnReq.status === 'Rejected' ? `
+                    <div style="margin-top:8px;font-size:12px;color:#d9534f;display:flex;align-items:center;gap:6px;">
+                        ❌ Your return request was not approved. Please contact support for more information.
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    });
+    
+    // Add summary stats
+    const pending = returns.filter(r => r.status === 'Pending').length;
+    const approved = returns.filter(r => r.status === 'Approved').length;
+    const rejected = returns.filter(r => r.status === 'Rejected').length;
+    
+    html += `
+        <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:15px;padding:12px;background:#f8f9fa;border-radius:8px;">
+            <span style="font-size:13px;color:#888;">
+                ⏳ Pending: <strong style="color:#ffa500;">${pending}</strong>
+            </span>
+            <span style="font-size:13px;color:#888;">
+                ✅ Approved: <strong style="color:#008000;">${approved}</strong>
+            </span>
+            <span style="font-size:13px;color:#888;">
+                ❌ Rejected: <strong style="color:#d9534f;">${rejected}</strong>
+            </span>
+        </div>
+    `;
+    
+    container.innerHTML = html;
 }
 
 function submitReturnRequest(event) {
@@ -2464,5 +2675,23 @@ function closeReturnModal() {
         setTimeout(() => {
             modal.remove();
         }, 300);
+    }
+}
+
+// ========================================
+// ADMIN - RETURN STATUS MANAGEMENT
+// ========================================
+
+function updateReturnStatus(requestId, newStatus) {
+    let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
+    const index = returns.findIndex(r => r.id === requestId);
+    
+    if (index !== -1) {
+        returns[index].status = newStatus;
+        localStorage.setItem('merkatoReturns', JSON.stringify(returns));
+        loadReturnRequests();
+        showNotification(`✅ Return ${requestId} updated to ${newStatus}`);
+    } else {
+        showNotification('❌ Return request not found');
     }
 }

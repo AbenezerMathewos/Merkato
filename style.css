@@ -2672,3 +2672,8 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
         min-width: unset;
     }
 }
+
+@keyframes pulseBar {
+    0%, 100% { width: 33%; }
+    50% { width: 66%; }
+}
