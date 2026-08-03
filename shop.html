@@ -6,7 +6,7 @@
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
     <meta name="author" content="MERKATO INC">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <title>Supermarket Floor — MERKATO</title>
 </head>
@@ -40,6 +40,7 @@
                     <a href="returns.html">Returns</a>
                     <a href="admin.html">Admin</a>
                     <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
                     <a href="login.html" class="nav-login">Sign In</a>
                 </nav>
             </div>
@@ -90,12 +91,22 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#buna">Yirgacheffe Buna (ቡና)</a></h3>
                         <div class="price">2,500 ETB</div>
-                        <!-- ===== RATING DISPLAY ===== -->
                         <div class="product-rating-shop" data-product-id="buna" style="font-size:13px;color:#888;margin:6px 0;">
                             <span class="shop-stars">⭐⭐⭐⭐⭐</span>
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
+                        <!-- ===== WISHLIST BUTTON ===== -->
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="buna"
+                                data-product-name="Yirgacheffe Buna (ቡና)"
+                                data-product-price="2500"
+                                data-product-image="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 2: Berbere -->
@@ -111,6 +122,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#berbere" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="berbere"
+                                data-product-name="Pure Doro Berbere (በርበሬ)"
+                                data-product-price="1750"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 3: Teff -->
@@ -126,6 +147,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="teff"
+                                data-product-name="Magna White Teff (ነጭ ጤፍ)"
+                                data-product-price="4200"
+                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 4: Shiro -->
@@ -141,6 +172,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#shiro" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="shiro"
+                                data-product-name="Miten Shiro Powder (ሚተን ሽሮ)"
+                                data-product-price="650"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 5: Korerima -->
@@ -156,6 +197,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#korerima" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="korerima"
+                                data-product-name="Black Cardamom (ኮረሪማ)"
+                                data-product-price="850"
+                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 6: Kibe -->
@@ -171,6 +222,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#kibe" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="kibe"
+                                data-product-name="Traditional Kibe (የሀገር ቅቤ)"
+                                data-product-price="2200"
+                                data-product-image="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 1 | FOOD"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
                 </div>
             </section>
@@ -197,6 +258,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#jebena" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="jebena"
+                                data-product-name="Clay Jebena (ጀበና)"
+                                data-product-price="850"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 2 | HOME"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 8: Sini -->
@@ -212,6 +283,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#sini" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="sini"
+                                data-product-name="Sini Coffee Cups (ሲኒ)"
+                                data-product-price="1200"
+                                data-product-image="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 2 | HOME"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 9: Rekebot -->
@@ -227,6 +308,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#rekebot" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="rekebot"
+                                data-product-name="Wooden Rekebot Tray (ረከቦት)"
+                                data-product-price="6500"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 2 | HOME"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
                 </div>
             </section>
@@ -253,6 +344,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="kemis"
+                                data-product-name="Habesha Kemis (ሀበሻ ቀሚስ)"
+                                data-product-price="12000"
+                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q"
+                                data-aisle="AISLE 3 | APPAREL"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 11: Netela -->
@@ -268,6 +369,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#netela" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="netela"
+                                data-product-name="Cotton Netela (ነጠላ)"
+                                data-product-price="2800"
+                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 3 | APPAREL"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 12: Gabi -->
@@ -283,6 +394,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#gabi" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="gabi"
+                                data-product-name="Heavy Cotton Gabi (ጋቢ)"
+                                data-product-price="4500"
+                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 3 | APPAREL"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
                 </div>
             </section>
@@ -309,6 +430,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="mesob"
+                                data-product-name="Woven Mesob Basket (መሶብ)"
+                                data-product-price="8500"
+                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM"
+                                data-aisle="AISLE 4 | CRAFTS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 14: Barchuma -->
@@ -324,6 +455,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#barchuma" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="barchuma"
+                                data-product-name="Carved Barchuma Stool (በርጩማ)"
+                                data-product-price="3200"
+                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 4 | CRAFTS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
                 </div>
             </section>
@@ -350,6 +491,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="mitad"
+                                data-product-name="Electric Mitad (ምጣድ)"
+                                data-product-price="18500"
+                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE"
+                                data-aisle="AISLE 5 | ELECTRONICS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 16: TV -->
@@ -365,6 +516,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="tv"
+                                data-product-name="55" 4K Smart TV"
+                                data-product-price="68000"
+                                data-product-image="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 5 | ELECTRONICS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 17: Solar -->
@@ -380,6 +541,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="solar"
+                                data-product-name="Solar Power Station"
+                                data-product-price="42000"
+                                data-product-image="https://images.unsplash.com/photo-1681263576084-e054b2d89903?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                data-aisle="AISLE 5 | ELECTRONICS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
 
                     <!-- Product 18: Phone -->
@@ -395,6 +566,16 @@
                             <span class="shop-review-count">(0 reviews)</span>
                         </div>
                         <a href="product-detail.html#phone" class="btn btn-sm">View &rarr;</a>
+                        <button class="btn btn-sm wishlist-btn" 
+                                data-product-id="phone"
+                                data-product-name="4G Dual-SIM Smartphone"
+                                data-product-price="22500"
+                                data-product-image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80"
+                                data-aisle="AISLE 5 | ELECTRONICS"
+                                onclick="toggleWishlist(this)"
+                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                            🤍 Wishlist
+                        </button>
                     </div>
                 </div>
             </section>
