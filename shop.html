@@ -6,8 +6,8 @@
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
     <meta name="author" content="MERKATO INC">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
-<link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
+    <link rel="stylesheet" href="style.css">
     <title>Supermarket Floor — MERKATO</title>
 </head>
 <body>
@@ -22,31 +22,29 @@
         <header class="header">
             <div class="header-inner">
                 <a href="index.html" class="logo-wrapper">
-    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
-    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
-</a>
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
                 <form class="search-form" action="shop.html">
                     <input type="search" placeholder="Search item or aisle..." required>
                     <button type="submit">Search</button>
                 </form>
 
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <!-- Sign In link will be replaced by JavaScript when logged in -->
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html" class="active">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
-         <!-- Profile Floating Container -->
-    <div id="profileContainer"></div>
-</header>
+            <div id="profileContainer"></div>
+        </header>
     </div>
 
     <hr class="divider">
@@ -92,6 +90,11 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#buna">Yirgacheffe Buna (ቡና)</a></h3>
                         <div class="price">2,500 ETB</div>
+                        <!-- ===== RATING DISPLAY ===== -->
+                        <div class="product-rating-shop" data-product-id="buna" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -103,6 +106,10 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#berbere">Pure Doro Berbere (በርበሬ)</a></h3>
                         <div class="price">1,750 ETB</div>
+                        <div class="product-rating-shop" data-product-id="berbere" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#berbere" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -114,6 +121,10 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#teff">Magna White Teff (ነጭ ጤፍ)</a></h3>
                         <div class="price">4,200 ETB</div>
+                        <div class="product-rating-shop" data-product-id="teff" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -125,6 +136,10 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#shiro">Miten Shiro Powder (ሚተን ሽሮ)</a></h3>
                         <div class="price">650 ETB</div>
+                        <div class="product-rating-shop" data-product-id="shiro" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#shiro" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -136,6 +151,10 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#korerima">Black Cardamom (ኮረሪማ)</a></h3>
                         <div class="price">850 ETB</div>
+                        <div class="product-rating-shop" data-product-id="korerima" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#korerima" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -147,6 +166,10 @@
                         <div class="aisle">AISLE 1 | FOOD</div>
                         <h3><a href="product-detail.html#kibe">Traditional Kibe (የሀገር ቅቤ)</a></h3>
                         <div class="price">2,200 ETB</div>
+                        <div class="product-rating-shop" data-product-id="kibe" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#kibe" class="btn btn-sm">View &rarr;</a>
                     </div>
                 </div>
@@ -169,6 +192,10 @@
                         <div class="aisle">AISLE 2 | HOME</div>
                         <h3><a href="product-detail.html#jebena">Clay Jebena (ጀበና)</a></h3>
                         <div class="price">850 ETB</div>
+                        <div class="product-rating-shop" data-product-id="jebena" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#jebena" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -180,6 +207,10 @@
                         <div class="aisle">AISLE 2 | HOME</div>
                         <h3><a href="product-detail.html#sini">Sini Coffee Cups (ሲኒ)</a></h3>
                         <div class="price">1,200 ETB</div>
+                        <div class="product-rating-shop" data-product-id="sini" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#sini" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -191,6 +222,10 @@
                         <div class="aisle">AISLE 2 | HOME</div>
                         <h3><a href="product-detail.html#rekebot">Wooden Rekebot Tray (ረከቦት)</a></h3>
                         <div class="price">6,500 ETB</div>
+                        <div class="product-rating-shop" data-product-id="rekebot" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#rekebot" class="btn btn-sm">View &rarr;</a>
                     </div>
                 </div>
@@ -213,6 +248,10 @@
                         <div class="aisle">AISLE 3 | APPAREL</div>
                         <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
                         <div class="price">12,000 ETB</div>
+                        <div class="product-rating-shop" data-product-id="kemis" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -224,6 +263,10 @@
                         <div class="aisle">AISLE 3 | APPAREL</div>
                         <h3><a href="product-detail.html#netela">Cotton Netela (ነጠላ)</a></h3>
                         <div class="price">2,800 ETB</div>
+                        <div class="product-rating-shop" data-product-id="netela" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#netela" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -235,6 +278,10 @@
                         <div class="aisle">AISLE 3 | APPAREL</div>
                         <h3><a href="product-detail.html#gabi">Heavy Cotton Gabi (ጋቢ)</a></h3>
                         <div class="price">4,500 ETB</div>
+                        <div class="product-rating-shop" data-product-id="gabi" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#gabi" class="btn btn-sm">View &rarr;</a>
                     </div>
                 </div>
@@ -257,6 +304,10 @@
                         <div class="aisle">AISLE 4 | CRAFTS</div>
                         <h3><a href="product-detail.html#mesob">Woven Mesob Basket (መሶብ)</a></h3>
                         <div class="price">8,500 ETB</div>
+                        <div class="product-rating-shop" data-product-id="mesob" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -268,6 +319,10 @@
                         <div class="aisle">AISLE 4 | CRAFTS</div>
                         <h3><a href="product-detail.html#barchuma">Carved Barchuma Stool (በርጩማ)</a></h3>
                         <div class="price">3,200 ETB</div>
+                        <div class="product-rating-shop" data-product-id="barchuma" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#barchuma" class="btn btn-sm">View &rarr;</a>
                     </div>
                 </div>
@@ -290,6 +345,10 @@
                         <div class="aisle">AISLE 5 | ELECTRONICS</div>
                         <h3><a href="product-detail.html#mitad">Electric Mitad (ምጣድ)</a></h3>
                         <div class="price">18,500 ETB</div>
+                        <div class="product-rating-shop" data-product-id="mitad" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -301,6 +360,10 @@
                         <div class="aisle">AISLE 5 | ELECTRONICS</div>
                         <h3><a href="product-detail.html#tv">55" 4K Smart TV</a></h3>
                         <div class="price">68,000 ETB</div>
+                        <div class="product-rating-shop" data-product-id="tv" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -312,6 +375,10 @@
                         <div class="aisle">AISLE 5 | ELECTRONICS</div>
                         <h3><a href="product-detail.html#solar">Solar Power Station</a></h3>
                         <div class="price">42,000 ETB</div>
+                        <div class="product-rating-shop" data-product-id="solar" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
                     </div>
 
@@ -323,6 +390,10 @@
                         <div class="aisle">AISLE 5 | ELECTRONICS</div>
                         <h3><a href="product-detail.html#phone">4G Dual-SIM Smartphone</a></h3>
                         <div class="price">22,500 ETB</div>
+                        <div class="product-rating-shop" data-product-id="phone" style="font-size:13px;color:#888;margin:6px 0;">
+                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
+                            <span class="shop-review-count">(0 reviews)</span>
+                        </div>
                         <a href="product-detail.html#phone" class="btn btn-sm">View &rarr;</a>
                     </div>
                 </div>
@@ -335,16 +406,16 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-<div class="footer-links">
-    <a href="index.html">Home</a> | 
-    <a href="shop.html">Shop</a> | 
-    <a href="about.html">About</a> | 
-    <a href="contact.html">Contact</a> | 
-    <a href="faq.html">FAQ</a> | 
-    <a href="returns.html">Returns</a> |
-    <a href="admin.html">Admin</a>
-</div>
-
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
             <p>&copy; 2026 MERKATO INC. Digital Supermarket Catalog.</p>
             <p><small>©Abi-Kidan.</small></p>
         </div>
@@ -352,7 +423,8 @@
 
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
 
 </body>
 </html>

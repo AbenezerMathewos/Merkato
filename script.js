@@ -1265,6 +1265,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // ===== UPDATE SHOP PAGE RATINGS =====
+    if (window.location.pathname.includes('shop.html')) {
+        updateShopRatings();
+    }
 
     if (window.location.pathname.includes('profile.html')) {
         loadUserProfile();
@@ -1298,3 +1303,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 console.log('🛒 MERKATO JavaScript Loaded!');
 console.log('👤 Login system ready!');
+
+// ========================================
+// SHOP PAGE - DISPLAY RATINGS
+// ========================================
+
+function updateShopRatings() {
+    const ratingElements = document.querySelectorAll('.product-rating-shop');
+    
+    ratingElements.forEach(element => {
+        const productId = element.dataset.productId;
+        if (productId) {
+            const avg = getAverageRating(productId);
+            const count = getReviewCount(productId);
+            
+            const starsSpan = element.querySelector('.shop-stars');
+            const countSpan = element.querySelector('.shop-review-count');
+            
+            if (starsSpan) {
+                starsSpan.textContent = renderStars(avg);
+            }
+            if (countSpan) {
+                countSpan.textContent = `(${count} ${count === 1 ? 'review' : 'reviews'})`;
+            }
+        }
+    });
+}
