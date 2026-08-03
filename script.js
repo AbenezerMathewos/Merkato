@@ -1328,6 +1328,7 @@ function submitReview(productId) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 Page Loaded:', window.location.pathname);
 
+    updateSubscriberCount();
     loadCart();
     checkUserOnLoad();
 
@@ -2117,3 +2118,77 @@ function displayOrderConfirmation(order) {
         </div>
     `;
 }
+
+// ========================================
+// NEWSLETTER SYSTEM
+// ========================================
+
+function subscribeNewsletter(event) {
+    event.preventDefault();
+    
+    const emailInput = document.getElementById('newsletterEmail');
+    const statusDiv = document.getElementById('newsletterStatus');
+    const email = emailInput.value.trim();
+    
+    // Validate email
+    if (!email) {
+        statusDiv.className = 'newsletter-status error';
+        statusDiv.textContent = '⚠️ Please enter your email address';
+        return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        statusDiv.className = 'newsletter-status error';
+        statusDiv.textContent = '⚠️ Please enter a valid email address';
+        return;
+    }
+    
+    // Check if already subscribed
+    let subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
+    
+    if (subscribers.includes(email)) {
+        statusDiv.className = 'newsletter-status error';
+        statusDiv.textContent = '⚠️ This email is already subscribed!';
+        return;
+    }
+    
+    // Add to subscribers
+    subscribers.push(email);
+    localStorage.setItem('merkatoSubscribers', JSON.stringify(subscribers));
+    
+    // Update count
+    updateSubscriberCount();
+    
+    // Show success
+    statusDiv.className = 'newsletter-status success';
+    statusDiv.textContent = '✅ Thank you for subscribing! 🎉';
+    
+    // Clear input
+    emailInput.value = '';
+    
+    // Show notification
+    showNotification('📧 You have been subscribed to our newsletter!');
+}
+
+function updateSubscriberCount() {
+    const subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
+    const count = subscribers.length;
+    
+    const countElements = document.querySelectorAll('#subscriberCount');
+    countElements.forEach(el => {
+        el.textContent = count;
+    });
+}
+
+function getSubscriberCount() {
+    const subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
+    return subscribers.length;
+}
+
+// ========================================
+// ADD TO DOM READY SECTION
+// ========================================
+
+// Add this inside DOMContentLoaded:
+updateSubscriberCount();

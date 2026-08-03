@@ -586,21 +586,34 @@
     <hr class="divider">
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-links">
-                <a href="index.html">Home</a> | 
-                <a href="shop.html">Shop</a> | 
-                <a href="about.html">About</a> | 
-                <a href="contact.html">Contact</a> | 
-                <a href="faq.html">FAQ</a> | 
-                <a href="returns.html">Returns</a> |
-                <a href="admin.html">Admin</a>
-            </div>
-            <p>&copy; 2026 MERKATO INC. Digital Supermarket Catalog.</p>
-            <p><small>©Abi-Kidan.</small></p>
+    <!-- FOOTER -->
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-links">
+            <a href="index.html">Home</a> | 
+            <a href="shop.html">Shop</a> | 
+            <a href="about.html">About</a> | 
+            <a href="contact.html">Contact</a> | 
+            <a href="faq.html">FAQ</a> | 
+            <a href="returns.html">Returns</a> |
+            <a href="admin.html">Admin</a>
         </div>
-    </footer>
+        
+        <!-- ===== NEWSLETTER SECTION ===== -->
+        <div class="footer-newsletter" style="margin: 15px 0; padding: 15px 0; border-top: 1px solid #eee;">
+            <p style="margin-bottom:8px;"><strong>📧 Subscribe to our newsletter</strong></p>
+            <form onsubmit="subscribeNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+                <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="padding:8px 12px;border:1px solid #ddd;border-radius:4px;font-size:13px;min-width:180px;background:#fafafa;">
+                <button type="submit" class="btn btn-sm btn-primary" style="padding:8px 16px;font-size:13px;">Subscribe</button>
+            </form>
+            <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+        </div>
+        
+        <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+        <p><small>Made with ❤️ in Ethiopia</small></p>
+    </div>
+</footer>
 
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>

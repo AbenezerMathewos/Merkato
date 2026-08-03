@@ -2035,3 +2035,175 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
         height: 32px;
     }
 }
+
+/* ========================================
+   NEWSLETTER SECTION
+   ======================================== */
+
+.newsletter {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 60px 40px;
+    border-radius: 16px;
+    margin: 40px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter::before {
+    content: '✉';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.05;
+    right: -50px;
+    bottom: -80px;
+    color: #ffd700;
+}
+
+.newsletter-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    display: inline-block;
+    animation: floatNewsletter 3s ease-in-out infinite;
+}
+
+@keyframes floatNewsletter {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.newsletter h3 {
+    font-size: 28px;
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.newsletter p {
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.newsletter-input-group {
+    display: flex;
+    gap: 10px;
+    max-width: 500px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.newsletter-input-group input {
+    flex: 1;
+    min-width: 200px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    background: rgba(255,255,255,0.95);
+    transition: all 0.3s ease;
+}
+
+.newsletter-input-group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,215,0,0.3);
+    background: #fff;
+}
+
+.newsletter-input-group input::placeholder {
+    color: #999;
+}
+
+.newsletter-input-group .btn {
+    padding: 14px 35px;
+    background: linear-gradient(135deg, #ffd700, #f5a623);
+    color: #1a1a2e;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.newsletter-input-group .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(255,215,0,0.4);
+}
+
+.newsletter-status {
+    margin-top: 12px;
+    font-size: 14px;
+    min-height: 24px;
+}
+
+.newsletter-status.success {
+    color: #00b894;
+}
+
+.newsletter-status.error {
+    color: #d9534f;
+}
+
+.newsletter-subscriber-count {
+    margin-top: 15px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+}
+
+.newsletter-subscriber-count span {
+    color: #ffd700;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* ========================================
+   RESPONSIVE NEWSLETTER
+   ======================================== */
+
+@media (max-width: 768px) {
+    .newsletter {
+        padding: 40px 25px;
+    }
+    
+    .newsletter h3 {
+        font-size: 22px;
+    }
+    
+    .newsletter-input-group {
+        flex-direction: column;
+    }
+    
+    .newsletter-input-group input {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    .newsletter-input-group .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .newsletter {
+        padding: 30px 20px;
+        margin: 25px 0;
+    }
+    
+    .newsletter h3 {
+        font-size: 20px;
+    }
+    
+    .newsletter-icon {
+        font-size: 36px;
+    }
+}
