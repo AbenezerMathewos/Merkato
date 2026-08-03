@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MERKATO returns and refunds policy.">
+    <meta name="description" content="MERKATO - Returns and Refunds">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, returns, refunds, policy">
     <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    <link rel="stylesheet" href="style.css">
     <title>Returns & Refunds — MERKATO</title>
     <style>
         .returns-hero {
@@ -72,6 +72,75 @@
             color: #1a1a2e;
             margin-bottom: 20px;
         }
+        .return-form .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .return-form .form-group select {
+            cursor: pointer;
+        }
+        .return-form .form-group select option {
+            padding: 8px;
+        }
+        .return-form .form-group select option:hover {
+            background: #008000;
+            color: #fff;
+        }
+        .return-form .form-group input:focus,
+        .return-form .form-group select:focus,
+        .return-form .form-group textarea:focus {
+            border-color: #008000;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,128,0,0.1);
+        }
+        .return-form .other-reason-input {
+            display: none;
+            margin-top: 10px;
+        }
+        .return-form .other-reason-input.show {
+            display: block;
+        }
+        .return-status {
+            background: #fff3cd;
+            border-radius: 12px;
+            padding: 20px 25px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .return-status h4 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        .return-status p {
+            color: #856404;
+            margin: 0;
+        }
+        .non-returnable {
+            background: #ffebee;
+            border-radius: 12px;
+            padding: 20px 25px;
+            border-left: 4px solid #d9534f;
+            margin: 20px 0;
+        }
+        .non-returnable h4 {
+            color: #c62828;
+        }
+        .non-returnable ul {
+            color: #c62828;
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+        .non-returnable ul li {
+            margin: 5px 0;
+        }
+        @media (max-width: 992px) {
+            .policy-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .policy-grid { grid-template-columns: 1fr; }
+            .returns-hero h1 { font-size: 28px; }
+            .return-form { padding: 20px; }
+        }
         .steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -104,69 +173,42 @@
             color: #666;
             font-size: 13px;
         }
-        .non-returnable {
-            background: #fff3cd;
-            border-radius: 12px;
-            padding: 20px 25px;
-            border-left: 4px solid #ffc107;
-            margin: 20px 0;
-        }
-        .non-returnable h4 {
-            color: #856404;
-        }
-        .non-returnable ul {
-            color: #856404;
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-        .non-returnable ul li {
-            margin: 5px 0;
-        }
-        @media (max-width: 992px) {
-            .policy-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps { grid-template-columns: 1fr 1fr; }
-        }
         @media (max-width: 768px) {
-            .policy-grid { grid-template-columns: 1fr; }
             .steps { grid-template-columns: 1fr; }
-            .returns-hero h1 { font-size: 28px; }
-            .return-form { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <!-- TOP BAR -->
-    <!-- <div class="top-bar">
+    <div class="top-bar">
         ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
-    </div> -->
+    </div>
 
     <!-- HEADER -->
     <div class="container">
         <header class="header">
             <div class="header-inner">
                 <a href="index.html" class="logo-wrapper">
-    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
-    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
-</a>
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
 
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <!-- Sign In link will be replaced by JavaScript when logged in -->
-    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html" class="active">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
-        <!-- Profile Floating Container -->
-    <div id="profileContainer"></div>
-</header>
+            <div id="profileContainer"></div>
+        </header>
     </div>
 
     <hr class="divider">
@@ -242,7 +284,7 @@
             <!-- RETURN FORM -->
             <div class="return-form">
                 <h2>📋 Initiate a Return</h2>
-                <form action="#" method="POST">
+                <form id="returnForm" onsubmit="submitReturnRequest(event)">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="order-number">Order Number</label>
@@ -253,11 +295,24 @@
                             <select id="item-return" name="item-return" required>
                                 <option value="">-- Select Item --</option>
                                 <option value="buna">Yirgacheffe Buna (ቡና)</option>
-                                <option value="mitad">Digital Electric Mitad (ምጣድ)</option>
+                                <option value="berbere">Pure Doro Berbere (በርበሬ)</option>
                                 <option value="teff">Magna White Teff (ነጭ ጤፍ)</option>
+                                <option value="shiro">Miten Shiro Powder (ሚተን ሽሮ)</option>
+                                <option value="korerima">Black Cardamom (ኮረሪማ)</option>
+                                <option value="kibe">Traditional Spiced Kibe (የሀገር ቅቤ)</option>
+                                <option value="jebena">Clay Jebena (ጀበና)</option>
+                                <option value="sini">Sini Ceramic Cups (ሲኒ)</option>
+                                <option value="rekebot">Wooden Rekebot (ረከቦት)</option>
                                 <option value="kemis">Habesha Kemis (ሀበሻ ቀሚስ)</option>
-                                <option value="tv">55" 4K Smart LED TV</option>
-                                <option value="other">Other Product</option>
+                                <option value="netela">Cotton Netela (ነጠላ)</option>
+                                <option value="gabi">Heavy Cotton Gabi (ጋቢ)</option>
+                                <option value="mesob">Woven Mesob Basket (መሶብ)</option>
+                                <option value="barchuma">Wooden Barchuma Stool (በርጩማ)</option>
+                                <option value="mitad">Electric Mitad (ምጣድ)</option>
+                                <option value="tv">55" 4K Smart TV</option>
+                                <option value="solar">Solar Power Station</option>
+                                <option value="phone">4G Dual-SIM Smartphone</option>
+                                <option value="other">Other Product (Type below)</option>
                             </select>
                         </div>
                     </div>
@@ -268,17 +323,24 @@
                         </div>
                         <div class="form-group">
                             <label for="return-reason">Reason for Return</label>
-                            <select id="return-reason" name="return-reason" required>
+                            <select id="return-reason" name="return-reason" onchange="toggleOtherReason()" required>
                                 <option value="">-- Select Reason --</option>
                                 <option value="defective">Defective / Damaged</option>
                                 <option value="wrong">Wrong Item Received</option>
                                 <option value="not-as-described">Not as Described</option>
                                 <option value="changed-mind">Changed My Mind</option>
                                 <option value="shipping-damage">Shipping Damage</option>
-                                <option value="other">Other</option>
+                                <option value="other">Other (Please specify)</option>
                             </select>
                         </div>
                     </div>
+                    
+                    <!-- Other Reason Input -->
+                    <div class="form-group other-reason-input" id="otherReasonInput">
+                        <label for="other-reason-text">Please specify:</label>
+                        <input type="text" id="other-reason-text" name="other-reason" placeholder="Describe your reason in detail..." style="width:100%;padding:10px 14px;border:1px solid #ced4da;border-radius:6px;font-size:14px;">
+                    </div>
+                    
                     <div class="form-group">
                         <label for="comments">Additional Comments</label>
                         <textarea id="comments" name="comments" rows="3" placeholder="Describe the issue in detail..."></textarea>
@@ -300,90 +362,27 @@
 
     <hr class="divider">
 
-
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container">
-        <!-- Footer Grid Layout -->
-        <div class="footer-grid">
-
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
-                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
-                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
-                    </a>
-                </div>
-                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
-                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
-                </p>
-                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
-                </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
             </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
-                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
-                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
-                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
-                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Support -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
-                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
-                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
-                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
-                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 4: Newsletter & Contact -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
-                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
-                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
-                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
-                </form>
-                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
-                
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
-                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
-                        📍 Addis Ababa, Ethiopia<br>
-                        📞 +251 11 123 4567<br>
-                        ✉️ support@merkato.com
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
             <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
+            <p><small>©Abi-Kidan.</small></p>
         </div>
-
-    </div>
-</footer>
+    </footer>
 
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
 
 </body>
 </html>

@@ -2340,3 +2340,233 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
         font-size: 15px;
     }
 }
+
+/* ========================================
+   CUSTOM MODAL NOTIFICATION
+   ======================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 35px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+    animation: modalSlideUp 0.4s ease;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #008000, #ffd700, #008000);
+    background-size: 200% 100%;
+    animation: shimmerLine 2s ease-in-out infinite;
+}
+
+@keyframes shimmerLine {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.modal-icon {
+    font-size: 64px;
+    text-align: center;
+    margin-bottom: 10px;
+    animation: bounceIcon 1s ease-in-out infinite;
+}
+
+@keyframes bounceIcon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+    margin: 15px 0;
+}
+
+.modal-details {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 10px 0 20px;
+}
+
+.modal-details .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-details .row:last-child {
+    border-bottom: none;
+}
+
+.modal-details .row .label {
+    color: #888;
+}
+
+.modal-details .row .value {
+    color: #1a1a2e;
+    font-weight: 600;
+}
+
+.modal-details .row .value.highlight {
+    color: #008000;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.modal-actions .btn {
+    min-width: 120px;
+    padding: 12px 28px;
+}
+
+.modal-actions .btn-primary {
+    background: #008000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-actions .btn-primary:hover {
+    background: #006600;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,128,0,0.3);
+}
+
+.modal-actions .btn-secondary {
+    background: #f0f0f0;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-actions .btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+.modal-confetti {
+    position: absolute;
+    font-size: 20px;
+    animation: confettiFall 3s ease-in-out infinite;
+}
+
+.modal-confetti:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.modal-confetti:nth-child(2) { top: 5%; right: 15%; animation-delay: 0.5s; }
+.modal-confetti:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 1s; }
+.modal-confetti:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 1.5s; }
+.modal-confetti:nth-child(5) { top: 20%; left: 50%; animation-delay: 0.8s; }
+
+@keyframes confettiFall {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    50% { transform: translateY(20px) rotate(180deg); opacity: 1; }
+}
+
+@media (max-width: 480px) {
+    .modal-box {
+        padding: 25px 20px;
+    }
+    .modal-title {
+        font-size: 20px;
+    }
+    .modal-details .row {
+        font-size: 13px;
+        flex-wrap: wrap;
+    }
+    .modal-actions .btn {
+        min-width: 100px;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+

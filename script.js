@@ -1347,7 +1347,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.includes('order-confirmation.html')) {
         loadOrderConfirmation();
     }
-    
+
+    // Load return requests if on returns page
+if (window.location.pathname.includes('returns.html')) {
+    loadReturnRequests();
+}
     // ===== DISPLAY REVIEWS ON PRODUCT DETAIL PAGE =====
     if (window.location.pathname.includes('product-detail.html')) {
         const productSections = document.querySelectorAll('section[id]');
@@ -2192,3 +2196,275 @@ function getSubscriberCount() {
 
 // Add this inside DOMContentLoaded:
 updateSubscriberCount();
+
+// ========================================
+// RETURN SYSTEM
+// ========================================
+
+function toggleOtherReason() {
+    const reasonSelect = document.getElementById('return-reason');
+    const otherInput = document.getElementById('otherReasonInput');
+    
+    if (reasonSelect.value === 'other') {
+        otherInput.classList.add('show');
+        document.getElementById('other-reason-text').required = true;
+    } else {
+        otherInput.classList.remove('show');
+        document.getElementById('other-reason-text').required = false;
+    }
+}
+
+function submitReturnRequest(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const orderNumber = document.getElementById('order-number').value.trim();
+    const itemToReturn = document.getElementById('item-return').value;
+    const quantity = document.getElementById('quantity').value;
+    const returnReason = document.getElementById('return-reason').value;
+    const otherReason = document.getElementById('other-reason-text').value.trim();
+    const comments = document.getElementById('comments').value.trim();
+    
+    // Validate
+    if (!orderNumber) {
+        showNotification('⚠️ Please enter your order number');
+        return;
+    }
+    
+    if (!itemToReturn) {
+        showNotification('⚠️ Please select an item to return');
+        return;
+    }
+    
+    if (!returnReason) {
+        showNotification('⚠️ Please select a reason for return');
+        return;
+    }
+    
+    // Check if "Other" reason is selected and filled
+    if (returnReason === 'other' && !otherReason) {
+        showNotification('⚠️ Please specify your reason');
+        return;
+    }
+    
+    // Check if item is non-returnable
+    const nonReturnableItems = ['buna', 'berbere', 'teff', 'shiro', 'korerima', 'kibe'];
+    if (nonReturnableItems.includes(itemToReturn)) {
+        showNotification('⚠️ This item is non-returnable (food/perishable items)');
+        return;
+    }
+    
+    // Get item name
+    const itemSelect = document.getElementById('item-return');
+    const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+    
+    // Get reason text
+    const reasonSelect = document.getElementById('return-reason');
+    let reasonText = reasonSelect.options[reasonSelect.selectedIndex].text;
+    if (returnReason === 'other') {
+        reasonText = otherReason;
+    }
+    
+    // Create return request
+    const returnRequest = {
+        id: 'RET-' + Date.now().toString().slice(-8),
+        orderNumber: orderNumber,
+        item: itemName,
+        quantity: parseInt(quantity),
+        reason: reasonText,
+        comments: comments,
+        status: 'Pending',
+        date: new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        dateSubmitted: new Date().toISOString()
+    };
+    
+    // Save to localStorage
+    let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
+    returns.push(returnRequest);
+    localStorage.setItem('merkatoReturns', JSON.stringify(returns));
+    
+    // Reset form
+    document.getElementById('returnForm').reset();
+    document.getElementById('otherReasonInput').classList.remove('show');
+    
+    // Show creative modal instead of alert
+    showReturnSuccessModal(returnRequest);
+}
+
+function loadReturnRequests() {
+    const returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
+    const container = document.getElementById('returnRequests');
+    
+    if (!container) return;
+    
+    if (returns.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:30px;color:#888;">
+                <div style="font-size:40px;margin-bottom:10px;">📭</div>
+                <p>No return requests found.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    returns.forEach((returnReq, index) => {
+        const statusColor = returnReq.status === 'Pending' ? '#ffa500' :
+                           returnReq.status === 'Approved' ? '#008000' :
+                           returnReq.status === 'Rejected' ? '#d9534f' : '#888';
+        
+        html += `
+            <div style="
+                background: #fff;
+                border-radius: 10px;
+                border: 1px solid #e0e0e0;
+                padding: 16px 20px;
+                margin-bottom: 12px;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.borderColor='#008000'" onmouseout="this.style.borderColor='#e0e0e0'">
+                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <div>
+                        <strong style="color:#1a1a2e;">#${returnReq.id}</strong>
+                        <span style="color:#888;font-size:13px;margin-left:10px;">${returnReq.date}</span>
+                    </div>
+                    <div>
+                        <span style="
+                            display:inline-block;
+                            padding:2px 12px;
+                            border-radius:12px;
+                            font-size:12px;
+                            font-weight:600;
+                            background: ${statusColor}20;
+                            color: ${statusColor};
+                        ">${returnReq.status}</span>
+                    </div>
+                </div>
+                <div style="margin-top:8px;font-size:14px;color:#444;">
+                    <strong>Order:</strong> ${returnReq.orderNumber} &nbsp;|&nbsp;
+                    <strong>Item:</strong> ${returnReq.item} × ${returnReq.quantity}
+                </div>
+                <div style="font-size:13px;color:#666;margin-top:4px;">
+                    <strong>Reason:</strong> ${returnReq.reason}
+                </div>
+                ${returnReq.comments ? `<div style="font-size:13px;color:#888;margin-top:4px;">📝 ${returnReq.comments}</div>` : ''}
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// ========================================
+// RETURN SUCCESS MODAL
+// ========================================
+
+function showReturnSuccessModal(returnRequest) {
+    // Remove existing modal if any
+    const existingModal = document.querySelector('.modal-overlay');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay active';
+    modal.innerHTML = `
+        <div class="modal-box">
+            <!-- Confetti Emojis -->
+            <div class="modal-confetti">🎉</div>
+            <div class="modal-confetti">✨</div>
+            <div class="modal-confetti">🎊</div>
+            <div class="modal-confetti">🌟</div>
+            <div class="modal-confetti">💫</div>
+            
+            <!-- Icon -->
+            <div class="modal-icon">✅</div>
+            
+            <!-- Title -->
+            <h2 class="modal-title">Return Request Submitted! 🎉</h2>
+            <p class="modal-subtitle">We will review your request and contact you within 2-3 business days.</p>
+            
+            <hr class="modal-divider">
+            
+            <!-- Details -->
+            <div class="modal-details">
+                <div class="row">
+                    <span class="label">📋 Request ID</span>
+                    <span class="value highlight">${returnRequest.id}</span>
+                </div>
+                <div class="row">
+                    <span class="label">📦 Order Number</span>
+                    <span class="value">${returnRequest.orderNumber}</span>
+                </div>
+                <div class="row">
+                    <span class="label">🛒 Item</span>
+                    <span class="value">${returnRequest.item} × ${returnRequest.quantity}</span>
+                </div>
+                <div class="row">
+                    <span class="label">📝 Reason</span>
+                    <span class="value">${returnRequest.reason}</span>
+                </div>
+                <div class="row">
+                    <span class="label">📅 Submitted</span>
+                    <span class="value">${returnRequest.date}</span>
+                </div>
+                <div class="row">
+                    <span class="label">⏳ Status</span>
+                    <span class="value" style="color:#ffa500;font-weight:700;">${returnRequest.status}</span>
+                </div>
+                ${returnRequest.comments ? `
+                    <div class="row" style="border-bottom:none;">
+                        <span class="label">💬 Comments</span>
+                        <span class="value" style="font-weight:400;">${returnRequest.comments}</span>
+                    </div>
+                ` : ''}
+            </div>
+            
+            <hr class="modal-divider">
+            
+            <!-- Next Steps -->
+            <div style="background:#f0f8f0;border-radius:8px;padding:12px 16px;margin:10px 0;">
+                <div style="font-size:13px;color:#2e7d32;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span>📌</span>
+                    <span><strong>Next Steps:</strong> We'll review your request and send you an email confirmation.</span>
+                </div>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="closeReturnModal()">✅ OK, Got it!</button>
+                <a href="returns.html" class="btn btn-secondary">📋 View My Returns</a>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Close on background click
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeReturnModal();
+        }
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeReturnModal();
+        }
+    });
+}
+
+function closeReturnModal() {
+    const modal = document.querySelector('.modal-overlay');
+    if (modal) {
+        modal.style.animation = 'modalFadeOut 0.3s ease';
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}
