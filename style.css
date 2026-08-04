@@ -2677,3 +2677,194 @@ html body #profileContainer .user-dropdown { top:calc(100% + 12px); bottom:auto;
     0%, 100% { width: 33%; }
     50% { width: 66%; }
 }
+
+/* ========================================
+   SHOP FILTER & SORT
+   ======================================== */
+
+.shop-toolbar {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+}
+
+.filter-sidebar {
+    flex: 0 0 240px;
+    min-width: 200px;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.filter-section h4 {
+    font-size: 14px;
+    color: #1a1a2e;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.filter-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-options label:hover {
+    color: #008000;
+}
+
+.filter-options input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #008000;
+    cursor: pointer;
+}
+
+.filter-results {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.filter-tag .remove-tag {
+    cursor: pointer;
+    font-weight: 700;
+    color: #2e7d32;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.filter-tag .remove-tag:hover {
+    opacity: 1;
+}
+
+.filter-actions {
+    margin-top: 10px;
+}
+
+.price-range input[type="number"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.price-range input[type="number"]:focus {
+    outline: none;
+    border-color: #008000;
+    box-shadow: 0 0 0 3px rgba(0,128,0,0.1);
+}
+
+/* ===== NO PRODUCTS MESSAGE ===== */
+.no-products-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.no-products-message .icon {
+    font-size: 64px;
+    margin-bottom: 15px;
+}
+
+.no-products-message h3 {
+    font-size: 22px;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+}
+
+.no-products-message p {
+    color: #888;
+    margin-bottom: 15px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .shop-toolbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-sidebar {
+        flex: 1;
+        min-width: unset;
+        display: none;
+    }
+    
+    .filter-sidebar.active {
+        display: block;
+    }
+    
+    .filter-toggle button {
+        display: inline-block !important;
+    }
+    
+    .filter-results {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .shop-toolbar {
+        padding: 15px;
+    }
+    
+    .filter-section h4 {
+        font-size: 13px;
+    }
+    
+    .filter-options label {
+        font-size: 13px;
+        padding: 4px 0;
+    }
+    
+    .price-range input[type="number"] {
+        font-size: 13px;
+    }
+}

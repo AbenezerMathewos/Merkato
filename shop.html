@@ -57,7 +57,75 @@
             <span><strong>Supermarket Floor</strong></span>
         </div>
     </div>
-
+<!-- ===== FILTER & SORT SECTION ===== -->
+<div class="shop-toolbar">
+    <div class="filter-toggle">
+        <button class="btn btn-outline" onclick="toggleFilters()" style="display:none;" id="filterToggleBtn">
+            🔍 Filter Products
+        </button>
+    </div>
+    
+    <div class="filter-sidebar" id="filterSidebar">
+        <div class="filter-section">
+            <h4>🔍 Filter by Aisle</h4>
+            <div class="filter-options">
+                <label>
+                    <input type="checkbox" value="all" checked onchange="applyFilters()"> All Products
+                </label>
+                <label>
+                    <input type="checkbox" value="food" onchange="applyFilters()"> 🍲 Food & Spices
+                </label>
+                <label>
+                    <input type="checkbox" value="home" onchange="applyFilters()"> 🏠 Home & Kitchen
+                </label>
+                <label>
+                    <input type="checkbox" value="apparel" onchange="applyFilters()"> 👗 Apparel
+                </label>
+                <label>
+                    <input type="checkbox" value="crafts" onchange="applyFilters()"> 🎨 Crafts
+                </label>
+                <label>
+                    <input type="checkbox" value="electronics" onchange="applyFilters()"> 📱 Electronics
+                </label>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>💰 Price Range</h4>
+            <div class="price-range">
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <input type="number" id="minPrice" placeholder="Min" value="0" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                    <input type="number" id="maxPrice" placeholder="Max" value="100000" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h4>📊 Sort By</h4>
+            <select id="sortBy" onchange="applyFilters()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;">
+                <option value="default">Default</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name-asc">Name: A to Z</option>
+                <option value="name-desc">Name: Z to A</option>
+                <option value="popularity">Popularity</option>
+            </select>
+        </div>
+        
+        <div class="filter-actions">
+            <button class="btn btn-secondary" onclick="resetFilters()" style="width:100%;">🔄 Reset Filters</button>
+        </div>
+    </div>
+    
+    <div class="filter-results">
+        <div id="filterResultsCount" style="font-size:14px;color:#888;">
+            Showing <strong id="productCount">18</strong> products
+        </div>
+        <div class="filter-tags" id="filterTags">
+            <!-- Active filters will appear here -->
+        </div>
+    </div>
+</div>
     <!-- MAIN CONTENT -->
     <main>
         <div class="container">
@@ -586,11 +654,7 @@
     <hr class="divider">
 
     <!-- FOOTER -->
-    <!-- FOOTER -->
-<!-- FOOTER -->
 <!-- ===== NEWSLETTER SECTION ===== -->
-<!-- FOOTER -->
-<!-- FOOTER -->
 <footer class="footer">
     <div class="container">
         <!-- Footer Grid Layout -->

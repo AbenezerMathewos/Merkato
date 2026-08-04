@@ -1373,6 +1373,14 @@ if (window.location.pathname.includes('returns.html')) {
         loadUserProfile();
     }
 
+    // Check if on shop page and apply initial filters
+if (window.location.pathname.includes('shop.html')) {
+    // Apply filters on page load
+    setTimeout(() => {
+        applyFilters();
+    }, 100);
+}
+
     const profileForm = document.getElementById('profileForm');
     if (profileForm) {
         profileForm.addEventListener('submit', function(e) {
@@ -2194,7 +2202,6 @@ function getSubscriberCount() {
 // ADD TO DOM READY SECTION
 // ========================================
 
-// Add this inside DOMContentLoaded:
 updateSubscriberCount();
 
 // ========================================
@@ -2694,4 +2701,220 @@ function updateReturnStatus(requestId, newStatus) {
     } else {
         showNotification('❌ Return request not found');
     }
+}
+
+// ========================================
+// PRODUCT FILTERING & SORTING
+// ========================================
+
+let activeFilters = {
+    aisles: ['all'],
+    minPrice: 0,
+    maxPrice: 100000,
+    sortBy: 'default'
+};
+
+function toggleFilters() {
+    const sidebar = document.getElementById('filterSidebar');
+    const btn = document.getElementById('filterToggleBtn');
+    sidebar.classList.toggle('active');
+    btn.textContent = sidebar.classList.contains('active') ? '✕ Close Filters' : '🔍 Filter Products';
+}
+
+function applyFilters() {
+    // Get selected aisles
+    const checkboxes = document.querySelectorAll('.filter-options input[type="checkbox"]');
+    const selectedAisles = [];
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            selectedAisles.push(cb.value);
+        }
+    });
+    
+    // Get price range
+    const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+    const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 100000;
+    
+    // Get sort option
+    const sortBy = document.getElementById('sortBy').value;
+    
+    // Update active filters
+    activeFilters.aisles = selectedAisles;
+    activeFilters.minPrice = minPrice;
+    activeFilters.maxPrice = maxPrice;
+    activeFilters.sortBy = sortBy;
+    
+    // Filter products
+    filterProducts(selectedAisles, minPrice, maxPrice, sortBy);
+}
+
+function filterProducts(aisles, minPrice, maxPrice, sortBy) {
+    const productCards = document.querySelectorAll('.product-card');
+    let visibleCount = 0;
+    
+    productCards.forEach(card => {
+        const cardAisle = card.dataset.aisle || '';
+        const cardPrice = parseFloat(card.dataset.price) || 0;
+        const cardName = card.querySelector('h3')?.textContent || '';
+        
+        // Check aisle filter
+        let aisleMatch = aisles.includes('all') || aisles.includes(cardAisle);
+        if (!aisleMatch) {
+            card.style.display = 'none';
+            return;
+        }
+        
+        // Check price filter
+        if (cardPrice < minPrice || cardPrice > maxPrice) {
+            card.style.display = 'none';
+            return;
+        }
+        
+        // Product passes all filters
+        card.style.display = '';
+        visibleCount++;
+    });
+    
+    // Update count
+    document.getElementById('productCount').textContent = visibleCount;
+    
+    // Show/hide no results message
+    showNoProductsMessage(visibleCount);
+    
+    // Sort products
+    if (sortBy !== 'default') {
+        sortProducts(sortBy);
+    }
+    
+    // Update filter tags
+    updateFilterTags(aisles, minPrice, maxPrice);
+}
+
+function sortProducts(sortBy) {
+    const container = document.querySelector('.product-grid');
+    const cards = Array.from(container.querySelectorAll('.product-card:not([style*="display: none"])'));
+    
+    cards.sort((a, b) => {
+        const priceA = parseFloat(a.dataset.price) || 0;
+        const priceB = parseFloat(b.dataset.price) || 0;
+        const nameA = a.querySelector('h3')?.textContent?.toLowerCase() || '';
+        const nameB = b.querySelector('h3')?.textContent?.toLowerCase() || '';
+        
+        switch(sortBy) {
+            case 'price-low':
+                return priceA - priceB;
+            case 'price-high':
+                return priceB - priceA;
+            case 'name-asc':
+                return nameA.localeCompare(nameB);
+            case 'name-desc':
+                return nameB.localeCompare(nameA);
+            case 'popularity':
+                // Simulate popularity (random order)
+                return 0.5 - Math.random();
+            default:
+                return 0;
+        }
+    });
+    
+    // Re-append sorted cards
+    cards.forEach(card => container.appendChild(card));
+}
+
+function showNoProductsMessage(visibleCount) {
+    const container = document.querySelector('.product-grid');
+    const existingMsg = document.querySelector('.no-products-message');
+    
+    if (visibleCount === 0) {
+        if (!existingMsg) {
+            const msg = document.createElement('div');
+            msg.className = 'no-products-message';
+            msg.innerHTML = `
+                <div class="icon">🔍</div>
+                <h3>No products found</h3>
+                <p>Try adjusting your filters or search terms.</p>
+                <button class="btn btn-primary" onclick="resetFilters()">🔄 Reset Filters</button>
+            `;
+            container.appendChild(msg);
+        }
+    } else if (existingMsg) {
+        existingMsg.remove();
+    }
+}
+
+function updateFilterTags(aisles, minPrice, maxPrice) {
+    const container = document.getElementById('filterTags');
+    let tags = [];
+    
+    if (!aisles.includes('all')) {
+        const aisleNames = {
+            'food': '🍲 Food',
+            'home': '🏠 Home',
+            'apparel': '👗 Apparel',
+            'crafts': '🎨 Crafts',
+            'electronics': '📱 Electronics'
+        };
+        aisles.forEach(aisle => {
+            if (aisleNames[aisle]) {
+                tags.push(`<span class="filter-tag">${aisleNames[aisle]} <span class="remove-tag" onclick="removeFilter('aisle','${aisle}')">×</span></span>`);
+            }
+        });
+    }
+    
+    if (minPrice > 0 || maxPrice < 100000) {
+        tags.push(`<span class="filter-tag">💰 ${minPrice.toLocaleString()} - ${maxPrice.toLocaleString()} ETB <span class="remove-tag" onclick="removeFilter('price')">×</span></span>`);
+    }
+    
+    container.innerHTML = tags.length > 0 ? tags.join('') : '';
+}
+
+function removeFilter(type, value) {
+    if (type === 'aisle' && value) {
+        const checkbox = document.querySelector(`.filter-options input[value="${value}"]`);
+        if (checkbox) checkbox.checked = false;
+        // Check if all are unchecked
+        const allChecked = document.querySelector('.filter-options input[value="all"]');
+        const othersChecked = document.querySelectorAll('.filter-options input:not([value="all"]):checked');
+        if (!allChecked.checked && othersChecked.length === 0) {
+            document.querySelector('.filter-options input[value="all"]').checked = true;
+        }
+    } else if (type === 'price') {
+        document.getElementById('minPrice').value = 0;
+        document.getElementById('maxPrice').value = 100000;
+    }
+    applyFilters();
+}
+
+function resetFilters() {
+    // Reset checkboxes
+    document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(cb => {
+        cb.checked = cb.value === 'all';
+    });
+    
+    // Reset price
+    document.getElementById('minPrice').value = 0;
+    document.getElementById('maxPrice').value = 100000;
+    
+    // Reset sort
+    document.getElementById('sortBy').value = 'default';
+    
+    // Reset active filters
+    activeFilters = {
+        aisles: ['all'],
+        minPrice: 0,
+        maxPrice: 100000,
+        sortBy: 'default'
+    };
+    
+    // Apply
+    applyFilters();
+    
+    // Close mobile filter sidebar
+    const sidebar = document.getElementById('filterSidebar');
+    if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        document.getElementById('filterToggleBtn').textContent = '🔍 Filter Products';
+    }
+    
+    showNotification('🔄 Filters have been reset');
 }
