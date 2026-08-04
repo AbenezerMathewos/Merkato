@@ -4,7 +4,30 @@
 // ========================================
 
 console.log('🛒 MERKATO JavaScript Loaded!');
+// ========================================
+// PRODUCT STOCK DATA
+// ========================================
 
+const productStock = {
+    'buna': { stock: 42, status: 'in-stock' },
+    'berbere': { stock: 85, status: 'in-stock' },
+    'teff': { stock: 110, status: 'in-stock' },
+    'shiro': { stock: 200, status: 'in-stock' },
+    'korerima': { stock: 75, status: 'in-stock' },
+    'kibe': { stock: 60, status: 'in-stock' },
+    'jebena': { stock: 45, status: 'in-stock' },
+    'sini': { stock: 30, status: 'in-stock' },
+    'rekebot': { stock: 18, status: 'low-stock' },
+    'kemis': { stock: 25, status: 'in-stock' },
+    'netela': { stock: 40, status: 'in-stock' },
+    'gabi': { stock: 35, status: 'in-stock' },
+    'mesob': { stock: 12, status: 'low-stock' },
+    'barchuma': { stock: 20, status: 'in-stock' },
+    'mitad': { stock: 15, status: 'low-stock' },
+    'tv': { stock: 8, status: 'low-stock' },
+    'solar': { stock: 12, status: 'low-stock' },
+    'phone': { stock: 30, status: 'in-stock' }
+};
 // ===== TRACK WELCOME MESSAGE =====
 let hasShownWelcome = false;
 
@@ -1363,7 +1386,15 @@ if (window.location.pathname.includes('returns.html')) {
             }
         });
     }
-    
+
+    // Update stock badges
+if (window.location.pathname.includes('product-detail.html')) {
+    updateStockBadges();
+}
+if (window.location.pathname.includes('shop.html')) {
+    updateStockBadges();
+}
+
     // ===== UPDATE SHOP PAGE RATINGS =====
     if (window.location.pathname.includes('shop.html')) {
         updateShopRatings();
@@ -2917,4 +2948,124 @@ function resetFilters() {
     }
     
     showNotification('🔄 Filters have been reset');
+}
+
+// ========================================
+// STOCK STATUS FUNCTIONS
+// ========================================
+
+function getStockStatus(productId) {
+    const data = productStock[productId];
+    if (!data) return { status: 'in-stock', stock: 0 };
+    
+    let status = 'in-stock';
+    if (data.stock <= 0) {
+        status = 'out-of-stock';
+    } else if (data.stock <= 10) {
+        status = 'low-stock';
+    }
+    
+    return { status: status, stock: data.stock };
+}
+
+function renderStockBadge(productId) {
+    const { status, stock } = getStockStatus(productId);
+    
+    const statusMap = {
+        'in-stock': { icon: '✅', label: 'In Stock', class: 'in-stock' },
+        'low-stock': { icon: '⚠️', label: `Low Stock (${stock} left)`, class: 'low-stock' },
+        'out-of-stock': { icon: '❌', label: 'Out of Stock', class: 'out-of-stock' }
+    };
+    
+    const info = statusMap[status];
+    
+    return `<span class="stock-status ${info.class}">
+        <span class="stock-icon">${info.icon}</span>
+        ${info.label}
+        ${status === 'in-stock' ? `<span class="stock-count">(${stock} available)</span>` : ''}
+    </span>`;
+}
+
+function updateStockBadges() {
+    // Update on product detail page
+    const productSections = document.querySelectorAll('section[id]');
+    productSections.forEach(section => {
+        const productId = section.id;
+        if (productId) {
+            const existingBadge = section.querySelector('.stock-status');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            const stockHtml = renderStockBadge(productId);
+            const priceElement = section.querySelector('div[style*="font-size:32px"]');
+            if (priceElement) {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = stockHtml;
+                priceElement.parentNode.insertBefore(wrapper.firstElementChild, priceElement.nextSibling);
+            }
+        }
+    });
+    
+    // Update on shop page
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        const productId = card.dataset.productId;
+        if (productId) {
+            const productIdMap = {
+                '1': 'buna',
+                '2': 'berbere',
+                '3': 'teff',
+                '4': 'shiro',
+                '5': 'korerima',
+                '6': 'kibe',
+                '7': 'jebena',
+                '8': 'sini',
+                '9': 'rekebot',
+                '10': 'kemis',
+                '11': 'netela',
+                '12': 'gabi',
+                '13': 'mesob',
+                '14': 'barchuma',
+                '15': 'mitad',
+                '16': 'tv',
+                '17': 'solar',
+                '18': 'phone'
+            };
+            
+            const actualId = productIdMap[productId] || productId;
+            const existingBadge = card.querySelector('.stock-status');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+            
+            const stockHtml = renderStockBadge(actualId);
+            const priceElement = card.querySelector('.price');
+            if (priceElement) {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = stockHtml;
+                priceElement.parentNode.insertBefore(wrapper.firstElementChild, priceElement.nextSibling);
+            }
+        }
+    });
+}
+
+function notifyMe(productId) {
+    const productName = productStock[productId] ? productId.charAt(0).toUpperCase() + productId.slice(1) : 'Product';
+    showNotification(`📧 We'll notify you when ${productName} is back in stock!`);
+    
+    // Save notification request
+    let notifications = JSON.parse(localStorage.getItem('merkatoNotifications')) || [];
+    if (!notifications.includes(productId)) {
+        notifications.push(productId);
+        localStorage.setItem('merkatoNotifications', JSON.stringify(notifications));
+    }
+}
+
+function renderNotifyButton(productId) {
+    const { status } = getStockStatus(productId);
+    if (status === 'out-of-stock') {
+        return `<button class="notify-btn" onclick="notifyMe('${productId}')">🔔 Notify Me When In Stock</button>`;
+    }
+    return '';
 }
