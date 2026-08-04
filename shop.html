@@ -31,24 +31,22 @@
                     <button type="submit">Search</button>
                 </form>
 
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
-    <a href="orders.html">My Orders</a>
-    <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
-            🌙
-        </button>
-    </span>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html" class="active">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
             <div id="profileContainer"></div>
         </header>
@@ -63,75 +61,75 @@
             <span><strong>Supermarket Floor</strong></span>
         </div>
     </div>
-<!-- ===== FILTER & SORT SECTION ===== -->
-<div class="shop-toolbar">
-    <div class="filter-toggle">
-        <button class="btn btn-outline" onclick="toggleFilters()" style="display:none;" id="filterToggleBtn">
-            🔍 Filter Products
-        </button>
-    </div>
-    
-    <div class="filter-sidebar" id="filterSidebar">
-        <div class="filter-section">
-            <h4>🔍 Filter by Aisle</h4>
-            <div class="filter-options">
-                <label>
-                    <input type="checkbox" value="all" checked onchange="applyFilters()"> All Products
-                </label>
-                <label>
-                    <input type="checkbox" value="food" onchange="applyFilters()"> 🍲 Food & Spices
-                </label>
-                <label>
-                    <input type="checkbox" value="home" onchange="applyFilters()"> 🏠 Home & Kitchen
-                </label>
-                <label>
-                    <input type="checkbox" value="apparel" onchange="applyFilters()"> 👗 Apparel
-                </label>
-                <label>
-                    <input type="checkbox" value="crafts" onchange="applyFilters()"> 🎨 Crafts
-                </label>
-                <label>
-                    <input type="checkbox" value="electronics" onchange="applyFilters()"> 📱 Electronics
-                </label>
-            </div>
+
+    <!-- ===== FILTER & SORT SECTION ===== -->
+    <div class="shop-toolbar">
+        <div class="filter-toggle">
+            <button class="btn btn-outline" onclick="toggleFilters()" style="display:none;" id="filterToggleBtn">
+                🔍 Filter Products
+            </button>
         </div>
         
-        <div class="filter-section">
-            <h4>💰 Price Range</h4>
-            <div class="price-range">
-                <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                    <input type="number" id="minPrice" placeholder="Min" value="0" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
-                    <input type="number" id="maxPrice" placeholder="Max" value="100000" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+        <div class="filter-sidebar" id="filterSidebar">
+            <div class="filter-section">
+                <h4>🔍 Filter by Aisle</h4>
+                <div class="filter-options">
+                    <label>
+                        <input type="checkbox" value="all" checked onchange="applyFilters()"> All Products
+                    </label>
+                    <label>
+                        <input type="checkbox" value="food" onchange="applyFilters()"> 🍲 Food & Spices
+                    </label>
+                    <label>
+                        <input type="checkbox" value="home" onchange="applyFilters()"> 🏠 Home & Kitchen
+                    </label>
+                    <label>
+                        <input type="checkbox" value="apparel" onchange="applyFilters()"> 👗 Apparel
+                    </label>
+                    <label>
+                        <input type="checkbox" value="crafts" onchange="applyFilters()"> 🎨 Crafts
+                    </label>
+                    <label>
+                        <input type="checkbox" value="electronics" onchange="applyFilters()"> 📱 Electronics
+                    </label>
                 </div>
             </div>
+            
+            <div class="filter-section">
+                <h4>💰 Price Range</h4>
+                <div class="price-range">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <input type="number" id="minPrice" placeholder="Min" value="0" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                        <input type="number" id="maxPrice" placeholder="Max" value="100000" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h4>📊 Sort By</h4>
+                <select id="sortBy" onchange="applyFilters()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;">
+                    <option value="default">Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="resetFilters()" style="width:100%;">🔄 Reset Filters</button>
+            </div>
         </div>
         
-        <div class="filter-section">
-            <h4>📊 Sort By</h4>
-            <select id="sortBy" onchange="applyFilters()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;">
-                <option value="default">Default</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name-asc">Name: A to Z</option>
-                <option value="name-desc">Name: Z to A</option>
-                <option value="popularity">Popularity</option>
-            </select>
-        </div>
-        
-        <div class="filter-actions">
-            <button class="btn btn-secondary" onclick="resetFilters()" style="width:100%;">🔄 Reset Filters</button>
+        <div class="filter-results">
+            <div id="filterResultsCount" style="font-size:14px;color:#888;">
+                Showing <strong id="productCount">0</strong> products
+            </div>
+            <div class="filter-tags" id="filterTags"></div>
         </div>
     </div>
-    
-    <div class="filter-results">
-        <div id="filterResultsCount" style="font-size:14px;color:#888;">
-            Showing <strong id="productCount">18</strong> products
-        </div>
-        <div class="filter-tags" id="filterTags">
-            <!-- Active filters will appear here -->
-        </div>
-    </div>
-</div>
+
     <!-- MAIN CONTENT -->
     <main>
         <div class="container">
@@ -155,157 +153,10 @@
                 <div style="background:#111;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
                     <h3 style="color:#fff;">AISLE 1: SPICES, GRAINS &amp; FOODSTUFF</h3>
                 </div>
-
-                <div class="product-grid">
-                    <!-- Product 1: Buna -->
-                    <div class="product-card" data-product-id="1" data-aisle="food" data-price="2500">
-                        <a href="product-detail.html#buna">
-                            <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Yirgacheffe Coffee">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#buna">Yirgacheffe Buna (ቡና)</a></h3>
-                        <div class="price">2,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="buna" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
-                        <!-- ===== WISHLIST BUTTON ===== -->
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="buna"
-                                data-product-name="Yirgacheffe Buna (ቡና)"
-                                data-product-price="2500"
-                                data-product-image="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 2: Berbere -->
-                    <div class="product-card" data-product-id="2" data-aisle="food" data-price="1750">
-                        <a href="product-detail.html#berbere">
-                            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" alt="Berbere Spice">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#berbere">Pure Doro Berbere (በርበሬ)</a></h3>
-                        <div class="price">1,750 ETB</div>
-                        <div class="product-rating-shop" data-product-id="berbere" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#berbere" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="berbere"
-                                data-product-name="Pure Doro Berbere (በርበሬ)"
-                                data-product-price="1750"
-                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 3: Teff -->
-                    <div class="product-card" data-product-id="3" data-aisle="food" data-price="4200">
-                        <a href="product-detail.html#teff">
-                            <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA" alt="Teff Grain">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#teff">Magna White Teff (ነጭ ጤፍ)</a></h3>
-                        <div class="price">4,200 ETB</div>
-                        <div class="product-rating-shop" data-product-id="teff" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="teff"
-                                data-product-name="Magna White Teff (ነጭ ጤፍ)"
-                                data-product-price="4200"
-                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 4: Shiro -->
-                    <div class="product-card" data-product-id="4" data-aisle="food" data-price="650">
-                        <a href="product-detail.html#shiro">
-                            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" alt="Shiro Powder">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#shiro">Miten Shiro Powder (ሚተን ሽሮ)</a></h3>
-                        <div class="price">650 ETB</div>
-                        <div class="product-rating-shop" data-product-id="shiro" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#shiro" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="shiro"
-                                data-product-name="Miten Shiro Powder (ሚተን ሽሮ)"
-                                data-product-price="650"
-                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 5: Korerima -->
-                    <div class="product-card" data-product-id="5" data-aisle="food" data-price="850">
-                        <a href="product-detail.html#korerima">
-                            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80" alt="Cardamom">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#korerima">Black Cardamom (ኮረሪማ)</a></h3>
-                        <div class="price">850 ETB</div>
-                        <div class="product-rating-shop" data-product-id="korerima" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#korerima" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="korerima"
-                                data-product-name="Black Cardamom (ኮረሪማ)"
-                                data-product-price="850"
-                                data-product-image="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 6: Kibe -->
-                    <div class="product-card" data-product-id="6" data-aisle="food" data-price="2200">
-                        <a href="product-detail.html#kibe">
-                            <img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80" alt="Spiced Butter">
-                        </a>
-                        <div class="aisle">AISLE 1 | FOOD</div>
-                        <h3><a href="product-detail.html#kibe">Traditional Kibe (የሀገር ቅቤ)</a></h3>
-                        <div class="price">2,200 ETB</div>
-                        <div class="product-rating-shop" data-product-id="kibe" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#kibe" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="kibe"
-                                data-product-name="Traditional Kibe (የሀገር ቅቤ)"
-                                data-product-price="2200"
-                                data-product-image="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 1 | FOOD"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
                     </div>
                 </div>
             </section>
@@ -317,81 +168,10 @@
                 <div style="background:#003366;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
                     <h3 style="color:#fff;">AISLE 2: HOME &amp; KITCHENWARE</h3>
                 </div>
-
-                <div class="product-grid">
-                    <!-- Product 7: Jebena -->
-                    <div class="product-card" data-product-id="7" data-aisle="home" data-price="850">
-                        <a href="product-detail.html#jebena">
-                            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Jebena">
-                        </a>
-                        <div class="aisle">AISLE 2 | HOME</div>
-                        <h3><a href="product-detail.html#jebena">Clay Jebena (ጀበና)</a></h3>
-                        <div class="price">850 ETB</div>
-                        <div class="product-rating-shop" data-product-id="jebena" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#jebena" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="jebena"
-                                data-product-name="Clay Jebena (ጀበና)"
-                                data-product-price="850"
-                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 2 | HOME"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 8: Sini -->
-                    <div class="product-card" data-product-id="8" data-aisle="home" data-price="1200">
-                        <a href="product-detail.html#sini">
-                            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80" alt="Sini Cups">
-                        </a>
-                        <div class="aisle">AISLE 2 | HOME</div>
-                        <h3><a href="product-detail.html#sini">Sini Coffee Cups (ሲኒ)</a></h3>
-                        <div class="price">1,200 ETB</div>
-                        <div class="product-rating-shop" data-product-id="sini" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#sini" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="sini"
-                                data-product-name="Sini Coffee Cups (ሲኒ)"
-                                data-product-price="1200"
-                                data-product-image="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 2 | HOME"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 9: Rekebot -->
-                    <div class="product-card" data-product-id="9" data-aisle="home" data-price="6500">
-                        <a href="product-detail.html#rekebot">
-                            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Rekebot">
-                        </a>
-                        <div class="aisle">AISLE 2 | HOME</div>
-                        <h3><a href="product-detail.html#rekebot">Wooden Rekebot Tray (ረከቦት)</a></h3>
-                        <div class="price">6,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="rekebot" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#rekebot" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="rekebot"
-                                data-product-name="Wooden Rekebot Tray (ረከቦት)"
-                                data-product-price="6500"
-                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 2 | HOME"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid2">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
                     </div>
                 </div>
             </section>
@@ -403,81 +183,10 @@
                 <div style="background:#8b0000;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
                     <h3 style="color:#fff;">AISLE 3: TEXTILES &amp; CULTURAL APPAREL</h3>
                 </div>
-
-                <div class="product-grid">
-                    <!-- Product 10: Kemis -->
-                    <div class="product-card" data-product-id="10" data-aisle="apparel" data-price="12000">
-                        <a href="product-detail.html#kemis">
-                            <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Habesha Kemis">
-                        </a>
-                        <div class="aisle">AISLE 3 | APPAREL</div>
-                        <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
-                        <div class="price">12,000 ETB</div>
-                        <div class="product-rating-shop" data-product-id="kemis" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="kemis"
-                                data-product-name="Habesha Kemis (ሀበሻ ቀሚስ)"
-                                data-product-price="12000"
-                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q"
-                                data-aisle="AISLE 3 | APPAREL"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 11: Netela -->
-                    <div class="product-card" data-product-id="11" data-aisle="apparel" data-price="2800">
-                        <a href="product-detail.html#netela">
-                            <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" alt="Netela">
-                        </a>
-                        <div class="aisle">AISLE 3 | APPAREL</div>
-                        <h3><a href="product-detail.html#netela">Cotton Netela (ነጠላ)</a></h3>
-                        <div class="price">2,800 ETB</div>
-                        <div class="product-rating-shop" data-product-id="netela" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#netela" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="netela"
-                                data-product-name="Cotton Netela (ነጠላ)"
-                                data-product-price="2800"
-                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 3 | APPAREL"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 12: Gabi -->
-                    <div class="product-card" data-product-id="12" data-aisle="apparel" data-price="4500">
-                        <a href="product-detail.html#gabi">
-                            <img src="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80" alt="Gabi">
-                        </a>
-                        <div class="aisle">AISLE 3 | APPAREL</div>
-                        <h3><a href="product-detail.html#gabi">Heavy Cotton Gabi (ጋቢ)</a></h3>
-                        <div class="price">4,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="gabi" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#gabi" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="gabi"
-                                data-product-name="Heavy Cotton Gabi (ጋቢ)"
-                                data-product-price="4500"
-                                data-product-image="https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 3 | APPAREL"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid3">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
                     </div>
                 </div>
             </section>
@@ -489,56 +198,10 @@
                 <div style="background:#e65100;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
                     <h3 style="color:#fff;">AISLE 4: CRAFTS &amp; HANDIWORK</h3>
                 </div>
-
-                <div class="product-grid">
-                    <!-- Product 13: Mesob -->
-                    <div class="product-card" data-product-id="13" data-aisle="crafts" data-price="8500">
-                        <a href="product-detail.html#mesob">
-                            <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM" alt="Mesob Basket">
-                        </a>
-                        <div class="aisle">AISLE 4 | CRAFTS</div>
-                        <h3><a href="product-detail.html#mesob">Woven Mesob Basket (መሶብ)</a></h3>
-                        <div class="price">8,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="mesob" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="mesob"
-                                data-product-name="Woven Mesob Basket (መሶብ)"
-                                data-product-price="8500"
-                                data-product-image="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM"
-                                data-aisle="AISLE 4 | CRAFTS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 14: Barchuma -->
-                    <div class="product-card" data-product-id="14" data-aisle="crafts" data-price="3200">
-                        <a href="product-detail.html#barchuma">
-                            <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Barchuma Stool">
-                        </a>
-                        <div class="aisle">AISLE 4 | CRAFTS</div>
-                        <h3><a href="product-detail.html#barchuma">Carved Barchuma Stool (በርጩማ)</a></h3>
-                        <div class="price">3,200 ETB</div>
-                        <div class="product-rating-shop" data-product-id="barchuma" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#barchuma" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="barchuma"
-                                data-product-name="Carved Barchuma Stool (በርጩማ)"
-                                data-product-price="3200"
-                                data-product-image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 4 | CRAFTS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid4">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
                     </div>
                 </div>
             </section>
@@ -550,106 +213,10 @@
                 <div style="background:#003366;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
                     <h3 style="color:#fff;">AISLE 5: ELECTRONICS &amp; HOME TECH</h3>
                 </div>
-
-                <div class="product-grid">
-                    <!-- Product 15: Mitad -->
-                    <div class="product-card" data-product-id="15" data-aisle="electronics" data-price="18500">
-                        <a href="product-detail.html#mitad">
-                            <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" alt="Electric Mitad">
-                        </a>
-                        <div class="aisle">AISLE 5 | ELECTRONICS</div>
-                        <h3><a href="product-detail.html#mitad">Electric Mitad (ምጣድ)</a></h3>
-                        <div class="price">18,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="mitad" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="mitad"
-                                data-product-name="Electric Mitad (ምጣድ)"
-                                data-product-price="18500"
-                                data-product-image="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE"
-                                data-aisle="AISLE 5 | ELECTRONICS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 16: TV -->
-                    <div class="product-card" data-product-id="16" data-aisle="electronics" data-price="68000">
-                        <a href="product-detail.html#tv">
-                            <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80" alt="Smart TV">
-                        </a>
-                        <div class="aisle">AISLE 5 | ELECTRONICS</div>
-                        <h3><a href="product-detail.html#tv">55" 4K Smart TV</a></h3>
-                        <div class="price">68,000 ETB</div>
-                        <div class="product-rating-shop" data-product-id="tv" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="tv"
-                                data-product-name="55" 4K Smart TV"
-                                data-product-price="68000"
-                                data-product-image="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 5 | ELECTRONICS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 17: Solar -->
-                    <div class="product-card" data-product-id="17" data-aisle="electronics" data-price="42000">
-                        <a href="product-detail.html#solar">
-                            <img src="https://images.unsplash.com/photo-1681263576084-e054b2d89903?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Solar Power">
-                        </a>
-                        <div class="aisle">AISLE 5 | ELECTRONICS</div>
-                        <h3><a href="product-detail.html#solar">Solar Power Station</a></h3>
-                        <div class="price">42,000 ETB</div>
-                        <div class="product-rating-shop" data-product-id="solar" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="solar"
-                                data-product-name="Solar Power Station"
-                                data-product-price="42000"
-                                data-product-image="https://images.unsplash.com/photo-1681263576084-e054b2d89903?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                data-aisle="AISLE 5 | ELECTRONICS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
-                    </div>
-
-                    <!-- Product 18: Phone -->
-                    <div class="product-card" data-product-id="18" data-aisle="electronics" data-price="22500">
-                        <a href="product-detail.html#phone">
-                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80" alt="Smartphone">
-                        </a>
-                        <div class="aisle">AISLE 5 | ELECTRONICS</div>
-                        <h3><a href="product-detail.html#phone">4G Dual-SIM Smartphone</a></h3>
-                        <div class="price">22,500 ETB</div>
-                        <div class="product-rating-shop" data-product-id="phone" style="font-size:13px;color:#888;margin:6px 0;">
-                            <span class="shop-stars">⭐⭐⭐⭐⭐</span>
-                            <span class="shop-review-count">(0 reviews)</span>
-                        </div>
-                        <a href="product-detail.html#phone" class="btn btn-sm">View &rarr;</a>
-                        <button class="btn btn-sm wishlist-btn" 
-                                data-product-id="phone"
-                                data-product-name="4G Dual-SIM Smartphone"
-                                data-product-price="22500"
-                                data-product-image="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80"
-                                data-aisle="AISLE 5 | ELECTRONICS"
-                                onclick="toggleWishlist(this)"
-                                style="font-size:12px;margin-top:6px;display:block;width:100%;">
-                            🤍 Wishlist
-                        </button>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid5">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
                     </div>
                 </div>
             </section>
@@ -660,85 +227,83 @@
     <hr class="divider">
 
     <!-- FOOTER -->
-<!-- ===== NEWSLETTER SECTION ===== -->
-<footer class="footer">
-    <div class="container">
-        <!-- Footer Grid Layout -->
-        <div class="footer-grid">
-            
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
-                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
-                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
-                    </a>
-                </div>
-                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
-                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
-                </p>
-                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
-                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
-                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
-                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
-                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Support -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
-                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
-                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
-                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
-                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 4: Newsletter & Contact -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
-                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
-                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
-                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
-                </form>
-                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
                 
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
-                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
-                        📍 Addis Ababa, Ethiopia<br>
-                        📞 +251 11 123 4567<br>
-                        ✉️ support@merkato.com
+                <!-- Column 1: Brand -->
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                            <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                            <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                        </a>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                        Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
                     </p>
+                    <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                    </div>
                 </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
+                        <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
+                        <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
+                        <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Support -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
+                        <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
+                        <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
+                        <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
+                        <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter & Contact -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
+                    <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
+                    <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
+                        <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
+                    </form>
+                    <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+                    
+                    <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
+                        <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
+                            📍 Addis Ababa, Ethiopia<br>
+                            📞 +251 11 123 4567<br>
+                            ✉️ support@merkato.com
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
             </div>
 
         </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
-        </div>
-
-    </div>
-</footer>
+    </footer>
 
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>

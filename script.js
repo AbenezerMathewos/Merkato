@@ -1,9 +1,10 @@
 // ========================================
 // MERKATO - Complete JavaScript File
-// Version: 2.0 (Reviews Fixed)
+// Version: 3.0 (Fully Fixed)
 // ========================================
 
 console.log('🛒 MERKATO JavaScript Loaded!');
+
 // ========================================
 // PRODUCT STOCK DATA
 // ========================================
@@ -28,6 +29,7 @@ const productStock = {
     'solar': { stock: 12, status: 'low-stock' },
     'phone': { stock: 30, status: 'in-stock' }
 };
+
 // ===== TRACK WELCOME MESSAGE =====
 let hasShownWelcome = false;
 
@@ -675,11 +677,11 @@ function displayCartItems() {
     cart.forEach((item) => {
         html += `
             <div class="cart-item" data-product-id="${item.id}">
-                <a href="product-detail.html#${item.id}">
+                <a href="product-detail.html?${item.id}">
                     <img src="${item.image}" alt="${item.name}">
                 </a>
                 <div class="item-details">
-                    <h3><a href="product-detail.html#${item.id}">${item.name}</a></h3>
+                    <h3><a href="product-detail.html?${item.id}">${item.name}</a></h3>
                     <div class="price">${item.price.toLocaleString()} ETB</div>
                     <div style="font-size:13px;color:#888;margin-top:4px;">
                         Subtotal: ${(item.price * item.quantity).toLocaleString()} ETB
@@ -1043,10 +1045,8 @@ function addReview(productId, userName, rating, comment, userEmail) {
         reviews[productId] = [];
     }
     
-    // Generate UNIQUE ID for each review
     const uniqueId = 'r' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     
-    // Check if user has purchased this product
     let verified = false;
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     
@@ -1067,7 +1067,7 @@ function addReview(productId, userName, rating, comment, userEmail) {
     }
     
     const newReview = {
-        id: uniqueId,  // ← UNIQUE ID for every review
+        id: uniqueId,
         userName: userName || 'Anonymous',
         rating: parseInt(rating),
         comment: comment.trim(),
@@ -1167,19 +1167,16 @@ function displayReviews(productId) {
     `;
     
     productReviews.forEach((review, index) => {
-        // Check if user already voted
         const voted = localStorage.getItem(`helpful_${review.id}`);
         
         const verifiedBadge = review.verified 
             ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 10px;border-radius:12px;margin-left:6px;font-weight:600;">✓ Verified</span>' 
             : '';
         
-        // Helpful and Not Helpful counts
         const helpfulCount = review.helpful || 0;
         const notHelpfulCount = review.notHelpful || 0;
         const totalVotes = helpfulCount + notHelpfulCount;
         
-        // Button styles based on vote status
         let helpfulButtonStyle, notHelpfulButtonStyle;
         let helpfulText, notHelpfulText;
         
@@ -1227,7 +1224,6 @@ function displayReviews(productId) {
                     ${review.comment}
                 </div>
                 
-                <!-- ===== HELPFUL / NOT HELPFUL BUTTONS ===== -->
                 <div style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
                     <button onclick="markHelpful('${review.id}', '${productId}', 'helpful')" 
                             style="${helpfulButtonStyle}"
@@ -1255,8 +1251,6 @@ function displayReviews(productId) {
 
     container.innerHTML = html;
 }
-
-// ===== FIXED STAR RATING FUNCTIONS =====
 
 function highlightStars(productId, count) {
     for (let i = 1; i <= 5; i++) {
@@ -1320,7 +1314,6 @@ function submitReview(productId) {
         return;
     }
     
-    // Get user info
     let userName = 'Anonymous';
     let userEmail = '';
     const userData = localStorage.getItem('merkatoUser');
@@ -1330,160 +1323,16 @@ function submitReview(productId) {
         userEmail = user.email || '';
     }
     
-    // Pass userEmail to addReview
     addReview(productId, userName, rating, comment, userEmail);
     
-    // Reset form
     ratingInput.value = 0;
     commentInput.value = '';
     selectedRatings[productId] = 0;
     resetStars(productId);
     
-    // Update display
     displayReviews(productId);
     updateAverageRating(productId);
 }
-
-// ========================================
-// DOM READY - Initialize Everything
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 Page Loaded:', window.location.pathname);
-
-    updateSubscriberCount();
-    loadCart();
-    checkUserOnLoad();
-
-    // ===== LOAD WISHLIST =====
-    loadWishlist();
-
-    // ===== LOAD THEME =====
-loadTheme();
-
-// ===== CREATE THEME TOGGLE =====
-createThemeToggle();
-
-    // ===== LOAD REVIEWS =====
-    loadReviews();
-
-    // ===== CHECKOUT PAGE =====
-    if (window.location.pathname.includes('checkout.html')) {
-        loadCheckoutSummary();
-    }
-
-    // ===== ORDER CONFIRMATION PAGE =====
-    if (window.location.pathname.includes('order-confirmation.html')) {
-        loadOrderConfirmation();
-    }
-
-    // Load return requests if on returns page
-if (window.location.pathname.includes('returns.html')) {
-    loadReturnRequests();
-}
-    // ===== DISPLAY REVIEWS ON PRODUCT DETAIL PAGE =====
-    if (window.location.pathname.includes('product-detail.html')) {
-        const productSections = document.querySelectorAll('section[id]');
-        productSections.forEach(section => {
-            const productId = section.id;
-            if (productId) {
-                displayReviews(productId);
-                updateAverageRating(productId);
-            }
-        });
-    }
-
-    // Update stock badges
-if (window.location.pathname.includes('product-detail.html')) {
-    updateStockBadges();
-}
-if (window.location.pathname.includes('shop.html')) {
-    updateStockBadges();
-}
-
-    // ===== UPDATE SHOP PAGE RATINGS =====
-    if (window.location.pathname.includes('shop.html')) {
-        updateShopRatings();
-    }
-
-     // Load orders if on orders page
-if (window.location.pathname.includes('orders.html')) {
-    loadOrders();
-}
-
-    if (window.location.pathname.includes('profile.html')) {
-        loadUserProfile();
-    }
-
-    // Check if on shop page and apply initial filters
-if (window.location.pathname.includes('shop.html')) {
-    // Apply filters on page load
-    setTimeout(() => {
-        applyFilters();
-    }, 100);
-}
-
-    const profileForm = document.getElementById('profileForm');
-    if (profileForm) {
-        profileForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            saveUserProfile();
-        });
-    }
-
-    if (document.querySelector('.cart-items')) {
-        displayCartItems();
-    }
-
-    initAddToCartButtons();
-    initialiseSearch();
-
-    const loginForm = document.querySelector('form[action="index.html"]');
-    if (loginForm && window.location.pathname.includes('login.html')) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            loginUser();
-        });
-    }
-    
-    // ===== UPDATE WISHLIST BUTTONS =====
-    updateWishlistButtons();
-    
-    console.log('✅ MERKATO JavaScript Ready!');
-});
-
-console.log('🛒 MERKATO JavaScript Loaded!');
-console.log('👤 Login system ready!');
-
-// ========================================
-// SHOP PAGE - DISPLAY RATINGS
-// ========================================
-
-function updateShopRatings() {
-    const ratingElements = document.querySelectorAll('.product-rating-shop');
-    
-    ratingElements.forEach(element => {
-        const productId = element.dataset.productId;
-        if (productId) {
-            const avg = getAverageRating(productId);
-            const count = getReviewCount(productId);
-            
-            const starsSpan = element.querySelector('.shop-stars');
-            const countSpan = element.querySelector('.shop-review-count');
-            
-            if (starsSpan) {
-                starsSpan.textContent = renderStars(avg);
-            }
-            if (countSpan) {
-                countSpan.textContent = `(${count} ${count === 1 ? 'review' : 'reviews'})`;
-            }
-        }
-    });
-}
-
-// ========================================
-// HELPFUL VOTES SYSTEM
-// ========================================
 
 function markHelpful(reviewId, productId, voteType) {
     const productReviews = reviews[productId] || [];
@@ -1494,7 +1343,6 @@ function markHelpful(reviewId, productId, voteType) {
         return;
     }
     
-    // Check if user already voted on THIS review
     const votedKey = `helpful_${reviewId}`;
     const voted = localStorage.getItem(votedKey);
     if (voted) {
@@ -1502,7 +1350,6 @@ function markHelpful(reviewId, productId, voteType) {
         return;
     }
     
-    // Update vote count
     if (voteType === 'helpful') {
         reviews[productId][reviewIndex].helpful = (reviews[productId][reviewIndex].helpful || 0) + 1;
     } else if (voteType === 'not-helpful') {
@@ -1542,7 +1389,6 @@ function saveWishlist() {
 }
 
 function addToWishlist(productId, name, price, image, aisle) {
-    // Check if already in wishlist
     const existing = wishlist.find(item => item.id === productId);
     if (existing) {
         showNotification('❤️ Already in wishlist');
@@ -1579,12 +1425,8 @@ function moveToCart(productId) {
         return;
     }
     
-    // Add to cart
     addToCart(item.id, item.name, item.price, item.image);
-    
-    // Remove from wishlist
     removeFromWishlist(productId);
-    
     showNotification(`🛒 ${item.name} moved to cart!`);
 }
 
@@ -1598,7 +1440,6 @@ function moveAllToCart() {
         addToCart(item.id, item.name, item.price, item.image);
     });
     
-    // Clear wishlist
     wishlist = [];
     saveWishlist();
     updateWishlistButtons();
@@ -1664,11 +1505,11 @@ function displayWishlist() {
         html += `
             <div class="wishlist-card" data-product-id="${item.id}">
                 <button class="remove-btn" onclick="removeFromWishlist('${item.id}')" title="Remove from wishlist">✕</button>
-                <a href="product-detail.html#${item.id}">
+                <a href="product-detail.html?id=${item.id}">
                     <img src="${item.image || 'https://via.placeholder.com/130x130?text=No+Image'}" alt="${item.name}">
                 </a>
                 <div class="aisle-tag">${item.aisle || 'Aisle'}</div>
-                <h3><a href="product-detail.html#${item.id}">${item.name}</a></h3>
+                <h3><a href="product-detail.html?id=${item.id}">${item.name}</a></h3>
                 <div class="price">${item.price.toLocaleString()} ETB</div>
                 <button class="btn btn-primary btn-sm move-to-cart-btn" onclick="moveToCart('${item.id}')">
                     🛒 Move to Cart
@@ -1677,7 +1518,6 @@ function displayWishlist() {
         `;
     });
     
-    // Add action buttons at bottom
     html += `
         <div style="grid-column:1/-1;text-align:center;padding:20px 0;">
             <div class="wishlist-actions">
@@ -1698,7 +1538,6 @@ function toggleWishlist(button) {
     const productImage = button.dataset.productImage || '';
     const productAisle = button.dataset.aisle || '';
     
-    // Check if already in wishlist
     const existing = wishlist.find(item => item.id === productId);
     if (existing) {
         removeFromWishlist(productId);
@@ -1727,14 +1566,12 @@ function generateOrderNumber() {
 function processOrder(event) {
     event.preventDefault();
     
-    // Get form data
     const fullname = document.getElementById('fullname')?.value || '';
     const email = document.getElementById('email')?.value || '';
     const phone = document.getElementById('phone')?.value || '';
     const address = document.getElementById('address')?.value || '';
     const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
     
-    // Validate
     if (!fullname || !email || !phone || !address) {
         showNotification('⚠️ Please fill in all required fields');
         return;
@@ -1745,16 +1582,13 @@ function processOrder(event) {
         return;
     }
     
-    // Generate order number
     const orderNumber = generateOrderNumber();
     
-    // Calculate totals
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
     
-    // Create order object
     const order = {
         id: orderNumber,
         date: new Date().toLocaleDateString('en-US', {
@@ -1782,20 +1616,15 @@ function processOrder(event) {
         status: 'Processing'
     };
     
-    // Save order to localStorage
     let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    orders.unshift(order); // Add to beginning
+    orders.unshift(order);
     localStorage.setItem('merkatoOrders', JSON.stringify(orders));
-    
-    // Save order number for confirmation page
     localStorage.setItem('lastOrderNumber', orderNumber);
     
-    // Clear cart
     cart = [];
     saveCart();
     updateCartCount();
     
-    // Redirect to confirmation page
     window.location.href = 'order-confirmation.html';
 }
 
@@ -1814,15 +1643,12 @@ function loadOrderConfirmation() {
         return;
     }
     
-    // Display order details
     displayOrderConfirmation(order);
 }
 
 function displayOrderConfirmation(order) {
     const container = document.getElementById('orderConfirmation');
     if (!container) return;
-    
-    const statusColor = '#008000';
     
     let itemsHtml = order.items.map(item => `
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
@@ -1901,7 +1727,6 @@ function displayOrderConfirmation(order) {
 // ========================================
 
 function loadCheckoutSummary() {
-    // Update order summary on checkout page
     const summaryContainer = document.getElementById('checkoutOrderSummary');
     const sidebarContainer = document.getElementById('checkoutSidebar');
     
@@ -1924,7 +1749,6 @@ function loadCheckoutSummary() {
         return;
     }
     
-    // Build order items list
     let itemsHtml = '';
     cart.forEach(item => {
         itemsHtml += `
@@ -1935,7 +1759,6 @@ function loadCheckoutSummary() {
         `;
     });
     
-    // Calculate totals
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
@@ -1945,7 +1768,6 @@ function loadCheckoutSummary() {
     const shippingText = shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB';
     const shippingColor = shipping === 0 ? '#008000' : '#d9534f';
     
-    // Update main summary
     summaryContainer.innerHTML = `
         <ul style="list-style:none;padding:0;">
             ${itemsHtml}
@@ -1964,7 +1786,6 @@ function loadCheckoutSummary() {
         </ul>
     `;
     
-    // Update sidebar
     if (sidebarContainer) {
         sidebarContainer.innerHTML = `
             <div class="summary-row">
@@ -1991,189 +1812,6 @@ function loadCheckoutSummary() {
 }
 
 // ========================================
-// ORDER SYSTEM
-// ========================================
-
-function generateOrderNumber() {
-    const prefix = 'MER';
-    const year = new Date().getFullYear();
-    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return `${prefix}-${year}-${random}`;
-}
-
-function processOrder(event) {
-    event.preventDefault();
-    
-    // Get form data
-    const fullname = document.getElementById('fullname')?.value || '';
-    const email = document.getElementById('email')?.value || '';
-    const phone = document.getElementById('phone')?.value || '';
-    const address = document.getElementById('address')?.value || '';
-    const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
-    
-    // Validate
-    if (!fullname || !email || !phone || !address) {
-        showNotification('⚠️ Please fill in all required fields');
-        return;
-    }
-    
-    if (cart.length === 0) {
-        showNotification('⚠️ Your cart is empty');
-        return;
-    }
-    
-    // Generate order number
-    const orderNumber = generateOrderNumber();
-    
-    // Calculate totals
-    const subtotal = getCartTotal();
-    const shipping = subtotal > 3000 ? 0 : 200;
-    const tax = subtotal * 0.15;
-    const total = subtotal + shipping + tax;
-    
-    // Create order object
-    const order = {
-        id: orderNumber,
-        date: new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }),
-        items: cart.map(item => ({
-            name: item.name,
-            quantity: item.quantity,
-            price: item.price,
-            subtotal: item.price * item.quantity
-        })),
-        customer: {
-            name: fullname,
-            email: email,
-            phone: phone,
-            address: address
-        },
-        payment: payment,
-        subtotal: subtotal,
-        shipping: shipping,
-        tax: tax,
-        total: total,
-        status: 'Processing'
-    };
-    
-    // Save order to localStorage
-    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    orders.unshift(order); // Add to beginning
-    localStorage.setItem('merkatoOrders', JSON.stringify(orders));
-    
-    // Save order number for confirmation page
-    localStorage.setItem('lastOrderNumber', orderNumber);
-    
-    // Clear cart
-    cart = [];
-    saveCart();
-    updateCartCount();
-    
-    // Redirect to confirmation page
-    showNotification('✅ Order placed successfully! Redirecting...');
-    setTimeout(() => {
-        window.location.href = 'order-confirmation.html';
-    }, 1000);
-}
-
-function loadOrderConfirmation() {
-    const orderNumber = localStorage.getItem('lastOrderNumber');
-    if (!orderNumber) {
-        window.location.href = 'shop.html';
-        return;
-    }
-    
-    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    const order = orders.find(o => o.id === orderNumber);
-    
-    if (!order) {
-        window.location.href = 'shop.html';
-        return;
-    }
-    
-    displayOrderConfirmation(order);
-}
-
-function displayOrderConfirmation(order) {
-    const container = document.getElementById('orderConfirmation');
-    if (!container) return;
-    
-    let itemsHtml = order.items.map(item => `
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
-            <span>${item.name} × ${item.quantity}</span>
-            <span>${item.subtotal.toLocaleString()} ETB</span>
-        </div>
-    `).join('');
-    
-    container.innerHTML = `
-        <div style="text-align:center;padding:20px 0 30px;">
-            <div style="font-size:64px;margin-bottom:10px;">🎉</div>
-            <h2 style="color:#1a1a2e;margin-bottom:5px;">Order Confirmed!</h2>
-            <p style="color:#888;">Thank you for your purchase, ${order.customer.name}!</p>
-        </div>
-        
-        <div style="background:#f8f9fa;padding:20px;border-radius:8px;margin-bottom:20px;">
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                <div>
-                    <div style="font-size:13px;color:#888;">Order Number</div>
-                    <div style="font-weight:700;font-size:18px;color:#1a1a2e;">${order.id}</div>
-                </div>
-                <div>
-                    <div style="font-size:13px;color:#888;">Date</div>
-                    <div style="font-weight:600;color:#1a1a2e;">${order.date}</div>
-                </div>
-                <div>
-                    <div style="font-size:13px;color:#888;">Status</div>
-                    <div style="font-weight:600;color:#008000;">${order.status}</div>
-                </div>
-            </div>
-        </div>
-        
-        <div style="margin-bottom:20px;">
-            <h4 style="margin-bottom:10px;">Order Items</h4>
-            ${itemsHtml}
-        </div>
-        
-        <div style="background:#f8f9fa;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
-            <div style="display:flex;justify-content:space-between;padding:6px 0;">
-                <span>Subtotal</span>
-                <span>${order.subtotal.toLocaleString()} ETB</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;">
-                <span>Shipping</span>
-                <span style="color:${order.shipping === 0 ? '#008000' : '#d9534f'};">${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e0e0e0;">
-                <span>Tax (VAT 15%)</span>
-                <span>${order.tax.toLocaleString()} ETB</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;padding:10px 0 0 0;font-size:20px;font-weight:700;">
-                <span>Total</span>
-                <span style="color:#d9534f;">${order.total.toLocaleString()} ETB</span>
-            </div>
-        </div>
-        
-        <div style="background:#fff3cd;padding:15px 20px;border-radius:8px;margin-bottom:20px;">
-            <div style="font-weight:600;color:#856404;">📦 Shipping Information</div>
-            <div style="color:#856404;font-size:14px;margin-top:5px;">
-                ${order.customer.name}<br>
-                ${order.customer.address}<br>
-                📞 ${order.customer.phone}<br>
-                ✉️ ${order.customer.email}
-            </div>
-        </div>
-        
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <a href="shop.html" class="btn btn-primary">Continue Shopping →</a>
-            <a href="orders.html" class="btn btn-secondary">View My Orders</a>
-        </div>
-    `;
-}
-
-// ========================================
 // NEWSLETTER SYSTEM
 // ========================================
 
@@ -2184,7 +1822,6 @@ function subscribeNewsletter(event) {
     const statusDiv = document.getElementById('newsletterStatus');
     const email = emailInput.value.trim();
     
-    // Validate email
     if (!email) {
         statusDiv.className = 'newsletter-status error';
         statusDiv.textContent = '⚠️ Please enter your email address';
@@ -2198,7 +1835,6 @@ function subscribeNewsletter(event) {
         return;
     }
     
-    // Check if already subscribed
     let subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
     
     if (subscribers.includes(email)) {
@@ -2207,28 +1843,57 @@ function subscribeNewsletter(event) {
         return;
     }
     
-    // Add to subscribers
     subscribers.push(email);
     localStorage.setItem('merkatoSubscribers', JSON.stringify(subscribers));
-    
-    // Update count
     updateSubscriberCount();
     
-    // Show success
     statusDiv.className = 'newsletter-status success';
     statusDiv.textContent = '✅ Thank you for subscribing! 🎉';
-    
-    // Clear input
     emailInput.value = '';
+    showNotification('📧 You have been subscribed to our newsletter!');
+}
+
+function subscribeFooterNewsletter(event) {
+    event.preventDefault();
     
-    // Show notification
+    const emailInput = document.getElementById('newsletterFooterEmail');
+    const statusDiv = document.getElementById('footerNewsletterStatus');
+    const email = emailInput.value.trim();
+    
+    if (!email) {
+        statusDiv.style.color = '#d9534f';
+        statusDiv.textContent = '⚠️ Please enter your email address';
+        return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        statusDiv.style.color = '#d9534f';
+        statusDiv.textContent = '⚠️ Please enter a valid email address';
+        return;
+    }
+    
+    let subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
+    
+    if (subscribers.includes(email)) {
+        statusDiv.style.color = '#d9534f';
+        statusDiv.textContent = '⚠️ This email is already subscribed!';
+        return;
+    }
+    
+    subscribers.push(email);
+    localStorage.setItem('merkatoSubscribers', JSON.stringify(subscribers));
+    updateSubscriberCount();
+    
+    statusDiv.style.color = '#008000';
+    statusDiv.textContent = '✅ Thank you for subscribing! 🎉';
+    emailInput.value = '';
     showNotification('📧 You have been subscribed to our newsletter!');
 }
 
 function updateSubscriberCount() {
     const subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
     const count = subscribers.length;
-    
     const countElements = document.querySelectorAll('#subscriberCount');
     countElements.forEach(el => {
         el.textContent = count;
@@ -2241,13 +1906,7 @@ function getSubscriberCount() {
 }
 
 // ========================================
-// ADD TO DOM READY SECTION
-// ========================================
-
-updateSubscriberCount();
-
-// ========================================
-// RETURN SYSTEM - COMPLETE
+// RETURN SYSTEM
 // ========================================
 
 function toggleOtherReason() {
@@ -2266,7 +1925,6 @@ function toggleOtherReason() {
 function submitReturnRequest(event) {
     event.preventDefault();
     
-    // Get form data
     const orderNumber = document.getElementById('order-number').value.trim();
     const itemToReturn = document.getElementById('item-return').value;
     const quantity = document.getElementById('quantity').value;
@@ -2274,7 +1932,6 @@ function submitReturnRequest(event) {
     const otherReason = document.getElementById('other-reason-text').value.trim();
     const comments = document.getElementById('comments').value.trim();
     
-    // Validate
     if (!orderNumber) {
         showNotification('⚠️ Please enter your order number');
         return;
@@ -2295,25 +1952,21 @@ function submitReturnRequest(event) {
         return;
     }
     
-    // Check if item is non-returnable
     const nonReturnableItems = ['buna', 'berbere', 'teff', 'shiro', 'korerima', 'kibe'];
     if (nonReturnableItems.includes(itemToReturn)) {
         showNotification('⚠️ This item is non-returnable (food/perishable items)');
         return;
     }
     
-    // Get item name
     const itemSelect = document.getElementById('item-return');
     const itemName = itemSelect.options[itemSelect.selectedIndex].text;
     
-    // Get reason text
     const reasonSelect = document.getElementById('return-reason');
     let reasonText = reasonSelect.options[reasonSelect.selectedIndex].text;
     if (returnReason === 'other') {
         reasonText = otherReason;
     }
     
-    // Create return request
     const returnRequest = {
         id: 'RET-' + Date.now().toString().slice(-8),
         orderNumber: orderNumber,
@@ -2330,19 +1983,14 @@ function submitReturnRequest(event) {
         dateSubmitted: new Date().toISOString()
     };
     
-    // Save to localStorage
     let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
-    returns.unshift(returnRequest); // Add to beginning
+    returns.unshift(returnRequest);
     localStorage.setItem('merkatoReturns', JSON.stringify(returns));
     
-    // Reset form
     document.getElementById('returnForm').reset();
     document.getElementById('otherReasonInput').classList.remove('show');
     
-    // Update returns display
     loadReturnRequests();
-    
-    // Show creative modal
     showReturnSuccessModal(returnRequest);
 }
 
@@ -2425,7 +2073,6 @@ function loadReturnRequests() {
                         </span>
                     </div>
                 </div>
-                <!-- Progress bar for pending -->
                 ${returnReq.status === 'Pending' ? `
                     <div style="margin-top:10px;">
                         <div style="display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:2px;">
@@ -2452,7 +2099,6 @@ function loadReturnRequests() {
         `;
     });
     
-    // Add summary stats
     const pending = returns.filter(r => r.status === 'Pending').length;
     const approved = returns.filter(r => r.status === 'Approved').length;
     const rejected = returns.filter(r => r.status === 'Rejected').length;
@@ -2474,183 +2120,29 @@ function loadReturnRequests() {
     container.innerHTML = html;
 }
 
-function submitReturnRequest(event) {
-    event.preventDefault();
-    
-    // Get form data
-    const orderNumber = document.getElementById('order-number').value.trim();
-    const itemToReturn = document.getElementById('item-return').value;
-    const quantity = document.getElementById('quantity').value;
-    const returnReason = document.getElementById('return-reason').value;
-    const otherReason = document.getElementById('other-reason-text').value.trim();
-    const comments = document.getElementById('comments').value.trim();
-    
-    // Validate
-    if (!orderNumber) {
-        showNotification('⚠️ Please enter your order number');
-        return;
-    }
-    
-    if (!itemToReturn) {
-        showNotification('⚠️ Please select an item to return');
-        return;
-    }
-    
-    if (!returnReason) {
-        showNotification('⚠️ Please select a reason for return');
-        return;
-    }
-    
-    // Check if "Other" reason is selected and filled
-    if (returnReason === 'other' && !otherReason) {
-        showNotification('⚠️ Please specify your reason');
-        return;
-    }
-    
-    // Check if item is non-returnable
-    const nonReturnableItems = ['buna', 'berbere', 'teff', 'shiro', 'korerima', 'kibe'];
-    if (nonReturnableItems.includes(itemToReturn)) {
-        showNotification('⚠️ This item is non-returnable (food/perishable items)');
-        return;
-    }
-    
-    // Get item name
-    const itemSelect = document.getElementById('item-return');
-    const itemName = itemSelect.options[itemSelect.selectedIndex].text;
-    
-    // Get reason text
-    const reasonSelect = document.getElementById('return-reason');
-    let reasonText = reasonSelect.options[reasonSelect.selectedIndex].text;
-    if (returnReason === 'other') {
-        reasonText = otherReason;
-    }
-    
-    // Create return request
-    const returnRequest = {
-        id: 'RET-' + Date.now().toString().slice(-8),
-        orderNumber: orderNumber,
-        item: itemName,
-        quantity: parseInt(quantity),
-        reason: reasonText,
-        comments: comments,
-        status: 'Pending',
-        date: new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }),
-        dateSubmitted: new Date().toISOString()
-    };
-    
-    // Save to localStorage
-    let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
-    returns.push(returnRequest);
-    localStorage.setItem('merkatoReturns', JSON.stringify(returns));
-    
-    // Reset form
-    document.getElementById('returnForm').reset();
-    document.getElementById('otherReasonInput').classList.remove('show');
-    
-    // Show creative modal instead of alert
-    showReturnSuccessModal(returnRequest);
-}
-
-function loadReturnRequests() {
-    const returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
-    const container = document.getElementById('returnRequests');
-    
-    if (!container) return;
-    
-    if (returns.length === 0) {
-        container.innerHTML = `
-            <div style="text-align:center;padding:30px;color:#888;">
-                <div style="font-size:40px;margin-bottom:10px;">📭</div>
-                <p>No return requests found.</p>
-            </div>
-        `;
-        return;
-    }
-    
-    let html = '';
-    returns.forEach((returnReq, index) => {
-        const statusColor = returnReq.status === 'Pending' ? '#ffa500' :
-                           returnReq.status === 'Approved' ? '#008000' :
-                           returnReq.status === 'Rejected' ? '#d9534f' : '#888';
-        
-        html += `
-            <div style="
-                background: #fff;
-                border-radius: 10px;
-                border: 1px solid #e0e0e0;
-                padding: 16px 20px;
-                margin-bottom: 12px;
-                transition: all 0.3s ease;
-            " onmouseover="this.style.borderColor='#008000'" onmouseout="this.style.borderColor='#e0e0e0'">
-                <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-                    <div>
-                        <strong style="color:#1a1a2e;">#${returnReq.id}</strong>
-                        <span style="color:#888;font-size:13px;margin-left:10px;">${returnReq.date}</span>
-                    </div>
-                    <div>
-                        <span style="
-                            display:inline-block;
-                            padding:2px 12px;
-                            border-radius:12px;
-                            font-size:12px;
-                            font-weight:600;
-                            background: ${statusColor}20;
-                            color: ${statusColor};
-                        ">${returnReq.status}</span>
-                    </div>
-                </div>
-                <div style="margin-top:8px;font-size:14px;color:#444;">
-                    <strong>Order:</strong> ${returnReq.orderNumber} &nbsp;|&nbsp;
-                    <strong>Item:</strong> ${returnReq.item} × ${returnReq.quantity}
-                </div>
-                <div style="font-size:13px;color:#666;margin-top:4px;">
-                    <strong>Reason:</strong> ${returnReq.reason}
-                </div>
-                ${returnReq.comments ? `<div style="font-size:13px;color:#888;margin-top:4px;">📝 ${returnReq.comments}</div>` : ''}
-            </div>
-        `;
-    });
-    
-    container.innerHTML = html;
-}
-
-// ========================================
-// RETURN SUCCESS MODAL
-// ========================================
-
 function showReturnSuccessModal(returnRequest) {
-    // Remove existing modal if any
     const existingModal = document.querySelector('.modal-overlay');
     if (existingModal) {
         existingModal.remove();
     }
     
-    // Create modal
     const modal = document.createElement('div');
     modal.className = 'modal-overlay active';
     modal.innerHTML = `
         <div class="modal-box">
-            <!-- Confetti Emojis -->
             <div class="modal-confetti">🎉</div>
             <div class="modal-confetti">✨</div>
             <div class="modal-confetti">🎊</div>
             <div class="modal-confetti">🌟</div>
             <div class="modal-confetti">💫</div>
             
-            <!-- Icon -->
             <div class="modal-icon">✅</div>
             
-            <!-- Title -->
             <h2 class="modal-title">Return Submitted! 🎉</h2>
             <p class="modal-subtitle">We'll review and contact you within 2-3 days.</p>
             
             <hr class="modal-divider">
             
-            <!-- Details -->
             <div class="modal-details">
                 <div class="row">
                     <span class="label">📋 Request ID</span>
@@ -2684,7 +2176,6 @@ function showReturnSuccessModal(returnRequest) {
                 ` : ''}
             </div>
             
-            <!-- Next Steps -->
             <div class="modal-next-steps">
                 <div class="steps-text">
                     <span>📌</span>
@@ -2692,7 +2183,6 @@ function showReturnSuccessModal(returnRequest) {
                 </div>
             </div>
             
-            <!-- Buttons -->
             <div class="modal-actions">
                 <button class="btn btn-primary" onclick="closeReturnModal()">✅ OK</button>
                 <a href="returns.html" class="btn btn-secondary">📋 My Returns</a>
@@ -2702,14 +2192,12 @@ function showReturnSuccessModal(returnRequest) {
     
     document.body.appendChild(modal);
     
-    // Close on background click
     modal.addEventListener('click', function(e) {
         if (e.target === this) {
             closeReturnModal();
         }
     });
     
-    // Close on Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeReturnModal();
@@ -2726,10 +2214,6 @@ function closeReturnModal() {
         }, 300);
     }
 }
-
-// ========================================
-// ADMIN - RETURN STATUS MANAGEMENT
-// ========================================
 
 function updateReturnStatus(requestId, newStatus) {
     let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
@@ -2764,7 +2248,6 @@ function toggleFilters() {
 }
 
 function applyFilters() {
-    // Get selected aisles
     const checkboxes = document.querySelectorAll('.filter-options input[type="checkbox"]');
     const selectedAisles = [];
     checkboxes.forEach(cb => {
@@ -2773,20 +2256,15 @@ function applyFilters() {
         }
     });
     
-    // Get price range
     const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
     const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 100000;
-    
-    // Get sort option
     const sortBy = document.getElementById('sortBy').value;
     
-    // Update active filters
     activeFilters.aisles = selectedAisles;
     activeFilters.minPrice = minPrice;
     activeFilters.maxPrice = maxPrice;
     activeFilters.sortBy = sortBy;
     
-    // Filter products
     filterProducts(selectedAisles, minPrice, maxPrice, sortBy);
 }
 
@@ -2797,38 +2275,29 @@ function filterProducts(aisles, minPrice, maxPrice, sortBy) {
     productCards.forEach(card => {
         const cardAisle = card.dataset.aisle || '';
         const cardPrice = parseFloat(card.dataset.price) || 0;
-        const cardName = card.querySelector('h3')?.textContent || '';
         
-        // Check aisle filter
         let aisleMatch = aisles.includes('all') || aisles.includes(cardAisle);
         if (!aisleMatch) {
             card.style.display = 'none';
             return;
         }
         
-        // Check price filter
         if (cardPrice < minPrice || cardPrice > maxPrice) {
             card.style.display = 'none';
             return;
         }
         
-        // Product passes all filters
         card.style.display = '';
         visibleCount++;
     });
     
-    // Update count
     document.getElementById('productCount').textContent = visibleCount;
-    
-    // Show/hide no results message
     showNoProductsMessage(visibleCount);
     
-    // Sort products
     if (sortBy !== 'default') {
         sortProducts(sortBy);
     }
     
-    // Update filter tags
     updateFilterTags(aisles, minPrice, maxPrice);
 }
 
@@ -2852,14 +2321,12 @@ function sortProducts(sortBy) {
             case 'name-desc':
                 return nameB.localeCompare(nameA);
             case 'popularity':
-                // Simulate popularity (random order)
                 return 0.5 - Math.random();
             default:
                 return 0;
         }
     });
     
-    // Re-append sorted cards
     cards.forEach(card => container.appendChild(card));
 }
 
@@ -2914,7 +2381,6 @@ function removeFilter(type, value) {
     if (type === 'aisle' && value) {
         const checkbox = document.querySelector(`.filter-options input[value="${value}"]`);
         if (checkbox) checkbox.checked = false;
-        // Check if all are unchecked
         const allChecked = document.querySelector('.filter-options input[value="all"]');
         const othersChecked = document.querySelectorAll('.filter-options input:not([value="all"]):checked');
         if (!allChecked.checked && othersChecked.length === 0) {
@@ -2928,19 +2394,14 @@ function removeFilter(type, value) {
 }
 
 function resetFilters() {
-    // Reset checkboxes
     document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(cb => {
         cb.checked = cb.value === 'all';
     });
     
-    // Reset price
     document.getElementById('minPrice').value = 0;
     document.getElementById('maxPrice').value = 100000;
-    
-    // Reset sort
     document.getElementById('sortBy').value = 'default';
     
-    // Reset active filters
     activeFilters = {
         aisles: ['all'],
         minPrice: 0,
@@ -2948,10 +2409,8 @@ function resetFilters() {
         sortBy: 'default'
     };
     
-    // Apply
     applyFilters();
     
-    // Close mobile filter sidebar
     const sidebar = document.getElementById('filterSidebar');
     if (sidebar.classList.contains('active')) {
         sidebar.classList.remove('active');
@@ -2998,7 +2457,6 @@ function renderStockBadge(productId) {
 }
 
 function updateStockBadges() {
-    // Update on product detail page
     const productSections = document.querySelectorAll('section[id]');
     productSections.forEach(section => {
         const productId = section.id;
@@ -3018,7 +2476,6 @@ function updateStockBadges() {
         }
     });
     
-    // Update on shop page
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
         const productId = card.dataset.productId;
@@ -3065,7 +2522,6 @@ function notifyMe(productId) {
     const productName = productStock[productId] ? productId.charAt(0).toUpperCase() + productId.slice(1) : 'Product';
     showNotification(`📧 We'll notify you when ${productName} is back in stock!`);
     
-    // Save notification request
     let notifications = JSON.parse(localStorage.getItem('merkatoNotifications')) || [];
     if (!notifications.includes(productId)) {
         notifications.push(productId);
@@ -3082,7 +2538,7 @@ function renderNotifyButton(productId) {
 }
 
 // ========================================
-// ORDERS PAGE FUNCTION
+// ORDERS PAGE FUNCTION (Enhanced)
 // ========================================
 
 function loadOrders() {
@@ -3117,7 +2573,6 @@ function loadOrders() {
         return;
     }
     
-    // Calculate stats
     const stats = {
         processing: orders.filter(o => o.status === 'Processing').length,
         shipped: orders.filter(o => o.status === 'Shipped').length,
@@ -3127,7 +2582,6 @@ function loadOrders() {
     
     let html = '';
     
-    // Stats
     html += `
         <div class="order-stats">
             <span class="stat-processing">⏳ Processing: <strong>${stats.processing}</strong></span>
@@ -3137,7 +2591,6 @@ function loadOrders() {
         </div>
     `;
     
-    // Orders
     orders.forEach((order) => {
         const statusClass = order.status === 'Delivered' ? 'order-status-delivered' :
                            order.status === 'Processing' ? 'order-status-processing' :
@@ -3224,18 +2677,10 @@ function viewOrderDetails(orderId) {
         return;
     }
     
-    let itemsHtml = order.items.map(item => `
-        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
-            <span>${item.name} × ${item.quantity}</span>
-            <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
-        </div>
-    `).join('');
-    
     const statusColor = order.status === 'Delivered' ? '#008000' :
                        order.status === 'Processing' ? '#ffa500' :
                        order.status === 'Shipped' ? '#0066cc' : '#d9534f';
     
-    // Create a modal for order details
     const modal = document.createElement('div');
     modal.style.cssText = `
         position: fixed;
@@ -3251,6 +2696,13 @@ function viewOrderDetails(orderId) {
         align-items: center;
         animation: modalFadeIn 0.3s ease;
     `;
+    
+    let itemsHtml = order.items.map(item => `
+        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
+            <span>${item.name} × ${item.quantity}</span>
+            <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
+        </div>
+    `).join('');
     
     modal.innerHTML = `
         <div style="
@@ -3329,7 +2781,6 @@ function viewOrderDetails(orderId) {
     
     document.body.appendChild(modal);
     
-    // Close on background click
     modal.addEventListener('click', function(e) {
         if (e.target === this) {
             this.remove();
@@ -3338,15 +2789,7 @@ function viewOrderDetails(orderId) {
 }
 
 // ========================================
-// DARK MODE SYSTEM
-// ========================================
-
-// ========================================
-// DARK MODE SYSTEM - FIXED
-// ========================================
-
-// ========================================
-// DARK MODE SYSTEM - COMPLETE FIX
+// DARK MODE SYSTEM (CLEAN VERSION)
 // ========================================
 
 function toggleTheme() {
@@ -3356,100 +2799,829 @@ function toggleTheme() {
     
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('merkatoTheme', newTheme);
-    
     updateThemeIcon(newTheme);
-    
-    console.log('Theme changed to:', newTheme); // Debug
+    console.log('Theme changed to:', newTheme);
 }
 
 function loadTheme() {
     const savedTheme = localStorage.getItem('merkatoTheme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
     document.documentElement.setAttribute('data-theme', theme);
     updateThemeIcon(theme);
-    
-    console.log('Theme loaded:', theme); // Debug
-}
-
-function updateThemeIcon(theme) {
-    const toggleBtn = document.getElementById('themeToggle');
-    if (toggleBtn) {
-        toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        toggleBtn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-        console.log('Icon updated to:', toggleBtn.textContent); // Debug
-    } else {
-        console.log('Toggle button not found!'); // Debug
-    }
-}
-
-function createThemeToggle() {
-    const savedTheme = localStorage.getItem('merkatoTheme') || 'light';
-    updateThemeIcon(savedTheme);
-    console.log('Theme toggle created'); // Debug
-}
-function loadTheme() {
-    const savedTheme = localStorage.getItem('merkatoTheme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
-}
-
-function updateThemeIcon(theme) {
-    const toggleBtn = document.getElementById('themeToggle');
-    if (toggleBtn) {
-        toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        toggleBtn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    }
-}
-
-function createThemeToggle() {
-    // Theme toggle is already in HTML, just update icon
-    const savedTheme = localStorage.getItem('merkatoTheme') || 'light';
-    updateThemeIcon(savedTheme);
-}
-
-function loadTheme() {
-    const savedTheme = localStorage.getItem('merkatoTheme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
+    console.log('Theme loaded:', theme);
 }
 
 function updateThemeIcon(theme) {
     const toggleBtn = document.getElementById('themeToggle');
     const headerIcon = document.getElementById('headerThemeIcon');
-
     const icon = theme === 'dark' ? '☀️' : '🌙';
     const title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-
+    
     if (toggleBtn) {
-        toggleBtn.innerHTML = icon;
+        toggleBtn.textContent = icon;
         toggleBtn.title = title;
     }
-
     if (headerIcon) {
         headerIcon.textContent = icon;
     }
 }
 
-// Create and add theme toggle button
 function createThemeToggle() {
-    const toggleBtn = document.createElement('button');
-    toggleBtn.id = 'themeToggle';
-    toggleBtn.className = 'theme-toggle';
-    toggleBtn.innerHTML = '🌙';
-    toggleBtn.title = 'Switch to Dark Mode';
-    toggleBtn.setAttribute('aria-label', 'Toggle theme');
-    toggleBtn.onclick = toggleTheme;
-    document.body.appendChild(toggleBtn);
-    
-    // Update icon based on current theme
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    updateThemeIcon(currentTheme);
+    const savedTheme = localStorage.getItem('merkatoTheme') || 'light';
+    updateThemeIcon(savedTheme);
 }
+
+// ========================================
+// PRODUCT DATA SYNC
+// ========================================
+
+function syncProductData() {
+    let products = JSON.parse(localStorage.getItem('merkatoProducts'));
+    if (products && products.length > 0 && typeof productStock !== 'undefined') {
+        products.forEach(p => {
+            const key = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (productStock[key]) {
+                productStock[key].stock = p.stock;
+                productStock[key].status = p.stock <= 0 ? 'out-of-stock' : p.stock <= 10 ? 'low-stock' : 'in-stock';
+            }
+        });
+    }
+}
+
+// ========================================
+// SHOP PAGE - LOAD PRODUCTS FROM LOCALSTORAGE
+// ========================================
+
+function getDefaultProducts() {
+    return [
+        { id: 1, name: 'Yirgacheffe Buna (ቡና)', aisle: 'food', price: 2500, stock: 42, image: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No', description: 'Premium Ethiopian coffee beans' },
+        { id: 2, name: 'Pure Doro Berbere (በርበሬ)', aisle: 'food', price: 1750, stock: 85, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80', description: 'Traditional Ethiopian spice blend' },
+        { id: 3, name: 'Magna White Teff (ነጭ ጤፍ)', aisle: 'food', price: 4200, stock: 110, image: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA', description: 'Premium grade white teff grain' },
+        { id: 4, name: 'Miten Shiro Powder (ሚተን ሽሮ)', aisle: 'food', price: 650, stock: 200, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80', description: 'Roasted chickpea flour for Shiro Wat' },
+        { id: 5, name: 'Black Cardamom (ኮረሪማ)', aisle: 'food', price: 850, stock: 75, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80', description: 'Whole dried korerima pods' },
+        { id: 6, name: 'Traditional Kibe (የሀገር ቅቤ)', aisle: 'food', price: 2200, stock: 60, image: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80', description: 'Spiced clarified butter' },
+        { id: 7, name: 'Clay Jebena (ጀበና)', aisle: 'home', price: 850, stock: 45, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80', description: 'Traditional clay coffee pot' },
+        { id: 8, name: 'Sini Coffee Cups (ሲኒ)', aisle: 'home', price: 1200, stock: 30, image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80', description: 'Traditional ceramic coffee cups set of 6' },
+        { id: 9, name: 'Wooden Rekebot (ረከቦት)', aisle: 'home', price: 6500, stock: 18, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80', description: 'Carved wooden coffee ceremony tray' },
+        { id: 10, name: 'Habesha Kemis (ሀበሻ ቀሚስ)', aisle: 'apparel', price: 12000, stock: 25, image: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q', description: 'Traditional handwoven cotton dress' },
+        { id: 11, name: 'Cotton Netela (ነጠላ)', aisle: 'apparel', price: 2800, stock: 40, image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80', description: 'Traditional cotton scarf' },
+        { id: 12, name: 'Heavy Cotton Gabi (ጋቢ)', aisle: 'apparel', price: 4500, stock: 35, image: 'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80', description: 'Warm 4-layer cotton wrap' },
+        { id: 13, name: 'Woven Mesob (መሶብ)', aisle: 'crafts', price: 8500, stock: 12, image: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM', description: 'Traditional woven straw dining basket' },
+        { id: 14, name: 'Wooden Barchuma (በርጩማ)', aisle: 'crafts', price: 3200, stock: 20, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80', description: 'Carved wooden coffee stool' },
+        { id: 15, name: 'Electric Mitad (ምጣድ)', aisle: 'electronics', price: 18500, stock: 15, image: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE', description: 'Electric Injera baking stove' },
+        { id: 16, name: '55" 4K Smart TV', aisle: 'electronics', price: 68000, stock: 8, image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80', description: 'Ultra-HD 4K Smart LED TV' },
+        { id: 17, name: 'Solar Power Station', aisle: 'electronics', price: 42000, stock: 12, image: 'https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=300&q=80', description: 'Home solar power system' },
+        { id: 18, name: '4G Dual-SIM Smartphone', aisle: 'electronics', price: 22500, stock: 30, image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80', description: 'Dual-SIM smartphone with 128GB storage' }
+    ];
+}
+
+function loadShopProducts() {
+    const grids = document.querySelectorAll('.product-grid[id^="shopProductGrid"]');
+    if (!grids || grids.length === 0) {
+        console.warn('No product grids found on page');
+        return;
+    }
+
+    let products = JSON.parse(localStorage.getItem('merkatoProducts'));
+
+    if (!products || products.length === 0) {
+        products = getDefaultProducts();
+        localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    }
+    
+    renderShopProducts(products);
+}
+
+function renderShopProducts(products) {
+    // Find ALL product grids on the page
+    const grids = document.querySelectorAll('.product-grid[id^="shopProductGrid"]');
+    
+    if (!grids || grids.length === 0) {
+        console.warn('No product grids found on page');
+        return;
+    }
+    
+    if (!products || products.length === 0) {
+        grids.forEach(grid => {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:60px 20px;grid-column:1/-1;">
+                    <div style="font-size:64px;margin-bottom:20px;">📦</div>
+                    <h3 style="color:#1a1a2e;">No Products Found</h3>
+                    <p style="color:#888;">Check back later for new products!</p>
+                </div>
+            `;
+        });
+        return;
+    }
+    
+    // Define aisle mapping for grids
+    const aisleMapping = {
+        'shopProductGrid': 'food',
+        'shopProductGrid2': 'home',
+        'shopProductGrid3': 'apparel',
+        'shopProductGrid4': 'crafts',
+        'shopProductGrid5': 'electronics'
+    };
+    
+    const aisleLabels = {
+        food: 'AISLE 1 | FOOD',
+        home: 'AISLE 2 | HOME',
+        apparel: 'AISLE 3 | APPAREL',
+        crafts: 'AISLE 4 | CRAFTS',
+        electronics: 'AISLE 5 | ELECTRONICS'
+    };
+    
+    let wishlistItems = JSON.parse(localStorage.getItem('merkatoWishlist')) || [];
+    let reviews = JSON.parse(localStorage.getItem('merkatoReviews')) || {};
+    
+    // For each grid, filter products by aisle
+    grids.forEach(grid => {
+        const gridId = grid.id;
+        const targetAisle = aisleMapping[gridId];
+        
+        if (!targetAisle) {
+            // If grid ID not recognized, show all products
+            renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabels);
+            return;
+        }
+        
+        // Filter products for this aisle
+        const aisleProducts = products.filter(p => p.aisle === targetAisle);
+        
+        if (aisleProducts.length === 0) {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:40px 20px;grid-column:1/-1;color:#888;">
+                    <div style="font-size:32px;margin-bottom:10px;">📭</div>
+                    <p>No products in this aisle yet.</p>
+                </div>
+            `;
+        } else {
+            renderProductsInGrid(grid, aisleProducts, wishlistItems, reviews, aisleLabels);
+        }
+    });
+}
+
+function renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabels) {
+    let html = '';
+    
+    products.forEach(product => {
+        const inWishlist = wishlistItems.some(item => item.id === product.id.toString());
+        const wishlistIcon = inWishlist ? '❤️' : '🤍';
+        const wishlistColor = inWishlist ? '#d9534f' : '#888';
+        
+        const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
+        const stockLabels = {
+            'in-stock': { icon: '✅', label: 'In Stock', color: '#2e7d32' },
+            'low-stock': { icon: '⚠️', label: `Low Stock (${product.stock} left)`, color: '#e65100' },
+            'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
+        };
+        const stockInfo = stockLabels[stockStatus];
+        
+        const productReviews = reviews[product.id] || [];
+        const reviewCount = productReviews.length;
+        const avgRating = reviewCount > 0 ? (productReviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount) : 0;
+        const stars = '⭐'.repeat(Math.round(avgRating)) + '☆'.repeat(5 - Math.round(avgRating));
+        
+        html += `
+            <div class="product-card" data-product-id="${product.id}" data-aisle="${product.aisle}" data-price="${product.price}">
+                <a href="product-detail.html?id=${product.id}">
+                    <img src="${product.image || 'https://via.placeholder.com/130'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/130'">
+                </a>
+                <div class="aisle">${aisleLabels[product.aisle] || product.aisle}</div>
+                <h3><a href="product-detail.html?id=${product.id}">${product.name}</a></h3>
+                <div class="price">${product.price.toLocaleString()} ETB</div>
+                <div style="font-size:12px;font-weight:600;color:${stockInfo.color};margin:4px 0;">
+                    ${stockInfo.icon} ${stockInfo.label}
+                </div>
+                <div class="product-rating-shop" data-product-id="${product.id}" style="font-size:13px;color:#888;margin:6px 0;">
+                    <span class="shop-stars">${stars}</span>
+                    <span class="shop-review-count">(${reviewCount} ${reviewCount === 1 ? 'review' : 'reviews'})</span>
+                </div>
+                <a href="product-detail.html?id=${product.id}" class="btn btn-sm">View &rarr;</a>
+                <button class="btn btn-sm wishlist-btn" 
+                        data-product-id="${product.id}"
+                        data-product-name="${product.name}"
+                        data-product-price="${product.price}"
+                        data-product-image="${product.image}"
+                        data-aisle="${product.aisle}"
+                        onclick="toggleWishlist(this)"
+                        style="font-size:12px;margin-top:6px;display:block;width:100%;color:${wishlistColor};">
+                    ${wishlistIcon} Wishlist
+                </button>
+            </div>
+        `;
+    });
+
+    grid.innerHTML = html;
+    updateWishlistButtons();
+}
+
+// ========================================
+// PRODUCT DETAIL PAGE
+// ========================================
+
+function loadProductDetail() {
+    const container = document.getElementById('productDetailContainer');
+    if (!container) return;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    
+    if (!productId) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:60px;">
+                <div style="font-size:48px;">❌</div>
+                <h3 style="color:#1a1a2e;">Product not found</h3>
+                <p style="color:#888;">Please go back to the shop.</p>
+                <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
+            </div>
+        `;
+        return;
+    }
+    
+    const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+    const product = products.find(p => p.id === parseInt(productId));
+    
+    if (!product) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:60px;">
+                <div style="font-size:48px;">❌</div>
+                <h3 style="color:#1a1a2e;">Product not found</h3>
+                <p style="color:#888;">The product you're looking for doesn't exist.</p>
+                <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
+            </div>
+        `;
+        return;
+    }
+    
+    renderProductDetail(product);
+}
+
+function renderProductDetail(product) {
+    const container = document.getElementById('productDetailContainer');
+    if (!container) return;
+    
+    const aisleLabels = {
+        food: 'AISLE 1 | FOOD',
+        home: 'AISLE 2 | HOME',
+        apparel: 'AISLE 3 | APPAREL',
+        crafts: 'AISLE 4 | CRAFTS',
+        electronics: 'AISLE 5 | ELECTRONICS'
+    };
+    
+    const aisleClass = {
+        food: 'aisle-food',
+        home: 'aisle-home',
+        apparel: 'aisle-apparel',
+        crafts: 'aisle-crafts',
+        electronics: 'aisle-electronics'
+    };
+    
+    const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
+    const stockLabels = {
+        'in-stock': { icon: '✅', label: `In Stock (${product.stock} available)`, color: '#2e7d32' },
+        'low-stock': { icon: '⚠️', label: `Low Stock (${product.stock} left)`, color: '#e65100' },
+        'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
+    };
+    const stockInfo = stockLabels[stockStatus];
+    
+    let wishlistItems = JSON.parse(localStorage.getItem('merkatoWishlist')) || [];
+    const inWishlist = wishlistItems.some(item => item.id === product.id.toString());
+    
+    container.innerHTML = `
+        <section id="${product.id}" data-product-id="${product.id}" data-aisle="${product.aisle}" data-price="${product.price}">
+            <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
+                <div style="flex:0 0 250px;text-align:center;">
+                    <img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.name}" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;" onerror="this.src='https://via.placeholder.com/250'">
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <span class="aisle-badge ${aisleClass[product.aisle] || ''}">${aisleLabels[product.aisle] || product.aisle}</span>
+                    <h2 style="margin:10px 0 5px;">${product.name}</h2>
+                    <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
+                    <div style="font-size:14px;font-weight:600;color:${stockInfo.color};margin:6px 0;padding:4px 12px;background:${stockInfo.color}15;border-radius:20px;display:inline-block;">
+                        ${stockInfo.icon} ${stockInfo.label}
+                    </div>
+                    ${product.description ? `<p style="color:#555;margin-top:10px;">${product.description}</p>` : ''}
+                    
+                    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;">
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="${product.id}"
+                                data-product-name="${product.name}"
+                                data-product-price="${product.price}"
+                                data-product-image="${product.image || ''}"
+                                style="padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
+                        <button type="button" 
+                                class="btn btn-outline wishlist-btn"
+                                data-product-id="${product.id}"
+                                data-product-name="${product.name}"
+                                data-product-price="${product.price}"
+                                data-product-image="${product.image || ''}"
+                                data-aisle="${product.aisle}"
+                                onclick="toggleWishlist(this)"
+                                style="padding:12px 20px;font-size:16px;color:${inWishlist ? '#d9534f' : '#888'};">
+                            ${inWishlist ? '❤️' : '🤍'} Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top:30px;border-top:2px solid #f0f0f0;padding-top:25px;">
+                <div class="product-rating" data-product-id="${product.id}">
+                    <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                        <div style="font-size:28px;" class="stars">⭐⭐⭐⭐⭐</div>
+                        <div>
+                            <div style="font-size:20px;font-weight:700;color:#1a1a2e;">
+                                <span class="avg-rating">0.0</span> / 5.0
+                            </div>
+                            <div style="font-size:14px;color:#888;">
+                                <span class="review-count">0</span> reviews
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top:20px;background:#f8f9fa;padding:20px;border-radius:10px;">
+                    <h4 style="margin-bottom:12px;">✍️ Write a Review</h4>
+                    <div style="margin-bottom:12px;">
+                        <label style="font-weight:600;display:block;margin-bottom:5px;">Your Rating:</label>
+                        <div style="display:flex;gap:4px;font-size:30px;">
+                            <span class="star-1-${product.id}" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('${product.id}', 1)" onmouseout="resetStars('${product.id}')" onclick="setRating('${product.id}', 1)">☆</span>
+                            <span class="star-2-${product.id}" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('${product.id}', 2)" onmouseout="resetStars('${product.id}')" onclick="setRating('${product.id}', 2)">☆</span>
+                            <span class="star-3-${product.id}" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('${product.id}', 3)" onmouseout="resetStars('${product.id}')" onclick="setRating('${product.id}', 3)">☆</span>
+                            <span class="star-4-${product.id}" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('${product.id}', 4)" onmouseout="resetStars('${product.id}')" onclick="setRating('${product.id}', 4)">☆</span>
+                            <span class="star-5-${product.id}" style="cursor:pointer;color:#ddd;transition:all 0.2s ease;" onmouseover="highlightStars('${product.id}', 5)" onmouseout="resetStars('${product.id}')" onclick="setRating('${product.id}', 5)">☆</span>
+                        </div>
+                        <input type="hidden" id="review-rating-${product.id}" value="0">
+                        <span style="font-size:13px;color:#888;display:block;margin-top:4px;">Click on a star to rate</span>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label for="review-comment-${product.id}" style="font-weight:600;display:block;margin-bottom:5px;">Your Review:</label>
+                        <textarea id="review-comment-${product.id}" rows="3" placeholder="Share your experience with this product..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;"></textarea>
+                    </div>
+                    <button onclick="submitReview('${product.id}')" class="btn btn-primary">Submit Review</button>
+                </div>
+                
+                <div style="margin-top:20px;">
+                    <h4 style="margin-bottom:12px;">📋 Customer Reviews</h4>
+                    <div class="reviews-container" data-product-id="${product.id}"></div>
+                </div>
+            </div>
+        </section>
+    `;
+    
+    if (typeof displayReviews === 'function') {
+        displayReviews(product.id);
+        updateAverageRating(product.id);
+    }
+}
+
+// ========================================
+// ADMIN FUNCTIONS
+// ========================================
+
+function getAllProducts() {
+    let products = JSON.parse(localStorage.getItem('merkatoProducts'));
+    if (!products || products.length === 0) {
+        products = getDefaultProducts();
+        localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    }
+    return products;
+}
+
+function loadAdminStats() {
+    const products = getAllProducts();
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
+    
+    let totalRevenue = 0;
+    orders.forEach(order => {
+        if (order.status !== 'Cancelled') {
+            totalRevenue += order.total || 0;
+        }
+    });
+    
+    document.getElementById('statProducts').textContent = products.length;
+    document.getElementById('statOrders').textContent = orders.length;
+    document.getElementById('statRevenue').textContent = totalRevenue.toLocaleString();
+    document.getElementById('statUsers').textContent = users.length || 0;
+}
+
+function loadAdminProducts() {
+    const container = document.getElementById('adminProductList');
+    const products = getAllProducts();
+    
+    if (products.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">📦</span>
+                <p>No products found. Add your first product!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const aisleLabels = {
+        food: '🍲 Food',
+        home: '🏠 Home',
+        apparel: '👗 Apparel',
+        crafts: '🎨 Crafts',
+        electronics: '📱 Electronics'
+    };
+    
+    let html = '';
+    products.forEach(product => {
+        html += `
+            <div class="admin-product-item" data-product-id="${product.id}">
+                <div class="product-info">
+                    <img src="${product.image || 'https://via.placeholder.com/50'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/50'">
+                    <div>
+                        <div class="name">${product.name}</div>
+                        <div class="details">${aisleLabels[product.aisle] || product.aisle} • ${product.price.toLocaleString()} ETB • ${product.stock} in stock</div>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="btn btn-warning-sm" onclick="editProduct(${product.id})">✏️ Edit</button>
+                    <button class="btn btn-danger-sm" onclick="deleteProduct(${product.id})">🗑️ Delete</button>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function loadAdminOrders() {
+    const container = document.getElementById('adminOrderList');
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    
+    if (orders.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">📋</span>
+                <p>No orders found.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    orders.forEach(order => {
+        const statusColor = order.status === 'Delivered' ? '#2e7d32' :
+                           order.status === 'Processing' ? '#e65100' :
+                           order.status === 'Shipped' ? '#1565c0' :
+                           order.status === 'Cancelled' ? '#c62828' : '#888';
+        html += `
+            <div class="admin-order-item">
+                <div class="order-info">
+                    <span class="order-id">#${order.id}</span>
+                    <span class="order-date">${order.date}</span>
+                    <span style="color:${statusColor};font-weight:600;">${order.status}</span>
+                    <span class="order-total">${order.total.toLocaleString()} ETB</span>
+                    <span style="font-size:13px;color:#888;">${order.items.length} items</span>
+                </div>
+                <div class="order-actions">
+                    <select onchange="updateOrderStatus('${order.id}', this.value)">
+                        <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>⏳ Processing</option>
+                        <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>🚚 Shipped</option>
+                        <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
+                        <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>❌ Cancelled</option>
+                    </select>
+                    <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails('${order.id}')">📋 Details</button>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function loadAdminUsers() {
+    const container = document.getElementById('adminUserList');
+    let users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
+    
+    if (users.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <span class="icon">👤</span>
+                <p>No registered users found.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '';
+    users.forEach(user => {
+        html += `
+            <div class="admin-user-item">
+                <div class="user-info">
+                    <div>
+                        <div class="name">👤 ${user.name || 'User'}</div>
+                        <div class="details">${user.email || ''} • Joined: ${user.joinDate || 'Unknown'}</div>
+                    </div>
+                </div>
+                <div class="user-actions">
+                    <button class="btn btn-danger-sm" onclick="deleteUser('${user.email}')">🗑️ Remove</button>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function deleteProduct(id) {
+    if (!confirm('⚠️ Are you sure you want to delete this product?')) return;
+    
+    let products = getAllProducts();
+    products = products.filter(p => p.id !== id);
+    localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    
+    loadAdminProducts();
+    loadAdminStats();
+    showNotification('🗑️ Product deleted successfully');
+}
+
+function deleteUser(email) {
+    if (!confirm(`⚠️ Are you sure you want to remove this user?`)) return;
+    
+    let users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
+    users = users.filter(u => u.email !== email);
+    localStorage.setItem('merkatoUsers', JSON.stringify(users));
+    
+    loadAdminUsers();
+    loadAdminStats();
+    showNotification('🗑️ User removed successfully');
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const index = orders.findIndex(o => o.id === orderId);
+    if (index !== -1) {
+        orders[index].status = newStatus;
+        localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+        loadAdminOrders();
+        loadAdminStats();
+        showNotification(`✅ Order ${orderId} updated to ${newStatus}`);
+    }
+}
+
+function viewOrderDetails(orderId) {
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId);
+    if (!order) {
+        showNotification('⚠️ Order not found');
+        return;
+    }
+    
+    const statusColor = order.status === 'Delivered' ? '#008000' :
+                       order.status === 'Processing' ? '#ffa500' :
+                       order.status === 'Shipped' ? '#0066cc' : '#d9534f';
+    
+    alert(
+        `📦 Order Details\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `Order #: ${order.id}\n` +
+        `Date: ${order.date}\n` +
+        `Status: ${order.status}\n` +
+        `Payment: ${order.payment || 'Not specified'}\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `Items:\n` +
+        order.items.map(item => `  ${item.name} × ${item.quantity} = ${(item.price * item.quantity).toLocaleString()} ETB`).join('\n') +
+        `\n━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `Subtotal: ${order.subtotal.toLocaleString()} ETB\n` +
+        `Shipping: ${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}\n` +
+        `Tax: ${order.tax.toLocaleString()} ETB\n` +
+        `Total: ${order.total.toLocaleString()} ETB\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `Shipping Address:\n` +
+        `${order.customer.name}\n` +
+        `${order.customer.address}\n` +
+        `📞 ${order.customer.phone}\n` +
+        `✉️ ${order.customer.email}`
+    );
+}
+
+function editProduct(id) {
+    const products = getAllProducts();
+    const product = products.find(p => p.id === id);
+    if (!product) {
+        showNotification('⚠️ Product not found', 'error');
+        return;
+    }
+    
+    document.getElementById('productName').value = product.name;
+    document.getElementById('productAisle').value = product.aisle;
+    document.getElementById('productPrice').value = product.price;
+    document.getElementById('productStock').value = product.stock;
+    document.getElementById('productImage').value = product.image || '';
+    document.getElementById('productDescription').value = product.description || '';
+    
+    document.getElementById('productSubmitBtn').textContent = '✏️ Update Product';
+    document.getElementById('cancelEditBtn').style.display = 'inline-block';
+    
+    switchTab('add-product');
+    showNotification(`✏️ Editing "${product.name}"`);
+}
+
+function addProduct() {
+    const name = document.getElementById('productName').value.trim();
+    const aisle = document.getElementById('productAisle').value;
+    const price = parseFloat(document.getElementById('productPrice').value);
+    const stock = parseInt(document.getElementById('productStock').value);
+    const image = document.getElementById('productImage').value.trim();
+    const description = document.getElementById('productDescription').value.trim();
+    
+    if (!name || !price || !stock) {
+        showNotification('⚠️ Please fill in all required fields', 'error');
+        return;
+    }
+    
+    let products = getAllProducts();
+    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    
+    products.push({
+        id: newId,
+        name: name,
+        aisle: aisle,
+        price: price,
+        stock: stock,
+        image: image || 'https://via.placeholder.com/130',
+        description: description || ''
+    });
+    
+    localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    
+    document.getElementById('addProductForm').reset();
+    
+    loadAdminProducts();
+    loadAdminStats();
+    showNotification(`✅ Product "${name}" added successfully!`);
+    
+    switchTab('products');
+}
+
+function updateProduct(id) {
+    const name = document.getElementById('productName').value.trim();
+    const aisle = document.getElementById('productAisle').value;
+    const price = parseFloat(document.getElementById('productPrice').value);
+    const stock = parseInt(document.getElementById('productStock').value);
+    const image = document.getElementById('productImage').value.trim();
+    const description = document.getElementById('productDescription').value.trim();
+    
+    if (!name || !price || !stock) {
+        showNotification('⚠️ Please fill in all required fields', 'error');
+        return;
+    }
+    
+    let products = getAllProducts();
+    const index = products.findIndex(p => p.id === id);
+    if (index === -1) {
+        showNotification('⚠️ Product not found', 'error');
+        return;
+    }
+    
+    const oldName = products[index].name;
+    
+    products[index] = {
+        ...products[index],
+        name: name,
+        aisle: aisle,
+        price: price,
+        stock: stock,
+        image: image || products[index].image,
+        description: description || products[index].description
+    };
+    
+    localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    
+    cancelEdit();
+    
+    loadAdminProducts();
+    loadAdminStats();
+    showNotification(`✅ Product "${oldName}" updated to "${name}" successfully!`);
+}
+
+function cancelEdit() {
+    document.getElementById('addProductForm').reset();
+    document.getElementById('productSubmitBtn').textContent = '➕ Add Product';
+    document.getElementById('cancelEditBtn').style.display = 'none';
+}
+
+function switchTab(tab) {
+    document.querySelectorAll('.admin-tabs button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`.admin-tabs button[onclick*="${tab}"]`).classList.add('active');
+    
+    document.querySelectorAll('.admin-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    const panel = document.getElementById(`panel-${tab}`);
+    if (panel) {
+        panel.classList.add('active');
+    }
+    
+    if (tab === 'products') loadAdminProducts();
+    if (tab === 'orders') loadAdminOrders();
+    if (tab === 'users') loadAdminUsers();
+}
+
+// ========================================
+// DOM READY - Initialize Everything
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Page Loaded:', window.location.pathname);
+
+    updateSubscriberCount();
+    loadCart();
+    checkUserOnLoad();
+    loadWishlist();
+    loadTheme();
+    createThemeToggle();
+    loadReviews();
+    syncProductData();
+
+    // ===== CHECKOUT PAGE =====
+    if (window.location.pathname.includes('checkout.html')) {
+        loadCheckoutSummary();
+    }
+
+    // ===== ORDER CONFIRMATION PAGE =====
+    if (window.location.pathname.includes('order-confirmation.html')) {
+        loadOrderConfirmation();
+    }
+
+    // ===== RETURNS PAGE =====
+    if (window.location.pathname.includes('returns.html')) {
+        loadReturnRequests();
+    }
+
+    // ===== PRODUCT DETAIL PAGE =====
+    if (window.location.pathname.includes('product-detail.html')) {
+        loadProductDetail();
+        updateStockBadges();
+    }
+
+    // ===== SHOP PAGE =====
+    if (window.location.pathname.includes('shop.html')) {
+        loadShopProducts();
+        updateShopRatings();
+        updateStockBadges();
+    }
+
+    // ===== ORDERS PAGE =====
+    if (window.location.pathname.includes('orders.html')) {
+        loadOrders();
+    }
+
+    // ===== PROFILE PAGE =====
+    if (window.location.pathname.includes('profile.html')) {
+        loadUserProfile();
+    }
+
+    // ===== ADMIN PAGE =====
+    if (window.location.pathname.includes('admin.html')) {
+        loadAdminStats();
+        loadAdminProducts();
+        loadAdminOrders();
+        loadAdminUsers();
+    }
+
+    // ===== PROFILE FORM =====
+    const profileForm = document.getElementById('profileForm');
+    if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            saveUserProfile();
+        });
+    }
+
+    // ===== CART PAGE =====
+    if (document.querySelector('.cart-items')) {
+        displayCartItems();
+    }
+
+    // ===== ADD TO CART BUTTONS =====
+    initAddToCartButtons();
+
+    // ===== SEARCH =====
+    initialiseSearch();
+
+    // ===== LOGIN FORM =====
+    const loginForm = document.querySelector('form[action="index.html"]');
+    if (loginForm && window.location.pathname.includes('login.html')) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            loginUser();
+        });
+    }
+    
+    updateWishlistButtons();
+    
+    console.log('✅ MERKATO JavaScript Ready!');
+});
+
+console.log('🛒 MERKATO JavaScript Loaded!');
+console.log('👤 Login system ready!');
