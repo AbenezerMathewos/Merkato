@@ -1358,6 +1358,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== LOAD WISHLIST =====
     loadWishlist();
 
+    // ===== LOAD THEME =====
+loadTheme();
+
+// ===== CREATE THEME TOGGLE =====
+createThemeToggle();
+
     // ===== LOAD REVIEWS =====
     loadReviews();
 
@@ -3329,4 +3335,121 @@ function viewOrderDetails(orderId) {
             this.remove();
         }
     });
+}
+
+// ========================================
+// DARK MODE SYSTEM
+// ========================================
+
+// ========================================
+// DARK MODE SYSTEM - FIXED
+// ========================================
+
+// ========================================
+// DARK MODE SYSTEM - COMPLETE FIX
+// ========================================
+
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('merkatoTheme', newTheme);
+    
+    updateThemeIcon(newTheme);
+    
+    console.log('Theme changed to:', newTheme); // Debug
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('merkatoTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
+    
+    console.log('Theme loaded:', theme); // Debug
+}
+
+function updateThemeIcon(theme) {
+    const toggleBtn = document.getElementById('themeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        toggleBtn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+        console.log('Icon updated to:', toggleBtn.textContent); // Debug
+    } else {
+        console.log('Toggle button not found!'); // Debug
+    }
+}
+
+function createThemeToggle() {
+    const savedTheme = localStorage.getItem('merkatoTheme') || 'light';
+    updateThemeIcon(savedTheme);
+    console.log('Theme toggle created'); // Debug
+}
+function loadTheme() {
+    const savedTheme = localStorage.getItem('merkatoTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
+}
+
+function updateThemeIcon(theme) {
+    const toggleBtn = document.getElementById('themeToggle');
+    if (toggleBtn) {
+        toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        toggleBtn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    }
+}
+
+function createThemeToggle() {
+    // Theme toggle is already in HTML, just update icon
+    const savedTheme = localStorage.getItem('merkatoTheme') || 'light';
+    updateThemeIcon(savedTheme);
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('merkatoTheme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
+}
+
+function updateThemeIcon(theme) {
+    const toggleBtn = document.getElementById('themeToggle');
+    const headerIcon = document.getElementById('headerThemeIcon');
+
+    const icon = theme === 'dark' ? '☀️' : '🌙';
+    const title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+
+    if (toggleBtn) {
+        toggleBtn.innerHTML = icon;
+        toggleBtn.title = title;
+    }
+
+    if (headerIcon) {
+        headerIcon.textContent = icon;
+    }
+}
+
+// Create and add theme toggle button
+function createThemeToggle() {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.id = 'themeToggle';
+    toggleBtn.className = 'theme-toggle';
+    toggleBtn.innerHTML = '🌙';
+    toggleBtn.title = 'Switch to Dark Mode';
+    toggleBtn.setAttribute('aria-label', 'Toggle theme');
+    toggleBtn.onclick = toggleTheme;
+    document.body.appendChild(toggleBtn);
+    
+    // Update icon based on current theme
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    updateThemeIcon(currentTheme);
 }
