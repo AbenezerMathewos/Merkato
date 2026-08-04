@@ -1400,6 +1400,11 @@ if (window.location.pathname.includes('shop.html')) {
         updateShopRatings();
     }
 
+     // Load orders if on orders page
+if (window.location.pathname.includes('orders.html')) {
+    loadOrders();
+}
+
     if (window.location.pathname.includes('profile.html')) {
         loadUserProfile();
     }
@@ -3068,4 +3073,260 @@ function renderNotifyButton(productId) {
         return `<button class="notify-btn" onclick="notifyMe('${productId}')">🔔 Notify Me When In Stock</button>`;
     }
     return '';
+}
+
+// ========================================
+// ORDERS PAGE FUNCTION
+// ========================================
+
+function loadOrders() {
+    const userData = localStorage.getItem('merkatoUser');
+    const container = document.getElementById('ordersContainer');
+    
+    if (!container) return;
+    
+    if (!userData) {
+        container.innerHTML = `
+            <div class="empty-orders">
+                <div class="icon">🔒</div>
+                <h3>Please Sign In</h3>
+                <p>Sign in to view your order history.</p>
+                <a href="login.html" class="btn btn-primary">Sign In →</a>
+            </div>
+        `;
+        return;
+    }
+    
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    
+    if (orders.length === 0) {
+        container.innerHTML = `
+            <div class="empty-orders">
+                <div class="icon">📦</div>
+                <h3>No Orders Yet</h3>
+                <p>Start shopping and your orders will appear here!</p>
+                <a href="shop.html" class="btn btn-primary">Start Shopping →</a>
+            </div>
+        `;
+        return;
+    }
+    
+    // Calculate stats
+    const stats = {
+        processing: orders.filter(o => o.status === 'Processing').length,
+        shipped: orders.filter(o => o.status === 'Shipped').length,
+        delivered: orders.filter(o => o.status === 'Delivered').length,
+        cancelled: orders.filter(o => o.status === 'Cancelled').length
+    };
+    
+    let html = '';
+    
+    // Stats
+    html += `
+        <div class="order-stats">
+            <span class="stat-processing">⏳ Processing: <strong>${stats.processing}</strong></span>
+            <span class="stat-shipped">🚚 Shipped: <strong>${stats.shipped}</strong></span>
+            <span class="stat-delivered">✅ Delivered: <strong>${stats.delivered}</strong></span>
+            <span class="stat-cancelled">❌ Cancelled: <strong>${stats.cancelled}</strong></span>
+        </div>
+    `;
+    
+    // Orders
+    orders.forEach((order) => {
+        const statusClass = order.status === 'Delivered' ? 'order-status-delivered' :
+                           order.status === 'Processing' ? 'order-status-processing' :
+                           order.status === 'Shipped' ? 'order-status-shipped' :
+                           order.status === 'Cancelled' ? 'order-status-cancelled' : '';
+        
+        const statusIcon = order.status === 'Delivered' ? '✅' :
+                          order.status === 'Processing' ? '⏳' :
+                          order.status === 'Shipped' ? '🚚' :
+                          order.status === 'Cancelled' ? '❌' : '📋';
+        
+        html += `
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">#${order.id}</span>
+                        <span class="order-date">${order.date}</span>
+                    </div>
+                    <span class="order-status ${statusClass}">${statusIcon} ${order.status}</span>
+                </div>
+                <div class="order-body">
+                    ${order.items.map(item => `
+                        <div class="order-item">
+                            <span>${item.name} × ${item.quantity}</span>
+                            <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
+                        </div>
+                    `).join('')}
+                    <div class="order-total">
+                        <span>Total</span>
+                        <span class="total-price">${order.total.toLocaleString()} ETB</span>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <div class="tracking">
+                        ${order.tracking ? `📦 Tracking: <strong>${order.tracking}</strong>` : '📦 Tracking number will be provided soon'}
+                    </div>
+                    <div class="order-actions">
+                        ${order.status !== 'Cancelled' && order.status !== 'Delivered' ? `
+                            <button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.id}')">Cancel Order</button>
+                        ` : ''}
+                        ${order.status === 'Delivered' ? `
+                            <button class="btn btn-primary btn-sm" onclick="reorder('${order.id}')">🔄 Buy Again</button>
+                        ` : ''}
+                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails('${order.id}')">📋 Details</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function cancelOrder(orderId) {
+    if (confirm('Are you sure you want to cancel this order?')) {
+        let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+        const index = orders.findIndex(o => o.id === orderId);
+        if (index !== -1) {
+            orders[index].status = 'Cancelled';
+            localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+            loadOrders();
+            showNotification('❌ Order cancelled successfully');
+        }
+    }
+}
+
+function reorder(orderId) {
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+        order.items.forEach(item => {
+            const productId = item.name.toLowerCase().replace(/\s/g, '-').replace(/[^a-z-]/g, '');
+            addToCart(productId, item.name, item.price, '');
+        });
+        window.location.href = 'cart.html';
+    }
+}
+
+function viewOrderDetails(orderId) {
+    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId);
+    if (!order) {
+        showNotification('⚠️ Order not found');
+        return;
+    }
+    
+    let itemsHtml = order.items.map(item => `
+        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
+            <span>${item.name} × ${item.quantity}</span>
+            <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
+        </div>
+    `).join('');
+    
+    const statusColor = order.status === 'Delivered' ? '#008000' :
+                       order.status === 'Processing' ? '#ffa500' :
+                       order.status === 'Shipped' ? '#0066cc' : '#d9534f';
+    
+    // Create a modal for order details
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(5px);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: modalFadeIn 0.3s ease;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px 35px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideUp 0.4s ease;
+        ">
+            <div style="text-align:center;margin-bottom:15px;">
+                <div style="font-size:48px;">📦</div>
+                <h2 style="color:#1a1a2e;margin:5px 0;">Order Details</h2>
+                <p style="color:#888;font-size:13px;">${order.id}</p>
+            </div>
+            
+            <div style="background:#f8f9fa;padding:12px 16px;border-radius:8px;margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                    <span style="color:#888;">Date</span>
+                    <span style="font-weight:600;">${order.date}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                    <span style="color:#888;">Status</span>
+                    <span style="font-weight:600;color:${statusColor};">${order.status}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                    <span style="color:#888;">Payment</span>
+                    <span style="font-weight:600;">${order.payment || 'Not specified'}</span>
+                </div>
+            </div>
+            
+            <div style="margin-bottom:12px;">
+                <h4 style="margin-bottom:8px;">Items</h4>
+                ${itemsHtml}
+            </div>
+            
+            <div style="background:#f8f9fa;padding:12px 16px;border-radius:8px;margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                    <span style="color:#888;">Subtotal</span>
+                    <span>${order.subtotal.toLocaleString()} ETB</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                    <span style="color:#888;">Shipping</span>
+                    <span style="color:${order.shipping === 0 ? '#008000' : '#d9534f'};">${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #e0e0e0;">
+                    <span style="color:#888;">Tax</span>
+                    <span>${order.tax.toLocaleString()} ETB</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:8px 0 0 0;font-size:18px;font-weight:700;">
+                    <span>Total</span>
+                    <span style="color:#d9534f;">${order.total.toLocaleString()} ETB</span>
+                </div>
+            </div>
+            
+            <div style="background:#fff3cd;padding:12px 16px;border-radius:8px;margin-bottom:15px;font-size:13px;color:#856404;">
+                <strong>📦 Shipping Address</strong>
+                <div style="margin-top:4px;">
+                    ${order.customer.name}<br>
+                    ${order.customer.address}<br>
+                    📞 ${order.customer.phone}<br>
+                    ✉️ ${order.customer.email}
+                </div>
+            </div>
+            
+            <button onclick="this.closest('div[style]').parentElement.remove()" 
+                    style="width:100%;padding:12px;background:#008000;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:0.3s;"
+                    onmouseover="this.style.background='#006600'" onmouseout="this.style.background='#008000'">
+                Close
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Close on background click
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.remove();
+        }
+    });
 }
