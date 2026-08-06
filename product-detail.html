@@ -8,6 +8,12 @@
     <meta name="author" content="MERKATO INC">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
+    <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">
     <title>Product Details — MERKATO</title>
 </head>
 <body>
@@ -163,6 +169,15 @@
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
     <script src="script.js"></script>
-
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
 </body>
 </html>

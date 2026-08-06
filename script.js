@@ -3563,7 +3563,10 @@ document.addEventListener('DOMContentLoaded', function() {
         loadProductDetail();
         updateStockBadges();
     }
-
+// Add tracking buttons to orders
+if (window.location.pathname.includes('orders.html')) {
+    setTimeout(addTrackingButton, 100);
+}
     // ===== SHOP PAGE =====
     if (window.location.pathname.includes('shop.html')) {
         loadShopProducts();
@@ -3625,3 +3628,390 @@ document.addEventListener('DOMContentLoaded', function() {
 
 console.log('🛒 MERKATO JavaScript Loaded!');
 console.log('👤 Login system ready!');
+
+// ========================================
+// PAYMENT SYSTEM
+// ========================================
+
+let selectedPayment = 'telebirr';
+let currentOrder = null;
+
+function openPaymentModal() {
+    const form = document.getElementById('checkoutForm');
+    const fullname = document.getElementById('fullname')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const address = document.getElementById('address')?.value || '';
+    
+    if (!fullname || !email || !phone || !address) {
+        showNotification('⚠️ Please fill in all shipping details');
+        return;
+    }
+    
+    if (cart.length === 0) {
+        showNotification('⚠️ Your cart is empty');
+        return;
+    }
+    
+    const subtotal = getCartTotal();
+    const shipping = subtotal > 3000 ? 0 : 200;
+    const tax = subtotal * 0.15;
+    const total = subtotal + shipping + tax;
+    
+    document.getElementById('paymentAmount').textContent = total.toLocaleString() + ' ETB';
+    document.getElementById('paymentModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Reset states
+    document.getElementById('paymentInitial').style.display = 'block';
+    document.getElementById('paymentProcessing').style.display = 'none';
+    document.getElementById('paymentSuccess').style.display = 'none';
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function selectPayment(method) {
+    selectedPayment = method;
+    
+    // Update button styles
+    document.querySelectorAll('.payment-options button').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.style.borderColor = '#e0e0e0';
+        btn.style.background = '#fff';
+    });
+    
+    const btn = document.getElementById(`pay-${method}`);
+    if (btn) {
+        btn.classList.add('selected');
+        btn.style.borderColor = '#008000';
+        btn.style.background = '#e8f5e9';
+    }
+}
+
+function processPayment() {
+    const fullname = document.getElementById('fullname')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const address = document.getElementById('address')?.value || '';
+    
+    // Show processing
+    document.getElementById('paymentInitial').style.display = 'none';
+    document.getElementById('paymentProcessing').style.display = 'block';
+    
+    // Animated dots
+    let dots = 0;
+    const dotInterval = setInterval(() => {
+        dots = (dots % 3) + 1;
+        document.getElementById('processingDots').textContent = '.'.repeat(dots);
+    }, 500);
+    
+    // Simulate payment processing (2-3 seconds)
+    setTimeout(() => {
+        clearInterval(dotInterval);
+        
+        const subtotal = getCartTotal();
+        const shipping = subtotal > 3000 ? 0 : 200;
+        const tax = subtotal * 0.15;
+        const total = subtotal + shipping + tax;
+        
+        // Generate order number
+        const orderNumber = generateOrderNumber();
+        
+        // Create order
+        currentOrder = {
+            id: orderNumber,
+            date: new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }),
+            items: cart.map(item => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                subtotal: item.price * item.quantity
+            })),
+            customer: {
+                name: fullname,
+                email: email,
+                phone: phone,
+                address: address
+            },
+            payment: selectedPayment,
+            subtotal: subtotal,
+            shipping: shipping,
+            tax: tax,
+            total: total,
+            status: 'Processing'
+        };
+        
+        // Save order
+        let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+        orders.unshift(currentOrder);
+        localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+        localStorage.setItem('lastOrderNumber', orderNumber);
+        
+        // Clear cart
+        cart = [];
+        saveCart();
+        updateCartCount();
+        
+        // Show success
+        document.getElementById('paymentProcessing').style.display = 'none';
+        document.getElementById('paymentSuccess').style.display = 'block';
+        document.getElementById('successOrderId').textContent = orderNumber;
+        document.getElementById('successPayment').textContent = selectedPayment === 'telebirr' ? 'Telebirr' : 
+                                                              selectedPayment === 'cod' ? 'Cash on Delivery' : 
+                                                              'Credit/Debit Card';
+        document.getElementById('successTotal').textContent = total.toLocaleString() + ' ETB';
+        
+        showNotification('✅ Payment successful! Order #' + orderNumber);
+        
+    }, 2500);
+}
+
+function printOrderReceipt() {
+    if (!currentOrder) {
+        showNotification('⚠️ No order to print');
+        return;
+    }
+    
+    const order = currentOrder;
+    let itemsHtml = order.items.map(item => `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>${item.price.toLocaleString()} ETB</td>
+            <td>${item.subtotal.toLocaleString()} ETB</td>
+        </tr>
+    `).join('');
+    
+    const receiptWindow = window.open('', '_blank', 'width=600,height=600');
+    receiptWindow.document.write(`
+        <html>
+        <head>
+            <title>MERKATO - Order Receipt</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; }
+                .header { text-align: center; border-bottom: 2px solid #008000; padding-bottom: 10px; }
+                .header h1 { color: #008000; margin: 0; }
+                .header p { color: #888; margin: 5px 0; }
+                table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                th { background: #f5f5f5; text-align: left; padding: 8px; }
+                td { padding: 6px 8px; border-bottom: 1px solid #eee; }
+                .total { font-size: 18px; font-weight: bold; text-align: right; border-top: 2px solid #000; padding-top: 10px; }
+                .footer { text-align: center; color: #888; font-size: 12px; margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px; }
+                .status { display: inline-block; padding: 2px 12px; border-radius: 12px; background: #ffa500; color: #fff; font-size: 12px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>🛒 MERKATO</h1>
+                <p>Ethiopian Digital Marketplace</p>
+                <p><strong>Order Receipt</strong></p>
+            </div>
+            
+            <div style="margin: 10px 0;">
+                <p><strong>Order #:</strong> ${order.id}</p>
+                <p><strong>Date:</strong> ${order.date}</p>
+                <p><strong>Status:</strong> <span class="status">${order.status}</span></p>
+                <p><strong>Payment:</strong> ${order.payment === 'telebirr' ? 'Telebirr' : order.payment === 'cod' ? 'Cash on Delivery' : 'Credit/Debit Card'}</p>
+            </div>
+            
+            <h4>Items</h4>
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+                ${itemsHtml}
+            </table>
+            
+            <div class="total">
+                <div>Subtotal: ${order.subtotal.toLocaleString()} ETB</div>
+                <div>Shipping: ${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}</div>
+                <div>Tax: ${order.tax.toLocaleString()} ETB</div>
+                <div style="font-size:22px;color:#d9534f;">Total: ${order.total.toLocaleString()} ETB</div>
+            </div>
+            
+            <div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                <p><strong>📦 Shipping Address</strong></p>
+                <p>${order.customer.name}<br>${order.customer.address}<br>📞 ${order.customer.phone}<br>✉️ ${order.customer.email}</p>
+            </div>
+            
+            <div class="footer">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p>Thank you for your purchase!</p>
+            </div>
+            
+            <script>
+                window.print();
+            <\/script>
+        </body>
+        </html>
+    `);
+    receiptWindow.document.close();
+}
+
+// Override the processOrder function to use payment modal
+function processOrder(event) {
+    if (event) event.preventDefault();
+    openPaymentModal();
+}
+
+// ========================================
+// ORDER TRACKING
+// ========================================
+
+function trackOrder(orderId) {
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId);
+    
+    if (!order) {
+        showNotification('⚠️ Order not found');
+        return;
+    }
+    
+    const modal = document.getElementById('trackingModal');
+    const content = document.getElementById('trackingContent');
+    
+    // Define tracking steps
+    const steps = [
+        { status: 'Processing', icon: '⏳', label: 'Order Received' },
+        { status: 'Shipped', icon: '🚚', label: 'Shipped' },
+        { status: 'Delivered', icon: '✅', label: 'Delivered' }
+    ];
+    
+    let currentStep = 0;
+    if (order.status === 'Shipped') currentStep = 1;
+    else if (order.status === 'Delivered') currentStep = 2;
+    else if (order.status === 'Cancelled') currentStep = -1;
+    
+    let html = `
+        <div style="margin-bottom:15px;">
+            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <div style="font-size:13px;color:#888;">Order #</div>
+                    <div style="font-weight:700;font-size:18px;">${order.id}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Status</div>
+                    <div style="font-weight:600;color:${order.status === 'Cancelled' ? '#d9534f' : '#008000'};">${order.status}</div>
+                </div>
+                <div>
+                    <div style="font-size:13px;color:#888;">Date</div>
+                    <div style="font-weight:600;">${order.date}</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    if (order.status === 'Cancelled') {
+        html += `
+            <div style="text-align:center;padding:20px;background:#ffebee;border-radius:8px;">
+                <div style="font-size:48px;">❌</div>
+                <h3 style="color:#c62828;">Order Cancelled</h3>
+                <p style="color:#888;">This order has been cancelled.</p>
+            </div>
+        `;
+    } else {
+        html += `
+            <div style="position:relative;padding:10px 0;">
+                ${steps.map((step, index) => {
+                    const isCompleted = index <= currentStep;
+                    const isActive = index === currentStep;
+                    const isLast = index === steps.length - 1;
+                    
+                    return `
+                        <div style="display:flex;align-items:flex-start;gap:15px;margin-bottom:${isLast ? '0' : '20px'};">
+                            <div style="position:relative;">
+                                <div style="
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    background: ${isCompleted ? '#008000' : '#e0e0e0'};
+                                    color: ${isCompleted ? '#fff' : '#888'};
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 18px;
+                                    border: 3px solid ${isActive ? '#ffd700' : 'transparent'};
+                                    box-shadow: ${isActive ? '0 0 20px rgba(255,215,0,0.3)' : 'none'};
+                                    transition: all 0.3s ease;
+                                ">
+                                    ${isCompleted ? '✅' : step.icon}
+                                </div>
+                                ${!isLast ? `
+                                    <div style="
+                                        position: absolute;
+                                        top: 40px;
+                                        left: 50%;
+                                        width: 3px;
+                                        height: 30px;
+                                        background: ${isCompleted ? '#008000' : '#e0e0e0'};
+                                        transform: translateX(-50%);
+                                    "></div>
+                                ` : ''}
+                            </div>
+                            <div style="flex:1;padding-top:5px;">
+                                <div style="font-weight:${isActive ? '700' : '600'};color:${isCompleted ? '#008000' : '#888'};">
+                                    ${step.label}
+                                    ${isActive ? ' <span style="font-size:12px;color:#ffa500;">(In Progress)</span>' : ''}
+                                </div>
+                                <div style="font-size:12px;color:#888;">${isCompleted ? '✓ Completed' : isActive ? '⏳ Processing' : 'Pending'}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+        
+        // Show estimated delivery
+        if (order.status === 'Processing') {
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 5);
+            html += `
+                <div style="background:#fff3cd;padding:12px;border-radius:8px;margin-top:15px;text-align:center;color:#856404;">
+                    📅 Estimated Delivery: ${deliveryDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+            `;
+        } else if (order.status === 'Shipped') {
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + 2);
+            html += `
+                <div style="background:#e3f2fd;padding:12px;border-radius:8px;margin-top:15px;text-align:center;color:#1565c0;">
+                    🚚 Your order is on the way! Expected delivery: ${deliveryDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+            `;
+        } else if (order.status === 'Delivered') {
+            html += `
+                <div style="background:#e8f5e9;padding:12px;border-radius:8px;margin-top:15px;text-align:center;color:#2e7d32;">
+                    ✅ Order delivered successfully! Thank you for shopping with MERKATO.
+                </div>
+            `;
+        }
+    }
+    
+    content.innerHTML = html;
+    modal.style.display = 'flex';
+}
+
+// Add tracking button to orders
+function addTrackingButton() {
+    const orderActions = document.querySelectorAll('.order-footer .order-actions');
+    orderActions.forEach((actions, index) => {
+        const orderId = actions.closest('.order-card').querySelector('.order-id')?.textContent?.trim() || '';
+        if (orderId) {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-secondary btn-sm';
+            btn.textContent = '📦 Track';
+            btn.onclick = () => trackOrder(orderId);
+            actions.appendChild(btn);
+        }
+    });
+}
