@@ -9,12 +9,48 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#008000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
     <title>Admin Dashboard — MERKATO</title>
+    
+    <!-- ===== FIXED ADMIN ACCESS CHECK ===== -->
+    <script>
+        // THIS IS THE ONLY ACCESS CHECK - NO REDIRECT LOOP!
+        (function() {
+            try {
+                const userData = localStorage.getItem('merkatoUser');
+                
+                // If no user data, go to login
+                if (!userData) {
+                    alert('⚠️ Please login first');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                const user = JSON.parse(userData);
+                const ADMIN_EMAIL = 'admin@merkato.com';
+                
+                // If not admin, go home
+                if (user.email !== ADMIN_EMAIL) {
+                    alert('⚠️ Admin access only');
+                    window.location.href = 'index.html';
+                    return;
+                }
+                
+                // ADMIN IS LOGGED IN - SHOW PAGE
+                console.log('✅ Admin access granted for:', user.email);
+                
+            } catch (error) {
+                console.error('Admin check error:', error);
+                window.location.href = 'login.html';
+            }
+        })();
+    </script>
+    
+    <!-- ===== REST OF YOUR STYLES ===== -->
     <style>
         /* Admin Dashboard Styles */
         .admin-stats {
@@ -533,6 +569,8 @@
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
     <script src="script.js"></script>
+    
+    <!-- ===== ADMIN DASHBOARD FUNCTIONS ===== -->
     <script>
         // ========================================
         // ADMIN DASHBOARD - COMPLETE
@@ -552,7 +590,6 @@
         // ========================================
 
         function showAdminNotification(message, type = 'success') {
-            // Remove existing notifications
             const existing = document.querySelectorAll('.admin-notification');
             existing.forEach(n => n.remove());
             
@@ -572,7 +609,6 @@
             
             document.body.appendChild(notification);
             
-            // Auto remove after 3 seconds
             setTimeout(() => {
                 if (notification.parentElement) {
                     notification.style.animation = 'slideOutRight 0.5s ease';
@@ -580,7 +616,6 @@
                 }
             }, 3000);
             
-            // Click to dismiss
             notification.addEventListener('click', function(e) {
                 if (e.target === this || e.target.classList.contains('close-btn')) {
                     this.style.animation = 'slideOutRight 0.5s ease';
@@ -607,7 +642,6 @@
                 panel.classList.add('active');
             }
             
-            // Reload data when switching tabs
             if (tab === 'products') loadAdminProducts();
             if (tab === 'orders') loadAdminOrders();
             if (tab === 'users') loadAdminUsers();
@@ -642,7 +676,6 @@
         function getAllProducts() {
             let products = JSON.parse(localStorage.getItem('merkatoProducts'));
             if (!products || products.length === 0) {
-                // Default products
                 products = [
                     { id: 1, name: 'Yirgacheffe Buna (ቡና)', aisle: 'food', price: 2500, stock: 42, image: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No', description: 'Premium Ethiopian coffee beans' },
                     { id: 2, name: 'Pure Doro Berbere (በርበሬ)', aisle: 'food', price: 1750, stock: 85, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80', description: 'Traditional Ethiopian spice blend' },
@@ -754,7 +787,6 @@
             loadAdminStats();
             showAdminNotification(`✅ Product "${name}" added successfully!`, 'success');
             
-            // Switch to products tab
             switchTab('products');
         }
 
@@ -820,7 +852,6 @@
             
             localStorage.setItem('merkatoProducts', JSON.stringify(products));
             
-            // Sync with product stock data for shop page
             syncProductStock(products);
             
             cancelEdit();
@@ -831,7 +862,6 @@
         }
 
         function syncProductStock(products) {
-            // Update the productStock object for stock status display
             if (typeof productStock !== 'undefined') {
                 products.forEach(p => {
                     const key = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -840,7 +870,6 @@
                         productStock[key].status = p.stock <= 0 ? 'out-of-stock' : p.stock <= 10 ? 'low-stock' : 'in-stock';
                     }
                 });
-                // Also save to localStorage for persistence
                 localStorage.setItem('merkatoProductStock', JSON.stringify(productStock));
             }
         }
@@ -937,14 +966,10 @@
                 return;
             }
             
-            let itemsHtml = order.items.map(item => `
-                <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
-                    <span>${item.name} × ${item.quantity}</span>
-                    <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
-                </div>
-            `).join('');
+            const statusColor = order.status === 'Delivered' ? '#008000' :
+                               order.status === 'Processing' ? '#ffa500' :
+                               order.status === 'Shipped' ? '#0066cc' : '#d9534f';
             
-            // Create a modal for order details
             const modal = document.createElement('div');
             modal.style.cssText = `
                 position: fixed;
@@ -960,6 +985,13 @@
                 align-items: center;
                 animation: modalFadeIn 0.3s ease;
             `;
+            
+            let itemsHtml = order.items.map(item => `
+                <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
+                    <span>${item.name} × ${item.quantity}</span>
+                    <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
+                </div>
+            `).join('');
             
             modal.innerHTML = `
                 <div style="
@@ -1096,10 +1128,9 @@
         }
 
         // ========================================
-        // PRODUCT STOCK SYNC (for shop page)
+        // PRODUCT STOCK SYNC
         // ========================================
 
-        // Load product stock from localStorage or initialize
         function loadProductStock() {
             const savedStock = localStorage.getItem('merkatoProductStock');
             if (savedStock) {
@@ -1117,18 +1148,17 @@
             }
         }
 
-        // Call this when page loads
         loadProductStock();
     </script>
+    
     <!-- ===== SERVICE WORKER REGISTRATION ===== -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('✅ Service Worker registered'))
-            .catch(err => console.log('❌ Service Worker registration failed:', err));
-    }
-</script>
-</body>
-</html>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('✅ Service Worker registered'))
+                .catch(err => console.log('❌ Service Worker registration failed:', err));
+        }
+    </script>
+
 </body>
 </html>

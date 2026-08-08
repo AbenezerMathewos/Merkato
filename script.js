@@ -3606,6 +3606,11 @@ if (window.location.pathname.includes('orders.html')) {
         displayCartItems();
     }
 
+// ===== CHECK ADMIN ACCESS =====
+if (window.location.pathname.includes('admin.html')) {
+    checkAdminAccess();
+}
+
     // ===== ADD TO CART BUTTONS =====
     initAddToCartButtons();
 
@@ -4014,4 +4019,69 @@ function addTrackingButton() {
             actions.appendChild(btn);
         }
     });
+}
+
+// ========================================
+// ADMIN ACCESS CONTROL
+// ========================================
+
+// Admin credentials (in a real app, these would be in a database)
+const ADMIN_CREDENTIALS = {
+    email: 'admin@merkato.com',
+    password: 'admin123'
+};
+
+// Check if user is admin
+function isAdmin() {
+    const user = JSON.parse(localStorage.getItem('merkatoUser'));
+    if (!user) return false;
+    return user.email === ADMIN_CREDENTIALS.email;
+}
+
+// Check admin access on page load
+function checkAdminAccess() {
+    // If on admin page
+    if (window.location.pathname.includes('admin.html')) {
+        if (!isAdmin()) {
+            showNotification('⚠️ Admin access only. Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+            return false;
+        }
+        return true;
+    }
+    return true;
+}
+
+// Admin login function (call from login.html)
+function adminLogin(email, password) {
+    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+        // Create admin user session
+        const adminUser = {
+            name: 'Admin',
+            email: ADMIN_CREDENTIALS.email,
+            isAdmin: true,
+            joinDate: new Date().toLocaleDateString()
+        };
+        localStorage.setItem('merkatoUser', JSON.stringify(adminUser));
+        localStorage.setItem('merkatoUserData', JSON.stringify(adminUser));
+        
+        showNotification('✅ Admin logged in successfully!');
+        setTimeout(() => {
+            window.location.href = 'admin.html';
+        }, 1000);
+        return true;
+    } else {
+        showNotification('❌ Invalid admin credentials');
+        return false;
+    }
+}
+
+function showAdminBadge() {
+    const user = JSON.parse(localStorage.getItem('merkatoUser'));
+    const badge = document.getElementById('adminBadge');
+    if (badge && user && user.email === 'admin@merkato.com') {
+        badge.style.display = 'inline-block';
+    }
 }
