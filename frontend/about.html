@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About MERKATO - Ethiopian digital marketplace connecting tradition with technology.">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, about, digital marketplace, Ethiopia">
+    <meta name="author" content="MERKATO INC">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+<link rel="stylesheet" href="style.css">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">
+<title>About MERKATO — Ethiopian Digital Market</title>
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 60px 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-hero::before {
+            content: '✦';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            right: -50px;
+            bottom: -100px;
+            color: #ffd700;
+        }
+        .about-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        .about-hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0 40px;
+        }
+        .mission-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px 25px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .mission-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border-color: #008000;
+        }
+        .mission-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .mission-card h3 {
+            font-size: 20px;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        .mission-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #f8fff8, #e8f5e9);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid #c8e6c9;
+        }
+        .stat-card .number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #008000;
+            display: block;
+        }
+        .stat-card .label {
+            font-size: 14px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 30px 0 40px;
+        }
+        .team-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #008000;
+            margin-bottom: 12px;
+        }
+        .team-card h4 {
+            font-size: 18px;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .team-card p {
+            color: #666;
+            font-size: 13px;
+        }
+        .team-card .role {
+            color: #008000;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .timeline {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        .timeline-item .year {
+            font-size: 24px;
+            font-weight: 800;
+            color: #008000;
+            min-width: 80px;
+        }
+        .timeline-item .content {
+            color: #555;
+        }
+        .timeline-item .content strong {
+            color: #1a1a2e;
+        }
+        @media (max-width: 992px) {
+            .mission-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-section { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .about-hero h1 { font-size: 32px; }
+            .mission-grid { grid-template-columns: 1fr; }
+            .stats-section { grid-template-columns: 1fr 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .timeline-item { flex-direction: column; align-items: flex-start; gap: 5px; }
+        }
+        @media (max-width: 480px) {
+            .stats-section { grid-template-columns: 1fr; }
+            .about-hero { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <!-- <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div> -->
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+</a>
+
+<nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="returns.html">Returns</a>
+    <a href="admin.html">Admin</a>
+    <a href="cart.html">Cart <span class="cart">0</span></a>
+    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+    <a href="orders.html">My Orders</a>
+    <span class="theme-toggle-wrapper">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+            🌙
+        </button>
+    </span>
+    <a href="login.html" class="nav-login">Sign In</a>
+</nav>
+            </div>
+         <!-- Profile Floating Container -->
+    <div id="profileContainer"></div>
+</header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>About Us</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+
+            <!-- HERO -->
+            <div class="about-hero">
+                <h1>🌟 About MERKATO</h1>
+                <p>We are Ethiopia's premier digital marketplace, connecting authentic local products with modern convenience. Our mission is to celebrate Ethiopian heritage while embracing the future of commerce.</p>
+            </div>
+
+            <!-- MISSION CARDS -->
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <div class="icon">🌱</div>
+                    <h3>Authenticity</h3>
+                    <p>Every product is carefully sourced from Ethiopian artisans, farmers, and manufacturers. We guarantee 100% authentic Ethiopian quality.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="icon">🤝</div>
+                    <h3>Community</h3>
+                    <p>We work directly with local producers to support Ethiopian livelihoods and preserve traditional craftsmanship for future generations.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="icon">🔒</div>
+                    <h3>Trust</h3>
+                    <p>Secure payments, transparent pricing, and reliable delivery across all regions of Ethiopia. Your satisfaction is our priority.</p>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <span class="number">18+</span>
+                    <span class="label">Premium Products</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number">5</span>
+                    <span class="label">Departments</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number">1,200+</span>
+                    <span class="label">Happy Customers</span>
+                </div>
+                <div class="stat-card">
+                    <span class="number">4.8</span>
+                    <span class="label">⭐ Customer Rating</span>
+                </div>
+            </div>
+
+            <!-- TEAM -->
+            <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Abebe Bikila">
+                    <h4>Abebe Bikila</h4>
+                    <span class="role">CEO &amp; Founder</span>
+                    <p>"Building Ethiopia's digital future"</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Tigist Worku">
+                    <h4>Tigist Worku</h4>
+                    <span class="role">Operations Manager</span>
+                    <p>"Connecting producers to the world"</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=200&q=80" alt="Dawit Hailu">
+                    <h4>Dawit Hailu</h4>
+                    <span class="role">Head of Procurement</span>
+                    <p>"Quality is our signature"</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80" alt="Meron Tekle">
+                    <h4>Meron Tekle</h4>
+                    <span class="role">Customer Experience</span>
+                    <p>"Your happiness drives us"</p>
+                </div>
+            </div>
+
+            <!-- TIMELINE -->
+            <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="year">2024</span>
+                    <div class="content"><strong>🌟 Founded</strong> — MERKATO was born with a vision to digitize Ethiopian traditional marketplaces</div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2025</span>
+                    <div class="content"><strong>🚀 Beta Launch</strong> — Launched with 50+ products from 10 regional suppliers across Ethiopia</div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2026</span>
+                    <div class="content"><strong>📈 Expansion</strong> — Expanded to 5 departments, 18 premium products, and nationwide delivery</div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2027</span>
+                    <div class="content"><strong>🌍 Global Vision</strong> — Planning international expansion and partnership programs</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+     <!-- FOOTER -->
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <!-- Footer Grid Layout -->
+        <div class="footer-grid">
+            
+            <!-- Column 1: Brand -->
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                    </a>
+                </div>
+                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
+                </p>
+                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
+                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
+                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
+                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
+                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Support -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
+                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
+                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
+                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
+                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter & Contact -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
+                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
+                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
+                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
+                </form>
+                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+                
+                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
+                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
+                        📍 Addis Ababa, Ethiopia<br>
+                        📞 +251 11 123 4567<br>
+                        ✉️ support@merkato.com
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
+        </div>
+
+    </div>
+</footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+    <script src="script.js"></script>
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
+</body>
+</html>

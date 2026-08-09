@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <title>Checkout — MERKATO</title>
+    <style>
+        /* Payment Modal */
+        .payment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        .payment-modal.active {
+            display: flex;
+        }
+        .payment-modal .modal-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 35px 30px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideUp 0.4s ease;
+            text-align: center;
+        }
+        .payment-modal .modal-content .icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+        }
+        .payment-modal .modal-content h2 {
+            font-size: 22px;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+        .payment-modal .modal-content p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .payment-modal .modal-content .amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: #d9534f;
+            margin: 10px 0;
+        }
+        .payment-modal .modal-content .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .payment-modal .modal-content .payment-options button {
+            padding: 14px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .payment-modal .modal-content .payment-options button:hover {
+            border-color: #008000;
+            background: #f8fff8;
+        }
+        .payment-modal .modal-content .payment-options button.selected {
+            border-color: #008000;
+            background: #e8f5e9;
+        }
+        .payment-modal .modal-content .payment-options button .icon {
+            font-size: 24px;
+        }
+        .payment-modal .modal-content .processing {
+            display: none;
+            padding: 20px;
+        }
+        .payment-modal .modal-content .processing .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #008000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .payment-modal .modal-content .success {
+            display: none;
+            padding: 10px 0;
+        }
+        .payment-modal .modal-content .success .checkmark {
+            font-size: 72px;
+            animation: bounceIcon 0.5s ease;
+        }
+        @keyframes bounceIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .payment-modal .modal-content .btn {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count" style="background:#d9534f;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+            <div id="profileContainer"></div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <a href="cart.html">Cart</a> &gt; 
+            <span><strong>Checkout</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>📦 Checkout</h1>
+                <p>Complete your order and confirm payment.</p>
+            </div>
+
+            <div class="cart-layout">
+                <div>
+                    <!-- Order Summary -->
+                    <div class="checkout-section">
+                        <h3>Order Summary</h3>
+                        <div id="checkoutOrderSummary">
+                            <div style="text-align:center;padding:20px;color:#888;">Loading your order...</div>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Information -->
+                    <div class="checkout-section">
+                        <h3>1. Shipping Information</h3>
+                        <form id="checkoutForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fullname">Full Name:</label>
+                                    <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address:</label>
+                                    <input type="email" id="email" name="email" placeholder="abebe@example.com" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Delivery Address:</label>
+                                    <textarea id="address" name="address" rows="2" placeholder="Street name, Sub-city, City" required></textarea>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="checkout-section">
+                        <h3>2. Payment Method</h3>
+                        <div style="display:flex;gap:20px;flex-wrap:wrap;">
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
+                                <input type="radio" name="payment" value="telebirr" checked> Telebirr / Mobile Money
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
+                                <input type="radio" name="payment" value="cod"> Cash on Delivery
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
+                                <input type="radio" name="payment" value="card"> Credit / Debit Card
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:20px;">
+                        <button type="button" class="btn btn-primary" style="width:100%;padding:16px;font-size:18px;" onclick="openPaymentModal()">
+                            💳 Proceed to Payment
+                        </button>
+                    </div>
+                    </form>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="cart-summary" style="position:sticky;top:100px;">
+                    <h2>📋 Order Summary</h2>
+                    <div id="checkoutSidebar">
+                        <div style="text-align:center;padding:20px;color:#888;">Loading...</div>
+                    </div>
+                    <a href="cart.html" class="continue-shopping" style="color:#ffd700;">← Back to Cart</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">Home</a> | 
+                <a href="shop.html">Shop</a> | 
+                <a href="about.html">About</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="faq.html">FAQ</a> | 
+                <a href="returns.html">Returns</a> |
+                <a href="admin.html">Admin</a>
+            </div>
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+    <!-- ===== PAYMENT MODAL ===== -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="modal-content">
+            <!-- Initial State -->
+            <div id="paymentInitial">
+                <div class="icon">💳</div>
+                <h2>Choose Payment Method</h2>
+                <p>Select how you want to pay for your order</p>
+                <div class="amount" id="paymentAmount">0 ETB</div>
+                
+                <div class="payment-options">
+                    <button onclick="selectPayment('telebirr')" id="pay-telebirr" class="selected">
+                        <span class="icon">📱</span> Telebirr / Mobile Money
+                    </button>
+                    <button onclick="selectPayment('cod')" id="pay-cod">
+                        <span class="icon">💵</span> Cash on Delivery
+                    </button>
+                    <button onclick="selectPayment('card')" id="pay-card">
+                        <span class="icon">💳</span> Credit / Debit Card
+                    </button>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processPayment()" style="font-size:16px;padding:14px;">
+                    ✅ Confirm Payment
+                </button>
+            </div>
+            
+            <!-- Processing State -->
+            <div class="processing" id="paymentProcessing">
+                <div class="spinner"></div>
+                <h3 style="color:#1a1a2e;">Processing Payment...</h3>
+                <p style="color:#888;">Please wait while we confirm your order</p>
+                <div style="margin-top:10px;font-size:13px;color:#888;">
+                    <span id="processingDots">.</span>
+                </div>
+            </div>
+            
+            <!-- Success State -->
+            <div class="success" id="paymentSuccess">
+                <div class="checkmark">✅</div>
+                <h2 style="color:#008000;">Payment Successful! 🎉</h2>
+                <p>Your order has been confirmed</p>
+                <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;text-align:left;">
+                    <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                        <span style="color:#888;">Order #</span>
+                        <span style="font-weight:600;" id="successOrderId">-</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                        <span style="color:#888;">Payment</span>
+                        <span style="font-weight:600;" id="successPayment">-</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                        <span style="color:#888;">Total</span>
+                        <span style="font-weight:600;color:#d9534f;" id="successTotal">-</span>
+                    </div>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                    <a href="orders.html" class="btn btn-primary" style="flex:1;">📦 View Orders</a>
+                    <a href="shop.html" class="btn btn-secondary" style="flex:1;">🛒 Continue Shopping</a>
+                </div>
+                <button class="btn btn-secondary" onclick="printOrderReceipt()" style="margin-top:10px;width:100%;">🖨️ Print Receipt</button>
+            </div>
+            
+            <!-- Close button -->
+            <button onclick="closePaymentModal()" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer;margin-top:10px;">✕ Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
+</body>
+</html>

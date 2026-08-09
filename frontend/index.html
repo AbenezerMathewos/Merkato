@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
+<link rel="stylesheet" href="style.css">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">    
+<title>MERKATO — Ethiopian Digital Market</title>
+    
+    <style>
+        /* ===== ADDITIONAL HOME PAGE STYLES ===== */
+        .featured-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .featured-banner .content {
+            flex: 1;
+            min-width: 200px;
+        }
+        .featured-banner h3 {
+            font-size: 24px;
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+        .featured-banner p {
+            color: rgba(255,255,255,0.8);
+        }
+        .featured-banner .badge {
+            background: #ffd700;
+            color: #1a1a2e;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .categories-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .category-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #1a1a2e;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-color: #008000;
+        }
+        .category-card .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .category-card .name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .testimonial {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        .testimonial .stars {
+            color: #ffd700;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .testimonial .text {
+            color: #555;
+            font-style: italic;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .testimonial .author {
+            margin-top: 12px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .testimonial .author span {
+            font-weight: 400;
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .newsletter {
+            background: linear-gradient(135deg, #008000, #006600);
+            color: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .newsletter h3 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .newsletter p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 15px;
+        }
+        .newsletter form {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .newsletter input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .newsletter input:focus {
+            outline: none;
+        }
+        .newsletter button {
+            padding: 12px 30px;
+            background: #ffd700;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .newsletter button:hover {
+            background: #f5a623;
+            transform: scale(1.05);
+        }
+
+        .brands-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        .brands-section .brand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #888;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .brands-section .brand:hover {
+            opacity: 1;
+            color: #008000;
+        }
+
+        @media (max-width: 992px) {
+            .categories-section { grid-template-columns: repeat(3, 1fr); }
+            .testimonials { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .categories-section { grid-template-columns: repeat(2, 1fr); }
+            .featured-banner { flex-direction: column; text-align: center; }
+            .newsletter form { flex-direction: column; }
+            .newsletter input { width: 100%; }
+            .newsletter button { width: 100%; }
+            .brands-section .brand { font-size: 14px; }
+        }
+        @media (max-width: 480px) {
+            .categories-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body class="home-page">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <strong>DELIVERED WITH CARE</strong> &nbsp;•&nbsp; Authentic Ethiopian goods, selected for your home &nbsp;•&nbsp; <code>MERKATO2026</code>
+    </div>
+    <!-- <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div> -->
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header" id="mainHeader">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+</a>
+
+                <form class="search-form" action="shop.html" id="searchForm" role="search">
+                    <input type="search" placeholder="Search coffee, electronics, teff..." aria-label="Search products" required>
+                    <button type="submit">Search</button>
+                </form>
+
+<nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="returns.html">Returns</a>
+    <a href="admin.html">Admin</a>
+    <a href="cart.html">Cart <span class="cart">0</span></a>
+    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+    <a href="orders.html">My Orders</a>
+    <span class="theme-toggle-wrapper">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+            🌙
+        </button>
+    </span>
+    <a href="login.html" class="nav-login">Sign In</a>
+</nav>
+            </div>
+        <!-- Profile Floating Container -->
+    <div id="profileContainer"></div>
+</header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>Welcome to MERKATO</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+
+            <!-- HERO SECTION -->
+            <section class="hero" id="heroSection">
+                <div class="hero-content">
+                    <div class="tag">የ2018/2026 የሀገር ውስጥ ምርቶች</div>
+                    <h1>Authentic Ethiopian <br><span>Supermarket</span> &amp; <span>Electronics</span></h1>
+                    <p>From premium Yirgacheffe Buna to modern Smart TVs and Electric Mitad Stoves. Quality, provenance, and everyday delight in one thoughtful marketplace.</p>
+                    <div class="hero-actions">
+                        <a href="shop.html" class="btn">Explore the market <span aria-hidden="true">→</span></a>
+                        <a href="#featured-aisles" class="text-link">See what’s in season</a>
+                    </div>
+                    <div class="hero-proof" aria-label="Merkato highlights">
+                        <span><strong>18+</strong> curated finds</span>
+                        <span><strong>100%</strong> Ethiopian spirit</span>
+                    </div>
+                </div>
+                <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Specialty Ethiopian Coffee Beans - Yirgacheffe Buna">
+            </section>
+
+            <section class="trust-strip" aria-label="Our shopping promises">
+                <div><span class="trust-icon">01</span><p><strong>Curated locally</strong><small>Products with a story</small></p></div>
+                <div><span class="trust-icon">02</span><p><strong>Clear pricing</strong><small>No surprises at checkout</small></p></div>
+                <div><span class="trust-icon">03</span><p><strong>Careful delivery</strong><small>Handled from market to home</small></p></div>
+            </section>
+
+            <!-- FEATURED BANNER -->
+            <div class="featured-banner">
+                <div class="content">
+                    <h3>🎉 New Arrivals!</h3>
+                    <p>Discover our latest collection of authentic Ethiopian products, freshly sourced from local artisans.</p>
+                </div>
+                <div class="badge">✨ 20% OFF</div>
+            </div>
+
+            <!-- CATEGORY QUICK LINKS -->
+            <div class="categories-section">
+                <a href="shop.html#aisle-food" class="category-card">
+                    <img src="icons/food.gif" alt="Food and Spices" class="category-icon">
+                    <span class="name">Food &amp; Spices</span>
+                </a>
+                <a href="shop.html#aisle-home" class="category-card">
+                    <img src="icons/home.gif" alt="Home and Kitchen" class="category-icon">
+                    <span class="name">Home &amp; Kitchen</span>
+                </a>
+                <a href="shop.html#aisle-apparel" class="category-card">
+                    <img src="icons/aparel.gif" alt="Apparel" class="category-icon">
+                    <span class="name">Apparel</span>
+                </a>
+                <a href="shop.html#aisle-crafts" class="category-card">
+                    <!-- <span class="icon">🎨</span> -->
+                   <img src="icons/crafts.gif" alt="Crafts" class="category-icon">
+                    <span class="name">Crafts</span>
+                </a>
+                <a href="shop.html#aisle-electronics" class="category-card">
+                    <img src="icons/electronics.gif" alt="Electronics" class="category-icon">
+                    <span class="name">Electronics</span>
+                </a>
+            </div>
+
+            <!-- FEATURED PRODUCTS -->
+            <section class="market-note" aria-label="Discover Merkato">
+                <div class="market-note-copy">
+                    <span class="eyebrow">The Merkato edit</span>
+                    <h2>More than a marketplace.<br><em>A place of connection.</em></h2>
+                    <p>We bring everyday essentials, heritage craft, and considered technology together—so the things you choose feel useful, beautiful, and unmistakably yours.</p>
+                    <a href="about.html" class="arrow-link">Meet the market <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="market-note-art" aria-hidden="true">
+                    <span class="art-sun"></span><span class="art-arc"></span><span class="art-checker"></span>
+                    <p>WOLAYTA<br>SODDO</p>
+                </div>
+            </section>
+            <div class="section-header" id="featured-aisles">
+                <h2>Featured Supermarket Aisles</h2>
+                <a href="shop.html">View All 18 Items &rarr;</a>
+            </div>
+
+            <!-- PRODUCT GRID -->
+            <div class="product-grid">
+
+                <!-- PRODUCT 1: Buna -->
+                <div class="product-card" data-product-id="1" data-aisle="food" data-price="2500">
+                    <a href="product-detail.html#buna">
+                        <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Yirgacheffe Coffee Beans">
+                    </a>
+                    <div class="aisle">AISLE 1 | FOOD</div>
+                    <h3><a href="product-detail.html#buna">Yirgacheffe Buna (ቡና)</a></h3>
+                    <div class="price">2,500 ETB</div>
+                    <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 2: Mitad -->
+                <div class="product-card" data-product-id="2" data-aisle="electronics" data-price="18500">
+                    <a href="product-detail.html#mitad">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" alt="Digital Electric Mitad Stove">
+                    </a>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#mitad">Digital Electric Mitad (ምጣድ)</a></h3>
+                    <div class="price">18,500 ETB</div>
+                    <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 3: Habesha Kemis -->
+                <div class="product-card" data-product-id="3" data-aisle="apparel" data-price="12000">
+                    <a href="product-detail.html#kemis">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Habesha Kemis Traditional Dress">
+                    </a>
+                    <div class="aisle">AISLE 3 | APPAREL</div>
+                    <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
+                    <div class="price">12,000 ETB</div>
+                    <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 4: Smart TV -->
+                <div class="product-card" data-product-id="4" data-aisle="electronics" data-price="68000">
+                    <a href="product-detail.html#tv">
+                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80" alt="55 inch 4K Smart TV">
+                    </a>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#tv">55" 4K Smart TV</a></h3>
+                    <div class="price">68,000 ETB</div>
+                    <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 5: Teff -->
+                <div class="product-card" data-product-id="5" data-aisle="food" data-price="4200">
+                    <a href="product-detail.html#teff">
+                        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA" alt="Teff Grain">
+                    </a>
+                    <div class="aisle">AISLE 1 | FOOD</div>
+                    <h3><a href="product-detail.html#teff">Magna White Teff (ነጭ ጤፍ)</a></h3>
+                    <div class="price">4,200 ETB</div>
+                    <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 6: Mesob -->
+                <div class="product-card" data-product-id="6" data-aisle="crafts" data-price="8500">
+                    <a href="product-detail.html#mesob">
+                        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM" alt="Mesob Basket">
+                    </a>
+                    <div class="aisle">AISLE 4 | CRAFTS</div>
+                    <h3><a href="product-detail.html#mesob">Woven Mesob Basket (መሶብ)</a></h3>
+                    <div class="price">8,500 ETB</div>
+                    <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 7: Solar -->
+                <div class="product-card" data-product-id="7" data-aisle="electronics" data-price="42000">
+                    <a href="product-detail.html#solar">
+                        <img src="https://images.unsplash.com/photo-1681263576084-e054b2d89903?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Solar Power">
+                    </a>
+                    <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <h3><a href="product-detail.html#solar">Solar Power Station</a></h3>
+                    <div class="price">42,000 ETB</div>
+                    <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+                <!-- PRODUCT 8: Kemis -->
+                <div class="product-card" data-product-id="8" data-aisle="apparel" data-price="12000">
+                    <a href="product-detail.html#kemis">
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q" alt="Habesha Kemis">
+                    </a>
+                    <div class="aisle">AISLE 3 | APPAREL</div>
+                    <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
+                    <div class="price">12,000 ETB</div>
+                    <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                </div>
+
+            </div>
+
+            <!-- TESTIMONIALS -->
+            <div class="section-header" style="margin-top:30px;">
+                <h2>⭐ What Our Customers Say</h2>
+            </div>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"MERKATO is a game-changer! I found authentic Ethiopian products I couldn't find anywhere else. The delivery was fast and the quality is outstanding."</div>
+                    <div class="author">Abebe Bikila <span>- Addis Ababa</span></div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"The electric Mitad stove is incredible! Best investment I've made. The customer service team was also very helpful throughout the process."</div>
+                    <div class="author">Tigist Worku <span>- Bishoftu</span></div>
+                </div>
+                <div class="testimonial">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="text">"I love how easy it is to find traditional Ethiopian products. The website is user-friendly and the delivery is always on time. Highly recommend!"</div>
+                    <div class="author">Dawit Hailu <span>- Bahir Dar</span></div>
+                </div>
+            </div>
+
+  <!-- BRANDS SECTION -->
+<!-- BRANDS SECTION -->
+<div class="brands-section">
+    <a href="shop.html#aisle-food" class="brand" style="text-decoration:none;transition:all 0.3s ease;">🏷️ Market Products</a>
+    <a href="shop.html#aisle-apparel" class="brand" style="text-decoration:none;transition:all 0.3s ease;">🏷️ Cultural Textiles</a>
+    <a href="shop.html#aisle-electronics" class="brand" style="text-decoration:none;transition:all 0.3s ease;">🏷️ Electronics</a>
+    <a href="shop.html#aisle-crafts" class="brand" style="text-decoration:none;transition:all 0.3s ease;">🏷️ Handicrafts</a>
+    <a href="shop.html#aisle-home" class="brand" style="text-decoration:none;transition:all 0.3s ease;">🏷️ Homeware</a>
+</div>
+
+            <!-- NEWSLETTER -->
+            <!-- NEWSLETTER SECTION -->
+<div class="newsletter" id="newsletterSection">
+    <div class="newsletter-content">
+        <div class="newsletter-icon">📧</div>
+        <h3>Join Our Newsletter</h3>
+        <p>Subscribe to get special offers, new product alerts, and exclusive deals!</p>
+        
+        <form id="newsletterForm" onsubmit="subscribeNewsletter(event)">
+            <div class="newsletter-input-group">
+                <input type="email" id="newsletterEmail" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </div>
+            <div class="newsletter-status" id="newsletterStatus"></div>
+            <div class="newsletter-subscriber-count">
+                <span id="subscriberCount">0</span> subscribers and counting! 🎉
+            </div>
+        </form>
+    </div>
+</div>
+
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+    <!-- FOOTER -->
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <!-- Footer Grid Layout -->
+        <div class="footer-grid">
+            
+            <!-- Column 1: Brand -->
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                    </a>
+                </div>
+                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
+                </p>
+                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
+                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
+                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
+                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
+                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Support -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
+                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
+                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
+                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
+                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter & Contact -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
+                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
+                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
+                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
+                </form>
+                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+                
+                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
+                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
+                        📍 Addis Ababa, Ethiopia<br>
+                        📞 +251 11 123 4567<br>
+                        ✉️ support@merkato.com
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
+        </div>
+
+    </div>
+</footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+<script src="script.js"></script>
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
+</body>
+</html>

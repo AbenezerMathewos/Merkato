@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact MERKATO - Ethiopian digital marketplace support.">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, contact, support">
+    <meta name="author" content="MERKATO INC">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
+<link rel="stylesheet" href="style.css">
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">    
+<title>Contact Us — MERKATO</title>
+    <style>
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .contact-form-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 35px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .contact-form-card h2 {
+            font-size: 24px;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+        }
+        .contact-info-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 35px;
+            color: #fff;
+            height: fit-content;
+        }
+        .contact-info-card h3 {
+            color: #ffd700;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .contact-info-item {
+            display: flex;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            align-items: flex-start;
+        }
+        .contact-info-item:last-child {
+            border-bottom: none;
+        }
+        .contact-info-item .icon {
+            font-size: 24px;
+            min-width: 40px;
+        }
+        .contact-info-item .text {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .contact-info-item .text strong {
+            color: #fff;
+        }
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .social-links a {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .social-links a:hover {
+            background: #ffd700;
+            color: #1a1a2e;
+            border-color: #ffd700;
+        }
+        .faq-preview {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 30px;
+            border: 1px solid #e0e0e0;
+            margin: 30px 0;
+        }
+        .faq-preview h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .faq-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item summary {
+            font-weight: 600;
+            color: #1a1a2e;
+            cursor: pointer;
+        }
+        .faq-item summary:hover {
+            color: #008000;
+        }
+        .faq-item p {
+            color: #666;
+            font-size: 14px;
+            padding: 8px 0 4px 20px;
+        }
+        @media (max-width: 992px) {
+            .contact-wrapper { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .contact-form-card { padding: 20px; }
+            .contact-info-card { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <!-- <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div> -->
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+</a>
+
+<nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+    <a href="returns.html">Returns</a>
+    <a href="admin.html">Admin</a>
+    <a href="cart.html">Cart <span class="cart">0</span></a>
+    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+    <a href="orders.html">My Orders</a>
+    <span class="theme-toggle-wrapper">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+            🌙
+        </button>
+    </span>
+    <a href="login.html" class="nav-login">Sign In</a>
+</nav>
+            </div>
+         <!-- Profile Floating Container -->
+    <div id="profileContainer"></div>
+</header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>Contact Us</strong></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+
+            <div class="page-title">
+                <h1>📬 Get in Touch</h1>
+                <p>We're here to help! Reach out to us with any questions, concerns, or feedback.</p>
+            </div>
+
+            <div class="contact-wrapper">
+
+                <!-- CONTACT FORM -->
+                <div class="contact-form-card">
+                    <h2>Send Us a Message</h2>
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="abebe@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">-- Select Subject --</option>
+                                <option value="order">Order Inquiry</option>
+                                <option value="return">Return / Refund</option>
+                                <option value="product">Product Information</option>
+                                <option value="delivery">Delivery Issue</option>
+                                <option value="payment">Payment Issue</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-ref">Order Reference (Optional)</label>
+                            <input type="text" id="order-ref" name="order-ref" placeholder="MER-2026-001">
+                        </div>
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- CONTACT INFO -->
+                <div class="contact-info-card">
+                    <h3>📍 Get in Touch</h3>
+
+                    <div class="contact-info-item">
+                        <span class="icon">📍</span>
+                        <div class="text">
+                            <strong>Address</strong><br>
+                            Bole Sub-city, Woreda 3<br>
+                            Addis Ababa, Ethiopia
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span class="icon">📞</span>
+                        <div class="text">
+                            <strong>Phone</strong><br>
+                            +251 11 123 4567<br>
+                            +251 91 234 5678
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span class="icon">✉️</span>
+                        <div class="text">
+                            <strong>Email</strong><br>
+                            support@merkato.com<br>
+                            sales@merkato.com
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <span class="icon">🕐</span>
+                        <div class="text">
+                            <strong>Business Hours</strong><br>
+                            Mon - Fri: 8:00 AM - 8:00 PM<br>
+                            Sat: 9:00 AM - 6:00 PM<br>
+                            Sun: 10:00 AM - 4:00 PM
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#">📘 Facebook</a>
+                        <a href="#">✈️ Telegram</a>
+                        <a href="#">💬 WhatsApp</a>
+                        <a href="#">📷 Instagram</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FAQ PREVIEW -->
+            <div class="faq-preview">
+                <h3>💡 Frequently Asked Questions</h3>
+                <div class="faq-item">
+                    <details>
+                        <summary>How do I track my order?</summary>
+                        <p>You can track your order in the <a href="orders.html">My Orders</a> section. You'll also receive tracking information via SMS and email once your order ships.</p>
+                    </details>
+                </div>
+                <div class="faq-item">
+                    <details>
+                        <summary>What payment methods do you accept?</summary>
+                        <p>We accept Telebirr mobile money, Cash on Delivery (COD), Credit/Debit Cards (Visa, Mastercard), and Bank Transfer.</p>
+                    </details>
+                </div>
+                <div class="faq-item">
+                    <details>
+                        <summary>How long does delivery take?</summary>
+                        <p>Delivery within Addis Ababa takes 1-3 business days. Regional deliveries take 3-7 business days.</p>
+                    </details>
+                </div>
+                <div style="text-align:right;margin-top:10px;">
+                    <a href="faq.html" class="btn btn-sm">View All FAQs →</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+    <!-- FOOTER -->
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <!-- Footer Grid Layout -->
+        <div class="footer-grid">
+            
+            <!-- Column 1: Brand -->
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                    </a>
+                </div>
+                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
+                </p>
+                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                </div>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
+                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
+                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
+                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
+                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Support -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                <ul style="list-style:none;padding:0;margin:0;">
+                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
+                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
+                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
+                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
+                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Newsletter & Contact -->
+            <div class="footer-col">
+                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
+                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
+                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
+                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
+                </form>
+                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+                
+                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
+                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
+                        📍 Addis Ababa, Ethiopia<br>
+                        📞 +251 11 123 4567<br>
+                        ✉️ support@merkato.com
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
+        </div>
+
+    </div>
+</footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+<script src="script.js"></script>
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
+</body>
+</html>

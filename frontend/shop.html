@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
+    <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <title>Supermarket Floor — MERKATO</title>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
+    </div>
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+                <form class="search-form" action="shop.html">
+                    <input type="search" placeholder="Search item or aisle..." required>
+                    <button type="submit">Search</button>
+                </form>
+
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html" class="active">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+            <div id="profileContainer"></div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <!-- BREADCRUMB -->
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; 
+            <span><strong>Supermarket Floor</strong></span>
+        </div>
+    </div>
+
+    <!-- ===== FILTER & SORT SECTION ===== -->
+    <div class="shop-toolbar">
+        <div class="filter-toggle">
+            <button class="btn btn-outline" onclick="toggleFilters()" style="display:none;" id="filterToggleBtn">
+                🔍 Filter Products
+            </button>
+        </div>
+        
+        <div class="filter-sidebar" id="filterSidebar">
+            <div class="filter-section">
+                <h4>🔍 Filter by Aisle</h4>
+                <div class="filter-options">
+                    <label>
+                        <input type="checkbox" value="all" checked onchange="applyFilters()"> All Products
+                    </label>
+                    <label>
+                        <input type="checkbox" value="food" onchange="applyFilters()"> 🍲 Food & Spices
+                    </label>
+                    <label>
+                        <input type="checkbox" value="home" onchange="applyFilters()"> 🏠 Home & Kitchen
+                    </label>
+                    <label>
+                        <input type="checkbox" value="apparel" onchange="applyFilters()"> 👗 Apparel
+                    </label>
+                    <label>
+                        <input type="checkbox" value="crafts" onchange="applyFilters()"> 🎨 Crafts
+                    </label>
+                    <label>
+                        <input type="checkbox" value="electronics" onchange="applyFilters()"> 📱 Electronics
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h4>💰 Price Range</h4>
+                <div class="price-range">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <input type="number" id="minPrice" placeholder="Min" value="0" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                        <input type="number" id="maxPrice" placeholder="Max" value="100000" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h4>📊 Sort By</h4>
+                <select id="sortBy" onchange="applyFilters()" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;">
+                    <option value="default">Default</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name-asc">Name: A to Z</option>
+                    <option value="name-desc">Name: Z to A</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="btn btn-secondary" onclick="resetFilters()" style="width:100%;">🔄 Reset Filters</button>
+            </div>
+        </div>
+        
+        <div class="filter-results">
+            <div id="filterResultsCount" style="font-size:14px;color:#888;">
+                Showing <strong id="productCount">0</strong> products
+            </div>
+            <div class="filter-tags" id="filterTags"></div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="container">
+
+            <!-- AISLE JUMP DIRECTORY -->
+            <div class="card">
+                <div style="padding: 10px 0;">
+                    <strong>🛒 Jump to Aisle:</strong> &nbsp;&nbsp;
+                    <a href="#aisle-food" style="margin:0 5px;">Aisle 1: Food</a> &bull;
+                    <a href="#aisle-home" style="margin:0 5px;">Aisle 2: Home</a> &bull;
+                    <a href="#aisle-apparel" style="margin:0 5px;">Aisle 3: Apparel</a> &bull;
+                    <a href="#aisle-crafts" style="margin:0 5px;">Aisle 4: Crafts</a> &bull;
+                    <a href="#aisle-electronics" style="margin:0 5px;">Aisle 5: Electronics</a>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- ===== AISLE 1: FOOD ===== -->
+            <section id="aisle-food">
+                <div style="background:#111;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
+                    <h3 style="color:#fff;">AISLE 1: SPICES, GRAINS &amp; FOODSTUFF</h3>
+                </div>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
+                    </div>
+                </div>
+            </section>
+
+            <br><br>
+
+            <!-- ===== AISLE 2: HOME ===== -->
+            <section id="aisle-home">
+                <div style="background:#003366;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
+                    <h3 style="color:#fff;">AISLE 2: HOME &amp; KITCHENWARE</h3>
+                </div>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid2">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
+                    </div>
+                </div>
+            </section>
+
+            <br><br>
+
+            <!-- ===== AISLE 3: APPAREL ===== -->
+            <section id="aisle-apparel">
+                <div style="background:#8b0000;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
+                    <h3 style="color:#fff;">AISLE 3: TEXTILES &amp; CULTURAL APPAREL</h3>
+                </div>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid3">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
+                    </div>
+                </div>
+            </section>
+
+            <br><br>
+
+            <!-- ===== AISLE 4: CRAFTS ===== -->
+            <section id="aisle-crafts">
+                <div style="background:#e65100;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
+                    <h3 style="color:#fff;">AISLE 4: CRAFTS &amp; HANDIWORK</h3>
+                </div>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid4">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
+                    </div>
+                </div>
+            </section>
+
+            <br><br>
+
+            <!-- ===== AISLE 5: ELECTRONICS ===== -->
+            <section id="aisle-electronics">
+                <div style="background:#003366;color:#fff;padding:10px 15px;border-radius:6px;margin-bottom:15px;">
+                    <h3 style="color:#fff;">AISLE 5: ELECTRONICS &amp; HOME TECH</h3>
+                </div>
+                <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
+                <div class="product-grid" id="shopProductGrid5">
+                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
+                        Loading products...
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <!-- Column 1: Brand -->
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                            <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                            <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                        </a>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                        Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
+                    </p>
+                    <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                        <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
+                        <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
+                        <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
+                        <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Support -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
+                        <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
+                        <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
+                        <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
+                        <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Newsletter & Contact -->
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
+                    <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
+                    <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
+                        <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
+                    </form>
+                    <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
+                    
+                    <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
+                        <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
+                            📍 Addis Ababa, Ethiopia<br>
+                            📞 +251 11 123 4567<br>
+                            ✉️ support@merkato.com
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+    <script src="script.js"></script>
+<!-- ===== SERVICE WORKER REGISTRATION ===== -->
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(() => console.log('✅ Service Worker registered'))
+            .catch(err => console.log('❌ Service Worker registration failed:', err));
+    }
+</script>
+</body>
+</html>
+</body>
+</html>
