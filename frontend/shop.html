@@ -9,11 +9,11 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#008000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
     <title>Supermarket Floor — MERKATO</title>
 </head>
 <body>
@@ -314,7 +314,118 @@
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
-    <script src="script.js"></script>
+<!-- ===== JAVASCRIPT ===== -->
+<script src="api.js"></script>
+<script src="script.js"></script>
+
+<!-- ===== LOAD PRODUCTS FROM API ===== -->
+<script>
+    // Load products from API when page loads
+    document.addEventListener('DOMContentLoaded', async function() {
+        console.log('🛒 Loading products from API...');
+        
+        const grid = document.getElementById('shopProductGrid');
+        if (!grid) {
+            console.error('❌ Product grid not found!');
+            return;
+        }
+        
+        // Inline SVG placeholder
+        const placeholderSVG = `data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22130%22 height=%22130%22%3E%3Crect width=%22130%22 height=%22130%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2224%22 fill=%22%23999%22%3E📦%3C/text%3E%3C/svg%3E`;
+        
+        try {
+            const products = await getProducts();
+            console.log('✅ Products loaded from API:', products.length);
+            localStorage.setItem('merkatoProducts', JSON.stringify(products));
+            renderShopProducts(products, placeholderSVG);
+            
+            const countElement = document.getElementById('productCount');
+            if (countElement) countElement.textContent = products.length;
+            
+        } catch (error) {
+            console.error('❌ Error loading products from API:', error);
+            const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+            console.log('📦 Using cached products:', products.length);
+            renderShopProducts(products, placeholderSVG);
+            
+            const countElement = document.getElementById('productCount');
+            if (countElement) countElement.textContent = products.length;
+        }
+    });
+
+    function renderShopProducts(products, placeholderSVG) {
+        const grid = document.getElementById('shopProductGrid');
+        if (!grid) return;
+        
+        if (!products || products.length === 0) {
+            grid.innerHTML = `
+                <div style="text-align:center;padding:60px 20px;grid-column:1/-1;">
+                    <div style="font-size:64px;margin-bottom:20px;">📦</div>
+                    <h3 style="color:#1a1a2e;">No Products Found</h3>
+                    <p style="color:#888;">Check back later for new products!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const aisleLabels = {
+            food: 'AISLE 1 | FOOD',
+            home: 'AISLE 2 | HOME',
+            apparel: 'AISLE 3 | APPAREL',
+            crafts: 'AISLE 4 | CRAFTS',
+            electronics: 'AISLE 5 | ELECTRONICS'
+        };
+        
+        let html = '';
+        products.forEach(product => {
+            const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
+            const stockLabels = {
+                'in-stock': { icon: '✅', label: 'In Stock', color: '#2e7d32' },
+                'low-stock': { icon: '⚠️', label: `Low Stock (${product.stock} left)`, color: '#e65100' },
+                'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
+            };
+            const stockInfo = stockLabels[stockStatus];
+            
+            const productId = product._id || product.id;
+            const imageUrl = product.image || placeholderSVG;
+            
+            html += `
+                <div class="product-card" data-product-id="${productId}" data-aisle="${product.aisle}" data-price="${product.price}">
+                    <a href="product-detail.html?id=${productId}">
+                        <img src="${imageUrl}" 
+                             alt="${product.name}" 
+                             style="width:130px;height:130px;object-fit:cover;border-radius:8px;border:1px solid #f0f0f0;"
+                             onerror="this.src='${placeholderSVG}'">
+                    </a>
+                    <div class="aisle">${aisleLabels[product.aisle] || product.aisle}</div>
+                    <h3><a href="product-detail.html?id=${productId}">${product.name}</a></h3>
+                    <div class="price">${product.price.toLocaleString()} ETB</div>
+                    <div style="font-size:12px;font-weight:600;color:${stockInfo.color};margin:4px 0;">
+                        ${stockInfo.icon} ${stockInfo.label}
+                    </div>
+                    <a href="product-detail.html?id=${productId}" class="btn btn-sm">View &rarr;</a>
+                    <button class="btn btn-sm wishlist-btn" 
+                            data-product-id="${productId}"
+                            data-product-name="${product.name}"
+                            data-product-price="${product.price}"
+                            data-product-image="${imageUrl}"
+                            data-aisle="${product.aisle}"
+                            onclick="toggleWishlist(this)"
+                            style="font-size:12px;margin-top:6px;display:block;width:100%;">
+                        🤍 Wishlist
+                    </button>
+                </div>
+            `;
+        });
+        
+        grid.innerHTML = html;
+        
+        if (typeof updateWishlistButtons === 'function') {
+            updateWishlistButtons();
+        }
+    }
+</script>
+
 <!-- ===== SERVICE WORKER REGISTRATION ===== -->
 <script>
     if ('serviceWorker' in navigator) {
@@ -323,7 +434,6 @@
             .catch(err => console.log('❌ Service Worker registration failed:', err));
     }
 </script>
-</body>
-</html>
+
 </body>
 </html>

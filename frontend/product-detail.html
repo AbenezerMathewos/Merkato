@@ -177,6 +177,131 @@
             .catch(err => console.log('❌ Service Worker registration failed:', err));
     }
 </script>
+
+<script>
+// Load product from API by ID
+document.addEventListener('DOMContentLoaded', async function() {
+    const container = document.getElementById('productDetailContainer');
+    if (!container) return;
+    
+    // Get product ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    
+    if (!productId) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:60px;">
+                <div style="font-size:48px;">❌</div>
+                <h3 style="color:#1a1a2e;">Product not found</h3>
+                <p style="color:#888;">No product ID provided.</p>
+                <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
+            </div>
+        `;
+        return;
+    }
+    
+    try {
+        // Get product from API
+        const product = await getProduct(productId);
+        console.log('✅ Product loaded from API:', product.name);
+        
+        // Render product
+        renderProductDetail(product);
+        
+    } catch (error) {
+        console.error('❌ Error loading product:', error);
+        
+        // Fallback to localStorage
+        const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+        const product = products.find(p => p._id === productId || p.id === parseInt(productId));
+        
+        if (product) {
+            renderProductDetail(product);
+        } else {
+            container.innerHTML = `
+                <div style="text-align:center;padding:60px;">
+                    <div style="font-size:48px;">❌</div>
+                    <h3 style="color:#1a1a2e;">Product not found</h3>
+                    <p style="color:#888;">The product you're looking for doesn't exist.</p>
+                    <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
+                </div>
+            `;
+        }
+    }
+});
+
+function renderProductDetail(product) {
+    const container = document.getElementById('productDetailContainer');
+    if (!container) return;
+    
+    const aisleLabels = {
+        food: 'AISLE 1 | FOOD',
+        home: 'AISLE 2 | HOME',
+        apparel: 'AISLE 3 | APPAREL',
+        crafts: 'AISLE 4 | CRAFTS',
+        electronics: 'AISLE 5 | ELECTRONICS'
+    };
+    
+    const aisleClass = {
+        food: 'aisle-food',
+        home: 'aisle-home',
+        apparel: 'aisle-apparel',
+        crafts: 'aisle-crafts',
+        electronics: 'aisle-electronics'
+    };
+    
+    const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
+    const stockLabels = {
+        'in-stock': { icon: '✅', label: `In Stock (${product.stock} available)`, color: '#2e7d32' },
+        'low-stock': { icon: '⚠️', label: `Low Stock (${product.stock} left)`, color: '#e65100' },
+        'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
+    };
+    const stockInfo = stockLabels[stockStatus];
+    
+    container.innerHTML = `
+        <section id="${product._id}" data-product-id="${product._id}" data-aisle="${product.aisle}" data-price="${product.price}">
+            <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
+                <div style="flex:0 0 250px;text-align:center;">
+                    <img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.name}" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;" onerror="this.src='https://via.placeholder.com/250'">
+                </div>
+                <div style="flex:1;min-width:200px;">
+                    <span class="aisle-badge ${aisleClass[product.aisle] || ''}">${aisleLabels[product.aisle] || product.aisle}</span>
+                    <h2 style="margin:10px 0 5px;">${product.name}</h2>
+                    <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
+                    <div style="font-size:14px;font-weight:600;color:${stockInfo.color};margin:6px 0;padding:4px 12px;background:${stockInfo.color}15;border-radius:20px;display:inline-block;">
+                        ${stockInfo.icon} ${stockInfo.label}
+                    </div>
+                    ${product.description ? `<p style="color:#555;margin-top:10px;">${product.description}</p>` : ''}
+                    
+                    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;">
+                        <button type="button" 
+                                class="btn btn-primary add-to-cart"
+                                data-product-id="${product._id}"
+                                data-product-name="${product.name}"
+                                data-product-price="${product.price}"
+                                data-product-image="${product.image || ''}"
+                                style="padding:12px 30px;font-size:16px;">
+                            🛒 Add to Cart
+                        </button>
+                        <button type="button" 
+                                class="btn btn-outline wishlist-btn"
+                                data-product-id="${product._id}"
+                                data-product-name="${product.name}"
+                                data-product-price="${product.price}"
+                                data-product-image="${product.image || ''}"
+                                data-aisle="${product.aisle}"
+                                onclick="toggleWishlist(this)"
+                                style="padding:12px 20px;font-size:16px;">
+                            🤍 Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
+}
+</script>
+
 </body>
 </html>
 </body>

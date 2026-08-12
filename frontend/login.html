@@ -153,23 +153,17 @@
                 <p class="subtitle">Sign in to your MERKATO account</p>
 
                 <!-- Sign In Form -->
-                <form action="index.html" method="GET" id="loginForm">
-                    <div class="form-group">
-                        <label for="login-email">Email Address:</label>
-                        <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Password:</label>
-                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-                        <label style="display:flex;align-items:center;gap:6px;font-size:14px;color:#666;">
-                            <input type="checkbox" name="remember"> Remember me
-                        </label>
-                        <a href="#" style="font-size:14px;">Forgot Password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px;">Sign In →</button>
-                </form>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+    <div class="form-group">
+        <label for="login-email">Email Address:</label>
+        <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
+    </div>
+    <div class="form-group">
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px;">Sign In →</button>
+            </form>
 
                 <!-- Admin Login Button -->
                 <button class="admin-login-btn" onclick="showAdminLogin()">🔐 Admin Login</button>
@@ -449,6 +443,32 @@ function adminLoginSubmit() {
                 .catch(err => console.log('❌ Service Worker registration failed:', err));
         }
     </script>
+
+    <script>
+async function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    
+    if (!email || !password) {
+        showNotification('⚠️ Please enter email and password');
+        return;
+    }
+    
+    try {
+        const result = await loginUser({ email, password });
+        if (result.token) {
+            showNotification('✅ Login successful!');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+    } catch (error) {
+        showNotification('❌ Login failed: ' + error.message);
+    }
+}
+</script>
 
 </body>
 </html>

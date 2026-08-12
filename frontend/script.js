@@ -6,6 +6,59 @@
 console.log('🛒 MERKATO JavaScript Loaded!');
 
 // ========================================
+// LOAD PRODUCTS FROM API
+// ========================================
+
+async function loadProductsFromAPI() {
+    try {
+        const products = await getProducts();
+        console.log('✅ Products loaded from API:', products);
+        // Store in localStorage for offline use
+        localStorage.setItem('merkatoProducts', JSON.stringify(products));
+        return products;
+    } catch (error) {
+        console.error('❌ Error loading products:', error);
+        // Fallback to localStorage
+        return JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+    }
+}
+
+// ========================================
+// UPDATE LOGIN FUNCTION TO USE API
+// ========================================
+
+async function loginWithAPI(email, password) {
+    try {
+        const result = await loginUser({ email, password });
+        if (result.token) {
+            showNotification('✅ Login successful!');
+            window.location.href = 'index.html';
+        }
+        return result;
+    } catch (error) {
+        showNotification('❌ Login failed: ' + error.message);
+        return null;
+    }
+}
+
+// ========================================
+// UPDATE REGISTER FUNCTION TO USE API
+// ========================================
+
+async function registerWithAPI(name, email, password, phone, address) {
+    try {
+        const result = await registerUser({ name, email, password, phone, address });
+        if (result.token) {
+            showNotification('✅ Registration successful!');
+            window.location.href = 'index.html';
+        }
+        return result;
+    } catch (error) {
+        showNotification('❌ Registration failed: ' + error.message);
+        return null;
+    }
+}
+// ========================================
 // PRODUCT STOCK DATA
 // ========================================
 
@@ -3570,7 +3623,6 @@ if (window.location.pathname.includes('orders.html')) {
     // ===== SHOP PAGE =====
     if (window.location.pathname.includes('shop.html')) {
         loadShopProducts();
-        updateShopRatings();
         updateStockBadges();
     }
 
