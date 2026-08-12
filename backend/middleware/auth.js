@@ -1,7 +1,3 @@
-
-
-
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -15,12 +11,13 @@ const protect = async (req, res, next) => {
             req.user = await User.findById(decoded.id).select('-password');
             next();
         } catch (error) {
-           return res.status(401).json({ message: 'Not authorized, token failed' });
+            console.error('Auth error:', error);
+            res.status(401).json({ message: 'Not authorized, token failed' });
         }
     }
 
     if (!token) {
-       return res.status(401).json({ message: 'Not authorized, no token' });
+        res.status(401).json({ message: 'Not authorized, no token' });
     }
 };
 
@@ -33,42 +30,3 @@ const admin = (req, res, next) => {
 };
 
 module.exports = { protect, admin };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-ss
