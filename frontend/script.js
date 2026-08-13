@@ -1,6 +1,6 @@
 // ========================================
-// MERKATO - Complete JavaScript File
-// Version: 3.0 (Fully Fixed)
+// MERKATO -  JavaScript File
+// Version: 3.0
 // ========================================
 
 console.log('🛒 MERKATO JavaScript Loaded!');
@@ -58,6 +58,29 @@ async function registerWithAPI(name, email, password, phone, address) {
         return null;
     }
 }
+
+// Wires up the "Create Account" form on login.html — previously this form
+// had no submit handler at all, so registration silently did nothing.
+async function handleRegister(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('reg-name')?.value.trim();
+    const email = document.getElementById('reg-email')?.value.trim();
+    const phone = document.getElementById('reg-phone')?.value.trim();
+    const password = document.getElementById('reg-password')?.value.trim();
+
+    if (!name || !email || !phone || !password) {
+        showNotification('⚠️ Please fill in all fields');
+        return;
+    }
+
+    if (password.length < 6) {
+        showNotification('⚠️ Password must be at least 6 characters');
+        return;
+    }
+
+    await registerWithAPI(name, email, password, phone, '');
+}
 // ========================================
 // PRODUCT STOCK DATA
 // ========================================
@@ -100,65 +123,6 @@ const defaultUserData = {
     address: '',
     joinDate: new Date().toLocaleDateString()
 };
-
-function loginUser() {
-    const emailInput = document.getElementById('login-email');
-    const passwordInput = document.getElementById('login-password');
-    
-    if (!emailInput || !passwordInput) return false;
-    
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-    
-    if (!email || !password) {
-        showNotification('⚠️ Please enter email and password');
-        return false;
-    }
-    
-    let userName = email.split('@')[0];
-    userName = userName.replace(/[^a-zA-Z]/g, ' ');
-    userName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-    
-    if (!userName) userName = 'User';
-    
-    let userData = localStorage.getItem('merkatoUserData');
-    let userProfile = null;
-    
-    if (userData) {
-        userProfile = JSON.parse(userData);
-    } else {
-        userProfile = {
-            name: userName,
-            email: email,
-            phone: '',
-            address: '',
-            joinDate: new Date().toLocaleDateString()
-        };
-    }
-    
-    currentUser = {
-        name: userProfile.name,
-        email: userProfile.email,
-        phone: userProfile.phone || '',
-        address: userProfile.address || '',
-        joinDate: userProfile.joinDate || new Date().toLocaleDateString()
-    };
-    
-    localStorage.setItem('merkatoUser', JSON.stringify(currentUser));
-    localStorage.setItem('merkatoUserData', JSON.stringify(currentUser));
-    
-    hasShownWelcome = false;
-    sessionStorage.removeItem('welcomeShown');
-    
-    showWelcomeMessage(currentUser.name);
-    updateUserDisplay();
-    
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 2000);
-    
-    return true;
-}
 
 function showWelcomeMessage(userName) {
     let notification = document.querySelector('.welcome-notification');
@@ -301,26 +265,6 @@ function escapeMarkup(value) {
     return String(value || '').replace(/[&<>'"]/g, character => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
     }[character]));
-}
-
-// ========================================
-// LOGOUT FUNCTION
-// ========================================
-
-function logoutUser() {
-    if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('merkatoUser');
-        localStorage.removeItem('merkatoUserData');
-        currentUser = null;
-        sessionStorage.removeItem('welcomeShown');
-        hasShownWelcome = false;
-        
-        showNotification('👋 You have been logged out successfully!');
-        
-        setTimeout(() => {
-            window.location.reload();
-        }, 1000);
-    }
 }
 
 // ========================================
@@ -467,14 +411,11 @@ function displayOrders(orders) {
 // PROFILE FUNCTIONS
 // ========================================
 
-function loadUserProfile() {
-    const userData = localStorage.getItem('merkatoUser');
-    if (!userData) {
+async function loadUserProfile() {
+    if (!isLoggedIn()) {
         window.location.href = 'login.html';
         return;
     }
-    
-    const user = JSON.parse(userData);
     
     const nameInput = document.getElementById('profile-name');
     const emailInput = document.getElementById('profile-email');
@@ -482,14 +423,23 @@ function loadUserProfile() {
     const addressInput = document.getElementById('profile-address');
     const joinDateDisplay = document.getElementById('profile-join-date');
     
+    let user;
+    try {
+        user = await getCurrentUser();
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        showNotification('⚠️ Could not load your profile from server');
+        user = getCurrentUserData() || {};
+    }
+    
     if (nameInput) nameInput.value = user.name || '';
     if (emailInput) emailInput.value = user.email || '';
     if (phoneInput) phoneInput.value = user.phone || '';
     if (addressInput) addressInput.value = user.address || '';
-    if (joinDateDisplay) joinDateDisplay.textContent = user.joinDate || new Date().toLocaleDateString();
+    if (joinDateDisplay) joinDateDisplay.textContent = user.joinDate ? new Date(user.joinDate).toLocaleDateString() : new Date().toLocaleDateString();
 }
 
-function saveUserProfile() {
+async function saveUserProfile() {
     const nameInput = document.getElementById('profile-name');
     const emailInput = document.getElementById('profile-email');
     const phoneInput = document.getElementById('profile-phone');
@@ -510,24 +460,22 @@ function saveUserProfile() {
         return;
     }
     
-    const userData = {
-        name: name,
-        email: email,
-        phone: phone,
-        address: address,
-        joinDate: new Date().toLocaleDateString()
-    };
-    
-    localStorage.setItem('merkatoUser', JSON.stringify(userData));
-    localStorage.setItem('merkatoUserData', JSON.stringify(userData));
-    currentUser = userData;
-    
-    showNotification('✅ Profile saved successfully!');
-    updateUserDisplay();
-    
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 1500);
+    try {
+        const updatedUser = await updateUserProfile({ name, email, phone, address });
+        
+        localStorage.setItem('merkatoUser', JSON.stringify(updatedUser));
+        localStorage.setItem('merkatoUserData', JSON.stringify(updatedUser));
+        currentUser = updatedUser;
+        
+        showNotification('✅ Profile saved successfully!');
+        updateUserDisplay();
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
+    } catch (error) {
+        showNotification('❌ Failed to save profile: ' + error.message);
+    }
 }
 
 function checkUserOnLoad() {
@@ -2594,13 +2542,13 @@ function renderNotifyButton(productId) {
 // ORDERS PAGE FUNCTION (Enhanced)
 // ========================================
 
-function loadOrders() {
+async function loadOrders() {
     const userData = localStorage.getItem('merkatoUser');
     const container = document.getElementById('ordersContainer');
     
     if (!container) return;
     
-    if (!userData) {
+    if (!userData || !isLoggedIn()) {
         container.innerHTML = `
             <div class="empty-orders">
                 <div class="icon">🔒</div>
@@ -2612,7 +2560,24 @@ function loadOrders() {
         return;
     }
     
-    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    let orders = [];
+    try {
+        const apiOrders = await getMyOrders();
+        // Normalize MongoDB fields (_id, createdAt) into the shape the
+        // rest of this page's rendering code already expects.
+        orders = apiOrders.map(o => ({
+            ...o,
+            id: o._id,
+            date: new Date(o.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            })
+        }));
+        localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+    } catch (error) {
+        console.error('Error loading orders:', error);
+        showNotification('⚠️ Could not load orders from server');
+        orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    }
     
     if (orders.length === 0) {
         container.innerHTML = `
@@ -2697,16 +2662,25 @@ function loadOrders() {
     container.innerHTML = html;
 }
 
-function cancelOrder(orderId) {
-    if (confirm('Are you sure you want to cancel this order?')) {
-        let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-        const index = orders.findIndex(o => o.id === orderId);
-        if (index !== -1) {
-            orders[index].status = 'Cancelled';
-            localStorage.setItem('merkatoOrders', JSON.stringify(orders));
-            loadOrders();
-            showNotification('❌ Order cancelled successfully');
+async function cancelOrder(orderId) {
+    if (!confirm('Are you sure you want to cancel this order?')) return;
+    
+    try {
+        const token = localStorage.getItem('merkatoToken');
+        const response = await fetch(`http://localhost:5000/api/orders/${orderId}/cancel`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.message || 'Failed to cancel order');
         }
+        
+        showNotification('❌ Order cancelled successfully');
+        await loadOrders();
+    } catch (error) {
+        showNotification('❌ Failed to cancel order: ' + error.message);
     }
 }
 
@@ -2929,20 +2903,27 @@ function getDefaultProducts() {
     ];
 }
 
-function loadShopProducts() {
+async function loadShopProducts() {
     const grids = document.querySelectorAll('.product-grid[id^="shopProductGrid"]');
     if (!grids || grids.length === 0) {
         console.warn('No product grids found on page');
         return;
     }
 
-    let products = JSON.parse(localStorage.getItem('merkatoProducts'));
-
-    if (!products || products.length === 0) {
-        products = getDefaultProducts();
+    let products = [];
+    try {
+        const apiProducts = await getProducts();
+        // Normalize MongoDB's _id to .id so all existing rendering code
+        // (which was written for local numeric ids) keeps working unchanged.
+        products = apiProducts.map(p => ({ ...p, id: p._id }));
         localStorage.setItem('merkatoProducts', JSON.stringify(products));
+    } catch (error) {
+        console.error('Error loading products from API:', error);
+        showNotification('⚠️ Could not load products from server');
+        const cached = JSON.parse(localStorage.getItem('merkatoProducts'));
+        products = cached || [];
     }
-    
+
     renderShopProducts(products);
 }
 
@@ -3074,7 +3055,7 @@ function renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabel
 // PRODUCT DETAIL PAGE
 // ========================================
 
-function loadProductDetail() {
+async function loadProductDetail() {
     const container = document.getElementById('productDetailContainer');
     if (!container) return;
     
@@ -3093,10 +3074,12 @@ function loadProductDetail() {
         return;
     }
     
-    const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
-    const product = products.find(p => p.id === parseInt(productId));
-    
-    if (!product) {
+    let product;
+    try {
+        const apiProduct = await getProduct(productId);
+        product = { ...apiProduct, id: apiProduct._id };
+    } catch (error) {
+        console.error('Error loading product:', error);
         container.innerHTML = `
             <div style="text-align:center;padding:60px;">
                 <div style="font-size:48px;">❌</div>
@@ -3669,15 +3652,6 @@ if (window.location.pathname.includes('admin.html')) {
     // ===== SEARCH =====
     initialiseSearch();
 
-    // ===== LOGIN FORM =====
-    const loginForm = document.querySelector('form[action="index.html"]');
-    if (loginForm && window.location.pathname.includes('login.html')) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            loginUser();
-        });
-    }
-    
     updateWishlistButtons();
     
     console.log('✅ MERKATO JavaScript Ready!');
@@ -3765,8 +3739,8 @@ function processPayment() {
         document.getElementById('processingDots').textContent = '.'.repeat(dots);
     }, 500);
     
-    // Simulate payment processing (2-3 seconds)
-    setTimeout(() => {
+    // Simulate a brief processing delay, then place the real order
+    setTimeout(async () => {
         clearInterval(dotInterval);
         
         const subtotal = getCartTotal();
@@ -3774,17 +3748,7 @@ function processPayment() {
         const tax = subtotal * 0.15;
         const total = subtotal + shipping + tax;
         
-        // Generate order number
-        const orderNumber = generateOrderNumber();
-        
-        // Create order
-        currentOrder = {
-            id: orderNumber,
-            date: new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }),
+        const orderPayload = {
             items: cart.map(item => ({
                 name: item.name,
                 quantity: item.quantity,
@@ -3801,11 +3765,40 @@ function processPayment() {
             subtotal: subtotal,
             shipping: shipping,
             tax: tax,
-            total: total,
-            status: 'Processing'
+            total: total
         };
         
-        // Save order
+        if (!isLoggedIn()) {
+            document.getElementById('paymentProcessing').style.display = 'none';
+            document.getElementById('paymentInitial').style.display = 'block';
+            showNotification('⚠️ Please sign in to place an order');
+            setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+            return;
+        }
+        
+        let createdOrder;
+        try {
+            createdOrder = await createOrder(orderPayload);
+        } catch (error) {
+            document.getElementById('paymentProcessing').style.display = 'none';
+            document.getElementById('paymentInitial').style.display = 'block';
+            showNotification('❌ Order failed: ' + error.message);
+            return;
+        }
+        
+        // Normalize the real order (MongoDB _id/createdAt) into the shape
+        // the rest of this file (receipt printing, order history) expects.
+        currentOrder = {
+            ...createdOrder,
+            id: createdOrder._id,
+            date: new Date(createdOrder.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            })
+        };
+        const orderNumber = currentOrder.id;
+        
+        // Keep a local mirror so order history/tracking pages (which read
+        // this cache for display convenience) show the new order immediately.
         let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
         orders.unshift(currentOrder);
         localStorage.setItem('merkatoOrders', JSON.stringify(orders));
@@ -4077,17 +4070,17 @@ function addTrackingButton() {
 // ADMIN ACCESS CONTROL
 // ========================================
 
-// Admin credentials (in a real app, these would be in a database)
+// Admin credentials (used by the demo admin login only)
 const ADMIN_CREDENTIALS = {
     email: 'admin@merkato.com',
     password: 'admin123'
 };
 
-// Check if user is admin
+// Check if user is admin — checks the real isAdmin flag so this works for
+// both the demo admin login and real backend accounts (isAdmin:true in MongoDB)
 function isAdmin() {
     const user = JSON.parse(localStorage.getItem('merkatoUser'));
-    if (!user) return false;
-    return user.email === ADMIN_CREDENTIALS.email;
+    return !!(user && user.isAdmin === true);
 }
 
 // Check admin access on page load

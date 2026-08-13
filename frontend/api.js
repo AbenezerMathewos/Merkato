@@ -66,6 +66,7 @@ async function updateUserProfile(userData) {
 function logoutUser() {
     localStorage.removeItem('merkatoToken');
     localStorage.removeItem('merkatoUser');
+    localStorage.removeItem('merkatoUserData');
     window.location.href = 'login.html';
 }
 

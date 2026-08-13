@@ -153,17 +153,17 @@
                 <p class="subtitle">Sign in to your MERKATO account</p>
 
                 <!-- Sign In Form -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
-    <div class="form-group">
-        <label for="login-email">Email Address:</label>
-        <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
-    </div>
-    <div class="form-group">
-        <label for="login-password">Password:</label>
-        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
-    </div>
-    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px;">Sign In →</button>
-            </form>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email Address:</label>
+                        <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;padding:12px;font-size:16px;">Sign In →</button>
+                </form>
 
                 <!-- Admin Login Button -->
                 <button class="admin-login-btn" onclick="showAdminLogin()">🔐 Admin Login</button>
@@ -180,7 +180,7 @@
                     <details style="border:1px solid #e0e0e0;border-radius:8px;padding:15px;">
                         <summary style="font-weight:600;cursor:pointer;color:#008000;">Create an Account</summary>
                         <br>
-                        <form action="index.html" method="GET">
+                        <form onsubmit="handleRegister(event)">
                             <div class="form-group">
                                 <label for="reg-name">Full Name:</label>
                                 <input type="text" id="reg-name" name="fullname" placeholder="Abebe Bikila" required>
@@ -312,13 +312,15 @@
             
             <div class="demo-credentials">
                 <strong>Demo Credentials:</strong><br>
-                Email: admin@merkato.com<br>
+                Email: admin@merkato.com or adminmerkato@gmail.com<br>
                 Password: admin123
             </div>
         </div>
     </div>
 
+    <script src="api.js"></script>
     <script src="script.js"></script>
+    
     <script>
         // ========================================
         // ADMIN LOGIN FUNCTIONS
@@ -334,36 +336,8 @@
             document.body.style.overflow = 'auto';
         }
 
-function adminLoginSubmit() {
-    const email = document.getElementById('adminEmail').value.trim();
-    const password = document.getElementById('adminPassword').value.trim();
-    
-    if (!email || !password) {
-        showNotification('⚠️ Please enter email and password');
-        return;
-    }
-    
-    const ADMIN_EMAIL = 'admin@merkato.com';
-    const ADMIN_PASSWORD = 'admin123';
-    
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        const adminUser = {
-            name: 'Admin',
-            email: ADMIN_EMAIL,
-            isAdmin: true,
-            joinDate: new Date().toLocaleDateString()
-        };
-        localStorage.setItem('merkatoUser', JSON.stringify(adminUser));
-        localStorage.setItem('merkatoUserData', JSON.stringify(adminUser));
-        showNotification('✅ Admin logged in successfully!');
-        closeAdminLogin();
-        setTimeout(() => {
-            window.location.href = 'admin.html';
-        }, 1000);
-    } else {
-        showNotification('❌ Invalid admin credentials');
-    }
-}            const email = document.getElementById('adminEmail').value.trim();
+        function adminLoginSubmit() {
+            const email = document.getElementById('adminEmail').value.trim();
             const password = document.getElementById('adminPassword').value.trim();
             
             if (!email || !password) {
@@ -371,13 +345,17 @@ function adminLoginSubmit() {
                 return;
             }
             
-            const ADMIN_EMAIL = 'admin@merkato.com';
+            // ✅ ACCEPT BOTH EMAILS
+            const ADMIN_EMAILS = [
+                'admin@merkato.com',
+                'adminmerkato@gmail.com'
+            ];
             const ADMIN_PASSWORD = 'admin123';
             
-            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+            if (ADMIN_EMAILS.includes(email) && password === ADMIN_PASSWORD) {
                 const adminUser = {
                     name: 'Admin',
-                    email: ADMIN_EMAIL,
+                    email: email,
                     isAdmin: true,
                     joinDate: new Date().toLocaleDateString()
                 };
@@ -392,6 +370,38 @@ function adminLoginSubmit() {
                 showNotification('❌ Invalid admin credentials');
             }
         }
+
+        // ========================================
+        // USER LOGIN
+        // ========================================
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            
+            if (!email || !password) {
+                showNotification('⚠️ Please enter email and password');
+                return;
+            }
+            
+            try {
+                const result = await loginUser({ email, password });
+                if (result.token) {
+                    showNotification('✅ Login successful!');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                showNotification('❌ Login failed: ' + error.message);
+            }
+        }
+
+        // ========================================
+        // NOTIFICATION
+        // ========================================
 
         function showNotification(message) {
             let notification = document.querySelector('.notification');
@@ -435,6 +445,7 @@ function adminLoginSubmit() {
             }
         });
     </script>
+
     <!-- ===== SERVICE WORKER REGISTRATION ===== -->
     <script>
         if ('serviceWorker' in navigator) {
@@ -443,32 +454,6 @@ function adminLoginSubmit() {
                 .catch(err => console.log('❌ Service Worker registration failed:', err));
         }
     </script>
-
-    <script>
-async function handleLogin(event) {
-    event.preventDefault();
-    
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value.trim();
-    
-    if (!email || !password) {
-        showNotification('⚠️ Please enter email and password');
-        return;
-    }
-    
-    try {
-        const result = await loginUser({ email, password });
-        if (result.token) {
-            showNotification('✅ Login successful!');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
-        }
-    } catch (error) {
-        showNotification('❌ Login failed: ' + error.message);
-    }
-}
-</script>
 
 </body>
 </html>

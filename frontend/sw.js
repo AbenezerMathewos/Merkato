@@ -31,7 +31,16 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('Opened cache');
-                return cache.addAll(urlsToCache);
+                // Cache each file individually so one failed fetch
+                // (e.g. a missing file, or a dev-server quirk) doesn't
+                // abort the whole install with an uncaught rejection.
+                return Promise.all(
+                    urlsToCache.map(url =>
+                        cache.add(url).catch(error => {
+                            console.warn('Could not cache', url, error);
+                        })
+                    )
+                );
             })
     );
 });
