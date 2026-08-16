@@ -9,16 +9,22 @@ const connectDB = async () => {
     }
 
     try {
-        // Set short timeout so the server boot is not delayed
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 3000,
-            connectTimeoutMS: 3000
+        // Use Promise.race with a quick 1.5s timeout so startup is never delayed
+        const connectPromise = mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 1500,
+            connectTimeoutMS: 1500
         });
+
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('MongoDB connection timeout (1.5s)')), 1500)
+        );
+
+        const conn = await Promise.race([connectPromise, timeoutPromise]);
         console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
         storage.isMongoConnected = true;
     } catch (error) {
-        console.warn(`⚠️ MongoDB connection not available (${error.message}).`);
-        console.log(`🚀 Seamlessly running with MERKATO persistent JSON data engine.`);
+        console.warn(`⚠️ MongoDB not connected (${error.message}).`);
+        console.log(`🚀 Running with MERKATO high-performance persistent JSON data engine.`);
         storage.isMongoConnected = false;
     }
 };
