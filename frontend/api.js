@@ -1,5 +1,5 @@
 // ========================================
-// MERKATO - API Client
+// MERKATO - API Client & Data Layer
 // ========================================
 
 const API_URL = 'http://localhost:5000/api';
@@ -15,25 +15,31 @@ async function apiCall(endpoint, method = 'GET', data = null) {
 
     // Get token from localStorage
     const token = localStorage.getItem('merkatoToken');
-    if (token) {
+    if (token && token !== 'null' && token !== 'undefined') {
         options.headers['Authorization'] = `Bearer ${token}`;
     }
 
-    if (data) {
+    if (data && (method === 'POST' || method === 'PUT' || method === 'DELETE')) {
         options.body = JSON.stringify(data);
     }
 
     try {
         const response = await fetch(`${API_URL}${endpoint}`, options);
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.message || 'Something went wrong');
+        let result;
+        const text = await response.text();
+        try {
+            result = JSON.parse(text);
+        } catch (e) {
+            result = { message: text };
         }
-        
+
+        if (!response.ok) {
+            throw new Error(result.message || `Request failed with status ${response.status}`);
+        }
+
         return result;
     } catch (error) {
-        console.error('API Error:', error);
+        console.warn(`[API] Error on ${method} ${endpoint}:`, error.message);
         throw error;
     }
 }
@@ -43,14 +49,21 @@ async function apiCall(endpoint, method = 'GET', data = null) {
 // ========================================
 
 async function registerUser(userData) {
-    return apiCall('/auth/register', 'POST', userData);
+    const result = await apiCall('/auth/register', 'POST', userData);
+    if (result && result.token) {
+        localStorage.setItem('merkatoToken', result.token);
+        localStorage.setItem('merkatoUser', JSON.stringify(result));
+        localStorage.setItem('merkatoUserData', JSON.stringify(result));
+    }
+    return result;
 }
 
 async function loginUser(credentials) {
     const result = await apiCall('/auth/login', 'POST', credentials);
-    if (result.token) {
+    if (result && result.token) {
         localStorage.setItem('merkatoToken', result.token);
         localStorage.setItem('merkatoUser', JSON.stringify(result));
+        localStorage.setItem('merkatoUserData', JSON.stringify(result));
     }
     return result;
 }
@@ -60,7 +73,14 @@ async function getCurrentUser() {
 }
 
 async function updateUserProfile(userData) {
-    return apiCall('/auth/profile', 'PUT', userData);
+    const result = await apiCall('/auth/profile', 'PUT', userData);
+    if (result) {
+        const currentUser = getCurrentUserData() || {};
+        const updated = { ...currentUser, ...result };
+        localStorage.setItem('merkatoUser', JSON.stringify(updated));
+        localStorage.setItem('merkatoUserData', JSON.stringify(updated));
+    }
+    return result;
 }
 
 function logoutUser() {
@@ -74,12 +94,37 @@ function logoutUser() {
 // PRODUCTS API
 // ========================================
 
-async function getProducts() {
-    return apiCall('/products', 'GET');
+async function getProducts(params = {}) {
+    let query = '';
+    const qParts = [];
+    if (params.aisle && params.aisle !== 'all') qParts.push(`aisle=${encodeURIComponent(params.aisle)}`);
+    if (params.search) qParts.push(`search=${encodeURIComponent(params.search)}`);
+    if (qParts.length > 0) query = '?' + qParts.join('&');
+
+    try {
+        const products = await apiCall(`/products${query}`, 'GET');
+        localStorage.setItem('merkatoProducts', JSON.stringify(products));
+        return products;
+    } catch (err) {
+        console.warn('Falling back to locally cached products');
+        const cached = localStorage.getItem('merkatoProducts');
+        if (cached) return JSON.parse(cached);
+        throw err;
+    }
 }
 
-async function getProduct(id) {
-    return apiCall(`/products/${id}`, 'GET');
+async function getProduct(idOrSlug) {
+    try {
+        return await apiCall(`/products/${idOrSlug}`, 'GET');
+    } catch (err) {
+        const cached = localStorage.getItem('merkatoProducts');
+        if (cached) {
+            const list = JSON.parse(cached);
+            const found = list.find(p => p._id === idOrSlug || p.id === idOrSlug || p.slug === idOrSlug || p.name.toLowerCase().includes(idOrSlug.toLowerCase()));
+            if (found) return found;
+        }
+        throw err;
+    }
 }
 
 async function createProduct(productData) {
@@ -106,8 +151,16 @@ async function getMyOrders() {
     return apiCall('/orders/myorders', 'GET');
 }
 
+async function getAllOrders() {
+    return apiCall('/orders', 'GET');
+}
+
 async function getOrder(id) {
     return apiCall(`/orders/${id}`, 'GET');
+}
+
+async function updateOrderStatus(id, status) {
+    return apiCall(`/orders/${id}/status`, 'PUT', { status });
 }
 
 async function cancelOrder(id) {
@@ -127,20 +180,63 @@ async function deleteUser(id) {
 }
 
 // ========================================
+// REVIEWS API
+// ========================================
+
+async function getProductReviews(productId) {
+    try {
+        return await apiCall(`/reviews/product/${productId}`, 'GET');
+    } catch (err) {
+        const reviews = JSON.parse(localStorage.getItem('merkatoReviews') || '{}');
+        return reviews[productId] || [];
+    }
+}
+
+async function addProductReview(reviewData) {
+    try {
+        return await apiCall('/reviews', 'POST', reviewData);
+    } catch (err) {
+        // Fallback local
+        const reviews = JSON.parse(localStorage.getItem('merkatoReviews') || '{}');
+        if (!reviews[reviewData.productId]) reviews[reviewData.productId] = [];
+        const localRev = {
+            id: 'rev_' + Date.now(),
+            ...reviewData,
+            helpful: 0,
+            notHelpful: 0,
+            date: new Date().toLocaleDateString()
+        };
+        reviews[reviewData.productId].unshift(localRev);
+        localStorage.setItem('merkatoReviews', JSON.stringify(reviews));
+        return localRev;
+    }
+}
+
+// ========================================
 // CHECK IF USER IS LOGGED IN
 // ========================================
 
 function isLoggedIn() {
     const token = localStorage.getItem('merkatoToken');
-    return !!token;
+    const user = localStorage.getItem('merkatoUser');
+    return !!token && !!user;
 }
 
 function getCurrentUserData() {
     const user = localStorage.getItem('merkatoUser');
-    return user ? JSON.parse(user) : null;
+    if (!user) return null;
+    try {
+        return JSON.parse(user);
+    } catch (e) {
+        return null;
+    }
 }
 
 function isAdmin() {
     const user = getCurrentUserData();
-    return user && user.isAdmin === true;
+    return !!user && user.isAdmin === true;
+}
+
+function getAuthToken() {
+    return localStorage.getItem('merkatoToken');
 }
