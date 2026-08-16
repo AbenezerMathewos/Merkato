@@ -625,36 +625,28 @@
         async function loadAdminStats() {
             try {
                 const products = await getProducts();
-                const token = localStorage.getItem('merkatoToken');
-                
                 let orders = [];
                 let users = [];
                 
                 try {
-                    const ordersRes = await fetch('http://localhost:5000/api/orders', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    orders = await ordersRes.json();
-                } catch(e) { console.log('Orders API not available'); }
+                    orders = await getAllOrders();
+                } catch(e) { console.log('Orders API not available', e); }
                 
                 try {
-                    const usersRes = await fetch('http://localhost:5000/api/users', {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    users = await usersRes.json();
-                } catch(e) { console.log('Users API not available'); }
+                    users = await getUsers();
+                } catch(e) { console.log('Users API not available', e); }
                 
                 let totalRevenue = 0;
-                orders.forEach(order => {
+                (orders || []).forEach(order => {
                     if (order.status !== 'Cancelled') {
                         totalRevenue += order.total || 0;
                     }
                 });
                 
-                document.getElementById('statProducts').textContent = products.length;
-                document.getElementById('statOrders').textContent = orders.length;
+                document.getElementById('statProducts').textContent = (products || []).length;
+                document.getElementById('statOrders').textContent = (orders || []).length;
                 document.getElementById('statRevenue').textContent = totalRevenue.toLocaleString();
-                document.getElementById('statUsers').textContent = users.length || 0;
+                document.getElementById('statUsers').textContent = (users || []).length;
                 
             } catch (error) {
                 console.error('Error loading stats:', error);
@@ -803,21 +795,7 @@
             
             try {
                 const productData = { name, aisle, price, stock, image: image || '', description: description || '' };
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(productData)
-                });
-
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({}));
-                    throw new Error(err.message || 'Failed to update product');
-                }
-
+                await updateProduct(id, productData);
                 showAdminNotification('✅ Product updated successfully!', 'success');
                 
                 cancelEdit();
@@ -835,21 +813,11 @@
         // ========================================
 
         async function deleteProduct(id) {
-            const product = allProducts.find(p => p._id === id);
+            const product = allProducts.find(p => (p._id === id || p.id === id));
             if (!confirm(`⚠️ Are you sure you want to delete "${product ? product.name : 'this product'}"?`)) return;
             
             try {
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (!response.ok) {
-                    const err = await response.json().catch(() => ({}));
-                    throw new Error(err.message || 'Failed to delete product');
-                }
-
+                await deleteProduct(id);
                 showAdminNotification('🗑️ Product deleted successfully', 'info');
                 await loadAdminProducts();
                 await loadAdminStats();
@@ -890,11 +858,7 @@
             const container = document.getElementById('adminOrderList');
             
             try {
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch('http://localhost:5000/api/orders', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const orders = await response.json();
+                const orders = await getAllOrders();
                 
                 if (!orders || orders.length === 0) {
                     container.innerHTML = `
@@ -912,23 +876,25 @@
                                        order.status === 'Processing' ? '#e65100' :
                                        order.status === 'Shipped' ? '#1565c0' :
                                        order.status === 'Cancelled' ? '#c62828' : '#888';
+                    const orderId = order._id || order.id;
+                    const itemsCount = (order.items || []).length;
+                    
                     html += `
                         <div class="admin-order-item">
                             <div class="order-info">
-                                <span class="order-id">#${order._id}</span>
-                                <span class="order-date">${new Date(order.createdAt).toLocaleDateString()}</span>
+                                <span class="order-id">#${orderId}</span>
+                                <span class="order-date">${new Date(order.createdAt || Date.now()).toLocaleDateString()}</span>
                                 <span style="color:${statusColor};font-weight:600;">${order.status}</span>
-                                <span class="order-total">${order.total.toLocaleString()} ETB</span>
-                                <span style="font-size:13px;color:#888;">${order.items.length} items</span>
+                                <span class="order-total">${(order.total || 0).toLocaleString()} ETB</span>
+                                <span style="font-size:13px;color:#888;">${itemsCount} items</span>
                             </div>
                             <div class="order-actions">
-                                <select onchange="updateOrderStatus('${order._id}', this.value)">
+                                <select onchange="handleAdminOrderStatusChange('${orderId}', this.value)">
                                     <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>⏳ Processing</option>
                                     <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>🚚 Shipped</option>
                                     <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
                                     <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>❌ Cancelled</option>
                                 </select>
-                                <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails('${order._id}')">📋 Details</button>
                             </div>
                         </div>
                     `;
@@ -946,32 +912,15 @@
             }
         }
 
-        async function updateOrderStatus(orderId, newStatus) {
+        async function handleAdminOrderStatusChange(orderId, newStatus) {
             try {
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                
-                if (response.ok) {
-                    showAdminNotification(`✅ Order updated to ${newStatus}`, 'success');
-                    await loadAdminOrders();
-                    await loadAdminStats();
-                } else {
-                    throw new Error('Failed to update order');
-                }
+                await updateOrderStatus(orderId, newStatus);
+                showAdminNotification(`✅ Order updated to ${newStatus}`, 'success');
+                await loadAdminOrders();
+                await loadAdminStats();
             } catch (error) {
                 showAdminNotification('❌ Failed to update order: ' + error.message, 'error');
             }
-        }
-
-        function viewOrderDetails(orderId) {
-            alert('📦 Order Details\n\nView order in the database.');
         }
 
         // ========================================
@@ -982,11 +931,7 @@
             const container = document.getElementById('adminUserList');
             
             try {
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch('http://localhost:5000/api/users', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const users = await response.json();
+                const users = await getUsers();
                 
                 if (!users || users.length === 0) {
                     container.innerHTML = `
@@ -1000,16 +945,18 @@
                 
                 let html = '';
                 users.forEach(user => {
+                    const userId = user._id || user.id;
+                    const joinDate = user.joinDate ? new Date(user.joinDate).toLocaleDateString() : 'Recent';
                     html += `
                         <div class="admin-user-item">
                             <div class="user-info">
                                 <div>
-                                    <div class="name">👤 ${user.name || 'User'}</div>
-                                    <div class="details">${user.email || ''} • Joined: ${new Date(user.joinDate).toLocaleDateString()}</div>
+                                    <div class="name">👤 ${user.name || 'User'} ${user.isAdmin ? '<span style="font-size:11px;background:#ffd700;padding:2px 6px;border-radius:4px;color:#1a1a2e;font-weight:700;">ADMIN</span>' : ''}</div>
+                                    <div class="details">${user.email || ''} • Joined: ${joinDate}</div>
                                 </div>
                             </div>
                             <div class="user-actions">
-                                <button class="btn btn-danger-sm" onclick="deleteUser('${user._id}')">🗑️ Remove</button>
+                                ${!user.isAdmin ? `<button class="btn btn-danger-sm" onclick="handleAdminDeleteUser('${userId}')">🗑️ Remove</button>` : ''}
                             </div>
                         </div>
                     `;
@@ -1027,23 +974,14 @@
             }
         }
 
-        async function deleteUser(id) {
+        async function handleAdminDeleteUser(id) {
             if (!confirm('⚠️ Are you sure you want to remove this user?')) return;
             
             try {
-                const token = localStorage.getItem('merkatoToken');
-                const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (response.ok) {
-                    showAdminNotification('🗑️ User removed successfully', 'info');
-                    await loadAdminUsers();
-                    await loadAdminStats();
-                } else {
-                    throw new Error('Failed to delete user');
-                }
+                await deleteUser(id);
+                showAdminNotification('🗑️ User removed successfully', 'info');
+                await loadAdminUsers();
+                await loadAdminStats();
             } catch (error) {
                 showAdminNotification('❌ Failed to delete user: ' + error.message, 'error');
             }
