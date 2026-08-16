@@ -407,44 +407,18 @@
             }
         }
 
-        // ========================================
-        // NOTIFICATION
-        // ========================================
-
-        function showNotification(message) {
-            let notification = document.querySelector('.notification');
-            if (notification) {
-                notification.remove();
-            }
-            notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = message;
-            Object.assign(notification.style, {
-                position: 'fixed',
-                top: '20px',
-                right: '20px',
-                padding: '16px 24px',
-                background: '#1a1a2e',
-                color: '#fff',
-                borderRadius: '10px',
-                zIndex: '9999',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
-                fontFamily: "'Segoe UI', sans-serif",
-                fontSize: '14px',
-                fontWeight: '600',
-                borderLeft: '4px solid #008000',
-                maxWidth: '350px',
-                animation: 'slideInRight 0.5s ease'
-            });
-            document.body.appendChild(notification);
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                notification.style.transition = 'opacity 0.5s ease';
+        // Check for session messages on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const msg = sessionStorage.getItem('loginMessage');
+            if (msg) {
+                sessionStorage.removeItem('loginMessage');
                 setTimeout(() => {
-                    notification.remove();
-                }, 500);
-            }, 3000);
-        }
+                    if (typeof showNotification === 'function') {
+                        showNotification(msg, 'warning', 'Authentication Required');
+                    }
+                }, 300);
+            }
+        });
 
         // Close modal when clicking outside
         document.getElementById('adminLoginModal').addEventListener('click', function(e) {
