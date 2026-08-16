@@ -450,13 +450,23 @@ function displayOrders(orders) {
 }
 
 async function cancelCustomerOrder(orderId) {
-    if (!confirm('Are you sure you want to cancel this order?')) return;
+    const confirmed = await showConfirmDialog({
+        title: 'Cancel Order?',
+        message: `Are you sure you want to cancel order #${orderId}? This action cannot be undone.`,
+        icon: '📦',
+        confirmText: 'Yes, Cancel Order',
+        cancelText: 'Keep Order',
+        confirmColor: '#dc2626'
+    });
+
+    if (!confirmed) return;
+
     try {
         await cancelOrder(orderId);
-        showNotification('✅ Order #' + orderId + ' cancelled successfully');
+        showNotification('Order #' + orderId + ' cancelled successfully', 'info');
         await loadOrders();
     } catch (err) {
-        showNotification('❌ Could not cancel order: ' + err.message);
+        showNotification('Could not cancel order: ' + err.message, 'error');
     }
 }
 
@@ -1566,17 +1576,26 @@ function moveAllToCart() {
     showNotification('🛒 All items moved to cart!');
 }
 
-function clearWishlist() {
+async function clearWishlist() {
     if (wishlist.length === 0) {
-        showNotification('⚠️ Your wishlist is already empty');
+        showNotification('Your wishlist is already empty', 'warning');
         return;
     }
     
-    if (confirm('Are you sure you want to clear your entire wishlist?')) {
+    const confirmed = await showConfirmDialog({
+        title: 'Clear Wishlist?',
+        message: 'Are you sure you want to clear all saved items from your wishlist?',
+        icon: '❤️',
+        confirmText: 'Clear Wishlist',
+        cancelText: 'Keep Items',
+        confirmColor: '#dc2626'
+    });
+
+    if (confirmed) {
         wishlist = [];
         saveWishlist();
         updateWishlistButtons();
-        showNotification('🗑️ Wishlist cleared');
+        showNotification('Wishlist cleared', 'info');
     }
 }
 
@@ -2782,7 +2801,16 @@ async function loadOrders() {
 }
 
 async function cancelOrder(orderId) {
-    if (!confirm('Are you sure you want to cancel this order?')) return;
+    const confirmed = await showConfirmDialog({
+        title: 'Cancel Order?',
+        message: `Are you sure you want to cancel order #${orderId}?`,
+        icon: '📦',
+        confirmText: 'Yes, Cancel Order',
+        cancelText: 'Keep Order',
+        confirmColor: '#dc2626'
+    });
+
+    if (!confirmed) return;
     
     try {
         const token = localStorage.getItem('merkatoToken');
@@ -2796,10 +2824,10 @@ async function cancelOrder(orderId) {
             throw new Error(err.message || 'Failed to cancel order');
         }
         
-        showNotification('❌ Order cancelled successfully');
+        showNotification('Order cancelled successfully', 'info');
         await loadOrders();
     } catch (error) {
-        showNotification('❌ Failed to cancel order: ' + error.message);
+        showNotification('Failed to cancel order: ' + error.message, 'error');
     }
 }
 
@@ -3498,8 +3526,17 @@ function loadAdminUsers() {
     container.innerHTML = html;
 }
 
-function deleteProduct(id) {
-    if (!confirm('⚠️ Are you sure you want to delete this product?')) return;
+async function deleteProduct(id) {
+    const confirmed = await showConfirmDialog({
+        title: 'Delete Product?',
+        message: 'Are you sure you want to delete this product from the inventory?',
+        icon: '🗑️',
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
+        confirmColor: '#dc2626'
+    });
+
+    if (!confirmed) return;
     
     let products = getAllProducts();
     products = products.filter(p => p.id !== id);
@@ -3507,11 +3544,20 @@ function deleteProduct(id) {
     
     loadAdminProducts();
     loadAdminStats();
-    showNotification('🗑️ Product deleted successfully');
+    showNotification('Product deleted successfully', 'info');
 }
 
-function deleteUser(email) {
-    if (!confirm(`⚠️ Are you sure you want to remove this user?`)) return;
+async function deleteUser(email) {
+    const confirmed = await showConfirmDialog({
+        title: 'Remove User?',
+        message: 'Are you sure you want to remove this user account?',
+        icon: '👤',
+        confirmText: 'Remove',
+        cancelText: 'Cancel',
+        confirmColor: '#dc2626'
+    });
+
+    if (!confirmed) return;
     
     let users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
     users = users.filter(u => u.email !== email);
@@ -3519,7 +3565,7 @@ function deleteUser(email) {
     
     loadAdminUsers();
     loadAdminStats();
-    showNotification('🗑️ User removed successfully');
+    showNotification('User removed successfully', 'info');
 }
 
 function updateOrderStatus(orderId, newStatus) {
