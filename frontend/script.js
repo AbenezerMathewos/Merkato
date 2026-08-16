@@ -59,10 +59,34 @@ async function registerWithAPI(name, email, password, phone, address) {
     }
 }
 
-// Wires up the "Create Account" form on login.html — previously this form
-// had no submit handler at all, so registration silently did nothing.
+// Handle User Login form
+async function handleLogin(event) {
+    if (event) event.preventDefault();
+
+    const email = document.getElementById('login-email')?.value.trim();
+    const password = document.getElementById('login-password')?.value.trim();
+
+    if (!email || !password) {
+        showNotification('⚠️ Please enter both email and password');
+        return;
+    }
+
+    try {
+        const result = await loginUser({ email, password });
+        if (result && result.token) {
+            showNotification('✅ Welcome back, ' + (result.name || 'Shopper') + '!');
+            setTimeout(() => {
+                window.location.href = result.isAdmin ? 'admin.html' : 'index.html';
+            }, 800);
+        }
+    } catch (error) {
+        showNotification('❌ Login failed: ' + (error.message || 'Invalid email or password'));
+    }
+}
+
+// Wires up the "Create Account" form on login.html
 async function handleRegister(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     const name = document.getElementById('reg-name')?.value.trim();
     const email = document.getElementById('reg-email')?.value.trim();
@@ -79,7 +103,17 @@ async function handleRegister(event) {
         return;
     }
 
-    await registerWithAPI(name, email, password, phone, '');
+    try {
+        const result = await registerUser({ name, email, password, phone, address: '' });
+        if (result && result.token) {
+            showNotification('🎉 Account created! Welcome, ' + name + '!');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 800);
+        }
+    } catch (error) {
+        showNotification('❌ Registration failed: ' + (error.message || 'Error creating account'));
+    }
 }
 // ========================================
 // PRODUCT STOCK DATA
@@ -271,56 +305,51 @@ function escapeMarkup(value) {
 // ORDERS PAGE FUNCTION
 // ========================================
 
-function loadOrders() {
-    const userData = localStorage.getItem('merkatoUser');
-    if (!userData) {
+async function loadOrders() {
+    if (!isLoggedIn()) {
         window.location.href = 'login.html';
         return;
     }
     
-    let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    
-    if (orders.length === 0) {
-        orders = [
-            {
-                id: 'MER-2026-001',
-                date: 'July 25, 2026',
-                items: [
-                    { name: 'Yirgacheffe Buna', quantity: 2, price: 2500 },
-                    { name: 'Electric Mitad', quantity: 1, price: 18500 }
-                ],
-                total: 23500,
-                status: 'Processing',
-                tracking: 'ET-2026-0784-001'
-            },
-            {
-                id: 'MER-2026-002',
-                date: 'July 20, 2026',
-                items: [
-                    { name: 'Sini Ceramic Cups', quantity: 1, price: 1200 },
-                    { name: 'Magna White Teff', quantity: 1, price: 4200 }
-                ],
-                total: 5400,
-                status: 'Delivered',
-                tracking: 'ET-2026-0784-002'
-            }
-        ];
+    const container = document.querySelector('.orders-container') || document.getElementById('ordersContainer');
+    if (container) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:40px;color:#888;">
+                <div style="font-size:36px;margin-bottom:10px;">📦</div>
+                <p>Loading your orders...</p>
+            </div>
+        `;
+    }
+
+    let orders = [];
+    try {
+        const apiOrders = await getMyOrders();
+        orders = apiOrders.map(o => ({
+            ...o,
+            id: o._id || o.id,
+            date: new Date(o.createdAt || Date.now()).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            })
+        }));
         localStorage.setItem('merkatoOrders', JSON.stringify(orders));
+    } catch (err) {
+        console.warn('Loading cached orders:', err);
+        orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     }
     
     displayOrders(orders);
 }
 
 function displayOrders(orders) {
-    const container = document.querySelector('.orders-container');
+    const container = document.querySelector('.orders-container') || document.getElementById('ordersContainer');
     if (!container) return;
     
-    if (orders.length === 0) {
+    if (!orders || orders.length === 0) {
         container.innerHTML = `
-            <div style="text-align:center;padding:60px 20px;">
+            <div style="text-align:center;padding:60px 20px;background:#fff;border-radius:12px;border:1px solid #e0e0e0;">
                 <div style="font-size:64px;margin-bottom:20px;">📦</div>
-                <h3 style="font-size:24px;color:#1a1a2e;">No Orders Yet</h3>
-                <p style="color:#888;margin:10px 0 20px;">Start shopping and your orders will appear here!</p>
+                <h3 style="font-size:24px;color:#1a1a2e;margin-bottom:8px;">No Orders Yet</h3>
+                <p style="color:#888;margin:0 0 20px;">Start shopping and your orders will appear here!</p>
                 <a href="shop.html" class="btn btn-primary">Start Shopping →</a>
             </div>
         `;
@@ -333,8 +362,10 @@ function displayOrders(orders) {
                            order.status === 'Processing' ? '#ffa500' : 
                            order.status === 'Shipped' ? '#0066cc' : '#d9534f';
         
+        const canCancel = order.status === 'Processing';
+        
         html += `
-            <div style="
+            <div class="order-card" style="
                 background: #fff;
                 border-radius: 12px;
                 border: 1px solid #e0e0e0;
@@ -354,10 +385,10 @@ function displayOrders(orders) {
                     gap: 10px;
                 ">
                     <div>
-                        <strong style="color: #1a1a2e;">Order #${order.id}</strong>
+                        <strong class="order-id" style="color: #1a1a2e;">Order #${order.id}</strong>
                         <span style="color: #888;font-size:13px;margin-left:12px;">${order.date}</span>
                     </div>
-                    <div>
+                    <div style="display:flex;align-items:center;gap:10px;">
                         <span style="
                             display: inline-block;
                             padding: 4px 14px;
@@ -370,7 +401,7 @@ function displayOrders(orders) {
                     </div>
                 </div>
                 <div style="padding: 16px 20px;">
-                    ${order.items.map(item => `
+                    ${(order.items || []).map(item => `
                         <div style="
                             display: flex;
                             justify-content: space-between;
@@ -378,7 +409,7 @@ function displayOrders(orders) {
                             border-bottom: 1px solid #f5f5f5;
                             font-size: 14px;
                         ">
-                            <span>${item.name} × ${item.quantity}</span>
+                            <span>${escapeMarkup(item.name)} × ${item.quantity}</span>
                             <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
                         </div>
                     `).join('')}
@@ -392,19 +423,41 @@ function displayOrders(orders) {
                         font-size: 16px;
                     ">
                         <span>Total</span>
-                        <span style="color: #d9534f;">${order.total.toLocaleString()} ETB</span>
+                        <span style="color: #d9534f;">${(order.total || 0).toLocaleString()} ETB</span>
                     </div>
-                    ${order.tracking ? `
-                        <div style="margin-top: 10px;font-size:13px;color:#888;">
-                            📦 Tracking: ${order.tracking}
+                    
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:15px;flex-wrap:wrap;gap:10px;">
+                        <div style="font-size:13px;color:#888;">
+                            ${order.tracking ? `📦 Tracking: <strong>${order.tracking}</strong>` : ''}
                         </div>
-                    ` : ''}
+                        <div class="order-actions" style="display:flex;gap:8px;">
+                            <button type="button" class="btn btn-secondary btn-sm track-btn" onclick="trackOrder('${order.id}')" style="padding:6px 14px;font-size:13px;">
+                                📦 Track Order
+                            </button>
+                            ${canCancel ? `
+                                <button type="button" class="btn btn-outline btn-sm" onclick="cancelCustomerOrder('${order.id}')" style="padding:6px 14px;font-size:13px;color:#d9534f;border-color:#d9534f;">
+                                    ❌ Cancel Order
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
     });
 
     container.innerHTML = html;
+}
+
+async function cancelCustomerOrder(orderId) {
+    if (!confirm('Are you sure you want to cancel this order?')) return;
+    try {
+        await cancelOrder(orderId);
+        showNotification('✅ Order #' + orderId + ' cancelled successfully');
+        await loadOrders();
+    } catch (err) {
+        showNotification('❌ Could not cancel order: ' + err.message);
+    }
 }
 
 // ========================================
@@ -678,11 +731,11 @@ function displayCartItems() {
     cart.forEach((item) => {
         html += `
             <div class="cart-item" data-product-id="${item.id}">
-                <a href="product-detail.html?${item.id}">
+                <a href="product-detail.html?id=${item.id}">
                     <img src="${item.image}" alt="${item.name}">
                 </a>
                 <div class="item-details">
-                    <h3><a href="product-detail.html?${item.id}">${item.name}</a></h3>
+                    <h3><a href="product-detail.html?id=${item.id}">${item.name}</a></h3>
                     <div class="price">${item.price.toLocaleString()} ETB</div>
                     <div style="font-size:13px;color:#888;margin-top:4px;">
                         Subtotal: ${(item.price * item.quantity).toLocaleString()} ETB
@@ -3060,31 +3113,43 @@ async function loadProductDetail() {
     if (!container) return;
     
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-    
+    let productId = urlParams.get('id');
+    if (!productId && window.location.hash) {
+        productId = window.location.hash.replace('#', '').trim();
+    }
     if (!productId) {
-        container.innerHTML = `
-            <div style="text-align:center;padding:60px;">
-                <div style="font-size:48px;">❌</div>
-                <h3 style="color:#1a1a2e;">Product not found</h3>
-                <p style="color:#888;">Please go back to the shop.</p>
-                <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
-            </div>
-        `;
-        return;
+        productId = 'prod_buna_1';
     }
     
     let product;
     try {
         const apiProduct = await getProduct(productId);
-        product = { ...apiProduct, id: apiProduct._id };
+        if (apiProduct) {
+            product = { ...apiProduct, id: apiProduct._id || apiProduct.id };
+        }
     } catch (error) {
-        console.error('Error loading product:', error);
+        console.warn('Direct product fetch error:', error);
+    }
+
+    if (!product) {
+        try {
+            const all = await getProducts();
+            const found = all.find(p => 
+                (p._id && p._id.toString() === productId.toString()) || 
+                (p.id && p.id.toString() === productId.toString()) || 
+                (p.slug && p.slug === productId) || 
+                (p.name && p.name.toLowerCase().includes(productId.toLowerCase()))
+            );
+            if (found) product = { ...found, id: found._id || found.id };
+        } catch(e) {}
+    }
+    
+    if (!product) {
         container.innerHTML = `
-            <div style="text-align:center;padding:60px;">
-                <div style="font-size:48px;">❌</div>
-                <h3 style="color:#1a1a2e;">Product not found</h3>
-                <p style="color:#888;">The product you're looking for doesn't exist.</p>
+            <div style="text-align:center;padding:60px;background:#fff;border-radius:12px;border:1px solid #e0e0e0;">
+                <div style="font-size:48px;margin-bottom:15px;">❌</div>
+                <h3 style="color:#1a1a2e;margin-bottom:8px;">Product not found</h3>
+                <p style="color:#888;margin-bottom:20px;">The product you're looking for doesn't exist.</p>
                 <a href="shop.html" class="btn btn-primary">← Back to Shop</a>
             </div>
         `;
@@ -3092,6 +3157,7 @@ async function loadProductDetail() {
     }
     
     renderProductDetail(product);
+    initAddToCartButtons();
 }
 
 function renderProductDetail(product) {
