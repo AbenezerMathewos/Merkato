@@ -19,6 +19,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
 // Connect to MongoDB / Storage
 connectDB();
 
@@ -29,8 +32,8 @@ app.use('/api/orders', require('./routes/orders'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/reviews', require('./routes/reviews'));
 
-// Root endpoint
-app.get('/', (req, res) => {
+// API status endpoint
+app.get('/api', (req, res) => {
     res.json({
         status: 'online',
         message: '🛒 MERKATO - Ethiopian Digital Supermarket API is running',
@@ -50,6 +53,11 @@ app.use('/api/*', (req, res) => {
     res.status(404).json({ message: `API endpoint ${req.originalUrl} not found` });
 });
 
+// For all other web requests, fallback to frontend index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
     console.error('Server error:', err.stack);
@@ -63,8 +71,9 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`\n==============================================`);
-    console.log(`🛒 MERKATO API Server Running`);
+    console.log(`🛒 MERKATO Website & API Running`);
     console.log(`🚀 Port: ${PORT}`);
-    console.log(`📍 URL:  http://localhost:${PORT}`);
+    console.log(`📍 Website URL: http://localhost:${PORT}`);
+    console.log(`📍 API URL:     http://localhost:${PORT}/api`);
     console.log(`==============================================\n`);
 });

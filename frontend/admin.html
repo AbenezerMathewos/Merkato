@@ -23,17 +23,16 @@
             const userData = localStorage.getItem('merkatoUser');
             
             if (!userData) {
-                alert('⚠️ Please login first');
+                sessionStorage.setItem('loginMessage', 'Please sign in with an Admin account');
                 window.location.href = 'login.html';
                 return;
             }
             
             const user = JSON.parse(userData);
             
-            // ✅ CHECK REAL isAdmin FLAG (matches backend/database)
             if (user.isAdmin !== true) {
-                alert('⚠️ Admin access only');
-                window.location.href = 'index.html';
+                sessionStorage.setItem('loginMessage', 'Admin privileges required to access dashboard');
+                window.location.href = 'login.html';
                 return;
             }
             

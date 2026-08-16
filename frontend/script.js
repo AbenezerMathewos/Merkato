@@ -849,62 +849,128 @@ function applyPromo() {
 }
 
 // ========================================
-// NOTIFICATION SYSTEM
+// PROFESSIONAL NOTIFICATION & DIALOG SYSTEM
 // ========================================
 
-function showNotification(message) {
-    let notification = document.querySelector('.notification');
-    
-    if (notification) {
-        notification.remove();
+function getOrCreateToastContainer() {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        document.body.appendChild(container);
     }
-    
-    notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.innerHTML = message;
-    
-    Object.assign(notification.style, {
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        padding: '16px 24px',
-        background: '#1a1a2e',
-        color: '#fff',
-        borderRadius: '10px',
-        zIndex: '9999',
-        boxShadow: '0 8px 30px rgba(0,0,0,0.2)',
-        fontFamily: "'Segoe UI', sans-serif",
-        fontSize: '14px',
-        fontWeight: '600',
-        borderLeft: '4px solid #008000',
-        maxWidth: '350px',
-        animation: 'slideInRight 0.5s ease'
-    });
-    
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+    return container;
+}
+
+function showNotification(message, customType = null, customTitle = null, duration = 3500) {
+    if (!message) return;
+
+    const container = getOrCreateToastContainer();
+
+    // Detect type and icons
+    let type = customType || 'info';
+    let icon = 'ℹ️';
+    let title = customTitle || '';
+
+    const cleanMsg = String(message).trim();
+
+    if (!customType) {
+        if (cleanMsg.includes('✅') || cleanMsg.toLowerCase().includes('success') || cleanMsg.includes('🎉') || cleanMsg.includes('added to cart') || cleanMsg.includes('added to wishlist')) {
+            type = 'success';
+            icon = '✓';
+            if (!title) title = 'Success';
+        } else if (cleanMsg.includes('❌') || cleanMsg.toLowerCase().includes('fail') || cleanMsg.toLowerCase().includes('error') || cleanMsg.toLowerCase().includes('cannot') || cleanMsg.toLowerCase().includes('removed')) {
+            type = 'error';
+            icon = '✕';
+            if (!title) title = 'Notice';
+        } else if (cleanMsg.includes('⚠️') || cleanMsg.toLowerCase().includes('please') || cleanMsg.toLowerCase().includes('required') || cleanMsg.toLowerCase().includes('missing') || cleanMsg.toLowerCase().includes('must')) {
+            type = 'warning';
+            icon = '!';
+            if (!title) title = 'Attention';
+        } else {
+            type = 'info';
+            icon = 'ℹ';
+            if (!title) title = 'MERKATO';
         }
+    }
+
+    // Strip raw emojis from message if they start the text
+    const displayMsg = cleanMsg.replace(/^[✅❌⚠️🎉ℹ️🗑️❤️🛒✨\s]+/, '').trim() || cleanMsg;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <div class="toast-icon-wrap">${icon}</div>
+        <div class="toast-body">
+            <div class="toast-title">${title}</div>
+            <div class="toast-msg">${displayMsg}</div>
+        </div>
+        <button class="toast-close" title="Close">✕</button>
+        <div class="toast-progress"></div>
     `;
-    document.head.appendChild(style);
-    
-    document.body.appendChild(notification);
-    
+
+    container.appendChild(toast);
+
+    const closeBtn = toast.querySelector('.toast-close');
+    const progressBar = toast.querySelector('.toast-progress');
+
+    progressBar.style.transition = `width ${duration}ms linear`;
     setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.5s ease';
+        progressBar.style.width = '0%';
+    }, 20);
+
+    let isDismissed = false;
+    const dismiss = () => {
+        if (isDismissed) return;
+        isDismissed = true;
+        toast.classList.add('toast-hide');
         setTimeout(() => {
-            notification.remove();
-        }, 500);
-    }, 3000);
+            if (toast.parentElement) toast.remove();
+        }, 300);
+    };
+
+    closeBtn.addEventListener('click', dismiss);
+    const timer = setTimeout(dismiss, duration);
+
+    toast.addEventListener('mouseenter', () => {
+        clearTimeout(timer);
+        progressBar.style.transition = 'none';
+    });
+}
+
+// Professional Confirmation Modal (replaces crude browser confirm())
+function showConfirmDialog({ title = 'Please Confirm', message = 'Are you sure you want to proceed?', icon = '❓', confirmText = 'Confirm', cancelText = 'Cancel', confirmColor = '#008000' }) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'pro-modal-overlay active';
+        overlay.innerHTML = `
+            <div class="pro-modal-card">
+                <div class="pro-modal-icon">${icon}</div>
+                <h3 class="pro-modal-title">${title}</h3>
+                <p class="pro-modal-desc">${message}</p>
+                <div class="pro-modal-actions">
+                    <button type="button" class="btn-cancel" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;">${cancelText}</button>
+                    <button type="button" class="btn-confirm" style="background:${confirmColor};color:#ffffff;border:none;">${confirmText}</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        const cleanUp = (result) => {
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                if (overlay.parentElement) overlay.remove();
+            }, 300);
+            resolve(result);
+        };
+
+        overlay.querySelector('.btn-confirm').addEventListener('click', () => cleanUp(true));
+        overlay.querySelector('.btn-cancel').addEventListener('click', () => cleanUp(false));
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) cleanUp(false);
+        });
+    });
 }
 
 // ========================================
@@ -3470,38 +3536,75 @@ function updateOrderStatus(orderId, newStatus) {
 
 function viewOrderDetails(orderId) {
     let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    const order = orders.find(o => o.id === orderId);
+    const order = orders.find(o => (o.id === orderId || o._id === orderId));
     if (!order) {
-        showNotification('⚠️ Order not found');
+        showNotification('Order not found', 'error');
         return;
     }
     
-    const statusColor = order.status === 'Delivered' ? '#008000' :
-                       order.status === 'Processing' ? '#ffa500' :
-                       order.status === 'Shipped' ? '#0066cc' : '#d9534f';
+    const statusColor = order.status === 'Delivered' ? '#10b981' :
+                       order.status === 'Processing' ? '#f59e0b' :
+                       order.status === 'Shipped' ? '#3b82f6' : '#ef4444';
     
-    alert(
-        `📦 Order Details\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `Order #: ${order.id}\n` +
-        `Date: ${order.date}\n` +
-        `Status: ${order.status}\n` +
-        `Payment: ${order.payment || 'Not specified'}\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `Items:\n` +
-        order.items.map(item => `  ${item.name} × ${item.quantity} = ${(item.price * item.quantity).toLocaleString()} ETB`).join('\n') +
-        `\n━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `Subtotal: ${order.subtotal.toLocaleString()} ETB\n` +
-        `Shipping: ${order.shipping === 0 ? 'FREE' : order.shipping.toLocaleString() + ' ETB'}\n` +
-        `Tax: ${order.tax.toLocaleString()} ETB\n` +
-        `Total: ${order.total.toLocaleString()} ETB\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `Shipping Address:\n` +
-        `${order.customer.name}\n` +
-        `${order.customer.address}\n` +
-        `📞 ${order.customer.phone}\n` +
-        `✉️ ${order.customer.email}`
-    );
+    const itemsHtml = (order.items || []).map(item => `
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:13px;">
+            <span>${escapeMarkup(item.name)} × ${item.quantity}</span>
+            <strong>${(item.price * item.quantity).toLocaleString()} ETB</strong>
+        </div>
+    `).join('');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pro-modal-overlay active';
+    overlay.innerHTML = `
+        <div class="pro-modal-card" style="max-width:500px;text-align:left;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;">
+                <div>
+                    <h3 style="margin:0;font-size:18px;color:#1a1a2e;">📦 Order #${order.id || order._id}</h3>
+                    <small style="color:#64748b;">${order.date || new Date(order.createdAt || Date.now()).toLocaleDateString()}</small>
+                </div>
+                <span style="background:${statusColor}15;color:${statusColor};padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">${order.status}</span>
+            </div>
+
+            <div style="max-height:200px;overflow-y:auto;margin-bottom:12px;">
+                ${itemsHtml}
+            </div>
+
+            <div style="background:#f8fafc;border-radius:8px;padding:12px;font-size:13px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:#64748b;">Subtotal:</span>
+                    <span>${(order.subtotal || 0).toLocaleString()} ETB</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:#64748b;">Shipping:</span>
+                    <span>${order.shipping === 0 ? 'FREE' : (order.shipping || 0).toLocaleString() + ' ETB'}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                    <span style="color:#64748b;">VAT (15%):</span>
+                    <span>${(order.tax || 0).toLocaleString()} ETB</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px;color:#d9534f;border-top:1px solid #e2e8f0;padding-top:6px;margin-top:6px;">
+                    <span>Total:</span>
+                    <span>${(order.total || 0).toLocaleString()} ETB</span>
+                </div>
+            </div>
+
+            ${order.customer ? `
+                <div style="font-size:12px;color:#64748b;margin-bottom:16px;line-height:1.4;">
+                    <strong>Shipping Address:</strong><br>
+                    ${escapeMarkup(order.customer.name || '')} • ${escapeMarkup(order.customer.phone || '')}<br>
+                    ${escapeMarkup(order.customer.address || '')}
+                </div>
+            ` : ''}
+
+            <div style="display:flex;justify-content:flex-end;">
+                <button type="button" class="btn btn-primary" onclick="this.closest('.pro-modal-overlay').remove()">Close</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.remove();
+    });
 }
 
 function editProduct(id) {
