@@ -571,31 +571,9 @@
         // ========================================
 
         function showAdminNotification(message, type = 'success') {
-            const existing = document.querySelectorAll('.admin-notification');
-            existing.forEach(n => n.remove());
-            
-            const icons = {
-                success: '✅',
-                error: '❌',
-                info: 'ℹ️'
-            };
-            
-            const notification = document.createElement('div');
-            notification.className = `admin-notification ${type}`;
-            notification.innerHTML = `
-                <span class="icon">${icons[type] || 'ℹ️'}</span>
-                <span>${message}</span>
-                <button class="close-btn" onclick="this.parentElement.remove()">✕</button>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                if (notification.parentElement) {
-                    notification.style.animation = 'slideOutRight 0.5s ease';
-                    setTimeout(() => notification.remove(), 500);
-                }
-            }, 3000);
+            if (typeof showNotification === 'function') {
+                showNotification(message, type);
+            }
         }
 
         // ========================================
@@ -693,8 +671,8 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn btn-warning-sm" onclick="editProduct('${product._id}')">✏️ Edit</button>
-                                <button class="btn btn-danger-sm" onclick="deleteProduct('${product._id}')">🗑️ Delete</button>
+                                <button class="btn btn-warning-sm" onclick="editProduct('${product._id || product.id}')">✏️ Edit</button>
+                                <button class="btn btn-danger-sm" onclick="handleAdminDeleteProduct('${product._id || product.id}')">🗑️ Delete</button>
                             </div>
                         </div>
                     `;
@@ -811,18 +789,39 @@
         // DELETE PRODUCT
         // ========================================
 
-        async function deleteProduct(id) {
+        async function handleAdminDeleteProduct(id) {
             const product = allProducts.find(p => (p._id === id || p.id === id));
-            if (!confirm(`⚠️ Are you sure you want to delete "${product ? product.name : 'this product'}"?`)) return;
+            const productName = product ? product.name : 'this item';
+            
+            const confirmed = await showConfirmDialog({
+                title: 'Delete Product?',
+                message: `Are you sure you want to permanently remove "${productName}" from the store catalog?`,
+                icon: '🗑️',
+                confirmText: 'Delete',
+                cancelText: 'Cancel',
+                confirmColor: '#dc2626'
+            });
+
+            if (!confirmed) return;
             
             try {
-                await deleteProduct(id);
-                showAdminNotification('🗑️ Product deleted successfully', 'info');
+                const token = localStorage.getItem('merkatoToken');
+                const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.message || 'Failed to delete product');
+                }
+
+                showAdminNotification('Product deleted successfully', 'info');
                 await loadAdminProducts();
                 await loadAdminStats();
                 
             } catch (error) {
-                showAdminNotification('❌ Failed to delete product: ' + error.message, 'error');
+                showAdminNotification('Failed to delete product: ' + error.message, 'error');
             }
         }
 
@@ -974,15 +973,24 @@
         }
 
         async function handleAdminDeleteUser(id) {
-            if (!confirm('⚠️ Are you sure you want to remove this user?')) return;
+            const confirmed = await showConfirmDialog({
+                title: 'Remove User?',
+                message: 'Are you sure you want to remove this registered customer account from the system?',
+                icon: '👤',
+                confirmText: 'Remove User',
+                cancelText: 'Cancel',
+                confirmColor: '#dc2626'
+            });
+
+            if (!confirmed) return;
             
             try {
                 await deleteUser(id);
-                showAdminNotification('🗑️ User removed successfully', 'info');
+                showAdminNotification('User removed successfully', 'info');
                 await loadAdminUsers();
                 await loadAdminStats();
             } catch (error) {
-                showAdminNotification('❌ Failed to delete user: ' + error.message, 'error');
+                showAdminNotification('Failed to delete user: ' + error.message, 'error');
             }
         }
     </script>
