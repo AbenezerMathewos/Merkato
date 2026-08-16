@@ -1,0 +1,377 @@
+{
+  "users": [
+    {
+      "_id": "user_admin_1",
+      "name": "MERKATO Admin",
+      "email": "admin@merkato.com",
+      "password": "$2a$10$tDTKTnxgPrlWbNNmKk8QuO.MLuL/G9RvJhCi4y3fpLkVzUiwTxQja",
+      "phone": "+251 91 123 4567",
+      "address": "Bole, Addis Ababa, Ethiopia",
+      "isAdmin": true,
+      "joinDate": "2026-08-16T23:40:10.673Z"
+    },
+    {
+      "_id": "user_admin_2",
+      "name": "MERKATO Admin 2",
+      "email": "adminmerkato@gmail.com",
+      "password": "$2a$10$tDTKTnxgPrlWbNNmKk8QuO.MLuL/G9RvJhCi4y3fpLkVzUiwTxQja",
+      "phone": "+251 91 123 4567",
+      "isAdmin": true,
+      "joinDate": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "user_customer_1",
+      "name": "Abebe Bikila",
+      "email": "user@merkato.com",
+      "password": "$2a$10$tDTKTnxgPrlWbNNmKk8QuOok4rdD1IgNUzGGNM7fEdqSsftlSPpau",
+      "phone": "+251 91 234 5678",
+      "address": "Kazanchis, Addis Ababa",
+      "isAdmin": false,
+      "joinDate": "2026-08-16T23:40:10.675Z"
+    }
+  ],
+  "products": [
+    {
+      "_id": "prod_buna_1",
+      "slug": "buna",
+      "name": "Yirgacheffe Buna (ቡና)",
+      "aisle": "food",
+      "price": 2500,
+      "stock": 42,
+      "image": "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No",
+      "description": "Premium Ethiopian coffee beans from Yirgacheffe region with distinct floral and citrus notes.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_berbere_2",
+      "slug": "berbere",
+      "name": "Pure Doro Berbere (በርበሬ)",
+      "aisle": "food",
+      "price": 1750,
+      "stock": 85,
+      "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80",
+      "description": "Traditional Ethiopian spice blend carefully sun-dried and ground for authentic Doro Wat.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_teff_3",
+      "slug": "teff",
+      "name": "Magna White Teff (ነጭ ጤፍ)",
+      "aisle": "food",
+      "price": 4200,
+      "stock": 110,
+      "image": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTmen-7vCXbuZKkEhcbaLuaJygZg7U5V_IP6y75A4QpnABl-SS0OuWUQIxKGk2KbazWoq9XR2O1D4MM7zA",
+      "description": "Premium grade iron-rich white teff grain harvested from Gojjam, ideal for soft, spongy Injera.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_shiro_4",
+      "slug": "shiro",
+      "name": "Miten Shiro Powder (ሚተን ሽሮ)",
+      "aisle": "food",
+      "price": 650,
+      "stock": 200,
+      "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80",
+      "description": "Spiced roasted chickpea and split pea flour blend for quick, delicious Shiro Wat.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_korerima_5",
+      "slug": "korerima",
+      "name": "Black Cardamom (ኮረሪማ)",
+      "aisle": "food",
+      "price": 850,
+      "stock": 75,
+      "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80",
+      "description": "Aromatic whole dried Ethiopian black cardamom pods for traditional coffee brewing and spiced stews.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_kibe_6",
+      "slug": "kibe",
+      "name": "Traditional Kibe (የሀገር ቅቤ)",
+      "aisle": "food",
+      "price": 2200,
+      "stock": 60,
+      "image": "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=300&q=80",
+      "description": "Clarified Ethiopian butter infused with kosseret, sacred basil, and korerima.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_jebena_7",
+      "slug": "jebena",
+      "name": "Clay Jebena (ጀበና)",
+      "aisle": "home",
+      "price": 850,
+      "stock": 45,
+      "image": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80",
+      "description": "Handcrafted black earthenware clay pot crafted by local potters for the Ethiopian coffee ceremony.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_sini_8",
+      "slug": "sini",
+      "name": "Sini Coffee Cups (ሲኒ)",
+      "aisle": "home",
+      "price": 1200,
+      "stock": 30,
+      "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80",
+      "description": "Traditional ceramic handleless coffee cups with iconic gold and green Ethiopian detailing (Set of 6).",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_rekebot_9",
+      "slug": "rekebot",
+      "name": "Wooden Rekebot (ረከቦት)",
+      "aisle": "home",
+      "price": 6500,
+      "stock": 18,
+      "image": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80",
+      "description": "Elegantly carved wooden coffee ceremony table with drawer storage for incense and sini cups.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_kemis_10",
+      "slug": "kemis",
+      "name": "Habesha Kemis (ሀበሻ ቀሚስ)",
+      "aisle": "apparel",
+      "price": 12000,
+      "stock": 25,
+      "image": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcR9QX1QnkO_ENdrEH7dZ4K7fEr-dstVk1cPsyd4Kxzk3v2u8W3twSomdUhGSVDpDlKSUe9N25UkZTAWj9Q",
+      "description": "Handwoven Shemma cotton traditional dress with intricate colorful Tibetan patterns on hem and neckline.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_netela_11",
+      "slug": "netela",
+      "name": "Cotton Netela (ነጠላ)",
+      "aisle": "apparel",
+      "price": 2800,
+      "stock": 40,
+      "image": "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80",
+      "description": "Lightweight, two-layered handwoven cotton shawl with decorative bordered fringes.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_gabi_12",
+      "slug": "gabi",
+      "name": "Heavy Cotton Gabi (ጋቢ)",
+      "aisle": "apparel",
+      "price": 4500,
+      "stock": 35,
+      "image": "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=300&q=80",
+      "description": "Thick, warm four-layered cotton wrap ideal for chilly Ethiopian evenings.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_mesob_13",
+      "slug": "mesob",
+      "name": "Woven Mesob (መሶብ)",
+      "aisle": "crafts",
+      "price": 8500,
+      "stock": 12,
+      "image": "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQnIrZQ1DhdrYyq7pG1i-_pQ4k8GNt8zlv4ENn_a0gwk96LXs72qynHCu_qDwe0OU3lYvJULA3w1GpbdtM",
+      "description": "Masterfully hand-woven straw and dried grass dining table with conical lid for communal dining.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_barchuma_14",
+      "slug": "barchuma",
+      "name": "Wooden Barchuma (በርጩማ)",
+      "aisle": "crafts",
+      "price": 3200,
+      "stock": 20,
+      "image": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80",
+      "description": "Solid wood carved traditional Ethiopian three-legged coffee stool.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_mitad_15",
+      "slug": "mitad",
+      "name": "Electric Mitad (ምጣድ)",
+      "aisle": "electronics",
+      "price": 18500,
+      "stock": 15,
+      "image": "https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE",
+      "description": "Energy-efficient electric clay grill specially engineered for baking authentic round Injera.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_tv_16",
+      "slug": "tv",
+      "name": "55\" 4K Smart TV",
+      "aisle": "electronics",
+      "price": 68000,
+      "stock": 8,
+      "image": "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=300&q=80",
+      "description": "Ultra-HD 4K Smart LED TV with built-in Wi-Fi, HDR10+, and streaming apps.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_solar_17",
+      "slug": "solar",
+      "name": "Solar Power Station",
+      "aisle": "electronics",
+      "price": 42000,
+      "stock": 12,
+      "image": "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=300&q=80",
+      "description": "Portable solar power generator with AC inverter, USB ports, and high-capacity lithium battery.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "prod_phone_18",
+      "slug": "phone",
+      "name": "4G Dual-SIM Smartphone",
+      "aisle": "electronics",
+      "price": 22500,
+      "stock": 30,
+      "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80",
+      "description": "High performance 4G smartphone with 128GB storage, 6.5-inch HD display, and all-day battery.",
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    }
+  ],
+  "orders": [
+    {
+      "_id": "ord_1786923812058_83pgq",
+      "user": "user_admin_1",
+      "items": [
+        {
+          "name": "Yirgacheffe Buna (ቡና)",
+          "quantity": 1,
+          "price": 2500,
+          "subtotal": 2500
+        }
+      ],
+      "customer": {
+        "name": "Admin",
+        "email": "admin@merkato.com",
+        "phone": "+251911234567",
+        "address": "Bole"
+      },
+      "payment": "telebirr",
+      "subtotal": 2500,
+      "shipping": 0,
+      "tax": 375,
+      "total": 2875,
+      "status": "Delivered",
+      "tracking": "ET-2026-1326",
+      "createdAt": "2026-08-16T23:43:32.058Z"
+    },
+    {
+      "_id": "ord_1786923616691_78xsi",
+      "user": "user_customer_1",
+      "items": [
+        {
+          "name": "Yirgacheffe Buna (ቡና)",
+          "quantity": 1,
+          "price": 2500,
+          "subtotal": 2500
+        }
+      ],
+      "customer": {
+        "name": "Abebe Bikila",
+        "email": "user@merkato.com",
+        "phone": "+251 91 234 5678",
+        "address": "Bole, Addis Ababa"
+      },
+      "payment": "telebirr",
+      "subtotal": 2500,
+      "shipping": 0,
+      "tax": 375,
+      "total": 2875,
+      "status": "Shipped",
+      "tracking": "ET-2026-7583",
+      "createdAt": "2026-08-16T23:40:16.691Z"
+    },
+    {
+      "_id": "ord_2026_001",
+      "user": "user_customer_1",
+      "items": [
+        {
+          "name": "Yirgacheffe Buna (ቡና)",
+          "quantity": 2,
+          "price": 2500,
+          "subtotal": 5000
+        },
+        {
+          "name": "Electric Mitad (ምጣድ)",
+          "quantity": 1,
+          "price": 18500,
+          "subtotal": 18500
+        }
+      ],
+      "customer": {
+        "name": "Abebe Bikila",
+        "email": "user@merkato.com",
+        "phone": "+251 91 234 5678",
+        "address": "Kazanchis, Addis Ababa"
+      },
+      "payment": "telebirr",
+      "subtotal": 23500,
+      "shipping": 0,
+      "tax": 3525,
+      "total": 27025,
+      "status": "Processing",
+      "tracking": "ET-2026-0784-001",
+      "createdAt": "2026-08-14T23:40:10.675Z"
+    },
+    {
+      "_id": "ord_2026_002",
+      "user": "user_customer_1",
+      "items": [
+        {
+          "name": "Sini Coffee Cups (ሲኒ)",
+          "quantity": 1,
+          "price": 1200,
+          "subtotal": 1200
+        },
+        {
+          "name": "Magna White Teff (ነጭ ጤፍ)",
+          "quantity": 1,
+          "price": 4200,
+          "subtotal": 4200
+        }
+      ],
+      "customer": {
+        "name": "Abebe Bikila",
+        "email": "user@merkato.com",
+        "phone": "+251 91 234 5678",
+        "address": "Kazanchis, Addis Ababa"
+      },
+      "payment": "cod",
+      "subtotal": 5400,
+      "shipping": 0,
+      "tax": 810,
+      "total": 6210,
+      "status": "Delivered",
+      "tracking": "ET-2026-0784-002",
+      "createdAt": "2026-08-09T23:40:10.675Z"
+    }
+  ],
+  "reviews": [
+    {
+      "_id": "rev_1",
+      "productId": "prod_buna_1",
+      "userName": "Almaz T.",
+      "userEmail": "almaz@example.com",
+      "rating": 5,
+      "comment": "The aroma of this Yirgacheffe coffee is incredible! Truly authentic taste.",
+      "verified": true,
+      "helpful": 12,
+      "notHelpful": 0,
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    },
+    {
+      "_id": "rev_2",
+      "productId": "prod_teff_3",
+      "userName": "Dawit K.",
+      "userEmail": "dawit@example.com",
+      "rating": 5,
+      "comment": "Best teff quality in Addis. Injera came out perfectly soft with beautiful eyes.",
+      "verified": true,
+      "helpful": 8,
+      "notHelpful": 1,
+      "createdAt": "2026-08-16T23:40:10.675Z"
+    }
+  ]
+}
