@@ -305,13 +305,52 @@
                     </button>
                 </div>
                 
-                <button class="btn btn-primary" onclick="processPayment()" style="font-size:16px;padding:14px;">
-                    ✅ Confirm Payment
+                <button class="btn btn-primary" onclick="initiatePaymentFlow()" style="font-size:16px;padding:14px;">
+                    ✅ Proceed to Payment
+                </button>
+            </div>
+
+            <!-- Telebirr Phone State -->
+            <div id="telebirrPhoneState" style="display:none; text-align:center;">
+                <div class="icon">📱</div>
+                <h2 style="color:#008000;">Telebirr Payment</h2>
+                <p>Enter your Telebirr registered phone number.</p>
+                <div class="amount" id="telebirrAmount">0 ETB</div>
+                
+                <div style="margin: 20px 0;">
+                    <input type="tel" id="telebirrPhoneInput" class="form-control" placeholder="0911234567" style="font-size: 18px; text-align: center; padding: 12px;">
+                </div>
+                
+                <button class="btn btn-primary" onclick="requestTelebirrPin()" style="font-size:16px;padding:14px;width:100%;" id="btnRequestPin">
+                    📩 Send SMS PIN
+                </button>
+                <button class="btn btn-secondary" onclick="resetPaymentModal()" style="margin-top:10px;width:100%;">
+                    ← Back
+                </button>
+            </div>
+
+            <!-- Telebirr PIN State -->
+            <div id="telebirrPinState" style="display:none; text-align:center;">
+                <div class="icon">🔐</div>
+                <h2 style="color:#008000;">Verify PIN</h2>
+                <p>Enter the 4-digit PIN sent to your phone via SMS.</p>
+                
+                <div style="margin: 20px 0;">
+                    <input type="text" id="telebirrPinInput" class="form-control" placeholder="1234" maxlength="4" style="font-size: 24px; text-align: center; letter-spacing: 10px; font-weight: bold; padding: 12px;">
+                </div>
+                
+                <div id="telebirrError" style="color:#d9534f; margin-bottom:15px; font-size:14px; display:none;"></div>
+                
+                <button class="btn btn-primary" onclick="verifyTelebirrPin()" style="font-size:16px;padding:14px;width:100%;" id="btnVerifyPin">
+                    ✅ Verify & Pay
+                </button>
+                <button class="btn btn-secondary" onclick="resetPaymentModal()" style="margin-top:10px;width:100%;">
+                    Cancel Payment
                 </button>
             </div>
             
             <!-- Processing State -->
-            <div class="processing" id="paymentProcessing">
+            <div class="processing" id="paymentProcessing" style="display:none;">
                 <div class="spinner"></div>
                 <h3 style="color:#1a1a2e;">Processing Payment...</h3>
                 <p style="color:#888;">Please wait while we confirm your order</p>
