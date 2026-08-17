@@ -149,19 +149,19 @@ img {
 
 /* ===== HEADER ===== */
 .header {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    padding: 16px 0;
-    border-radius: var(--radius-md);
-    margin: 20px auto;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 18px 4%;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(0, 128, 0, 0.1);
     position: sticky;
-    top: 20px;
+    top: 0;
     z-index: 100;
-    width: 96%;
-    max-width: 1300px;
+    width: 100%;
+    max-width: 100%;
     transition: var(--transition-smooth);
 }
 
@@ -272,41 +272,30 @@ img {
 }
 
 .nav a {
-    color: #444444;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 0;
-    border-bottom: 3px solid transparent;
-    transition: var(--transition);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: var(--transition-smooth);
     position: relative;
+    text-decoration: none;
 }
 
 .nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    transition: width 0.3s ease;
-}
-
-.nav a:hover::after {
-    width: 100%;
+    display: none;
 }
 
 .nav a:hover {
-    color: var(--text);
-    text-decoration: none;
+    color: var(--primary);
+    background: rgba(0, 128, 0, 0.05);
 }
 
 .nav a.active {
     color: var(--primary);
-}
-
-.nav a.active::after {
-    width: 100%;
+    background: rgba(0, 128, 0, 0.1);
 }
 
 .nav .cart-badge {
@@ -612,14 +601,15 @@ img {
 
 .product-card .aisle {
     display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
     color: var(--text-light);
     background: #f0f0f0;
-    padding: 3px 12px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    letter-spacing: 0.3px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .product-card h3 {
@@ -1774,7 +1764,7 @@ body { background-color:var(--paper); background-image:radial-gradient(circle at
 .container { max-width:1360px; }
 .top-bar { padding:9px 18px; background:var(--ink); border-bottom:0; font-size:11px; letter-spacing:.12em; }
 .top-bar code { background:rgba(255,255,255,.11); color:#f4cf63; border:0; }
-.header { border-radius:0 0 22px 22px; margin:0 0 18px; padding:18px 0; background:rgba(255,253,248,.94); border:0; border-bottom:1px solid rgba(25,52,42,.12); box-shadow:0 9px 28px rgba(25,52,42,.07); top:0; }
+
 .logo-text { font-family:Georgia,'Times New Roman',serif; letter-spacing:-.06em; }
 .search-form input { border-radius:999px 0 0 999px; background:#f7f3eb; border-color:#e6ddcf; }
 .search-form button { border-radius:0 999px 999px 0; background:var(--ink); border-color:var(--ink); }
@@ -2117,7 +2107,7 @@ html body #profileContainer .user-dropdown {
    HOME — MARKET JOURNAL ART DIRECTION
    ======================================== */
 .home-page { background-color:#f7efe2; background-image:linear-gradient(90deg,rgba(117,40,23,.035) 1px,transparent 1px),linear-gradient(rgba(117,40,23,.035) 1px,transparent 1px); background-size:38px 38px; }
-.home-page .header { margin-bottom:28px; border-radius:0 0 34px 34px; background:rgba(255,251,243,.94); box-shadow:0 14px 35px rgba(75,32,22,.1); }
+
 .home-page .breadcrumb { color:#80402c; }
 .home-page .trust-strip { margin:55px 0; border:0; background:transparent; gap:16px; }.home-page .trust-strip > div { min-height:104px; padding:22px; border:1px solid #ddc8ab; border-radius:18px; background:#fffaf0; box-shadow:5px 5px 0 #e8d5b9; }.home-page .trust-strip > div + div { border-left:1px solid #ddc8ab; }.home-page .trust-strip > div:nth-child(2) { background:#1d6a4b; border-color:#1d6a4b; box-shadow:5px 5px 0 #b7d3bb; }.home-page .trust-strip > div:nth-child(2) strong,.home-page .trust-strip > div:nth-child(2) small { color:#fffdf8; }.home-page .trust-strip > div:nth-child(2) .trust-icon { color:#f4cf63; }
 .home-page .featured-banner { margin:0 0 55px; border-radius:0 30px 0 30px; background:#1d6a4b; box-shadow:12px 12px 0 #cf694e; }.home-page .featured-banner .badge { background:#fffaf0; color:#632919; }.home-page .categories-section { grid-template-columns:repeat(5,1fr); margin:0 0 65px; gap:18px; }.home-page .categories-section .category-card { min-height:150px; display:grid; place-items:center; border-radius:50% 50% 14px 14px; background:#fffaf0; }.home-page .categories-section .category-card:nth-child(even) { transform:translateY(25px); background:#f4cf63; }.home-page .categories-section .category-card:nth-child(even):hover { transform:translateY(18px) rotate(2deg); }.home-page .category-card .icon { font-size:38px; }
@@ -3568,17 +3558,7 @@ html[data-theme="dark"] .pro-modal-desc {
    ETHIOPIAN PATTERN DIVIDERS (Tilet)
    ======================================== */
 .ethiopian-divider {
-    height: 6px;
-    background: repeating-linear-gradient(
-        90deg,
-        var(--primary) 0px, var(--primary) 12px,
-        var(--secondary) 12px, var(--secondary) 24px,
-        var(--ethiopian-red) 24px, var(--ethiopian-red) 36px,
-        var(--secondary) 36px, var(--secondary) 48px
-    );
-    border: none;
-    margin: 0;
-    opacity: 0.85;
+    display: none;
 }
 
 .section-header::after {
