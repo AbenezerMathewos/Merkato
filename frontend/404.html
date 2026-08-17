@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Page Not Found — MERKATO</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#008000">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 600px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        .error-number {
+            font-size: 120px;
+            font-weight: 800;
+            color: #008000;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0 #ffd700;
+        }
+        .error-geez {
+            font-size: 80px;
+            color: #d9534f;
+            display: block;
+            margin-bottom: 20px;
+        }
+        .error-title {
+            font-size: 32px;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+        .error-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .error-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+                <button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+        </header>
+    </div>
+    
+    <hr class="divider">
+
+    <main>
+        <div class="container">
+            <div class="error-container">
+                <div class="error-geez">፬፻፬</div>
+                <div class="error-number">404</div>
+                <h1 class="error-title">This page wandered off to the market</h1>
+                <p class="error-subtitle">The page you're looking for doesn't exist or has been moved.</p>
+                <div class="error-actions">
+                    <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
+                    <a href="shop.html" class="btn btn-secondary">🛒 Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <hr class="divider">
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                            <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                            <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                        </a>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                        Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🏠 Home</a></li>
+                        <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🛒 Shop</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
+                    <ul style="list-style:none;padding:0;margin:0;">
+                        <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🔄 Returns</a></li>
+                        <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">📞 Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p><small>Made with ❤️ in Ethiopia</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
