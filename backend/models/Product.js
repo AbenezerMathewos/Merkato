@@ -1,35 +1,16 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    aisle: {
-        type: String,
-        required: true,
-        enum: ['food', 'home', 'apparel', 'crafts', 'electronics']
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    stock: {
-        type: Number,
-        default: 0
-    },
-    image: {
-        type: String,
-        default: ''
-    },
-    description: {
-        type: String,
-        default: ''
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+const productSchema = new mongoose.Schema({
+    slug: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    aisle: { type: String, required: true },
+    price: { type: Number, required: true },
+    stock: { type: Number, required: true, default: 0 },
+    image: { type: String, required: false },
+    description: { type: String, required: false }
+}, {
+    timestamps: true
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;
