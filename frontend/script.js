@@ -3937,6 +3937,133 @@ function selectPayment(method) {
     }
 }
 
+let telebirrTransactionId = null;
+
+function initiatePaymentFlow() {
+    if (selectedPayment === 'telebirr') {
+        const subtotal = getCartTotal();
+        const shipping = subtotal > 3000 ? 0 : 200;
+        const tax = subtotal * 0.15;
+        const total = subtotal + shipping + tax;
+        
+        document.getElementById('paymentInitial').style.display = 'none';
+        document.getElementById('telebirrAmount').textContent = total.toLocaleString() + ' ETB';
+        document.getElementById('telebirrPhoneState').style.display = 'block';
+        
+        // Auto-fill phone if available
+        const phone = document.getElementById('phone')?.value;
+        if (phone) {
+            document.getElementById('telebirrPhoneInput').value = phone;
+        }
+    } else {
+        processPayment();
+    }
+}
+
+async function requestTelebirrPin() {
+    const phone = document.getElementById('telebirrPhoneInput').value;
+    if (!phone) {
+        showNotification('⚠️ Please enter your phone number');
+        return;
+    }
+    
+    const subtotal = getCartTotal();
+    const shipping = subtotal > 3000 ? 0 : 200;
+    const tax = subtotal * 0.15;
+    const total = subtotal + shipping + tax;
+    
+    const btn = document.getElementById('btnRequestPin');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    
+    try {
+        const response = await fetch('/api/payments/telebirr/request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + (JSON.parse(localStorage.getItem('merkatoUser'))?.token || '')
+            },
+            body: JSON.stringify({ phone, amount: total })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to request PIN');
+        }
+        
+        telebirrTransactionId = data.transactionId;
+        
+        // Move to PIN state
+        document.getElementById('telebirrPhoneState').style.display = 'none';
+        document.getElementById('telebirrPinState').style.display = 'block';
+        
+        // In real app we wouldn't show this, but for demo:
+        console.log("TEST PIN IS: " + data.testPin);
+        showNotification('💬 SMS PIN Sent! (Check console for test pin: ' + data.testPin + ')');
+        
+    } catch (error) {
+        console.error('Telebirr error:', error);
+        showNotification('❌ ' + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '📩 Send SMS PIN';
+    }
+}
+
+async function verifyTelebirrPin() {
+    const pin = document.getElementById('telebirrPinInput').value;
+    const errorDiv = document.getElementById('telebirrError');
+    
+    if (!pin || pin.length !== 4) {
+        errorDiv.textContent = 'Please enter a valid 4-digit PIN';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    errorDiv.style.display = 'none';
+    const btn = document.getElementById('btnVerifyPin');
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+    
+    try {
+        const response = await fetch('/api/payments/telebirr/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + (JSON.parse(localStorage.getItem('merkatoUser'))?.token || '')
+            },
+            body: JSON.stringify({ transactionId: telebirrTransactionId, pin })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Verification failed');
+        }
+        
+        // Payment verified! Now process the actual order
+        document.getElementById('telebirrPinState').style.display = 'none';
+        processPayment();
+        
+    } catch (error) {
+        console.error('Telebirr verification error:', error);
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '✅ Verify & Pay';
+    }
+}
+
+function resetPaymentModal() {
+    document.getElementById('telebirrPhoneState').style.display = 'none';
+    document.getElementById('telebirrPinState').style.display = 'none';
+    document.getElementById('paymentInitial').style.display = 'block';
+    document.getElementById('telebirrPinInput').value = '';
+    document.getElementById('telebirrError').style.display = 'none';
+}
+
 function processPayment() {
     const fullname = document.getElementById('fullname')?.value || '';
     const email = document.getElementById('email')?.value || '';
