@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Ethiopic:wght@300;400;500;600;700;800&display=swap');
 
 * {
     margin: 0;
@@ -9,54 +8,88 @@
 
 /* ===== ROOT VARIABLES ===== */
 :root {
+    /* Brand Colors */
     --primary: #008000;
-    --primary-dark: #006600;
+    --primary-dark: #005500;
     --primary-light: #e8f5e9;
     --secondary: #ffd700;
-    --secondary-dark: #f5a623;
-    --danger: #d9534f;
-    --danger-dark: #c9302c;
-    --success: #28a745;
-    --warning: #ffc107;
+    --secondary-dark: #e6c200;
+    --danger: #e63946;
+    --success: #2a9d8f;
     --dark: #1a1a2e;
-    --dark-secondary: #16213e;
-    --gray: #888888;
-    --gray-light: #f5f5f5;
-    --gray-border: #e0e0e0;
-    --white: #ffffff;
-    --text: #222222;
-    --text-light: #666666;
-    --shadow: 0 2px 10px rgba(0,0,0,0.08);
-    --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
-    --radius: 8px;
-    --radius-lg: 16px;
-    --transition: all 0.3s ease;
+    
+    /* Grays */
+    --gray-50: #f8f9fa;
+    --gray-100: #f1f3f5;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-600: #868e96;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+
     /* Ethiopian Cultural Palette */
     --terracotta: #C4713B;
     --coffee-brown: #3E2723;
     --injera-cream: #FAF3E0;
     --ethiopian-red: #DA291C;
-    --font-ethiopic: 'Noto Sans Ethiopic', 'Segoe UI', sans-serif;
+
+    /* Semantic */
+    --bg-main: var(--gray-50);
+    --text-main: var(--gray-900);
+    --text-muted: var(--gray-600);
+    
+    /* Glassmorphism & UI Tokens */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-blur: blur(16px);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.12);
+    --shadow-hover: 0 15px 35px rgba(0,128,0,0.15); /* Primary tinted shadow */
+    
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 9999px;
+    
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Typography */
+    --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-ethiopic: 'Noto Sans Ethiopic', var(--font-sans);
 }
 
 /* ===== BASE STYLES ===== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f8f9fa;
-    color: var(--text);
+    font-family: var(--font-sans);
+    background: var(--bg-main);
+    color: var(--text-main);
     line-height: 1.6;
     min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s var(--transition-smooth) forwards;
 }
 
 a {
     color: var(--primary);
     text-decoration: none;
-    transition: var(--transition);
+    transition: var(--transition-fast);
 }
 
 a:hover {
     color: var(--primary-dark);
-    text-decoration: underline;
 }
 
 img {
@@ -66,10 +99,10 @@ img {
 
 /* ===== CONTAINER ===== */
 .container {
-    width: 90%;
-    max-width: 1300px;
+    width: 92%;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 16px;
 }
 
 /* ===== TOP ANNOUNCEMENT BAR ===== */
