@@ -302,7 +302,47 @@ function renderProductDetail(product) {
                 </div>
             </div>
         </section>
+        
+        <!-- Reviews Section -->
+        <section id="reviewsSection" style="margin-top: 40px;">
+            <div class="section-header">
+                <h2>⭐ Customer Reviews</h2>
+            </div>
+            
+            <!-- Add Review Form -->
+            <div class="card" style="margin-bottom: 20px; background: #fafafa;">
+                <h3 style="margin-bottom: 15px;">Write a Review</h3>
+                <form id="reviewForm" onsubmit="submitReview(event, '${product._id}')">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block;margin-bottom:5px;">Rating</label>
+                        <select id="reviewRating" class="form-control" style="width:100px;display:inline-block;" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                            <option value="4">⭐⭐⭐⭐ (4)</option>
+                            <option value="3">⭐⭐⭐ (3)</option>
+                            <option value="2">⭐⭐ (2)</option>
+                            <option value="1">⭐ (1)</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block;margin-bottom:5px;">Your Review</label>
+                        <textarea id="reviewComment" class="form-control" rows="3" placeholder="What did you think about this product?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                    <div id="reviewStatus" style="margin-top: 10px; font-size: 14px;"></div>
+                </form>
+            </div>
+            
+            <!-- Reviews List -->
+            <div id="reviewsList">
+                <div style="text-align:center;padding:20px;color:#888;">Loading reviews...</div>
+            </div>
+        </section>
     `;
+    
+    // Load reviews after rendering
+    if (typeof loadReviews === 'function') {
+        loadReviews(product._id);
+    }
 }
 </script>
 
