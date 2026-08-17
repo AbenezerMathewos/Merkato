@@ -56,21 +56,44 @@
             grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin: 30px 0;
+            padding: 10px;
+        }
+        
+        /* Mobile horizontal scroll */
+        @media (max-width: 768px) {
+            .categories-section {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none; /* Firefox */
+                -ms-overflow-style: none;  /* IE and Edge */
+                padding-bottom: 20px;
+            }
+            .categories-section::-webkit-scrollbar {
+                display: none;
+            }
+            .category-card {
+                flex: 0 0 140px;
+                scroll-snap-align: start;
+            }
         }
         .category-card {
-            background: #fff;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
             padding: 20px 15px;
             text-align: center;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
             color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,128,0,0.15);
             border-color: #008000;
+            background: #fff;
         }
         .category-card .icon {
             font-size: 32px;
