@@ -3,6 +3,7 @@ const storage = require('../config/storage');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const { protect, admin } = require('../middleware/auth');
+const { sendEmail, sendSMS } = require('../utils/notifications');
 
 const router = express.Router();
 
@@ -44,6 +45,18 @@ router.post('/', protect, async (req, res) => {
             }
 
             const createdOrder = await order.save();
+            
+            // Background notifications (non-blocking)
+            sendEmail(
+                customer.email, 
+                `MERKATO Order Confirmation: ${tracking}`, 
+                `<h1>Thank you for your order!</h1><p>Your order <strong>${tracking}</strong> has been received and is being processed.</p>`
+            );
+            sendSMS(
+                customer.phone, 
+                `MERKATO: Thank you! Your order ${tracking} is confirmed and processing.`
+            );
+            
             return res.status(201).json(createdOrder);
         } else {
             const createdOrder = storage.createOrder({
@@ -55,6 +68,17 @@ router.post('/', protect, async (req, res) => {
                 tax,
                 total
             }, req.user._id);
+
+            // Background notifications (non-blocking)
+            sendEmail(
+                customer.email, 
+                `MERKATO Order Confirmation: ${createdOrder.tracking}`, 
+                `<h1>Thank you for your order!</h1><p>Your order <strong>${createdOrder.tracking}</strong> has been received and is being processed.</p>`
+            );
+            sendSMS(
+                customer.phone, 
+                `MERKATO: Thank you! Your order ${createdOrder.tracking} is confirmed and processing.`
+            );
 
             return res.status(201).json(createdOrder);
         }

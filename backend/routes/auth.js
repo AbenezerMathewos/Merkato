@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const storage = require('../config/storage');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
+const { sendEmail } = require('../utils/notifications');
 
 const router = express.Router();
 
@@ -37,6 +38,12 @@ router.post('/register', async (req, res) => {
 
             const token = generateToken(user._id);
 
+            sendEmail(
+                user.email,
+                'Welcome to MERKATO 🛒',
+                `<h1>Welcome, ${user.name}!</h1><p>Thank you for joining Ethiopia's premier digital supermarket. Start shopping today!</p>`
+            );
+
             return res.status(201).json({
                 _id: user._id,
                 name: user.name,
@@ -63,6 +70,12 @@ router.post('/register', async (req, res) => {
             });
 
             const token = generateToken(user._id);
+
+            sendEmail(
+                user.email,
+                'Welcome to MERKATO 🛒',
+                `<h1>Welcome, ${user.name}!</h1><p>Thank you for joining Ethiopia's premier digital supermarket. Start shopping today!</p>`
+            );
 
             return res.status(201).json({
                 _id: user._id,
