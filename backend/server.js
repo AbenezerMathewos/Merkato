@@ -31,6 +31,7 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/payments', require('./routes/payments'));
 
 // API status endpoint
 app.get('/api', (req, res) => {
@@ -43,7 +44,8 @@ app.get('/api', (req, res) => {
             products: '/api/products',
             orders: '/api/orders',
             users: '/api/users',
-            reviews: '/api/reviews'
+            reviews: '/api/reviews',
+            payments: '/api/payments'
         }
     });
 });
