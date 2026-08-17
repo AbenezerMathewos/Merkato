@@ -30,6 +30,9 @@
                     <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
                 </a>
 
+<button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+</button>
 <nav class="nav">
     <a href="index.html">Home</a>
     <a href="shop.html">Shop</a>
@@ -187,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Get product ID from URL
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
+    let productId = urlParams.get('id') || window.location.hash.replace('#', '') || null;
     
     if (!productId) {
         container.innerHTML = `
@@ -263,7 +266,7 @@ function renderProductDetail(product) {
         <section id="${product._id}" data-product-id="${product._id}" data-aisle="${product.aisle}" data-price="${product.price}">
             <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
                 <div style="flex:0 0 250px;text-align:center;">
-                    <img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.name}" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;" onerror="this.src='https://via.placeholder.com/250'">
+                    <img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.name}" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;" onerror="this.src='https://via.placeholder.com/250'" loading="lazy">
                 </div>
                 <div style="flex:1;min-width:200px;">
                     <span class="aisle-badge ${aisleClass[product.aisle] || ''}">${aisleLabels[product.aisle] || product.aisle}</span>
@@ -303,7 +306,5 @@ function renderProductDetail(product) {
 }
 </script>
 
-</body>
-</html>
 </body>
 </html>
