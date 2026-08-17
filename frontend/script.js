@@ -4763,3 +4763,111 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cart drawer link enhancement
     setTimeout(enhanceCartLink, 200);
 });
+
+// ========================================
+// PHASE 2: PRODUCT REVIEWS & RATINGS
+// ========================================
+
+async function loadReviews(productId) {
+    const listContainer = document.getElementById('reviewsList');
+    if (!listContainer) return;
+    
+    try {
+        const response = await fetch('/api/reviews/product/' + productId);
+        if (!response.ok) throw new Error('Failed to fetch reviews');
+        
+        const reviews = await response.json();
+        
+        if (reviews.length === 0) {
+            listContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">No reviews yet. Be the first to review this product!</div>';
+            return;
+        }
+        
+        let html = '';
+        reviews.forEach(r => {
+            const date = new Date(r.createdAt || r.date).toLocaleDateString();
+            const stars = '⭐'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+            html += `
+                <div style="border-bottom:1px solid #f0f0f0; padding: 15px 0;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <span style="font-weight:600; color:#1a1a2e;">${escapeMarkup(r.userName)}</span>
+                        <span style="color:#888; font-size:12px;">${date}</span>
+                    </div>
+                    <div style="margin-bottom:8px; font-size:14px;">${stars}</div>
+                    <p style="color:#555; margin:0; font-size:15px; line-height:1.5;">${escapeMarkup(r.comment)}</p>
+                </div>
+            `;
+        });
+        
+        listContainer.innerHTML = html;
+        
+    } catch (error) {
+        console.error('Error loading reviews:', error);
+        listContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#d9534f;">Failed to load reviews.</div>';
+    }
+}
+
+async function submitReview(event, productId) {
+    event.preventDefault();
+    const statusDiv = document.getElementById('reviewStatus');
+    
+    const userJson = localStorage.getItem('merkatoUser');
+    if (!userJson) {
+        statusDiv.style.color = '#d9534f';
+        statusDiv.innerHTML = 'You must be <a href="login.html" style="color:#d9534f;text-decoration:underline;">logged in</a> to write a review.';
+        return;
+    }
+    
+    const user = JSON.parse(userJson);
+    const token = user.token || localStorage.getItem('merkatoToken');
+    
+    if (!token) {
+        statusDiv.style.color = '#d9534f';
+        statusDiv.innerHTML = 'Authentication error. Please log in again.';
+        return;
+    }
+    
+    const rating = document.getElementById('reviewRating').value;
+    const comment = document.getElementById('reviewComment').value;
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    statusDiv.innerHTML = '';
+    
+    try {
+        const response = await fetch('/api/reviews', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                productId: productId,
+                rating: Number(rating),
+                comment: comment
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to submit review');
+        }
+        
+        statusDiv.style.color = '#008000';
+        statusDiv.innerHTML = '✅ Review submitted successfully!';
+        document.getElementById('reviewForm').reset();
+        
+        // Reload reviews
+        loadReviews(productId);
+        
+    } catch (error) {
+        console.error('Submit review error:', error);
+        statusDiv.style.color = '#d9534f';
+        statusDiv.innerHTML = '❌ ' + (error.message || 'Something went wrong');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+    }
+}
