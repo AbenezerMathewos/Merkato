@@ -4345,3 +4345,421 @@ function showAdminBadge() {
         badge.style.display = 'inline-block';
     }
 }
+
+// ========================================
+// SCROLL REVEAL ANIMATIONS
+// ========================================
+
+function initScrollReveal() {
+    // Add scroll-reveal class to sections
+    const revealTargets = document.querySelectorAll(
+        '.product-card, .category-card, .testimonial, .featured-banner, ' +
+        '.market-note, .newsletter, .brands-section, .trust-strip > div, ' +
+        '.section-header'
+    );
+
+    revealTargets.forEach(el => {
+        if (!el.classList.contains('scroll-reveal')) {
+            el.classList.add('scroll-reveal');
+        }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-scale').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// ========================================
+// SKELETON LOADING
+// ========================================
+
+function showSkeletonLoading(container, count = 4) {
+    if (!container) return;
+    let html = '';
+    for (let i = 0; i < count; i++) {
+        html += `
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-img"></div>
+                <div class="skeleton skeleton-text short"></div>
+                <div class="skeleton skeleton-text long"></div>
+                <div class="skeleton skeleton-text price"></div>
+            </div>
+        `;
+    }
+    container.innerHTML = html;
+}
+
+function hideSkeletonLoading(container) {
+    if (!container) return;
+    const skeletons = container.querySelectorAll('.skeleton-card');
+    skeletons.forEach(s => s.remove());
+}
+
+// ========================================
+// HAMBURGER MOBILE MENU
+// ========================================
+
+function toggleMobileMenu() {
+    const nav = document.querySelector('.nav');
+    const btn = document.getElementById('hamburgerBtn');
+    if (!nav || !btn) return;
+
+    nav.classList.toggle('mobile-open');
+    btn.classList.toggle('active');
+
+    // Prevent body scroll when menu is open
+    if (nav.classList.contains('mobile-open')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}
+
+// Close menu when a nav link is clicked
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.nav a')) {
+        const nav = document.querySelector('.nav');
+        const btn = document.getElementById('hamburgerBtn');
+        if (nav && nav.classList.contains('mobile-open')) {
+            nav.classList.remove('mobile-open');
+            if (btn) btn.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+});
+
+// ========================================
+// MINI CART DRAWER
+// ========================================
+
+function openCartDrawer() {
+    const overlay = document.getElementById('cartDrawerOverlay');
+    const drawer = document.getElementById('cartDrawer');
+    if (!overlay || !drawer) return;
+
+    updateCartDrawerContent();
+    overlay.classList.add('active');
+    drawer.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCartDrawer() {
+    const overlay = document.getElementById('cartDrawerOverlay');
+    const drawer = document.getElementById('cartDrawer');
+    if (overlay) overlay.classList.remove('active');
+    if (drawer) drawer.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function updateCartDrawerContent() {
+    const itemsContainer = document.getElementById('cartDrawerItems');
+    const footerContainer = document.getElementById('cartDrawerFooter');
+    if (!itemsContainer || !footerContainer) return;
+
+    const cart = JSON.parse(localStorage.getItem('merkatoCart')) || [];
+
+    if (cart.length === 0) {
+        itemsContainer.innerHTML = `
+            <div style="text-align:center;padding:40px 20px;color:var(--gray);">
+                <div style="font-size:48px;margin-bottom:12px;">🛒</div>
+                <p style="font-size:15px;font-weight:600;">Your cart is empty</p>
+                <p style="font-size:13px;margin-top:4px;">Start adding products to your cart!</p>
+            </div>
+        `;
+        footerContainer.innerHTML = '';
+        return;
+    }
+
+    let itemsHtml = '';
+    let total = 0;
+
+    cart.forEach(item => {
+        const price = parseFloat(item.price) || 0;
+        const qty = parseInt(item.quantity) || 1;
+        const lineTotal = price * qty;
+        total += lineTotal;
+
+        itemsHtml += `
+            <div class="cart-drawer-item">
+                <img src="${item.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2230%22%3E🛒%3C/text%3E%3C/svg%3E'}" 
+                     alt="${item.name || 'Product'}" loading="lazy">
+                <div class="cart-drawer-item-info">
+                    <div class="name">${item.name || 'Product'}</div>
+                    <div class="meta">Qty: ${qty}</div>
+                    <div class="price">${lineTotal.toLocaleString()} ETB</div>
+                </div>
+            </div>
+        `;
+    });
+
+    itemsContainer.innerHTML = itemsHtml;
+
+    footerContainer.innerHTML = `
+        <div class="cart-drawer-total">
+            <span>Subtotal</span>
+            <span class="amount">${total.toLocaleString()} ETB</span>
+        </div>
+        <a href="cart.html" class="cart-drawer-btn">View Cart</a>
+        <a href="checkout.html" class="cart-drawer-btn secondary">Checkout</a>
+    `;
+}
+
+// ========================================
+// SEARCH AUTOCOMPLETE / LIVE SUGGESTIONS
+// ========================================
+
+function initSearchAutocomplete() {
+    const form = document.querySelector('.search-form');
+    const input = form?.querySelector('input[type="search"]');
+    if (!form || !input) return;
+
+    // Create suggestions dropdown
+    let suggestionsDiv = form.querySelector('.search-suggestions');
+    if (!suggestionsDiv) {
+        suggestionsDiv = document.createElement('div');
+        suggestionsDiv.className = 'search-suggestions';
+        form.appendChild(suggestionsDiv);
+    }
+
+    let debounceTimer;
+
+    input.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value.trim().toLowerCase();
+
+        if (query.length < 2) {
+            suggestionsDiv.classList.remove('active');
+            return;
+        }
+
+        debounceTimer = setTimeout(() => {
+            const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+            const matches = products.filter(p =>
+                (p.name && p.name.toLowerCase().includes(query)) ||
+                (p.category && p.category.toLowerCase().includes(query)) ||
+                (p.description && p.description.toLowerCase().includes(query))
+            ).slice(0, 6);
+
+            if (matches.length === 0) {
+                suggestionsDiv.innerHTML = `
+                    <div class="search-suggestion-item" style="color:var(--gray);justify-content:center;cursor:default;">
+                        No products found
+                    </div>
+                `;
+                suggestionsDiv.classList.add('active');
+                return;
+            }
+
+            suggestionsDiv.innerHTML = matches.map(p => `
+                <a href="product-detail.html?id=${p._id || p.id}" class="search-suggestion-item">
+                    <img src="${p.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E'}" 
+                         alt="${p.name}" loading="lazy">
+                    <div class="info">
+                        <div class="name">${highlightMatch(p.name, query)}</div>
+                        <div class="price">${(p.price || 0).toLocaleString()} ETB</div>
+                    </div>
+                </a>
+            `).join('');
+            suggestionsDiv.classList.add('active');
+        }, 200);
+    });
+
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!form.contains(e.target)) {
+            suggestionsDiv.classList.remove('active');
+        }
+    });
+
+    // Close on Escape
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            suggestionsDiv.classList.remove('active');
+        }
+    });
+}
+
+function highlightMatch(text, query) {
+    if (!text || !query) return text;
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<strong style="color:var(--primary)">$1</strong>');
+}
+
+// ========================================
+// QUICK VIEW MODAL
+// ========================================
+
+function openQuickView(productId) {
+    const products = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+    const product = products.find(p => (p._id || p.id) == productId);
+    if (!product) return;
+
+    // Remove existing modal if any
+    const existing = document.querySelector('.quickview-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'quickview-overlay';
+    overlay.innerHTML = `
+        <div class="quickview-card" style="position:relative;">
+            <button class="quickview-close" onclick="closeQuickView()">✕</button>
+            <img class="quickview-img" src="${product.image || ''}" alt="${product.name || ''}" loading="lazy">
+            <div class="quickview-info">
+                <div class="aisle-badge">${product.category || 'General'}</div>
+                <h2>${product.name || 'Product'}</h2>
+                <div class="price">${(product.price || 0).toLocaleString()} ETB</div>
+                <div class="desc">${product.description || 'A quality product from MERKATO.'}</div>
+                <div class="quickview-actions">
+                    <button class="btn btn-primary" onclick="addToCart('${product._id || product.id}', '${(product.name || '').replace(/'/g, "\\'")}', '${product.price}', '${product.image || ''}'); closeQuickView(); showNotification('✅ Added to cart!');">
+                        🛒 Add to Cart
+                    </button>
+                    <a href="product-detail.html?id=${product._id || product.id}" class="btn btn-outline">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
+
+    // Animate in
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+    });
+
+    // Close on overlay click
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeQuickView();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            closeQuickView();
+            document.removeEventListener('keydown', escHandler);
+        }
+    });
+}
+
+function closeQuickView() {
+    const overlay = document.querySelector('.quickview-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        setTimeout(() => overlay.remove(), 300);
+    }
+    document.body.style.overflow = '';
+}
+
+// ========================================
+// PRODUCT CARD ENHANCEMENTS 
+// (Quick actions + Add to Cart on cards)
+// ========================================
+
+function enhanceProductCards() {
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+        // Skip if already enhanced
+        if (card.dataset.enhanced) return;
+        card.dataset.enhanced = 'true';
+
+        const productId = card.dataset.productId;
+        const productName = card.querySelector('h3 a')?.textContent?.trim() || 'Product';
+        const productPrice = card.querySelector('.price')?.textContent?.replace(/[^0-9]/g, '') || '0';
+        const productImage = card.querySelector('img')?.src || '';
+
+        // Add quick action buttons (wishlist + quick view)
+        const quickActionsDiv = document.createElement('div');
+        quickActionsDiv.className = 'quick-actions';
+        quickActionsDiv.innerHTML = `
+            <button title="Quick View" onclick="event.preventDefault(); event.stopPropagation(); openQuickView('${productId}')">👁</button>
+            <button title="Add to Wishlist" onclick="event.preventDefault(); event.stopPropagation(); toggleWishlist('${productId}', '${productName.replace(/'/g, "\\'")}', '${productPrice}', '${productImage}')">♡</button>
+        `;
+        card.appendChild(quickActionsDiv);
+
+        // Add "Add to Cart" button at bottom
+        const existingCartBtn = card.querySelector('.card-add-cart');
+        if (!existingCartBtn) {
+            const cartBtn = document.createElement('button');
+            cartBtn.className = 'card-add-cart';
+            cartBtn.textContent = '🛒 Add to Cart';
+            cartBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                addToCart(productId, productName, productPrice, productImage);
+                showNotification('✅ ' + productName + ' added to cart!');
+                // Open cart drawer
+                if (document.getElementById('cartDrawer')) {
+                    openCartDrawer();
+                }
+            };
+            card.appendChild(cartBtn);
+        }
+
+        // Add stock badge
+        const existingBadge = card.querySelector('.stock-badge');
+        if (!existingBadge) {
+            const stock = parseInt(card.dataset.stock) || Math.floor(Math.random() * 20) + 1;
+            const badge = document.createElement('span');
+            if (stock > 5) {
+                badge.className = 'stock-badge in-stock';
+                badge.textContent = 'In Stock';
+            } else if (stock > 0) {
+                badge.className = 'stock-badge low-stock';
+                badge.textContent = `Only ${stock} left`;
+            } else {
+                badge.className = 'stock-badge out-of-stock';
+                badge.textContent = 'Out of Stock';
+            }
+            card.appendChild(badge);
+        }
+    });
+}
+
+// ========================================
+// ENHANCED NAV CART LINK (Open Drawer)
+// ========================================
+
+function enhanceCartLink() {
+    const cartLinks = document.querySelectorAll('.nav a[href="cart.html"]');
+    cartLinks.forEach(link => {
+        // Only intercept on non-cart pages  
+        if (!window.location.pathname.includes('cart.html') && document.getElementById('cartDrawer')) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                openCartDrawer();
+            });
+        }
+    });
+}
+
+// ========================================
+// INIT ALL NEW FEATURES ON PAGE LOAD
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll reveal animations
+    setTimeout(initScrollReveal, 100);
+
+    // Search autocomplete
+    initSearchAutocomplete();
+
+    // Enhance product cards with quick actions
+    setTimeout(enhanceProductCards, 300);
+
+    // Cart drawer link enhancement
+    setTimeout(enhanceCartLink, 200);
+});
