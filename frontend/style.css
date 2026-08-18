@@ -9,29 +9,29 @@
 /* ===== ROOT VARIABLES ===== */
 :root {
     /* Brand Colors */
-    --primary: #008000;
-    --primary-dark: #005500;
-    --primary-light: #e8f5e9;
-    --secondary: #ffd700;
-    --secondary-dark: #e6c200;
-    --danger: #e63946;
-    --success: #2a9d8f;
-    --dark: #1a1a2e;
+    --primary: #0A5C36;
+    --primary-dark: #074026;
+    --primary-light: #EBF3EF;
+    --secondary: #D4AF37;
+    --secondary-dark: #B5952F;
+    --danger: #C43B3B;
+    --success: #2A9D8F;
+    --dark: #1A1A2E;
     
     /* Grays */
-    --gray-50: #f8f9fa;
-    --gray-100: #f1f3f5;
-    --gray-200: #e9ecef;
-    --gray-300: #dee2e6;
-    --gray-600: #868e96;
-    --gray-800: #343a40;
-    --gray-900: #212529;
+    --gray-50: #FDFBF7;
+    --gray-100: #F4EFE6;
+    --gray-200: #EBE1D1;
+    --gray-300: #D8CCB8;
+    --gray-600: #8C8273;
+    --gray-800: #4A453E;
+    --gray-900: #2B2824;
 
     /* Ethiopian Cultural Palette */
     --terracotta: #C4713B;
     --coffee-brown: #3E2723;
     --injera-cream: #FAF3E0;
-    --ethiopian-red: #DA291C;
+    --ethiopian-red: #A32015;
 
     /* Semantic */
     --bg-main: var(--gray-50);
@@ -1780,7 +1780,123 @@ body { background-color:var(--paper); background-image:radial-gradient(circle at
     bottom: 82px;
     z-index: 9999;
     pointer-events: none;
-    animation: profileDrift 4.5s ease-in-out infinite;
+}
+
+/* ========================================
+   SCROLL REVEAL ANIMATIONS
+   ======================================== */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal-left {
+    transform: translateX(-30px);
+}
+.scroll-reveal-left.visible {
+    transform: translateX(0);
+}
+
+.scroll-reveal-right {
+    transform: translateX(30px);
+}
+.scroll-reveal-right.visible {
+    transform: translateX(0);
+}
+
+/* ========================================
+   SPARK CANVAS EFFECT
+   ======================================== */
+#sparkCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Let clicks pass through */
+    z-index: 99999;
+}
+
+/* ========================================
+   FLOATING PROFILE WIDGET
+   ======================================== */
+.floating-profile-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(10, 92, 54, 0.4);
+    cursor: pointer;
+    z-index: 9990;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: white;
+    font-size: 24px;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.floating-profile-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow: 0 15px 35px rgba(10, 92, 54, 0.6);
+    background: var(--primary-dark);
+}
+
+.floating-profile-menu {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 250px;
+    background: rgba(253, 251, 247, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(10, 92, 54, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    z-index: 9989;
+    padding: 15px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: bottom right;
+}
+
+.floating-profile-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.floating-profile-menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.floating-profile-menu a i {
+    margin-right: 12px;
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.floating-profile-menu a:hover {
+    background: rgba(10, 92, 54, 0.08);
+    color: var(--primary);
 }
 
 #profileContainer > * { pointer-events: auto; }

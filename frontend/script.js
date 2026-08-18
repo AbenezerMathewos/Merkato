@@ -471,6 +471,141 @@ async function cancelCustomerOrder(orderId) {
 }
 
 // ========================================
+// HIGH TIER ANIMATIONS & EFFECTS
+// ========================================
+
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.product-card, .category-card, .testimonial, .trust-strip > div');
+    
+    // Add class for staggered reveal
+    revealElements.forEach((el, index) => {
+        el.classList.add('scroll-reveal');
+        // Add left/right stagger for categories and trust strip
+        if(el.classList.contains('category-card')) {
+            el.style.transitionDelay = `${(index % 5) * 0.1}s`;
+        }
+    });
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Run once
+            }
+        });
+    }, observerOptions);
+
+    revealElements.forEach(el => observer.observe(el));
+}
+
+function initSparkEffect() {
+    const canvas = document.getElementById('sparkCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    let particles = [];
+    
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    
+    class Particle {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            // Golden sparks
+            this.color = `rgba(212, 175, 55, ${Math.random()})`;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = Math.random() * 6 - 3;
+            this.speedY = Math.random() * 6 - 3;
+            this.life = 100;
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.size *= 0.95;
+            this.life -= 2;
+        }
+        
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    function createSparks(x, y, amount) {
+        for (let i = 0; i < amount; i++) {
+            particles.push(new Particle(x, y));
+        }
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+            if (particles[i].life <= 0 || particles[i].size <= 0.1) {
+                particles.splice(i, 1);
+                i--;
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+    
+    document.addEventListener('click', (e) => {
+        createSparks(e.clientX, e.clientY, 15);
+    });
+
+    animate();
+}
+
+function initFloatingProfile() {
+    const btn = document.getElementById('floatingProfileBtn');
+    const menu = document.getElementById('floatingProfileMenu');
+    const logoutBtn = document.getElementById('floatingLogout');
+    
+    if (!btn || !menu) return;
+    
+    // Hide if not logged in
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (!user) {
+        btn.style.display = 'none';
+        menu.style.display = 'none';
+        return;
+    }
+    
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('active');
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.remove('active');
+        }
+    });
+
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout(); // Reuse existing function
+        });
+    }
+}
+
+// ========================================
 // PROFILE FUNCTIONS
 // ========================================
 
@@ -3793,6 +3928,9 @@ document.addEventListener('DOMContentLoaded', function() {
     createThemeToggle();
     loadReviews();
     syncProductData();
+    initScrollReveal();
+    initSparkEffect();
+    initFloatingProfile();
 
     // ===== CHECKOUT PAGE =====
     if (window.location.pathname.includes('checkout.html')) {
