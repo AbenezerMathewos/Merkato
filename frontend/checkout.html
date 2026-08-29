@@ -225,24 +225,45 @@
                                     <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address">Delivery Address:</label>
-                                    <textarea id="address" name="address" rows="2" placeholder="Street name, Sub-city, City" required></textarea>
+                                    <label for="deliveryZone">Delivery Zone / Sub-City:</label>
+                                    <select id="deliveryZone" class="form-control" style="width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:14px;" onchange="setDeliveryZone(this.value)">
+                                        <option value="bole">Bole Sub-City (ቦሌ) — 150 ETB (1-2h)</option>
+                                        <option value="kirkos">Kirkos / Kazanchis (ቂርቆስ) — 150 ETB (1-2h)</option>
+                                        <option value="arada">Arada / Piassa (አራዳ) — 120 ETB (1-2h)</option>
+                                        <option value="yeka">Yeka / Megenagna (የካ) — 180 ETB (2-3h)</option>
+                                        <option value="cmc">CMC / Ayat / Summit (ሲኤምሲ) — 220 ETB (2-3h)</option>
+                                        <option value="gullele">Gullele / Shiromeda (ጉለሌ) — 180 ETB (2-3h)</option>
+                                        <option value="lideta">Lideta / Mexico (ልደታ) — 140 ETB (1-2h)</option>
+                                        <option value="nifas_silk">Nifas Silk / Lafto (ንፋስ ስልክ) — 200 ETB (2-3h)</option>
+                                        <option value="kolfe">Kolfe Keranio / Merkato (ቆልፌ) — 160 ETB (1-2h)</option>
+                                        <option value="akaki">Akaki Kality (አቃቂ ቃሊቲ) — 250 ETB (3-4h)</option>
+                                        <option value="hawassa">Hawassa (Regional Express) — 450 ETB</option>
+                                        <option value="adama">Adama / Nazret (Regional Express) — 350 ETB</option>
+                                        <option value="bahir_dar">Bahir Dar (Regional Express) — 500 ETB</option>
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="form-group" style="margin-top:10px;">
+                                <label for="address">Specific Street / House / Landmark Address:</label>
+                                <textarea id="address" name="address" rows="2" placeholder="Building name, Floor/Office, House No., specific landmark" required></textarea>
                             </div>
                     </div>
 
                     <!-- Payment Method -->
                     <div class="checkout-section">
                         <h3>2. Payment Method</h3>
-                        <div style="display:flex;gap:20px;flex-wrap:wrap;">
-                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
-                                <input type="radio" name="payment" value="telebirr" checked> Telebirr / Mobile Money
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                            <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid #008000;background:#e8f5e9;border-radius:10px;cursor:pointer;transition:0.3s;" onclick="selectPayment('telebirr');">
+                                <input type="radio" name="payment" value="telebirr" checked> 📱 Telebirr
                             </label>
-                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
-                                <input type="radio" name="payment" value="cod"> Cash on Delivery
+                            <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;transition:0.3s;" onclick="selectPayment('chapa');">
+                                <input type="radio" name="payment" value="chapa"> 💳 Chapa (Cards/Banks)
                             </label>
-                            <label style="display:flex;align-items:center;gap:8px;padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;transition:0.3s;" onclick="this.querySelector('input').checked=true;this.style.borderColor='#008000';this.style.background='#e8f5e9'">
-                                <input type="radio" name="payment" value="card"> Credit / Debit Card
+                            <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;transition:0.3s;" onclick="selectPayment('cbe');">
+                                <input type="radio" name="payment" value="cbe"> 🏛️ CBE Bank Transfer
+                            </label>
+                            <label style="display:flex;align-items:center;gap:8px;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;transition:0.3s;" onclick="selectPayment('cod');">
+                                <input type="radio" name="payment" value="cod"> 💵 Cash on Delivery
                             </label>
                         </div>
                     </div>
@@ -300,14 +321,17 @@
                 <div class="amount" id="paymentAmount">0 ETB</div>
                 
                 <div class="payment-options">
-                    <button onclick="selectPayment('telebirr')" id="pay-telebirr" class="selected">
+                    <button type="button" onclick="selectPayment('telebirr')" id="pay-telebirr" class="selected">
                         <span class="icon">📱</span> Telebirr / Mobile Money
                     </button>
-                    <button onclick="selectPayment('cod')" id="pay-cod">
-                        <span class="icon">💵</span> Cash on Delivery
+                    <button type="button" onclick="selectPayment('chapa')" id="pay-chapa">
+                        <span class="icon">💳</span> Chapa Gateway (Cards / Banks)
                     </button>
-                    <button onclick="selectPayment('card')" id="pay-card">
-                        <span class="icon">💳</span> Credit / Debit Card
+                    <button type="button" onclick="selectPayment('cbe')" id="pay-cbe">
+                        <span class="icon">🏛️</span> Commercial Bank of Ethiopia (CBE)
+                    </button>
+                    <button type="button" onclick="selectPayment('cod')" id="pay-cod">
+                        <span class="icon">💵</span> Cash on Delivery
                     </button>
                 </div>
                 
