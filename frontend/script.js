@@ -6510,6 +6510,248 @@ function initWeeklyStaples() {
 }
 
 // -------------------------------------------------------------------------
+// 12. ETHIOPIAN HOLIDAY GIFT HAMPERS & COUNTDOWN
+// -------------------------------------------------------------------------
+
+const HOLIDAY_HAMPERS = [
+    {
+        id: 'hamper_coffee_ceremony',
+        tag: 'BESTSELLER • TRADITIONAL',
+        title: '☕ Complete Buna Ceremony Gift Hamper',
+        desc: 'Includes: Traditional Clay Jebena, 6 Sini Ceramic Cups, 1kg Roasted Yirgacheffe Beans, Etan / Frankincense burner & woven Rekebot mat.',
+        price: 4500,
+        originalPrice: 5800,
+        items: [
+            { name: 'Traditional Clay Jebena (ጀበና)', price: 1200 },
+            { name: 'Sini Ceramic Cups (6 pcs)', price: 1200 },
+            { name: 'Yirgacheffe Specialty Buna (1kg)', price: 2500 }
+        ]
+    },
+    {
+        id: 'hamper_doro_wat_feast',
+        tag: 'HOLIDAY FEAST KIT',
+        title: '🥘 Meskel & Enkutatash Gourmet Cooking Hamper',
+        desc: 'Includes: 1kg Pure Sun-Dried Berbere, 500g Spiced Niter Kibbeh, 250g Mekelesha Blend, 1kg White Magna Teff & Cardamom.',
+        price: 3200,
+        originalPrice: 4100,
+        items: [
+            { name: 'Traditional Pure Berbere (1kg)', price: 850 },
+            { name: 'Spiced Niter Kibbeh (ኒጥር ቅቤ)', price: 700 },
+            { name: 'Mekelesha & Korarima Blend', price: 300 },
+            { name: 'White Magna Teff (1kg)', price: 1350 }
+        ]
+    },
+    {
+        id: 'hamper_habesha_elegance',
+        tag: 'HANDMADE ARTISANAL',
+        title: '👗 Habesha Artisanal Heritage Gift Hamper',
+        desc: 'Includes: Handwoven Dorze Netela Shawl with Gold Tilf, Pure Honeycomb from Gojjam, and Handmade Clay Incense Burner.',
+        price: 3800,
+        originalPrice: 4900,
+        items: [
+            { name: 'Dorze Handwoven Netela Shawl', price: 2600 },
+            { name: 'Pure Gojjam Wild Honey (1kg)', price: 1200 }
+        ]
+    }
+];
+
+function initHolidayHampers() {
+    const mainContainer = document.querySelector('main .container');
+    if (!mainContainer || document.getElementById('holidayHampersSection')) return;
+    if (!window.location.pathname.includes('index.html') && !window.location.pathname.includes('shop.html') && window.location.pathname !== '/') return;
+
+    const section = document.createElement('section');
+    section.id = 'holidayHampersSection';
+    section.className = 'holiday-hampers-section';
+
+    let cardsHtml = '';
+    HOLIDAY_HAMPERS.forEach(h => {
+        cardsHtml += `
+            <div class="hamper-card">
+                <div class="hamper-tag">${h.tag}</div>
+                <div class="hamper-title">${h.title}</div>
+                <div class="hamper-items">${h.desc}</div>
+                <div class="hamper-price-row">
+                    <div>
+                        <div class="hamper-price">${h.price.toLocaleString()} ETB</div>
+                        <small style="color:rgba(255,255,255,0.5);text-decoration:line-through;">${h.originalPrice.toLocaleString()} ETB</small>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addHolidayHamperToCart('${h.id}')" style="font-size:12px;padding:8px 16px;">
+                        🎁 Add Hamper
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    section.innerHTML = `
+        <div class="holiday-hampers-header">
+            <div>
+                <h2 style="margin:0;color:#ffd700;font-size:24px;">✨ Ethiopian Holiday Celebration Gift Hampers</h2>
+                <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">Curated traditional gift sets with authentic items for holidays, weddings, and family gifts.</p>
+            </div>
+            <div class="countdown-badge">
+                ⏳ ENKUTATASH 2018 ዓ.ም SPECIAL
+            </div>
+        </div>
+        <div class="hampers-grid">
+            ${cardsHtml}
+        </div>
+    `;
+
+    mainContainer.appendChild(section);
+}
+
+function addHolidayHamperToCart(hamperId) {
+    const hamper = HOLIDAY_HAMPERS.find(h => h.id === hamperId);
+    if (!hamper) return;
+
+    if (typeof addToCart === 'function') {
+        addToCart(hamper.id, hamper.title, hamper.price, 1);
+        showNotification(`🎉 Added "${hamper.title}" to cart!`);
+    }
+}
+
+// -------------------------------------------------------------------------
+// 13. SIDE-BY-SIDE PRODUCT COMPARISON TOOL
+// -------------------------------------------------------------------------
+
+let comparedProductsList = JSON.parse(localStorage.getItem('merkatoCompareList')) || [];
+
+function toggleCompareProduct(id, name, price, aisle, image) {
+    const existingIndex = comparedProductsList.findIndex(p => p.id === id);
+    if (existingIndex > -1) {
+        comparedProductsList.splice(existingIndex, 1);
+        showNotification(`Removed "${name}" from comparison`);
+    } else {
+        if (comparedProductsList.length >= 3) {
+            showNotification('⚠️ You can compare up to 3 products at a time');
+            return;
+        }
+        comparedProductsList.push({ id, name, price, aisle, image });
+        showNotification(`⚖️ Added "${name}" to comparison (${comparedProductsList.length}/3)`);
+    }
+
+    localStorage.setItem('merkatoCompareList', JSON.stringify(comparedProductsList));
+    updateCompareFloatingTrigger();
+}
+
+function updateCompareFloatingTrigger() {
+    let trigger = document.getElementById('compareFloatingTrigger');
+    if (!trigger) {
+        trigger = document.createElement('button');
+        trigger.id = 'compareFloatingTrigger';
+        trigger.className = 'compare-floating-trigger';
+        trigger.onclick = openCompareModal;
+        document.body.appendChild(trigger);
+    }
+
+    if (comparedProductsList.length > 0) {
+        trigger.innerHTML = `⚖️ Compare Items (${comparedProductsList.length})`;
+        trigger.classList.add('active');
+    } else {
+        trigger.classList.remove('active');
+    }
+}
+
+function openCompareModal() {
+    let modal = document.getElementById('compareModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'compareModal';
+        modal.className = 'compare-modal';
+        document.body.appendChild(modal);
+    }
+
+    if (comparedProductsList.length === 0) {
+        showNotification('⚠️ No products selected for comparison');
+        return;
+    }
+
+    let headersHtml = '<th>Feature</th>';
+    let imagesHtml = '<td><strong>Product</strong></td>';
+    let priceHtml = '<td><strong>Price</strong></td>';
+    let aisleHtml = '<td><strong>Supermarket Aisle</strong></td>';
+    let actionsHtml = '<td><strong>Action</strong></td>';
+
+    comparedProductsList.forEach(p => {
+        headersHtml += `<th>${escapeMarkup(p.name)}</th>`;
+        imagesHtml += `
+            <td style="text-align:center;">
+                <img src="${escapeMarkup(p.image || 'images/day-and-night.gif')}" alt="${escapeMarkup(p.name)}" style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
+                <div style="font-weight:700;margin-top:6px;font-size:13px;">${escapeMarkup(p.name)}</div>
+            </td>
+        `;
+        priceHtml += `<td style="font-size:16px;font-weight:800;color:#d9534f;">${(p.price || 0).toLocaleString()} ETB</td>`;
+        aisleHtml += `<td><span class="aisle-tag" style="background:rgba(0,128,0,0.1);color:#008000;padding:2px 6px;border-radius:4px;">${escapeMarkup(p.aisle || 'Food')}</span></td>`;
+        actionsHtml += `
+            <td>
+                <button type="button" class="btn btn-sm btn-primary" onclick="quickAddRecipeItem('${escapeMarkup(p.name).replace(/'/g, "\\'")}', ${p.price || 0})" style="width:100%;">
+                    🛒 Add to Cart
+                </button>
+            </td>
+        `;
+    });
+
+    modal.innerHTML = `
+        <div class="compare-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:12px;">
+                <h3 style="margin:0;color:#008000;">⚖️ Side-by-Side Product Comparison</h3>
+                <button type="button" onclick="document.getElementById('compareModal').classList.remove('active')" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
+            </div>
+
+            <table class="compare-table">
+                <thead><tr>${headersHtml}</tr></thead>
+                <tbody>
+                    <tr>${imagesHtml}</tr>
+                    <tr>${priceHtml}</tr>
+                    <tr>${aisleHtml}</tr>
+                    <tr>${actionsHtml}</tr>
+                </tbody>
+            </table>
+
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
+                <button type="button" class="btn btn-secondary" onclick="clearCompareList()">🗑️ Clear Comparison</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('compareModal').classList.remove('active')">Done</button>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+}
+
+function clearCompareList() {
+    comparedProductsList = [];
+    localStorage.removeItem('merkatoCompareList');
+    updateCompareFloatingTrigger();
+    document.getElementById('compareModal')?.classList.remove('active');
+    showNotification('ℹ️ Comparison list cleared');
+}
+
+// -------------------------------------------------------------------------
+// 14. MERKATO LOYALTY REWARDS POINTS SYSTEM (የመርካቶ ነጥቦች)
+// -------------------------------------------------------------------------
+
+function getCustomerPoints() {
+    return Number(localStorage.getItem('merkatoUserPoints') || 350); // Default welcome points
+}
+
+function addCustomerPoints(amount) {
+    const earned = Math.floor(amount / 10);
+    const newTotal = getCustomerPoints() + earned;
+    localStorage.setItem('merkatoUserPoints', newTotal);
+    return earned;
+}
+
+// -------------------------------------------------------------------------
+// 15. TELEGRAM BOT ORDER NOTIFICATION SIMULATOR
+// -------------------------------------------------------------------------
+
+function sendTelegramOrderAlert(orderId) {
+    showNotification(`📲 Telegram Alert sent: Order #${orderId} confirmed! Check @MerkatoBot`);
+}
+
+// -------------------------------------------------------------------------
 // INITIALIZE ALL MERKATO ADVANCED SUITE AUTOMATICALLY
 // -------------------------------------------------------------------------
 
@@ -6519,5 +6761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initLiveSearch();
     initMerkatoAIWidget();
     initNotificationCenter();
+    updateCompareFloatingTrigger();
     setTimeout(initWeeklyStaples, 250);
+    setTimeout(initHolidayHampers, 300);
 });
