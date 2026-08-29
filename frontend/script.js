@@ -5136,3 +5136,894 @@ async function submitReview(event, productId) {
         submitBtn.textContent = 'Submit Review';
     }
 }
+
+// =========================================================================
+// 🇪🇹 MERKATO ADVANCED FEATURE SUITE (Localization, Coupons, Payments, AI, Search)
+// =========================================================================
+
+// -------------------------------------------------------------------------
+// 1. BILINGUAL LOCALIZATION (English / አማርኛ)
+// -------------------------------------------------------------------------
+
+const MERKATO_I18N = {
+    en: {
+        nav_home: 'Home',
+        nav_shop: 'Shop',
+        nav_about: 'About',
+        nav_contact: 'Contact',
+        nav_faq: 'FAQ',
+        nav_returns: 'Returns',
+        nav_admin: 'Admin',
+        nav_cart: 'Cart',
+        nav_wishlist: 'Wishlist',
+        nav_orders: 'My Orders',
+        nav_signin: 'Sign In',
+        top_bar_text: '✨ FREE EXPRESS SHIPPING ON ORDERS OVER 3,000 ETB • CODE: MERKATO2026',
+        hero_tag: 'SUPERMARKET • ETHIOPIAN HERITAGE',
+        hero_title: "Ethiopia's Premier Digital Supermarket",
+        hero_sub: 'Connecting authentic local specialty coffee, traditional spices, handwoven textiles, and modern electronics.',
+        btn_explore: '🛒 Explore Supermarket Floor',
+        btn_weekly: '⭐ Weekly Habesha Specials',
+        summary_title: '📋 Order Summary',
+        summary_subtotal: 'Subtotal',
+        summary_shipping: 'Shipping',
+        summary_tax: 'Tax (VAT 15%)',
+        summary_discount: 'Promo Discount',
+        summary_total: 'Total',
+        summary_free: 'FREE',
+        checkout_btn: 'Proceed to Checkout →',
+        promo_title: '🎁 Promo Code',
+        promo_apply: 'Apply',
+        payment_heading: 'Choose Payment Method',
+        pay_telebirr: 'Telebirr / Mobile Money',
+        pay_chapa: 'Chapa Gateway (Cards & Banks)',
+        pay_cbe: 'CBE Direct Bank Transfer',
+        pay_cod: 'Cash on Delivery',
+        pay_proceed: 'Proceed to Payment',
+        search_placeholder: 'Search fresh injera, roasted buna, berbere, electronics...',
+        ai_title: 'Merkato AI Assistant',
+        ai_greeting: 'Selam! 👋 I am your Merkato assistant. How can I help you find authentic Ethiopian goods or process your order today?'
+    },
+    am: {
+        nav_home: 'ዋና ገጽ',
+        nav_shop: 'ሱቅ / ምርቶች',
+        nav_about: 'ስለ እኛ',
+        nav_contact: 'ያግኙን',
+        nav_faq: 'ተደጋጋሚ ጥያቄዎች',
+        nav_returns: 'ምርት መመለስ',
+        nav_admin: 'አስተዳዳሪ',
+        nav_cart: 'ጋሪ',
+        nav_wishlist: 'የምኞት ዝርዝር',
+        nav_orders: 'ትዕዛዞቼ',
+        nav_signin: 'ግባ / ተመዝገብ',
+        top_bar_text: '✨ ከ 3,000 ብር በላይ ለሆኑ ትዕዛዞች ነጻ የትራንስፖርት አገልግሎት • ኩፖን: MERKATO2026',
+        hero_tag: 'ሱፐርማርኬት • የኢትዮጵያ ባህላዊ ምርቶች',
+        hero_title: 'የኢትዮጵያ ቀዳሚው ዲጂታል ሱፐርማርኬት',
+        hero_sub: 'እውነተኛ የሀበሻ ቡና፣ የቅመማ ቅመም ዝግጅት፣ ባህላዊ አልባሳት እና ዘመናዊ ኤሌክትሮኒክስ በአንድ ቦታ።',
+        btn_explore: '🛒 ሱፐርማርኬቱን ይጎብኙ',
+        btn_weekly: '⭐ የሳምንቱ የሀበሻ ልዩ ቅናሾች',
+        summary_title: '📋 የትዕዛዝ ማጠቃለያ',
+        summary_subtotal: 'የዕቃዎች ድምር',
+        summary_shipping: 'የትራንስፖርት ክፍያ',
+        summary_tax: 'ተ.እ.ታ (VAT 15%)',
+        summary_discount: 'የኩፖን ቅናሽ',
+        summary_total: 'አጠቃላይ ድምር',
+        summary_free: 'ነፃ',
+        checkout_btn: 'ወደ ክፍያ ቀጥል →',
+        promo_title: '🎁 የቅናሽ ኩፖን ኮድ',
+        promo_apply: 'ተግብር',
+        payment_heading: 'የክፍያ ዘዴ ይምረጡ',
+        pay_telebirr: 'ቴሌብር (Telebirr)',
+        pay_chapa: 'ቻፓ (Chapa - በካርድና በሁሉም ባንኮች)',
+        pay_cbe: 'የኢትዮጵያ ንግድ ባንክ (CBE)',
+        pay_cod: 'ዕቃው ሲደርስ የሚከፈል (COD)',
+        pay_proceed: 'ወደ ክፍያ ቀጥል',
+        search_placeholder: 'የተፈጨ ቡና፣ በርበሬ፣ ምጣድ፣ ባህላዊ ልብስ ይፈልጉ...',
+        ai_title: 'የመርካቶ ረዳት (AI)',
+        ai_greeting: 'ሰላም! 👋 እኔ የመርካቶ ረዳት ነኝ። ዛሬ ምርጥ የሀበሻ ምርቶችን ለመምረጥ ወይም በትዕዛዝዎ ላይ ምን ልርዳዎት?'
+    }
+};
+
+let currentLanguage = localStorage.getItem('merkatoLang') || 'en';
+
+function setLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('merkatoLang', lang);
+    applyTranslations(lang);
+    updateLanguageButtons();
+}
+
+function toggleLanguage() {
+    const nextLang = currentLanguage === 'en' ? 'am' : 'en';
+    setLanguage(nextLang);
+    showNotification(nextLang === 'am' ? '🇪🇹 ቋንቋ ወደ አማርኛ ተቀይሯል' : '🇬🇧 Language switched to English');
+}
+
+function updateLanguageButtons() {
+    document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+        btn.innerHTML = currentLanguage === 'en' ? '🇪🇹 አማርኛ' : '🇬🇧 English';
+        btn.setAttribute('title', currentLanguage === 'en' ? 'ወደ አማርኛ ቀይር' : 'Switch to English');
+    });
+}
+
+function applyTranslations(lang) {
+    const dict = MERKATO_I18N[lang] || MERKATO_I18N.en;
+
+    // Top bar
+    const topBar = document.querySelector('.top-bar');
+    if (topBar) {
+        topBar.innerHTML = dict.top_bar_text;
+    }
+
+    // Nav links
+    const navLinks = document.querySelectorAll('.nav a');
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href') || '';
+        if (href.includes('index.html') || href === '/') link.textContent = dict.nav_home;
+        else if (href.includes('shop.html')) link.textContent = dict.nav_shop;
+        else if (href.includes('about.html')) link.textContent = dict.nav_about;
+        else if (href.includes('contact.html')) link.textContent = dict.nav_contact;
+        else if (href.includes('faq.html')) link.textContent = dict.nav_faq;
+        else if (href.includes('returns.html')) link.textContent = dict.nav_returns;
+        else if (href.includes('admin.html')) link.textContent = dict.nav_admin;
+        else if (href.includes('orders.html')) link.textContent = dict.nav_orders;
+        else if (href.includes('login.html')) link.textContent = dict.nav_signin;
+    });
+
+    // Search input placeholders
+    document.querySelectorAll('input[type="search"], input[placeholder*="Search"], input[placeholder*="search"]').forEach(input => {
+        input.placeholder = dict.search_placeholder;
+    });
+
+    // Hero banner if present
+    const heroTag = document.querySelector('.hero-tag');
+    if (heroTag) heroTag.textContent = dict.hero_tag;
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) heroTitle.textContent = dict.hero_title;
+    const heroSub = document.querySelector('.hero-subtitle');
+    if (heroSub) heroSub.textContent = dict.hero_sub;
+}
+
+function createLanguageToggle() {
+    // Inject language switcher into all navbars and headers if not present
+    const navbars = document.querySelectorAll('.nav, .header-actions');
+    navbars.forEach(nav => {
+        if (!nav.querySelector('.lang-toggle-btn')) {
+            const btn = document.createElement('button');
+            btn.className = 'lang-toggle-btn';
+            btn.type = 'button';
+            btn.onclick = toggleLanguage;
+            btn.innerHTML = currentLanguage === 'en' ? '🇪🇹 አማርኛ' : '🇬🇧 English';
+            
+            const themeToggleWrapper = nav.querySelector('.theme-toggle-wrapper');
+            if (themeToggleWrapper) {
+                themeToggleWrapper.parentNode.insertBefore(btn, themeToggleWrapper);
+            } else {
+                nav.appendChild(btn);
+            }
+        }
+    });
+}
+
+// -------------------------------------------------------------------------
+// 2. ADDIS ABABA SUB-CITIES & DELIVERY ZONE CALCULATOR
+// -------------------------------------------------------------------------
+
+const MERKATO_DELIVERY_ZONES = {
+    'bole': { name: 'Bole Sub-City (ቦሌ)', fee: 150, time: '1-2 Hours' },
+    'kirkos': { name: 'Kirkos / Kazanchis (ቂርቆስ)', fee: 150, time: '1-2 Hours' },
+    'arada': { name: 'Arada / Piassa (አራዳ)', fee: 120, time: '1-2 Hours' },
+    'yeka': { name: 'Yeka / Megenagna (የካ)', fee: 180, time: '2-3 Hours' },
+    'cmc': { name: 'CMC / Ayat / Summit (ሲኤምሲ)', fee: 220, time: '2-3 Hours' },
+    'gullele': { name: 'Gullele / Shiromeda (ጉለሌ)', fee: 180, time: '2-3 Hours' },
+    'lideta': { name: 'Lideta / Mexico (ልደታ)', fee: 140, time: '1-2 Hours' },
+    'nifas_silk': { name: 'Nifas Silk / Lafto (ንፋስ ስልክ)', fee: 200, time: '2-3 Hours' },
+    'kolfe': { name: 'Kolfe Keranio / Merkato (ቆልፌ)', fee: 160, time: '1-2 Hours' },
+    'akaki': { name: 'Akaki Kality (አቃቂ ቃሊቲ)', fee: 250, time: '3-4 Hours' },
+    'hawassa': { name: 'Hawassa (Regional Express)', fee: 450, time: '24-48 Hours' },
+    'adama': { name: 'Adama / Nazret (Regional Express)', fee: 350, time: '24 Hours' },
+    'bahir_dar': { name: 'Bahir Dar (Regional Express)', fee: 500, time: '48 Hours' }
+};
+
+let selectedDeliveryZone = localStorage.getItem('merkatoDeliveryZone') || 'bole';
+
+function getDeliveryZoneFee() {
+    const zone = MERKATO_DELIVERY_ZONES[selectedDeliveryZone] || MERKATO_DELIVERY_ZONES['bole'];
+    return zone.fee;
+}
+
+function setDeliveryZone(zoneKey) {
+    if (MERKATO_DELIVERY_ZONES[zoneKey]) {
+        selectedDeliveryZone = zoneKey;
+        localStorage.setItem('merkatoDeliveryZone', zoneKey);
+        if (window.location.pathname.includes('checkout.html')) {
+            loadCheckoutSummary();
+        } else if (window.location.pathname.includes('cart.html')) {
+            updateCartSummary();
+        }
+    }
+}
+
+// -------------------------------------------------------------------------
+// 3. ENHANCED COUPON & PROMO CODE ENGINE
+// -------------------------------------------------------------------------
+
+let appliedPromoData = JSON.parse(localStorage.getItem('merkatoActiveCoupon')) || null;
+
+async function applyCouponCode(codeToApply = null) {
+    const input = document.getElementById('promoInput') || document.getElementById('checkoutPromoInput');
+    const code = codeToApply || (input ? input.value.trim() : '');
+    
+    if (!code) {
+        showNotification('⚠️ Please enter a promo code');
+        return;
+    }
+
+    const subtotal = getCartTotal();
+
+    try {
+        let result;
+        if (typeof validateCouponAPI === 'function') {
+            result = await validateCouponAPI(code, subtotal);
+        } else {
+            // Local evaluation
+            const upper = code.toUpperCase();
+            if (upper === 'MERKATO2026') {
+                result = { success: true, coupon: { code: upper, discountType: 'percentage', discountValue: 10, discountAmount: Math.round(subtotal * 0.1), freeShipping: true, description: '10% OFF + Free Shipping' } };
+            } else if (upper === 'HABESHA15') {
+                result = { success: true, coupon: { code: upper, discountType: 'percentage', discountValue: 15, discountAmount: Math.round(subtotal * 0.15), freeShipping: false, description: '15% OFF Ethiopian Specialty' } };
+            } else if (upper === 'ENKUTATASH') {
+                result = { success: true, coupon: { code: upper, discountType: 'fixed', discountValue: 500, discountAmount: Math.min(500, subtotal), freeShipping: false, description: '500 ETB Flat Discount' } };
+            } else if (upper === 'FREESHIP') {
+                result = { success: true, coupon: { code: upper, discountType: 'shipping', discountValue: 100, discountAmount: 0, freeShipping: true, description: 'Free City Delivery' } };
+            } else {
+                throw new Error('Invalid or expired promo code');
+            }
+        }
+
+        if (result && result.success) {
+            appliedPromoData = result.coupon;
+            localStorage.setItem('merkatoActiveCoupon', JSON.stringify(appliedPromoData));
+            showNotification(`🎉 ${result.message || 'Promo code applied successfully!'}`);
+            
+            if (window.location.pathname.includes('cart.html')) {
+                updateCartSummary();
+            }
+            if (window.location.pathname.includes('checkout.html')) {
+                loadCheckoutSummary();
+            }
+        }
+    } catch (err) {
+        showNotification(`❌ ${err.message || 'Failed to apply promo code'}`);
+    }
+}
+
+function removeCouponCode() {
+    appliedPromoData = null;
+    localStorage.removeItem('merkatoActiveCoupon');
+    showNotification('ℹ️ Promo code removed');
+    if (window.location.pathname.includes('cart.html')) {
+        updateCartSummary();
+    }
+    if (window.location.pathname.includes('checkout.html')) {
+        loadCheckoutSummary();
+    }
+}
+
+// Override / Enhance updateCartSummary to support discounts & zones
+window.updateCartSummary = function() {
+    const summaryContainer = document.querySelector('.cart-summary');
+    if (!summaryContainer || cart.length === 0) return;
+
+    const subtotal = getCartTotal();
+    const baseShipping = getDeliveryZoneFee();
+    
+    let discountAmount = 0;
+    let isFreeShipping = subtotal > 3000;
+
+    if (appliedPromoData) {
+        if (appliedPromoData.discountType === 'percentage') {
+            discountAmount = Math.round((subtotal * appliedPromoData.discountValue) / 100);
+        } else if (appliedPromoData.discountType === 'fixed') {
+            discountAmount = Math.min(appliedPromoData.discountValue, subtotal);
+        }
+        if (appliedPromoData.freeShipping) {
+            isFreeShipping = true;
+        }
+    }
+
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+    const shipping = isFreeShipping ? 0 : baseShipping;
+    const tax = Math.round(discountedSubtotal * 0.15);
+    const grandTotal = discountedSubtotal + shipping + tax;
+    const count = getCartCount();
+
+    const dict = MERKATO_I18N[currentLanguage] || MERKATO_I18N.en;
+
+    let promoBadgeHtml = '';
+    if (appliedPromoData) {
+        promoBadgeHtml = `
+            <div class="applied-coupon-pill">
+                <span>🏷️ <strong>${escapeMarkup(appliedPromoData.code)}</strong> (-${discountAmount.toLocaleString()} ETB)</span>
+                <button type="button" class="remove-coupon-btn" onclick="removeCouponCode()" title="Remove coupon">✕</button>
+            </div>
+        `;
+    }
+
+    summaryContainer.innerHTML = `
+        <h2>${dict.summary_title}</h2>
+        
+        <div class="summary-row">
+            <span class="label">${dict.summary_subtotal} (${count} items)</span>
+            <span class="value">${subtotal.toLocaleString()} ETB</span>
+        </div>
+
+        ${discountAmount > 0 ? `
+            <div class="summary-row discount">
+                <span class="label">${dict.summary_discount}</span>
+                <span class="value">-${discountAmount.toLocaleString()} ETB</span>
+            </div>
+        ` : ''}
+
+        <div class="summary-row">
+            <span class="label">${dict.summary_shipping} (${MERKATO_DELIVERY_ZONES[selectedDeliveryZone]?.name || 'City'})</span>
+            <span class="value" style="color: ${shipping === 0 ? '#00b894' : '#d9534f'}">
+                ${shipping === 0 ? dict.summary_free : shipping.toLocaleString() + ' ETB'}
+            </span>
+        </div>
+
+        <div class="summary-row">
+            <span class="label">${dict.summary_tax}</span>
+            <span class="value">${tax.toLocaleString()} ETB</span>
+        </div>
+        
+        <div class="free-shipping">
+            ${shipping === 0 ? '🎉 <strong>FREE EXPRESS SHIPPING</strong> activated!' : '💡 Add <strong>' + Math.max(0, 3000 - subtotal).toLocaleString() + ' ETB</strong> more for free shipping!'}
+        </div>
+        
+        <div class="summary-row total">
+            <span class="label">${dict.summary_total}</span>
+            <span class="value">${grandTotal.toLocaleString()} ETB</span>
+        </div>
+
+        ${promoBadgeHtml}
+        
+        <a href="checkout.html" class="checkout-btn" style="margin-top:14px;">${dict.checkout_btn}</a>
+        
+        <div class="promo-section" style="margin-top:15px;">
+            <h3>${dict.promo_title}</h3>
+            <div class="promo-input">
+                <input type="text" placeholder="e.g. MERKATO2026, HABESHA15" id="promoInput" value="${appliedPromoData ? appliedPromoData.code : ''}">
+                <button type="button" onclick="applyCouponCode()">${dict.promo_apply}</button>
+            </div>
+            <small style="color: #888; display: block; margin-top: 8px;">
+                💡 Try: <strong style="color: #ffd700; cursor:pointer;" onclick="applyCouponCode('MERKATO2026')">MERKATO2026</strong> (10% OFF), <strong style="color: #ffd700; cursor:pointer;" onclick="applyCouponCode('HABESHA15')">HABESHA15</strong> (15% OFF), or <strong style="color: #ffd700; cursor:pointer;" onclick="applyCouponCode('ENKUTATASH')">ENKUTATASH</strong> (500 ETB)
+            </small>
+        </div>
+        
+        <a href="shop.html" class="continue-shopping">← Continue Shopping</a>
+    `;
+};
+
+// Override / Enhance loadCheckoutSummary
+window.loadCheckoutSummary = function() {
+    const summaryContainer = document.getElementById('checkoutOrderSummary');
+    const sidebarContainer = document.getElementById('checkoutSidebar');
+    
+    if (!summaryContainer) return;
+    
+    if (cart.length === 0) {
+        summaryContainer.innerHTML = `
+            <div style="text-align:center;padding:20px;color:#888;">
+                <p>Your cart is empty.</p>
+                <a href="shop.html" class="btn btn-sm btn-primary">Shop Now</a>
+            </div>
+        `;
+        if (sidebarContainer) {
+            sidebarContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#888;"><p>Cart is empty</p></div>`;
+        }
+        return;
+    }
+
+    const subtotal = getCartTotal();
+    const baseShipping = getDeliveryZoneFee();
+    
+    let discountAmount = 0;
+    let isFreeShipping = subtotal > 3000;
+
+    if (appliedPromoData) {
+        if (appliedPromoData.discountType === 'percentage') {
+            discountAmount = Math.round((subtotal * appliedPromoData.discountValue) / 100);
+        } else if (appliedPromoData.discountType === 'fixed') {
+            discountAmount = Math.min(appliedPromoData.discountValue, subtotal);
+        }
+        if (appliedPromoData.freeShipping) {
+            isFreeShipping = true;
+        }
+    }
+
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+    const shipping = isFreeShipping ? 0 : baseShipping;
+    const tax = Math.round(discountedSubtotal * 0.15);
+    const grandTotal = discountedSubtotal + shipping + tax;
+    const count = getCartCount();
+    
+    let itemsHtml = '';
+    cart.forEach(item => {
+        itemsHtml += `
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <span style="font-weight:600;">${escapeMarkup(item.name)}</span> × ${item.quantity}
+                </div>
+                <strong>${(item.price * item.quantity).toLocaleString()} ETB</strong>
+            </li>
+        `;
+    });
+
+    const dict = MERKATO_I18N[currentLanguage] || MERKATO_I18N.en;
+
+    summaryContainer.innerHTML = `
+        <ul style="list-style:none;padding:0;margin:0;">
+            ${itemsHtml}
+            ${discountAmount > 0 ? `
+                <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;color:#008000;font-weight:600;">
+                    <span>🏷️ Promo Discount (${appliedPromoData.code})</span>
+                    <span>-${discountAmount.toLocaleString()} ETB</span>
+                </li>
+            ` : ''}
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;">
+                <span>Delivery: <strong>${MERKATO_DELIVERY_ZONES[selectedDeliveryZone]?.name}</strong></span>
+                <strong style="color:${shipping === 0 ? '#008000' : '#d9534f'};">${shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB'}</strong>
+            </li>
+            <li style="padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;color:#666;">
+                <span>Tax (VAT 15%)</span>
+                <span>${tax.toLocaleString()} ETB</span>
+            </li>
+            <li style="padding:12px 0;font-size:20px;font-weight:700;color:#d9534f;display:flex;justify-content:space-between;border-top:2px solid #ddd;margin-top:5px;">
+                <span>Grand Total:</span>
+                <span style="font-size:24px;">${grandTotal.toLocaleString()} ETB</span>
+            </li>
+        </ul>
+    `;
+    
+    if (sidebarContainer) {
+        sidebarContainer.innerHTML = `
+            <div class="summary-row">
+                <span class="label">Subtotal (${count} items)</span>
+                <span class="value">${subtotal.toLocaleString()} ETB</span>
+            </div>
+            ${discountAmount > 0 ? `
+                <div class="summary-row discount">
+                    <span class="label">Discount</span>
+                    <span class="value">-${discountAmount.toLocaleString()} ETB</span>
+                </div>
+            ` : ''}
+            <div class="summary-row">
+                <span class="label">Shipping</span>
+                <span class="value" style="color:${shipping === 0 ? '#008000' : '#d9534f'}">${shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB'}</span>
+            </div>
+            <div class="summary-row">
+                <span class="label">Tax (15%)</span>
+                <span class="value">${tax.toLocaleString()} ETB</span>
+            </div>
+            <div class="summary-row total">
+                <span class="label">Total</span>
+                <span class="value">${grandTotal.toLocaleString()} ETB</span>
+            </div>
+            
+            <div class="promo-section" style="margin-top:15px;">
+                <div class="promo-input">
+                    <input type="text" placeholder="Promo code" id="checkoutPromoInput" value="${appliedPromoData ? appliedPromoData.code : ''}">
+                    <button type="button" onclick="applyCouponCode(document.getElementById('checkoutPromoInput').value)">Apply</button>
+                </div>
+                ${appliedPromoData ? `
+                    <div class="applied-coupon-pill" style="margin-top:8px;">
+                        <span>🏷️ ${escapeMarkup(appliedPromoData.code)} applied</span>
+                        <button type="button" class="remove-coupon-btn" onclick="removeCouponCode()">✕</button>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+};
+
+// -------------------------------------------------------------------------
+// 4. CHAPA GATEWAY & CBE DIRECT BANK TRANSFER MODAL LOGIC
+// -------------------------------------------------------------------------
+
+let chapaTxRef = null;
+
+window.selectPayment = function(method) {
+    selectedPayment = method;
+    document.querySelectorAll('.payment-options button').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.style.borderColor = '#e0e0e0';
+        btn.style.background = '#fff';
+    });
+    
+    const btn = document.getElementById(`pay-${method}`);
+    if (btn) {
+        btn.classList.add('selected');
+        btn.style.borderColor = '#008000';
+        btn.style.background = '#e8f5e9';
+    }
+};
+
+window.initiatePaymentFlow = function() {
+    const subtotal = getCartTotal();
+    let discountAmount = 0;
+    let isFreeShipping = subtotal > 3000;
+    if (appliedPromoData) {
+        if (appliedPromoData.discountType === 'percentage') discountAmount = Math.round((subtotal * appliedPromoData.discountValue) / 100);
+        else if (appliedPromoData.discountType === 'fixed') discountAmount = Math.min(appliedPromoData.discountValue, subtotal);
+        if (appliedPromoData.freeShipping) isFreeShipping = true;
+    }
+    const discountedSubtotal = Math.max(0, subtotal - discountAmount);
+    const shipping = isFreeShipping ? 0 : getDeliveryZoneFee();
+    const tax = Math.round(discountedSubtotal * 0.15);
+    const total = discountedSubtotal + shipping + tax;
+
+    if (selectedPayment === 'telebirr') {
+        document.getElementById('paymentInitial').style.display = 'none';
+        if (document.getElementById('cbeState')) document.getElementById('cbeState').style.display = 'none';
+        if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
+        document.getElementById('telebirrAmount').textContent = total.toLocaleString() + ' ETB';
+        document.getElementById('telebirrPhoneState').style.display = 'block';
+        const phone = document.getElementById('phone')?.value;
+        if (phone) document.getElementById('telebirrPhoneInput').value = phone;
+    } else if (selectedPayment === 'chapa') {
+        document.getElementById('paymentInitial').style.display = 'none';
+        if (document.getElementById('telebirrPhoneState')) document.getElementById('telebirrPhoneState').style.display = 'none';
+        if (document.getElementById('cbeState')) document.getElementById('cbeState').style.display = 'none';
+        
+        let chapaBox = document.getElementById('chapaState');
+        if (!chapaBox) {
+            chapaBox = document.createElement('div');
+            chapaBox.id = 'chapaState';
+            chapaBox.innerHTML = `
+                <div class="icon">💳</div>
+                <h2 style="color:#5752da;">Chapa Secure Checkout</h2>
+                <p>Pay securely with Visa, Mastercard, Telebirr, CBE Birr, or Awash.</p>
+                <div class="chapa-preview-box">
+                    <div style="font-size:26px;font-weight:800;color:#5752da;">${total.toLocaleString()} ETB</div>
+                    <div class="chapa-supported-badges">
+                        <span class="chapa-badge">📱 Telebirr</span>
+                        <span class="chapa-badge">🏦 CBE Birr</span>
+                        <span class="chapa-badge">💳 Visa / Master</span>
+                        <span class="chapa-badge">🏛️ Awash / Amole</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="processChapaPaymentFlow()" style="background:#5752da;border-color:#5752da;width:100%;padding:14px;font-size:16px;">
+                    🔒 Complete Payment with Chapa
+                </button>
+                <button class="btn btn-secondary" onclick="resetPaymentModal()" style="margin-top:10px;width:100%;">← Back</button>
+            `;
+            document.querySelector('.payment-modal .modal-content').appendChild(chapaBox);
+        }
+        chapaBox.style.display = 'block';
+    } else if (selectedPayment === 'cbe') {
+        document.getElementById('paymentInitial').style.display = 'none';
+        if (document.getElementById('telebirrPhoneState')) document.getElementById('telebirrPhoneState').style.display = 'none';
+        if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
+
+        let cbeBox = document.getElementById('cbeState');
+        if (!cbeBox) {
+            cbeBox = document.createElement('div');
+            cbeBox.id = 'cbeState';
+            cbeBox.innerHTML = `
+                <div class="icon">🏛️</div>
+                <h2 style="color:#4b145b;">CBE Direct Bank Transfer</h2>
+                <p>Transfer the exact amount to MERKATO's official CBE account.</p>
+                <div class="cbe-bank-card">
+                    <div class="bank-name">🏦 Commercial Bank of Ethiopia</div>
+                    <div class="acc-num">1000 4892 1093 8</div>
+                    <div class="acc-holder">Account Name: <strong>MERKATO DIGITAL SUPERMARKET</strong></div>
+                    <div style="margin-top:8px;font-size:13px;color:#ffd700;">Amount: <strong>${total.toLocaleString()} ETB</strong></div>
+                </div>
+                <div style="margin: 15px 0; text-align: left;">
+                    <label style="font-size:13px;font-weight:600;display:block;margin-bottom:5px;">CBE Transaction Reference / Slip ID:</label>
+                    <input type="text" id="cbeRefInput" placeholder="e.g. FT26084920X" class="form-control" style="font-size:16px;text-transform:uppercase;padding:10px;width:100%;box-sizing:border-box;">
+                </div>
+                <button class="btn btn-primary" onclick="verifyCbePaymentFlow()" style="background:#4b145b;border-color:#4b145b;width:100%;padding:14px;font-size:16px;">
+                    ✅ Verify CBE Reference & Place Order
+                </button>
+                <button class="btn btn-secondary" onclick="resetPaymentModal()" style="margin-top:10px;width:100%;">← Back</button>
+            `;
+            document.querySelector('.payment-modal .modal-content').appendChild(cbeBox);
+        }
+        cbeBox.style.display = 'block';
+    } else {
+        processPayment();
+    }
+};
+
+window.resetPaymentModal = function() {
+    if (document.getElementById('telebirrPhoneState')) document.getElementById('telebirrPhoneState').style.display = 'none';
+    if (document.getElementById('telebirrPinState')) document.getElementById('telebirrPinState').style.display = 'none';
+    if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
+    if (document.getElementById('cbeState')) document.getElementById('cbeState').style.display = 'none';
+    document.getElementById('paymentInitial').style.display = 'block';
+};
+
+window.processChapaPaymentFlow = async function() {
+    showNotification('🔄 Initializing Chapa Secure Gateway...');
+    if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
+    processPayment();
+};
+
+window.verifyCbePaymentFlow = async function() {
+    const ref = document.getElementById('cbeRefInput')?.value?.trim();
+    if (!ref || ref.length < 5) {
+        showNotification('⚠️ Please enter a valid CBE transaction reference (e.g. FT2608...)');
+        return;
+    }
+    showNotification(`🏦 Verifying CBE Reference: ${ref.toUpperCase()}...`);
+    if (document.getElementById('cbeState')) document.getElementById('cbeState').style.display = 'none';
+    processPayment();
+};
+
+// -------------------------------------------------------------------------
+// 5. LIVE SEARCH AUTOCOMPLETE
+// -------------------------------------------------------------------------
+
+let searchDebounceTimer = null;
+
+function initLiveSearch() {
+    const searchInputs = document.querySelectorAll('input[type="search"], .search-bar input, #searchInput, #headerSearch');
+
+    searchInputs.forEach(input => {
+        // Ensure wrapper exists
+        let wrapper = input.closest('.live-search-wrapper');
+        if (!wrapper) {
+            wrapper = document.createElement('div');
+            wrapper.className = 'live-search-wrapper';
+            input.parentNode.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+        }
+
+        let dropdown = wrapper.querySelector('.live-search-dropdown');
+        if (!dropdown) {
+            dropdown = document.createElement('div');
+            dropdown.className = 'live-search-dropdown';
+            wrapper.appendChild(dropdown);
+        }
+
+        input.addEventListener('input', function() {
+            clearTimeout(searchDebounceTimer);
+            const query = this.value.trim().toLowerCase();
+
+            if (query.length < 2) {
+                dropdown.classList.remove('active');
+                dropdown.innerHTML = '';
+                return;
+            }
+
+            searchDebounceTimer = setTimeout(() => {
+                renderLiveSearchResults(query, dropdown);
+            }, 250);
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+            if (!wrapper.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    });
+}
+
+function renderLiveSearchResults(query, dropdown) {
+    const allProducts = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
+    
+    // Search by name, aisle, description, or amharic keywords
+    const matches = allProducts.filter(p => {
+        const name = (p.name || '').toLowerCase();
+        const aisle = (p.aisle || '').toLowerCase();
+        const desc = (p.description || '').toLowerCase();
+        return name.includes(query) || aisle.includes(query) || desc.includes(query);
+    }).slice(0, 6);
+
+    if (matches.length === 0) {
+        dropdown.innerHTML = `
+            <div style="padding: 12px; text-align: center; color: #888; font-size: 13px;">
+                No matching products found for "<strong>${escapeMarkup(query)}</strong>"
+            </div>
+        `;
+        dropdown.classList.add('active');
+        return;
+    }
+
+    let html = '';
+    matches.forEach(product => {
+        const imgUrl = product.image || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=150&q=80';
+        html += `
+            <div class="search-item" onclick="window.location.href='product-detail.html?id=${product.id || product._id}'">
+                <img src="${escapeMarkup(imgUrl)}" alt="${escapeMarkup(product.name)}" class="search-item-img" onerror="this.src='images/day-and-night.gif'">
+                <div class="search-item-info">
+                    <div class="search-item-name">${escapeMarkup(product.name)}</div>
+                    <div class="search-item-meta">
+                        <span class="search-item-price">${(product.price || 0).toLocaleString()} ETB</span>
+                        <span class="search-item-aisle">${escapeMarkup(product.aisle || 'STORE')}</span>
+                    </div>
+                </div>
+                <button type="button" class="search-quick-add" onclick="event.stopPropagation(); quickAddFromSearch('${product.id || product._id}', '${escapeMarkup(product.name).replace(/'/g, "\\'")}', ${product.price || 0})">
+                    + Add
+                </button>
+            </div>
+        `;
+    });
+
+    dropdown.innerHTML = html;
+    dropdown.classList.add('active');
+}
+
+function quickAddFromSearch(id, name, price) {
+    if (typeof addToCart === 'function') {
+        addToCart(id, name, price, 1);
+        showNotification(`🛒 Added "${name}" to cart!`);
+    }
+}
+
+// -------------------------------------------------------------------------
+// 6. MERKATO AI HABESHA SHOPPING & RECIPE ASSISTANT WIDGET
+// -------------------------------------------------------------------------
+
+function initMerkatoAIWidget() {
+    if (document.getElementById('merkatoAiWidget')) return;
+
+    const widget = document.createElement('div');
+    widget.id = 'merkatoAiWidget';
+    widget.className = 'merkato-ai-widget';
+
+    const dict = MERKATO_I18N[currentLanguage] || MERKATO_I18N.en;
+
+    widget.innerHTML = `
+        <button type="button" class="ai-fab-btn" id="aiFabBtn" onclick="toggleMerkatoAI()" title="Ask Merkato AI" aria-label="Merkato AI Assistant">
+            🤖
+        </button>
+
+        <div class="ai-chat-card" id="aiChatCard">
+            <div class="ai-chat-header">
+                <h4>
+                    <span>☕ ${dict.ai_title}</span>
+                    <span class="badge">Habesha AI</span>
+                </h4>
+                <button type="button" class="ai-chat-close" onclick="toggleMerkatoAI()">✕</button>
+            </div>
+
+            <div class="ai-chat-body" id="aiChatBody">
+                <div class="ai-msg bot">
+                    ${dict.ai_greeting}
+                    <div class="ai-chips-wrapper">
+                        <button type="button" class="ai-chip-btn" onclick="handleAIChip('coffee')">☕ Best Coffee Roasts</button>
+                        <button type="button" class="ai-chip-btn" onclick="handleAIChip('doro_wat')">🥘 Doro Wat Recipe Kit</button>
+                        <button type="button" class="ai-chip-btn" onclick="handleAIChip('shipping')">🚚 Delivery Sub-Cities</button>
+                        <button type="button" class="ai-chip-btn" onclick="handleAIChip('payment')">💳 Telebirr & CBE Help</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-chat-footer">
+                <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="${dict.ai_placeholder}" onkeypress="if(event.key==='Enter') sendAIMessage()">
+                <button type="button" class="ai-chat-send" onclick="sendAIMessage()">➤</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(widget);
+}
+
+function toggleMerkatoAI() {
+    const card = document.getElementById('aiChatCard');
+    if (!card) return;
+    card.classList.toggle('open');
+    if (card.classList.contains('open')) {
+        document.getElementById('aiChatInput')?.focus();
+    }
+}
+
+function appendAIMessage(sender, text, htmlExtra = '') {
+    const body = document.getElementById('aiChatBody');
+    if (!body) return;
+
+    const msg = document.createElement('div');
+    msg.className = `ai-msg ${sender}`;
+    msg.innerHTML = `${escapeMarkup(text)}${htmlExtra}`;
+    body.appendChild(msg);
+    body.scrollTop = body.scrollHeight;
+}
+
+function handleAIChip(topic) {
+    if (topic === 'coffee') {
+        appendAIMessage('user', 'Recommend the best Ethiopian coffee for me.');
+        setTimeout(() => {
+            const reply = "Ethiopia has the world's most distinct single-origin coffees! 🇪🇹\n\n• **Yirgacheffe Buna**: Bright floral notes, jasmine aroma, light-medium roast.\n• **Sidama Buna**: Rich berry fruitiness, smooth chocolate body.\n• **Harar Longberry**: Bold mocha spice profile for traditional jebena boiling.";
+            const extra = `
+                <div class="ai-chips-wrapper" style="margin-top:10px;">
+                    <button type="button" class="ai-chip-btn" onclick="quickAddRecipeItem('Yirgacheffe Buna (ቡና)', 2500)">+ Add Yirgacheffe (2,500 ETB)</button>
+                    <button type="button" class="ai-chip-btn" onclick="quickAddRecipeItem('Sidama Specialty Buna', 2800)">+ Add Sidama (2,800 ETB)</button>
+                </div>
+            `;
+            appendAIMessage('bot', reply, extra);
+        }, 400);
+    } else if (topic === 'doro_wat') {
+        appendAIMessage('user', 'What do I need to prepare traditional Doro Wat?');
+        setTimeout(() => {
+            const reply = "Here is the authentic Ethiopian Doro Wat Kit! 🥘\n\n1. Fresh Pure Berbere Spice (በርበሬ)\n2. Spiced Clarified Butter (ኒጥር ቅቤ - Niter Kibbeh)\n3. Mekelesha Special Spice Blend\n4. Korarima (Cardamom)";
+            const extra = `
+                <div style="margin-top:10px;padding:10px;background:rgba(0,128,0,0.1);border-radius:10px;">
+                    <div style="font-weight:700;font-size:12px;color:#008000;margin-bottom:6px;">✨ Complete Doro Wat Spice Bundle (1,850 ETB)</div>
+                    <button type="button" class="btn btn-sm btn-primary" style="font-size:11px;padding:6px 12px;width:100%;" onclick="quickAddDoroWatBundle()">🛒 Add All Spices to Cart</button>
+                </div>
+            `;
+            appendAIMessage('bot', reply, extra);
+        }, 400);
+    } else if (topic === 'shipping') {
+        appendAIMessage('user', 'Where do you deliver in Addis Ababa and Ethiopia?');
+        setTimeout(() => {
+            appendAIMessage('bot', "We offer 1-3 hour express delivery to all Addis Ababa sub-cities (Bole, Kazanchis, Arada, Yeka, CMC, Lideta, Kolfe) and 24-48h shipping across Ethiopia (Hawassa, Bahir Dar, Adama, Dire Dawa). All orders over 3,000 ETB receive FREE EXPRESS DELIVERY! 🚚");
+        }, 400);
+    } else if (topic === 'payment') {
+        appendAIMessage('user', 'How can I pay for my order?');
+        setTimeout(() => {
+            appendAIMessage('bot', "We support 4 convenient payment methods:\n1. 📱 **Telebirr** (Instant SMS PIN verification)\n2. 💳 **Chapa Gateway** (Visa, Mastercard, CBE Birr, Awash)\n3. 🏛️ **CBE Direct Bank Transfer** (Acc: 1000489210938)\n4. 💵 **Cash on Delivery (COD)**");
+        }, 400);
+    }
+}
+
+function sendAIMessage() {
+    const input = document.getElementById('aiChatInput');
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) return;
+
+    appendAIMessage('user', text);
+    input.value = '';
+
+    const lower = text.toLowerCase();
+    setTimeout(() => {
+        if (lower.includes('buna') || lower.includes('coffee') || lower.includes('ቡና')) {
+            handleAIChip('coffee');
+        } else if (lower.includes('doro') || lower.includes('recipe') || lower.includes('shiro') || lower.includes('ቅመም') || lower.includes('spice')) {
+            handleAIChip('doro_wat');
+        } else if (lower.includes('delivery') || lower.includes('shipping') || lower.includes('አዲስ አበባ') || lower.includes('ቦሌ')) {
+            handleAIChip('shipping');
+        } else if (lower.includes('telebirr') || lower.includes('cbe') || lower.includes('chapa') || lower.includes('ክፍያ') || lower.includes('ብር')) {
+            handleAIChip('payment');
+        } else if (lower.includes('selam') || lower.includes('hello') || lower.includes('hi') || lower.includes('ሰላም')) {
+            appendAIMessage('bot', currentLanguage === 'am' ? 'ሰላም! ጤና ይስጥልኝ! በመርካቶ ምን ማዘዝ ወይም መፈለግ ይፈልጋሉ?' : 'Selam! How can I assist you with your shopping today?');
+        } else {
+            appendAIMessage('bot', currentLanguage === 'am' ? 
+                `ለጥያቄዎ "${text}" እናመሰግናለን! በሱቃችን ውስጥ ከ 50+ በላይ የሀበሻ እና ዘመናዊ ምርቶች አሉ። ከላይ ያሉትን ፈጣን ምርጫዎች ወይም የፍለጋ ሳጥኑን መጠቀም ይችላሉ።` : 
+                `Thank you for asking about "${text}". You can explore our catalog of authentic Ethiopian coffees, spices, artisanal items, and electronics. Feel free to use the search bar above or choose a quick option below!`
+            );
+        }
+    }, 450);
+}
+
+function quickAddRecipeItem(name, price) {
+    if (typeof addToCart === 'function') {
+        addToCart('item_' + Date.now(), name, price, 1);
+        showNotification(`🛒 Added "${name}" (${price.toLocaleString()} ETB) to cart!`);
+    }
+}
+
+function quickAddDoroWatBundle() {
+    if (typeof addToCart === 'function') {
+        addToCart('sp_1', 'Traditional Pure Berbere (1kg)', 850, 1);
+        addToCart('sp_2', 'Spiced Niter Kibbeh (ኒጥር ቅቤ)', 700, 1);
+        addToCart('sp_3', 'Mekelesha & Korarima Blend', 300, 1);
+        showNotification('🥘 Doro Wat Complete Spice Kit added to cart!');
+    }
+}
+
+// -------------------------------------------------------------------------
+// INITIALIZE ALL MERKATO ENHANCEMENTS AUTOMATICALLY
+// -------------------------------------------------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    createLanguageToggle();
+    applyTranslations(currentLanguage);
+    initLiveSearch();
+    initMerkatoAIWidget();
+});
