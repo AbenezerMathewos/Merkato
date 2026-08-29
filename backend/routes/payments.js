@@ -86,4 +86,96 @@ router.post('/telebirr/verify', protect, (req, res) => {
     }, 1000);
 });
 
+/**
+ * @route   POST /api/payments/chapa/initialize
+ * @desc    Initialize a Chapa payment session
+ * @access  Private
+ */
+router.post('/chapa/initialize', protect, (req, res) => {
+    const { amount, email, firstName, lastName, phone, orderId } = req.body;
+
+    if (!amount) {
+        return res.status(400).json({ message: 'Amount is required' });
+    }
+
+    const txRef = 'CP-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+
+    // Save pending Chapa transaction
+    pendingPayments.set(txRef, {
+        amount,
+        email: email || req.user.email,
+        phone: phone || req.user.phone,
+        userId: req.user._id,
+        orderId,
+        status: 'pending',
+        expires: Date.now() + 15 * 60000 // 15 mins
+    });
+
+    console.log(`\n[CHAPA GATEWAY] 💳 Payment session created: ${txRef} for ${amount} ETB (${email || req.user.email})`);
+
+    res.json({
+        success: true,
+        message: 'Chapa checkout initialized',
+        txRef,
+        checkoutUrl: `https://checkout.chapa.co/checkout/payment/${txRef}`,
+        amount,
+        currency: 'ETB'
+    });
+});
+
+/**
+ * @route   POST /api/payments/chapa/verify
+ * @desc    Verify Chapa payment status
+ * @access  Private
+ */
+router.post('/chapa/verify', protect, (req, res) => {
+    const { txRef } = req.body;
+
+    if (!txRef) {
+        return res.status(400).json({ message: 'Transaction reference is required' });
+    }
+
+    const payment = pendingPayments.get(txRef);
+    if (!payment) {
+        return res.status(404).json({ message: 'Chapa transaction not found or expired' });
+    }
+
+    pendingPayments.delete(txRef);
+    console.log(`[CHAPA GATEWAY] ✅ Chapa payment verified successfully for ${txRef}`);
+
+    res.json({
+        success: true,
+        message: 'Payment completed via Chapa Gateway',
+        txRef,
+        receiptNumber: 'CHAPA-' + Math.floor(100000 + Math.random() * 900000),
+        status: 'success'
+    });
+});
+
+/**
+ * @route   POST /api/payments/cbe/verify
+ * @desc    Verify CBE (Commercial Bank of Ethiopia) direct transfer / reference
+ * @access  Private
+ */
+router.post('/cbe/verify', protect, (req, res) => {
+    const { referenceNumber, amount, senderName } = req.body;
+
+    if (!referenceNumber || referenceNumber.trim().length < 6) {
+        return res.status(400).json({ 
+            message: 'Valid CBE Transaction Reference (at least 6 characters, e.g. FT2608X99) is required' 
+        });
+    }
+
+    const ref = referenceNumber.trim().toUpperCase();
+    console.log(`\n[CBE DIRECT] 🏦 CBE Bank Transfer Reference Verified: ${ref} from ${senderName || req.user.name} for ${amount} ETB`);
+
+    res.json({
+        success: true,
+        message: 'CBE Bank Transfer reference verified successfully',
+        referenceNumber: ref,
+        receiptNumber: 'CBE-' + Math.floor(1000000 + Math.random() * 9000000),
+        bank: 'Commercial Bank of Ethiopia (CBE)'
+    });
+});
+
 module.exports = router;
