@@ -240,3 +240,74 @@ function isAdmin() {
 function getAuthToken() {
     return localStorage.getItem('merkatoToken');
 }
+
+// ========================================
+// COUPONS & PROMOTIONS API
+// ========================================
+
+async function validateCouponAPI(code, subtotal) {
+    try {
+        return await apiCall('/coupons/validate', 'POST', { code, subtotal });
+    } catch (err) {
+        // Local fallback validation
+        const localCoupons = {
+            'MERKATO2026': { discountType: 'percentage', discountValue: 10, minOrder: 1000, freeShipping: true, description: '10% OFF + Free Shipping' },
+            'HABESHA15': { discountType: 'percentage', discountValue: 15, minOrder: 1500, freeShipping: false, description: '15% OFF Ethiopian Specialty' },
+            'ENKUTATASH': { discountType: 'fixed', discountValue: 500, minOrder: 2000, freeShipping: false, description: '500 ETB Flat Discount' },
+            'FREESHIP': { discountType: 'shipping', discountValue: 100, minOrder: 500, freeShipping: true, description: 'Free Delivery' }
+        };
+        const upper = String(code).trim().toUpperCase();
+        const found = localCoupons[upper];
+        if (found) {
+            if (subtotal < found.minOrder) {
+                throw new Error(`Minimum order of ${found.minOrder.toLocaleString()} ETB required`);
+            }
+            let discountAmount = 0;
+            if (found.discountType === 'percentage') discountAmount = Math.round((subtotal * found.discountValue) / 100);
+            else if (found.discountType === 'fixed') discountAmount = Math.min(found.discountValue, subtotal);
+            return {
+                success: true,
+                message: `🎉 Promo code "${upper}" applied!`,
+                coupon: { code: upper, ...found, discountAmount }
+            };
+        }
+        throw new Error(err.message || 'Invalid promo code');
+    }
+}
+
+async function getCouponsAPI() {
+    try {
+        return await apiCall('/coupons', 'GET');
+    } catch (err) {
+        return [
+            { code: 'MERKATO2026', discountType: 'percentage', discountValue: 10, minOrder: 1000, freeShipping: true, description: '10% OFF + Free Express Shipping' },
+            { code: 'HABESHA15', discountType: 'percentage', discountValue: 15, minOrder: 1500, freeShipping: false, description: '15% OFF Ethiopian Items' },
+            { code: 'ENKUTATASH', discountType: 'fixed', discountValue: 500, minOrder: 2000, freeShipping: false, description: '500 ETB flat discount' },
+            { code: 'FREESHIP', discountType: 'shipping', discountValue: 100, minOrder: 500, freeShipping: true, description: 'Free City Delivery' }
+        ];
+    }
+}
+
+// ========================================
+// PAYMENTS API (Telebirr, Chapa, CBE)
+// ========================================
+
+async function requestTelebirrPinAPI(phone, amount) {
+    return apiCall('/payments/telebirr/request', 'POST', { phone, amount });
+}
+
+async function verifyTelebirrPinAPI(transactionId, pin) {
+    return apiCall('/payments/telebirr/verify', 'POST', { transactionId, pin });
+}
+
+async function initiateChapaPaymentAPI(paymentData) {
+    return apiCall('/payments/chapa/initialize', 'POST', paymentData);
+}
+
+async function verifyChapaPaymentAPI(txRef) {
+    return apiCall('/payments/chapa/verify', 'POST', { txRef });
+}
+
+async function verifyCbePaymentAPI(paymentData) {
+    return apiCall('/payments/cbe/verify', 'POST', paymentData);
+}
