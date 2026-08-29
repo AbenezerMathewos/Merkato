@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Verified Ethiopian Artisans, Farmers & Craft Cooperatives">
+    <meta name="keywords" content="Ethiopian artisans, coffee farmers, Yirgacheffe, Dorze weaving, Gondar spices, MERKATO">
+    <meta name="author" content="MERKATO INC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#008000">
+    <title>Verified Habesha Artisans & Farmers — MERKATO</title>
+    <style>
+        .artisan-hero {
+            background: linear-gradient(135deg, #004d00 0%, #1a1a2e 100%);
+            color: #fff;
+            padding: 50px 30px;
+            border-radius: 20px;
+            margin: 25px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .artisan-hero h1 {
+            font-size: 38px;
+            font-weight: 900;
+            color: #ffd700;
+            margin-bottom: 12px;
+        }
+        .artisan-hero p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .artisan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .artisan-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .artisan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 128, 0, 0.15);
+            border-color: #008000;
+        }
+        .dark-mode .artisan-card {
+            background: #1e1e28;
+            border-color: #333344;
+        }
+        .artisan-cover {
+            height: 150px;
+            object-fit: cover;
+            width: 100%;
+            background: #eee;
+        }
+        .artisan-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .artisan-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: -45px;
+            margin-bottom: 12px;
+        }
+        .artisan-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: #ffd700;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .artisan-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dark-mode .artisan-name {
+            color: #f5f5f5;
+        }
+        .verified-badge {
+            color: #008000;
+            font-size: 16px;
+        }
+        .artisan-region {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+        .artisan-bio {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+            margin: 10px 0;
+            flex: 1;
+        }
+        .dark-mode .artisan-bio {
+            color: #aaa;
+        }
+        .artisan-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin: 12px 0;
+            font-size: 12px;
+        }
+        .dark-mode .artisan-stats {
+            background: #282836;
+        }
+        .artisan-featured-items {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
+        }
+        .artisan-item-chip {
+            padding: 4px 10px;
+            background: rgba(0, 128, 0, 0.08);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #008000;
+            white-space: nowrap;
+        }
+        .dark-mode .artisan-item-chip {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        ✨ <strong>DIRECT FROM ETHIOPIAN ARTISANS & FARMERS</strong> &nbsp;•&nbsp; 100% Fair Trade & Authentic &nbsp;•&nbsp; <code>HABESHA15</code>
+    </div>
+
+    <!-- HEADER -->
+    <div class="container">
+        <header class="header" id="mainHeader">
+            <div class="header-inner">
+                <a href="index.html" class="logo-wrapper">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
+                    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
+                </a>
+
+                <form class="search-form" action="shop.html" id="searchForm" role="search">
+                    <input type="search" placeholder="Search coffee, electronics, teff..." aria-label="Search products" required>
+                    <button type="submit">Search</button>
+                </form>
+
+                <button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="artisans.html" style="color:#008000;font-weight:700;">Artisans</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
+            </div>
+            <div id="profileContainer"></div>
+        </header>
+    </div>
+
+    <hr class="divider">
+
+    <main class="container">
+        <!-- HERO BANNER -->
+        <div class="artisan-hero">
+            <h1>🤝 Verified Habesha Artisans & Farmers</h1>
+            <p>Empowering local Ethiopian producers. Every purchase on MERKATO supports family farmers, master handloom weavers, spice blenders, and traditional craftspeople directly.</p>
+        </div>
+
+        <!-- ARTISANS DIRECTORY -->
+        <div class="artisan-grid">
+            <!-- Artisan 1: Yirgacheffe Coffee Union -->
+            <div class="artisan-card">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Yirgacheffe Coffee" class="artisan-cover">
+                <div class="artisan-body">
+                    <div class="artisan-avatar-row">
+                        <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">☕</div>
+                        <div>
+                            <div class="artisan-name">Yirgacheffe Coffee Union <span class="verified-badge" title="Verified Producer">✓</span></div>
+                            <div class="artisan-region">📍 Gedeo Zone, SNNPR • Altitude 2,200m</div>
+                        </div>
+                    </div>
+                    <p class="artisan-bio">Over 45,000 smallholder coffee farmers harvesting organic, shade-grown heirloom Arabica with natural washed processing.</p>
+                    <div class="artisan-stats">
+                        <div><strong>⭐ 4.9</strong> (1,850 Reviews)</div>
+                        <div><strong>📦 8</strong> Products</div>
+                        <div><strong>🇪🇹 Fair-Trade</strong> Certified</div>
+                    </div>
+                    <div class="artisan-featured-items">
+                        <span class="artisan-item-chip">Buna Beans</span>
+                        <span class="artisan-item-chip">Jebena Roast</span>
+                        <span class="artisan-item-chip">Raw Green Beans</span>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='shop.html?search=buna'" style="width:100%;">Explore Coffee Collection →</button>
+                </div>
+            </div>
+
+            <!-- Artisan 2: Dorze Master Weavers -->
+            <div class="artisan-card">
+                <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80" alt="Dorze Weaving" class="artisan-cover">
+                <div class="artisan-body">
+                    <div class="artisan-avatar-row">
+                        <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">🧵</div>
+                        <div>
+                            <div class="artisan-name">Dorze Handloom Guild <span class="verified-badge" title="Verified Producer">✓</span></div>
+                            <div class="artisan-region">📍 Chencha, Gamo Highlands</div>
+                        </div>
+                    </div>
+                    <p class="artisan-bio">Master weavers preserving centuries of traditional Ethiopian cotton spinning, intricate Tilf embroidery, and handwoven Netela shawls.</p>
+                    <div class="artisan-stats">
+                        <div><strong>⭐ 4.8</strong> (620 Reviews)</div>
+                        <div><strong>📦 6</strong> Styles</div>
+                        <div><strong>🌿 100% Cotton</strong> Handspun</div>
+                    </div>
+                    <div class="artisan-featured-items">
+                        <span class="artisan-item-chip">Habesha Kemis</span>
+                        <span class="artisan-item-chip">Netela Shawl</span>
+                        <span class="artisan-item-chip">Gabi Blanket</span>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='shop.html?search=kemis'" style="width:100%;">Explore Traditional Apparel →</button>
+                </div>
+            </div>
+
+            <!-- Artisan 3: Gondar Spice Masters -->
+            <div class="artisan-card">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80" alt="Spices" class="artisan-cover">
+                <div class="artisan-body">
+                    <div class="artisan-avatar-row">
+                        <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">🌶️</div>
+                        <div>
+                            <div class="artisan-name">Gondar Royal Spice Blends <span class="verified-badge" title="Verified Producer">✓</span></div>
+                            <div class="artisan-region">📍 Gondar, Amhara Region</div>
+                        </div>
+                    </div>
+                    <p class="artisan-bio">Authentic sun-dried Mareko red peppers, stone-ground ginger, sacred Korarima, and secret 14-spice Mekelesha blends.</p>
+                    <div class="artisan-stats">
+                        <div><strong>⭐ 5.0</strong> (2,100 Reviews)</div>
+                        <div><strong>📦 12</strong> Spices</div>
+                        <div><strong>☀️ Sun-Dried</strong> Organic</div>
+                    </div>
+                    <div class="artisan-featured-items">
+                        <span class="artisan-item-chip">Pure Berbere</span>
+                        <span class="artisan-item-chip">Shiro Powder</span>
+                        <span class="artisan-item-chip">Niter Kibbeh Spice</span>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='shop.html?search=spice'" style="width:100%;">Explore Spice Market →</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 MERKATO INC. Empowering Ethiopian Producers.</p>
+            <p><small>Made with ❤️ in Ethiopia</small></p>
+        </div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
