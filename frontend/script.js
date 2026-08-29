@@ -3429,16 +3429,66 @@ function renderProductDetail(product) {
                 <div style="flex:1;min-width:200px;">
                     <span class="aisle-badge ${aisleClass[product.aisle] || ''}">${aisleLabels[product.aisle] || product.aisle}</span>
                     <h2 style="margin:10px 0 5px;">${product.name}</h2>
-                    <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
+                    <div id="variantProductPrice" data-base-price="${product.price}" style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
                     <div style="font-size:14px;font-weight:600;color:${stockInfo.color};margin:6px 0;padding:4px 12px;background:${stockInfo.color}15;border-radius:20px;display:inline-block;">
                         ${stockInfo.icon} ${stockInfo.label}
                     </div>
                     ${product.description ? `<p style="color:#555;margin-top:10px;">${product.description}</p>` : ''}
+
+                    <!-- PRODUCT VARIANTS CUSTOMIZER -->
+                    <div class="variant-section">
+                        ${(product.name.toLowerCase().includes('buna') || product.name.toLowerCase().includes('coffee') || product.aisle === 'food') ? `
+                            <div style="margin-bottom:10px;">
+                                <label class="variant-label">📦 Select Package / Weight:</label>
+                                <div class="variant-pills-row">
+                                    <button type="button" class="variant-pill active" onclick="selectProductVariant('size', '250g', 1, 0, this)">250g (Standard)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', '500g', 1.75, 0, this)">500g (+75%)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', '1kg Bulk', 2.5, 0, this)">1kg Value Pack</button>
+                                </div>
+                            </div>
+                            <div style="margin-bottom:10px;">
+                                <label class="variant-label">☕ Roast Level:</label>
+                                <div class="variant-pills-row">
+                                    <button type="button" class="variant-pill active" onclick="selectProductVariant('roast', 'Medium City Roast', 1, 0, this)">Medium Roast (City)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('roast', 'Dark Italian Roast', 1, 0, this)">Dark Roast (Italian)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('roast', 'Light Cinnamon Roast', 1, 0, this)">Light Roast</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="variant-label">⚙️ Grind Type:</label>
+                                <div class="variant-pills-row">
+                                    <button type="button" class="variant-pill active" onclick="selectProductVariant('grind', 'Whole Roasted Beans', 1, 0, this)">Whole Beans</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('grind', 'Jebena Fine Grind', 1, 0, this)">Traditional Jebena (Fine)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('grind', 'Filter / Coarse', 1, 0, this)">Filter / Pour-Over</button>
+                                </div>
+                            </div>
+                        ` : product.aisle === 'apparel' ? `
+                            <div>
+                                <label class="variant-label">👗 Select Size:</label>
+                                <div class="variant-pills-row">
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', 'Small (S)', 1, 0, this)">Small (S)</button>
+                                    <button type="button" class="variant-pill active" onclick="selectProductVariant('size', 'Medium (M)', 1, 0, this)">Medium (M)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', 'Large (L)', 1, 0, this)">Large (L)</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', 'Extra Large (XL)', 1, 0, this)">Extra Large (XL)</button>
+                                </div>
+                            </div>
+                        ` : `
+                            <div>
+                                <label class="variant-label">📦 Packaging:</label>
+                                <div class="variant-pills-row">
+                                    <button type="button" class="variant-pill active" onclick="selectProductVariant('size', 'Standard Pack', 1, 0, this)">Standard Pack</button>
+                                    <button type="button" class="variant-pill" onclick="selectProductVariant('size', 'Twin Bundle (2x)', 1.9, 0, this)">Twin Bundle (Save 10%)</button>
+                                </div>
+                            </div>
+                        `}
+                    </div>
                     
                     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;">
                         <button type="button" 
+                                id="variantAddToCartBtn"
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="${product.id}"
+                                data-base-name="${product.name}"
                                 data-product-name="${product.name}"
                                 data-product-price="${product.price}"
                                 data-product-image="${product.image || ''}"
@@ -6018,7 +6068,449 @@ function quickAddDoroWatBundle() {
 }
 
 // -------------------------------------------------------------------------
-// INITIALIZE ALL MERKATO ENHANCEMENTS AUTOMATICALLY
+// 7. PRODUCT VARIANTS & CUSTOMIZER ENGINE (Roast, Grind, Pack Size, Weight)
+// -------------------------------------------------------------------------
+
+let currentProductVariantConfig = {
+    sizeMultiplier: 1,
+    sizeLabel: '',
+    roastLabel: '',
+    grindLabel: '',
+    extraPrice: 0
+};
+
+function selectProductVariant(type, value, multiplier, extra, btn) {
+    if (btn) {
+        const parent = btn.parentElement;
+        parent.querySelectorAll('.variant-pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    if (type === 'size') {
+        currentProductVariantConfig.sizeMultiplier = multiplier || 1;
+        currentProductVariantConfig.sizeLabel = value;
+    } else if (type === 'roast') {
+        currentProductVariantConfig.roastLabel = value;
+    } else if (type === 'grind') {
+        currentProductVariantConfig.grindLabel = value;
+    }
+
+    const priceContainer = document.getElementById('variantProductPrice');
+    const basePrice = Number(priceContainer?.getAttribute('data-base-price') || 0);
+
+    const calculatedPrice = Math.round((basePrice * currentProductVariantConfig.sizeMultiplier) + (currentProductVariantConfig.extraPrice || 0));
+
+    if (priceContainer) {
+        priceContainer.textContent = calculatedPrice.toLocaleString() + ' ETB';
+    }
+
+    const addBtn = document.getElementById('variantAddToCartBtn');
+    if (addBtn) {
+        addBtn.setAttribute('data-product-price', calculatedPrice);
+        const originalName = addBtn.getAttribute('data-base-name') || '';
+        const specs = [currentProductVariantConfig.sizeLabel, currentProductVariantConfig.roastLabel, currentProductVariantConfig.grindLabel].filter(Boolean).join(' • ');
+        addBtn.setAttribute('data-product-name', specs ? `${originalName} (${specs})` : originalName);
+    }
+}
+
+// -------------------------------------------------------------------------
+// 8. OFFICIAL ETHIOPIAN TAX & TIN INVOICE GENERATOR (Print & PDF)
+// -------------------------------------------------------------------------
+
+function openTaxInvoice(orderId) {
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId || o._id === orderId) || (orders.length > 0 ? orders[0] : null);
+
+    if (!order) {
+        showNotification('⚠️ Order not found for tax invoice generation');
+        return;
+    }
+
+    let invoiceModal = document.getElementById('taxInvoiceModal');
+    if (!invoiceModal) {
+        invoiceModal = document.createElement('div');
+        invoiceModal.id = 'taxInvoiceModal';
+        invoiceModal.className = 'invoice-modal';
+        document.body.appendChild(invoiceModal);
+    }
+
+    const subtotal = order.subtotal || (order.total ? Math.round(order.total / 1.15) : 0);
+    const tax = order.tax || Math.round(subtotal * 0.15);
+    const shipping = order.shipping || 0;
+    const total = order.total || (subtotal + tax + shipping);
+    const ethDate = "19/12/2018 ዓ.ም"; // Ethiopian Calendar representation
+
+    let itemsRows = '';
+    (order.items || []).forEach((item, idx) => {
+        itemsRows += `
+            <tr>
+                <td>${idx + 1}</td>
+                <td><strong>${escapeMarkup(item.name)}</strong></td>
+                <td style="text-align:center;">${item.quantity || 1}</td>
+                <td style="text-align:right;">${(item.price || 0).toLocaleString()} ETB</td>
+                <td style="text-align:right;">${((item.price || 0) * (item.quantity || 1)).toLocaleString()} ETB</td>
+            </tr>
+        `;
+    });
+
+    invoiceModal.innerHTML = `
+        <div class="tax-invoice-sheet" id="taxInvoicePrintArea">
+            <div class="invoice-header-strip">
+                <div style="font-size:24px;font-weight:900;color:#008000;">🛒 MERKATO PLC</div>
+                <div style="font-size:12px;color:#555;font-weight:600;">ETHIOPIAN DIGITAL SUPERMARKET & LOGISTICS</div>
+                <div class="invoice-title">OFFICIAL TAX & VAT CASH RECEIPT (የሽያጭ ደረሰኝ)</div>
+                <div style="font-size:11px;color:#777;">Bole Medhanialem, Commercial Center 4th Floor, Addis Ababa, Ethiopia</div>
+            </div>
+
+            <div class="invoice-meta-grid">
+                <div>
+                    <div><strong>TIN No (የግብር ከፋይ መለያ):</strong> 0098472891</div>
+                    <div><strong>VAT Reg No:</strong> 9812739102/2018</div>
+                    <div><strong>Fiscal Receipt No:</strong> FRC-${order.id || order._id || '260849'}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div><strong>Date (G.C):</strong> ${order.date || new Date().toLocaleDateString()}</div>
+                    <div><strong>Date (ዓ.ም):</strong> ${ethDate}</div>
+                    <div><strong>Payment Method:</strong> ${escapeMarkup((order.payment || 'Telebirr').toUpperCase())}</div>
+                </div>
+            </div>
+
+            <div style="margin: 10px 0; font-size: 12px;">
+                <strong>Customer:</strong> ${escapeMarkup(order.customer?.name || 'Abebe Bikila')} &nbsp;•&nbsp; 
+                <strong>Phone:</strong> ${escapeMarkup(order.customer?.phone || '+251 91 123 4567')} &nbsp;•&nbsp; 
+                <strong>Destination:</strong> ${escapeMarkup(order.customer?.address || 'Addis Ababa')}
+            </div>
+
+            <table class="tax-table">
+                <thead>
+                    <tr>
+                        <th style="width:30px;">#</th>
+                        <th>Item Description (የዕቃው ዝርዝር)</th>
+                        <th style="text-align:center;width:40px;">Qty</th>
+                        <th style="text-align:right;width:90px;">Unit Price</th>
+                        <th style="text-align:right;width:100px;">Total (ETB)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsRows || `
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Specialty Habesha Buna (1kg)</strong></td>
+                            <td style="text-align:center;">1</td>
+                            <td style="text-align:right;">2,500 ETB</td>
+                            <td style="text-align:right;">2,500 ETB</td>
+                        </tr>
+                    `}
+                </tbody>
+            </table>
+
+            <div style="border-top:2px solid #222;padding-top:10px;display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                    <div class="invoice-stamp">✅ MERKATO • PAID / ተከፍሏል</div>
+                    <div style="font-size:10px;color:#888;">QR Code Verified • Powered by INSA / MOR E-Tax System</div>
+                </div>
+                <div style="min-width:200px;font-size:13px;line-height:1.8;">
+                    <div style="display:flex;justify-content:space-between;">
+                        <span>Subtotal (ያለ ታክስ):</span>
+                        <span>${subtotal.toLocaleString()} ETB</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>VAT (ተ.እ.ታ 15%):</span>
+                        <span>${tax.toLocaleString()} ETB</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;color:#666;">
+                        <span>Delivery Fee (ማድረሻ):</span>
+                        <span>${shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB'}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;font-size:17px;font-weight:800;border-top:1.5px solid #222;margin-top:5px;padding-top:4px;color:#d9534f;">
+                        <span>Grand Total (ድምር):</span>
+                        <span>${total.toLocaleString()} ETB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px;justify-content:center;">
+                <button type="button" class="btn btn-primary" onclick="printTaxInvoice()" style="padding:10px 24px;font-size:14px;">🖨️ Print Official Receipt</button>
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('taxInvoiceModal').classList.remove('active')" style="padding:10px 20px;">✕ Close</button>
+            </div>
+        </div>
+    `;
+
+    invoiceModal.classList.add('active');
+}
+
+function printTaxInvoice() {
+    window.print();
+}
+
+// -------------------------------------------------------------------------
+// 9. ENHANCED COURIER TRACKING WITH ADDIS ABABA MAP SIMULATOR
+// -------------------------------------------------------------------------
+
+window.trackOrder = function(orderId) {
+    const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
+    const order = orders.find(o => o.id === orderId || o._id === orderId) || {
+        id: orderId || 'ET-2026-4891',
+        status: 'Processing',
+        date: new Date().toLocaleDateString(),
+        customer: { address: 'Bole Sub-City, Addis Ababa' },
+        total: 3200
+    };
+
+    let modal = document.getElementById('trackingModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'trackingModal';
+        modal.className = 'invoice-modal';
+        document.body.appendChild(modal);
+    }
+
+    const subCity = MERKATO_DELIVERY_ZONES[selectedDeliveryZone]?.name || 'Bole, Addis Ababa';
+
+    modal.innerHTML = `
+        <div class="tax-invoice-sheet" style="max-width:550px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:15px;">
+                <div>
+                    <h3 style="margin:0;color:#008000;">📦 Live Order Tracking</h3>
+                    <div style="font-size:12px;color:#888;">Order ID: <strong>${escapeMarkup(order.id || order._id)}</strong></div>
+                </div>
+                <button type="button" onclick="document.getElementById('trackingModal').classList.remove('active')" style="background:none;border:none;font-size:20px;cursor:pointer;">✕</button>
+            </div>
+
+            <!-- Courier Dispatch Card -->
+            <div class="tracking-map-box">
+                <div class="tracking-map-header">
+                    <span style="font-size:13px;font-weight:700;letter-spacing:1px;color:#ffd700;">🚚 EXPRESS DISPATCH IN PROGRESS</span>
+                    <span style="font-size:12px;background:rgba(0,230,118,0.2);color:#00e676;padding:2px 8px;border-radius:10px;font-weight:700;">LIVE GPS</span>
+                </div>
+
+                <div class="courier-card">
+                    <div class="courier-avatar">🛵</div>
+                    <div class="courier-info">
+                        <h4>Abebe Tadesse (አበበ ታደሰ)</h4>
+                        <p>Motorbike: <strong>Bajaj Boxer 150 (AA-2-A4920)</strong></p>
+                        <p>Hotline: <strong>+251 91 199 8877</strong> &nbsp;•&nbsp; ⭐ 4.9 (1,240 Deliveries)</p>
+                    </div>
+                </div>
+
+                <div class="route-progress-bar">
+                    <div class="route-progress-fill">
+                        <div class="route-courier-pin">🛵</div>
+                    </div>
+                </div>
+
+                <div class="route-labels">
+                    <span>📍 Merkato Central Depot</span>
+                    <span style="color:#ffd700;font-weight:700;">⏱️ ETA: ~20 Mins</span>
+                    <span>🏠 ${escapeMarkup(subCity)}</span>
+                </div>
+            </div>
+
+            <!-- Milestones List -->
+            <div style="display:flex;flex-direction:column;gap:12px;margin:20px 0;">
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#008000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;">Order Placed & Payment Confirmed</div>
+                        <div style="font-size:11px;color:#888;">Telebirr / Chapa transaction authorized</div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#008000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;">Packed with Freshness Guarantee</div>
+                        <div style="font-size:11px;color:#888;">Packaged at Addis Ketema Distribution Hub</div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#ffd700;color:#000;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;">⚡</div>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;color:#008000;">Courier On the Way to ${escapeMarkup(subCity)}</div>
+                        <div style="font-size:11px;color:#666;">Driver is navigating through ring road</div>
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;opacity:0.5;">
+                    <div style="width:28px;height:28px;border-radius:50%;background:#e0e0e0;color:#888;display:flex;align-items:center;justify-content:center;font-size:12px;">4</div>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:700;">Delivered & Signed</div>
+                        <div style="font-size:11px;color:#888;">Doorstep delivery handover</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;justify-content:space-between;margin-top:15px;border-top:1px solid #eee;padding-top:15px;">
+                <button type="button" class="btn btn-outline" onclick="openTaxInvoice('${order.id || order._id}')" style="font-size:13px;padding:8px 16px;">
+                    🧾 View Tax Invoice
+                </button>
+                <button type="button" class="btn btn-primary" onclick="showNotification('📞 Calling courier Abebe (+251911998877)...')" style="font-size:13px;padding:8px 18px;">
+                    📞 Contact Courier
+                </button>
+            </div>
+        </div>
+    `;
+
+    modal.classList.add('active');
+};
+
+// -------------------------------------------------------------------------
+// 10. IN-APP HEADER NOTIFICATION CENTER
+// -------------------------------------------------------------------------
+
+const MERKATO_NOTIFICATIONS = [
+    {
+        icon: '🚚',
+        title: 'Order Out for Delivery',
+        desc: 'Your recent order #ET-2026-4891 has been dispatched with courier Abebe.',
+        time: '10m ago'
+    },
+    {
+        icon: '🎁',
+        title: 'Special Habesha Discount Active',
+        desc: 'Use promo code HABESHA15 for 15% off all Ethiopian coffees and traditional items.',
+        time: '1h ago'
+    },
+    {
+        icon: '☕',
+        title: 'Fresh Yirgacheffe Roast In Stock',
+        desc: 'Grade 1 single-origin Yirgacheffe beans have just arrived from Sidama union.',
+        time: '3h ago'
+    }
+];
+
+function initNotificationCenter() {
+    const navbars = document.querySelectorAll('.nav, .header-actions');
+    navbars.forEach(nav => {
+        if (!nav.querySelector('.notif-bell-wrapper')) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'notif-bell-wrapper';
+            
+            let listHtml = '';
+            MERKATO_NOTIFICATIONS.forEach(n => {
+                listHtml += `
+                    <div class="notif-item" onclick="showNotification('${escapeMarkup(n.title)}')">
+                        <div class="notif-icon">${n.icon}</div>
+                        <div>
+                            <div class="notif-title">${escapeMarkup(n.title)}</div>
+                            <div class="notif-desc">${escapeMarkup(n.desc)}</div>
+                            <div class="notif-time">${escapeMarkup(n.time)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            wrapper.innerHTML = `
+                <button type="button" class="notif-bell-btn" onclick="toggleNotifDropdown(this)" title="Notifications" aria-label="Notifications">
+                    🔔
+                    <span class="notif-badge" id="notifBadge">3</span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown">
+                    <div class="notif-header">
+                        <span>🔔 Notifications</span>
+                        <button type="button" class="notif-clear-btn" onclick="clearNotifications()">Mark read</button>
+                    </div>
+                    <div class="notif-list">
+                        ${listHtml}
+                    </div>
+                </div>
+            `;
+
+            const themeWrapper = nav.querySelector('.theme-toggle-wrapper');
+            if (themeWrapper) {
+                themeWrapper.parentNode.insertBefore(wrapper, themeWrapper);
+            } else {
+                nav.appendChild(wrapper);
+            }
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.notif-bell-wrapper')) {
+            document.querySelectorAll('.notif-dropdown').forEach(d => d.classList.remove('active'));
+        }
+    });
+}
+
+function toggleNotifDropdown(btn) {
+    const wrapper = btn.closest('.notif-bell-wrapper');
+    const dropdown = wrapper.querySelector('.notif-dropdown');
+    dropdown?.classList.toggle('active');
+}
+
+function clearNotifications() {
+    document.querySelectorAll('.notif-badge').forEach(b => b.style.display = 'none');
+    showNotification('✅ Notifications marked as read');
+    document.querySelectorAll('.notif-dropdown').forEach(d => d.classList.remove('active'));
+}
+
+// -------------------------------------------------------------------------
+// 11. 1-CLICK WEEKLY STAPLES RE-ORDER CAROUSEL
+// -------------------------------------------------------------------------
+
+function initWeeklyStaples() {
+    const mainContainer = document.querySelector('main .container');
+    if (!mainContainer || document.getElementById('weeklyStaplesBanner')) return;
+
+    if (!window.location.pathname.includes('shop.html') && !window.location.pathname.includes('index.html') && window.location.pathname !== '/') return;
+
+    const banner = document.createElement('div');
+    banner.id = 'weeklyStaplesBanner';
+    banner.className = 'staples-banner';
+
+    banner.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+            <div>
+                <h3 style="margin:0;color:#008000;display:flex;align-items:center;gap:8px;">
+                    <span>⚡ 1-Click Weekly Habesha Staples Re-order</span>
+                </h3>
+                <p style="margin:4px 0 0;font-size:13px;color:#666;">Quickly restock your daily essentials with same-day express delivery.</p>
+            </div>
+            <span style="font-size:12px;background:#008000;color:#fff;padding:4px 10px;border-radius:12px;font-weight:700;">FRESH INVENTORY</span>
+        </div>
+
+        <div class="staples-grid">
+            <div class="staple-card">
+                <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcSIPbXV5JPWRjWxuMYmcLwLBV-CGnK49jwZQKjSpJcmp1K8BuzJ0Krlasb-g4QX-tds8dIe5QMDYQaO4No" alt="Buna">
+                <div class="staple-info">
+                    <div class="staple-name">Yirgacheffe Buna (500g)</div>
+                    <div class="staple-price">1,400 ETB</div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="quickAddRecipeItem('Yirgacheffe Buna (500g)', 1400)">+ Add</button>
+            </div>
+
+            <div class="staple-card">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=150&q=80" alt="Berbere">
+                <div class="staple-info">
+                    <div class="staple-name">Pure Sun-Dried Berbere (1kg)</div>
+                    <div class="staple-price">850 ETB</div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="quickAddRecipeItem('Pure Sun-Dried Berbere (1kg)', 850)">+ Add</button>
+            </div>
+
+            <div class="staple-card">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=150&q=80" alt="Shiro">
+                <div class="staple-info">
+                    <div class="staple-name">Gondar Shiro Powder (1kg)</div>
+                    <div class="staple-price">650 ETB</div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="quickAddRecipeItem('Gondar Shiro Powder (1kg)', 650)">+ Add</button>
+            </div>
+
+            <div class="staple-card">
+                <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRucOEkDP9JKh1WJNjrSBwmELxwAJFAyGxA_rOC6b1d-KuJXRmpRhFYMFQgzpiUrpnLInn2crhDdZEsflE" alt="Mitad">
+                <div class="staple-info">
+                    <div class="staple-name">Mitad Clay Cleaner & Stand</div>
+                    <div class="staple-price">450 ETB</div>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="quickAddRecipeItem('Mitad Clay Cleaner & Stand', 450)">+ Add</button>
+            </div>
+        </div>
+    `;
+
+    mainContainer.insertBefore(banner, mainContainer.firstChild);
+}
+
+// -------------------------------------------------------------------------
+// INITIALIZE ALL MERKATO ADVANCED SUITE AUTOMATICALLY
 // -------------------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -6026,4 +6518,6 @@ document.addEventListener('DOMContentLoaded', function() {
     applyTranslations(currentLanguage);
     initLiveSearch();
     initMerkatoAIWidget();
+    initNotificationCenter();
+    setTimeout(initWeeklyStaples, 250);
 });
