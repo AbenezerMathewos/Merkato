@@ -163,7 +163,7 @@ function showWelcomeMessage(userName) {
     if (notification) {
         notification.remove();
     }
-    
+
     notification = document.createElement('div');
     notification.className = 'welcome-notification';
     notification.innerHTML = `
@@ -176,7 +176,7 @@ function showWelcomeMessage(userName) {
             </div>
         </div>
     `;
-    
+
     Object.assign(notification.style, {
         position: 'fixed',
         top: '50%',
@@ -194,7 +194,7 @@ function showWelcomeMessage(userName) {
         border: '2px solid #ffd700',
         animation: 'welcomePopup 0.5s ease'
     });
-    
+
     const style = document.createElement('style');
     style.textContent = `
         @keyframes welcomePopup {
@@ -209,9 +209,9 @@ function showWelcomeMessage(userName) {
         }
     `;
     document.head.appendChild(style);
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.5s ease';
@@ -310,7 +310,7 @@ async function loadOrders() {
         window.location.href = 'login.html';
         return;
     }
-    
+
     const container = document.querySelector('.orders-container') || document.getElementById('ordersContainer');
     if (container) {
         container.innerHTML = `
@@ -336,14 +336,14 @@ async function loadOrders() {
         console.warn('Loading cached orders:', err);
         orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     }
-    
+
     displayOrders(orders);
 }
 
 function displayOrders(orders) {
     const container = document.querySelector('.orders-container') || document.getElementById('ordersContainer');
     if (!container) return;
-    
+
     if (!orders || orders.length === 0) {
         container.innerHTML = `
             <div style="text-align:center;padding:60px 20px;background:#fff;border-radius:12px;border:1px solid #e0e0e0;">
@@ -355,15 +355,15 @@ function displayOrders(orders) {
         `;
         return;
     }
-    
+
     let html = '';
     orders.forEach((order) => {
-        const statusColor = order.status === 'Delivered' ? '#008000' : 
-                           order.status === 'Processing' ? '#ffa500' : 
-                           order.status === 'Shipped' ? '#0066cc' : '#d9534f';
-        
+        const statusColor = order.status === 'Delivered' ? '#008000' :
+            order.status === 'Processing' ? '#ffa500' :
+                order.status === 'Shipped' ? '#0066cc' : '#d9534f';
+
         const canCancel = order.status === 'Processing';
-        
+
         html += `
             <div class="order-card" style="
                 background: #fff;
@@ -476,12 +476,12 @@ async function cancelCustomerOrder(orderId) {
 
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.product-card, .category-card, .testimonial, .trust-strip > div');
-    
+
     // Add class for staggered reveal
     revealElements.forEach((el, index) => {
         el.classList.add('scroll-reveal');
         // Add left/right stagger for categories and trust strip
-        if(el.classList.contains('category-card')) {
+        if (el.classList.contains('category-card')) {
             el.style.transitionDelay = `${(index % 5) * 0.1}s`;
         }
     });
@@ -508,16 +508,16 @@ function initSparkEffect() {
     const canvas = document.getElementById('sparkCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     let particles = [];
-    
+
     function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resize);
     resize();
-    
+
     class Particle {
         constructor(x, y) {
             this.x = x;
@@ -529,14 +529,14 @@ function initSparkEffect() {
             this.speedY = Math.random() * 6 - 3;
             this.life = 100;
         }
-        
+
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
             this.size *= 0.95;
             this.life -= 2;
         }
-        
+
         draw() {
             ctx.fillStyle = this.color;
             ctx.beginPath();
@@ -544,13 +544,13 @@ function initSparkEffect() {
             ctx.fill();
         }
     }
-    
+
     function createSparks(x, y, amount) {
         for (let i = 0; i < amount; i++) {
             particles.push(new Particle(x, y));
         }
     }
-    
+
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < particles.length; i++) {
@@ -563,7 +563,7 @@ function initSparkEffect() {
         }
         requestAnimationFrame(animate);
     }
-    
+
     document.addEventListener('click', (e) => {
         createSparks(e.clientX, e.clientY, 15);
     });
@@ -575,9 +575,9 @@ function initFloatingProfile() {
     const btn = document.getElementById('floatingProfileBtn');
     const menu = document.getElementById('floatingProfileMenu');
     const logoutBtn = document.getElementById('floatingLogout');
-    
+
     if (!btn || !menu) return;
-    
+
     // Hide if not logged in
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user) {
@@ -585,19 +585,19 @@ function initFloatingProfile() {
         menu.style.display = 'none';
         return;
     }
-    
+
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         menu.classList.toggle('active');
     });
-    
+
     document.addEventListener('click', (e) => {
         if (!menu.contains(e.target) && !btn.contains(e.target)) {
             menu.classList.remove('active');
         }
     });
 
-    if(logoutBtn) {
+    if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             logout(); // Reuse existing function
@@ -614,13 +614,13 @@ async function loadUserProfile() {
         window.location.href = 'login.html';
         return;
     }
-    
+
     const nameInput = document.getElementById('profile-name');
     const emailInput = document.getElementById('profile-email');
     const phoneInput = document.getElementById('profile-phone');
     const addressInput = document.getElementById('profile-address');
     const joinDateDisplay = document.getElementById('profile-join-date');
-    
+
     let user;
     try {
         user = await getCurrentUser();
@@ -629,7 +629,7 @@ async function loadUserProfile() {
         showNotification('⚠️ Could not load your profile from server');
         user = getCurrentUserData() || {};
     }
-    
+
     if (nameInput) nameInput.value = user.name || '';
     if (emailInput) emailInput.value = user.email || '';
     if (phoneInput) phoneInput.value = user.phone || '';
@@ -642,32 +642,32 @@ async function saveUserProfile() {
     const emailInput = document.getElementById('profile-email');
     const phoneInput = document.getElementById('profile-phone');
     const addressInput = document.getElementById('profile-address');
-    
+
     if (!nameInput || !emailInput) {
         showNotification('⚠️ Required fields missing');
         return;
     }
-    
+
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const phone = phoneInput.value.trim();
     const address = addressInput.value.trim();
-    
+
     if (!name || !email) {
         showNotification('⚠️ Name and Email are required');
         return;
     }
-    
+
     try {
         const updatedUser = await updateUserProfile({ name, email, phone, address });
-        
+
         localStorage.setItem('merkatoUser', JSON.stringify(updatedUser));
         localStorage.setItem('merkatoUserData', JSON.stringify(updatedUser));
         currentUser = updatedUser;
-        
+
         showNotification('✅ Profile saved successfully!');
         updateUserDisplay();
-        
+
         setTimeout(() => {
             window.location.href = 'index.html';
         }, 1500);
@@ -682,7 +682,7 @@ function checkUserOnLoad() {
         const user = JSON.parse(userData);
         currentUser = user;
         updateUserDisplay();
-        
+
         if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
             if (!hasShownWelcome && !sessionStorage.getItem('welcomeShown')) {
                 hasShownWelcome = true;
@@ -703,12 +703,12 @@ function showWelcomeBack(userName) {
     if (sessionStorage.getItem('welcomeShown') === 'true') {
         return;
     }
-    
+
     let notification = document.querySelector('.welcome-notification');
     if (notification) {
         notification.remove();
     }
-    
+
     notification = document.createElement('div');
     notification.className = 'welcome-notification';
     notification.innerHTML = `
@@ -718,7 +718,7 @@ function showWelcomeBack(userName) {
             <p style="color:rgba(255,255,255,0.7);font-size:13px;">Good to see you again at MERKATO</p>
         </div>
     `;
-    
+
     Object.assign(notification.style, {
         position: 'fixed',
         top: '80px',
@@ -734,10 +734,10 @@ function showWelcomeBack(userName) {
         animation: 'slideInRight 0.5s ease',
         maxWidth: '350px'
     });
-    
+
     document.body.appendChild(notification);
     sessionStorage.setItem('welcomeShown', 'true');
-    
+
     setTimeout(() => {
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.5s ease';
@@ -769,9 +769,9 @@ function saveCart() {
 
 function addToCart(productId, name, price, image) {
     console.log('Adding to cart:', productId, name, price);
-    
+
     const existingItem = cart.find(item => item.id === productId);
-    
+
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
@@ -783,7 +783,7 @@ function addToCart(productId, name, price, image) {
             quantity: 1
         });
     }
-    
+
     saveCart();
     updateCartCount();
     displayCartItems();
@@ -803,7 +803,7 @@ function updateQuantity(productId, newQuantity) {
         removeFromCart(productId);
         return;
     }
-    
+
     const item = cart.find(item => item.id === productId);
     if (item) {
         item.quantity = newQuantity;
@@ -832,7 +832,7 @@ function clearCart() {
 function updateCartCount() {
     const cartCountElements = document.querySelectorAll('.cart, .cart-badge');
     const count = getCartCount();
-    
+
     cartCountElements.forEach(element => {
         if (element) {
             element.textContent = count;
@@ -843,9 +843,9 @@ function updateCartCount() {
 function displayCartItems() {
     const cartContainer = document.querySelector('.cart-items');
     const cartSummary = document.querySelector('.cart-summary');
-    
+
     if (!cartContainer) return;
-    
+
     if (cart.length === 0) {
         cartContainer.innerHTML = `
             <div style="text-align:center;padding:60px 20px;">
@@ -855,24 +855,24 @@ function displayCartItems() {
                 <a href="shop.html" class="btn btn-primary">Start Shopping →</a>
             </div>
         `;
-        
+
         if (cartSummary) {
             cartSummary.style.display = 'none';
         }
         return;
     }
-    
+
     if (cartSummary) {
         cartSummary.style.display = 'block';
     }
-    
+
     let html = `
         <h2>
             Cart Items
             <span>${getCartCount()} Items</span>
         </h2>
     `;
-    
+
     cart.forEach((item) => {
         html += `
             <div class="cart-item" data-product-id="${item.id}">
@@ -898,13 +898,13 @@ function displayCartItems() {
             </div>
         `;
     });
-    
+
     html += `
         <div style="text-align:center;padding:15px 0;border-top:2px solid #f0f0f0;margin-top:10px;">
             <small>🛒 <a href="shop.html" style="color:#008000;font-weight:600;">Add more items from the Supermarket Floor</a></small>
         </div>
     `;
-    
+
     cartContainer.innerHTML = html;
     updateCartSummary();
 }
@@ -912,13 +912,13 @@ function displayCartItems() {
 function updateCartSummary() {
     const summaryContainer = document.querySelector('.cart-summary');
     if (!summaryContainer || cart.length === 0) return;
-    
+
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
     const freeShipping = subtotal > 3000;
-    
+
     summaryContainer.innerHTML = `
         <h2>📋 Order Summary</h2>
         
@@ -968,23 +968,23 @@ let promoApplied = false;
 function applyPromo() {
     const input = document.getElementById('promoInput');
     if (!input) return;
-    
+
     const code = input.value.trim().toUpperCase();
-    
+
     if (code === 'MERKATO2026') {
         if (!promoApplied) {
             promoApplied = true;
             showNotification('🎉 Promo code applied! Free shipping activated!');
-            
+
             const subtotal = getCartTotal();
             const tax = subtotal * 0.15;
             const total = subtotal + tax;
-            
+
             const totalRow = document.querySelector('.summary-row.total .value');
             if (totalRow) {
                 totalRow.textContent = total.toLocaleString() + ' ETB';
             }
-            
+
             input.disabled = true;
             input.nextElementSibling.textContent = '✅ Applied';
         }
@@ -1198,24 +1198,24 @@ function initialiseSearch() {
 
 function initAddToCartButtons() {
     console.log('Initializing Add to Cart buttons...');
-    
+
     const buttons = document.querySelectorAll('.add-to-cart');
     console.log('Found', buttons.length, 'add to cart buttons');
-    
+
     buttons.forEach((button) => {
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
-        
-        newButton.addEventListener('click', function(e) {
+
+        newButton.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const productId = this.dataset.productId;
             const productName = this.dataset.productName;
             const productPrice = this.dataset.productPrice;
             const productImage = this.dataset.productImage || '';
-            
+
             console.log('Button clicked:', productId, productName, productPrice);
-            
+
             if (productId && productName && productPrice) {
                 addToCart(productId, productName, productPrice, productImage);
             } else {
@@ -1231,7 +1231,7 @@ function initAddToCartButtons() {
 // ========================================
 
 document.querySelectorAll('.back-to-top').forEach(btn => {
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', function (e) {
         e.preventDefault();
         window.scrollTo({
             top: 0,
@@ -1309,28 +1309,28 @@ function addReview(productId, userName, rating, comment, userEmail) {
     if (!reviews[productId]) {
         reviews[productId] = [];
     }
-    
+
     const uniqueId = 'r' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-    
+
     let verified = false;
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    
+
     orders.forEach(order => {
         order.items.forEach(item => {
             const productName = productId.toLowerCase();
             const itemName = item.name.toLowerCase();
-            if (itemName.includes(productName) || 
+            if (itemName.includes(productName) ||
                 productName.includes(itemName.split(' ')[0]) ||
                 itemName.includes(productName.split(' ')[0])) {
                 verified = true;
             }
         });
     });
-    
+
     if (userEmail && !verified) {
         verified = true;
     }
-    
+
     const newReview = {
         id: uniqueId,
         userName: userName || 'Anonymous',
@@ -1345,12 +1345,12 @@ function addReview(productId, userName, rating, comment, userEmail) {
         helpful: 0,
         notHelpful: 0
     };
-    
+
     reviews[productId].push(newReview);
     saveReviews();
     displayReviews(productId);
     updateAverageRating(productId);
-    
+
     showNotification('✅ Your review has been posted!');
     return newReview;
 }
@@ -1371,13 +1371,13 @@ function getReviewCount(productId) {
 function updateAverageRating(productId) {
     const avg = getAverageRating(productId);
     const count = getReviewCount(productId);
-    
+
     const ratingContainer = document.querySelector(`.product-rating[data-product-id="${productId}"]`);
     if (ratingContainer) {
         const stars = ratingContainer.querySelector('.stars');
         const avgDisplay = ratingContainer.querySelector('.avg-rating');
         const countDisplay = ratingContainer.querySelector('.review-count');
-        
+
         if (stars) {
             stars.innerHTML = renderStars(avg);
         }
@@ -1394,7 +1394,7 @@ function renderStars(rating) {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 >= 0.5 ? 1 : 0;
     const emptyStars = 5 - fullStars - halfStar;
-    
+
     let starsHtml = '';
     for (let i = 0; i < fullStars; i++) {
         starsHtml += '⭐';
@@ -1411,10 +1411,10 @@ function renderStars(rating) {
 function displayReviews(productId) {
     const container = document.querySelector(`.reviews-container[data-product-id="${productId}"]`);
     if (!container) return;
-    
+
     const productReviews = reviews[productId] || [];
     const total = productReviews.length;
-    
+
     if (total === 0) {
         container.innerHTML = `
             <div style="text-align:center;padding:30px;color:#888;">
@@ -1424,27 +1424,27 @@ function displayReviews(productId) {
         `;
         return;
     }
-    
+
     let html = `
         <div style="margin-bottom:15px;font-size:14px;color:#666;">
             <strong>${total}</strong> ${total === 1 ? 'review' : 'reviews'}
         </div>
     `;
-    
+
     productReviews.forEach((review, index) => {
         const voted = localStorage.getItem(`helpful_${review.id}`);
-        
-        const verifiedBadge = review.verified 
-            ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 10px;border-radius:12px;margin-left:6px;font-weight:600;">✓ Verified</span>' 
+
+        const verifiedBadge = review.verified
+            ? '<span style="font-size:11px;background:#008000;color:#fff;padding:2px 10px;border-radius:12px;margin-left:6px;font-weight:600;">✓ Verified</span>'
             : '';
-        
+
         const helpfulCount = review.helpful || 0;
         const notHelpfulCount = review.notHelpful || 0;
         const totalVotes = helpfulCount + notHelpfulCount;
-        
+
         let helpfulButtonStyle, notHelpfulButtonStyle;
         let helpfulText, notHelpfulText;
-        
+
         if (voted === 'helpful') {
             helpfulButtonStyle = 'background:#e8f5e9;border:1px solid #008000;cursor:default;font-size:13px;color:#008000;padding:4px 12px;border-radius:4px;font-weight:600;';
             helpfulText = '✅ Helpful';
@@ -1461,7 +1461,7 @@ function displayReviews(productId) {
             notHelpfulButtonStyle = 'background:none;border:1px solid #ddd;cursor:pointer;font-size:13px;color:#555;padding:4px 12px;border-radius:4px;transition:all 0.2s ease;';
             notHelpfulText = '👎 Not Helpful';
         }
-        
+
         html += `
             <div style="
                 background: ${index % 2 === 0 ? '#f8f9fa' : '#fff'};
@@ -1560,25 +1560,25 @@ function setRating(productId, count) {
 function submitReview(productId) {
     const ratingInput = document.getElementById(`review-rating-${productId}`);
     const commentInput = document.getElementById(`review-comment-${productId}`);
-    
+
     if (!ratingInput || !commentInput) {
         showNotification('⚠️ Review form not found');
         return;
     }
-    
+
     const rating = parseInt(ratingInput.value);
     const comment = commentInput.value.trim();
-    
+
     if (!rating || rating === 0) {
         showNotification('⚠️ Please select a star rating');
         return;
     }
-    
+
     if (!comment) {
         showNotification('⚠️ Please write a review');
         return;
     }
-    
+
     let userName = 'Anonymous';
     let userEmail = '';
     const userData = localStorage.getItem('merkatoUser');
@@ -1587,14 +1587,14 @@ function submitReview(productId) {
         userName = user.name || 'Anonymous';
         userEmail = user.email || '';
     }
-    
+
     addReview(productId, userName, rating, comment, userEmail);
-    
+
     ratingInput.value = 0;
     commentInput.value = '';
     selectedRatings[productId] = 0;
     resetStars(productId);
-    
+
     displayReviews(productId);
     updateAverageRating(productId);
 }
@@ -1602,32 +1602,32 @@ function submitReview(productId) {
 function markHelpful(reviewId, productId, voteType) {
     const productReviews = reviews[productId] || [];
     const reviewIndex = productReviews.findIndex(r => r.id === reviewId);
-    
+
     if (reviewIndex === -1) {
         showNotification('⚠️ Review not found');
         return;
     }
-    
+
     const votedKey = `helpful_${reviewId}`;
     const voted = localStorage.getItem(votedKey);
     if (voted) {
         showNotification('⚠️ You already voted on this review');
         return;
     }
-    
+
     if (voteType === 'helpful') {
         reviews[productId][reviewIndex].helpful = (reviews[productId][reviewIndex].helpful || 0) + 1;
     } else if (voteType === 'not-helpful') {
         reviews[productId][reviewIndex].notHelpful = (reviews[productId][reviewIndex].notHelpful || 0) + 1;
     }
-    
+
     saveReviews();
     localStorage.setItem(votedKey, voteType);
-    
+
     displayReviews(productId);
-    
-    const message = voteType === 'helpful' 
-        ? '👍 Thank you for your feedback!' 
+
+    const message = voteType === 'helpful'
+        ? '👍 Thank you for your feedback!'
         : '👎 Thank you for your honest feedback!';
     showNotification(message);
 }
@@ -1659,7 +1659,7 @@ function addToWishlist(productId, name, price, image, aisle) {
         showNotification('❤️ Already in wishlist');
         return;
     }
-    
+
     wishlist.push({
         id: productId,
         name: name,
@@ -1667,7 +1667,7 @@ function addToWishlist(productId, name, price, image, aisle) {
         image: image || '',
         aisle: aisle || ''
     });
-    
+
     saveWishlist();
     updateWishlistButtons();
     showNotification(`❤️ ${name} added to wishlist!`);
@@ -1689,7 +1689,7 @@ function moveToCart(productId) {
         showNotification('⚠️ Item not found in wishlist');
         return;
     }
-    
+
     addToCart(item.id, item.name, item.price, item.image);
     removeFromWishlist(productId);
     showNotification(`🛒 ${item.name} moved to cart!`);
@@ -1700,11 +1700,11 @@ function moveAllToCart() {
         showNotification('⚠️ Your wishlist is empty');
         return;
     }
-    
+
     wishlist.forEach(item => {
         addToCart(item.id, item.name, item.price, item.image);
     });
-    
+
     wishlist = [];
     saveWishlist();
     updateWishlistButtons();
@@ -1716,7 +1716,7 @@ async function clearWishlist() {
         showNotification('Your wishlist is already empty', 'warning');
         return;
     }
-    
+
     const confirmed = await showConfirmDialog({
         title: 'Clear Wishlist?',
         message: 'Are you sure you want to clear all saved items from your wishlist?',
@@ -1761,7 +1761,7 @@ function updateWishlistButtons() {
 function displayWishlist() {
     const grid = document.getElementById('wishlistGrid');
     if (!grid) return;
-    
+
     if (wishlist.length === 0) {
         grid.innerHTML = `
             <div class="empty-wishlist" style="grid-column:1/-1;">
@@ -1773,7 +1773,7 @@ function displayWishlist() {
         `;
         return;
     }
-    
+
     let html = '';
     wishlist.forEach(item => {
         html += `
@@ -1791,7 +1791,7 @@ function displayWishlist() {
             </div>
         `;
     });
-    
+
     html += `
         <div style="grid-column:1/-1;text-align:center;padding:20px 0;">
             <div class="wishlist-actions">
@@ -1801,7 +1801,7 @@ function displayWishlist() {
             </div>
         </div>
     `;
-    
+
     grid.innerHTML = html;
 }
 
@@ -1811,7 +1811,7 @@ function toggleWishlist(button) {
     const productPrice = button.dataset.productPrice;
     const productImage = button.dataset.productImage || '';
     const productAisle = button.dataset.aisle || '';
-    
+
     const existing = wishlist.find(item => item.id === productId);
     if (existing) {
         removeFromWishlist(productId);
@@ -1839,30 +1839,30 @@ function generateOrderNumber() {
 
 function processOrder(event) {
     event.preventDefault();
-    
+
     const fullname = document.getElementById('fullname')?.value || '';
     const email = document.getElementById('email')?.value || '';
     const phone = document.getElementById('phone')?.value || '';
     const address = document.getElementById('address')?.value || '';
     const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
-    
+
     if (!fullname || !email || !phone || !address) {
         showNotification('⚠️ Please fill in all required fields');
         return;
     }
-    
+
     if (cart.length === 0) {
         showNotification('⚠️ Your cart is empty');
         return;
     }
-    
+
     const orderNumber = generateOrderNumber();
-    
+
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
-    
+
     const order = {
         id: orderNumber,
         date: new Date().toLocaleDateString('en-US', {
@@ -1889,16 +1889,16 @@ function processOrder(event) {
         total: total,
         status: 'Processing'
     };
-    
+
     let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     orders.unshift(order);
     localStorage.setItem('merkatoOrders', JSON.stringify(orders));
     localStorage.setItem('lastOrderNumber', orderNumber);
-    
+
     cart = [];
     saveCart();
     updateCartCount();
-    
+
     window.location.href = 'order-confirmation.html';
 }
 
@@ -1908,29 +1908,29 @@ function loadOrderConfirmation() {
         window.location.href = 'shop.html';
         return;
     }
-    
+
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     const order = orders.find(o => o.id === orderNumber);
-    
+
     if (!order) {
         window.location.href = 'shop.html';
         return;
     }
-    
+
     displayOrderConfirmation(order);
 }
 
 function displayOrderConfirmation(order) {
     const container = document.getElementById('orderConfirmation');
     if (!container) return;
-    
+
     let itemsHtml = order.items.map(item => `
         <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f0f0;">
             <span>${item.name} × ${item.quantity}</span>
             <span>${item.subtotal.toLocaleString()} ETB</span>
         </div>
     `).join('');
-    
+
     container.innerHTML = `
         <div style="text-align:center;padding:20px 0 30px;">
             <div style="font-size:64px;margin-bottom:10px;">🎉</div>
@@ -2003,9 +2003,9 @@ function displayOrderConfirmation(order) {
 function loadCheckoutSummary() {
     const summaryContainer = document.getElementById('checkoutOrderSummary');
     const sidebarContainer = document.getElementById('checkoutSidebar');
-    
+
     if (!summaryContainer) return;
-    
+
     if (cart.length === 0) {
         summaryContainer.innerHTML = `
             <div style="text-align:center;padding:20px;color:#888;">
@@ -2022,7 +2022,7 @@ function loadCheckoutSummary() {
         }
         return;
     }
-    
+
     let itemsHtml = '';
     cart.forEach(item => {
         itemsHtml += `
@@ -2032,16 +2032,16 @@ function loadCheckoutSummary() {
             </li>
         `;
     });
-    
+
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
     const itemCount = getCartCount();
-    
+
     const shippingText = shipping === 0 ? 'FREE' : shipping.toLocaleString() + ' ETB';
     const shippingColor = shipping === 0 ? '#008000' : '#d9534f';
-    
+
     summaryContainer.innerHTML = `
         <ul style="list-style:none;padding:0;">
             ${itemsHtml}
@@ -2059,7 +2059,7 @@ function loadCheckoutSummary() {
             </li>
         </ul>
     `;
-    
+
     if (sidebarContainer) {
         sidebarContainer.innerHTML = `
             <div class="summary-row">
@@ -2091,36 +2091,36 @@ function loadCheckoutSummary() {
 
 function subscribeNewsletter(event) {
     event.preventDefault();
-    
+
     const emailInput = document.getElementById('newsletterEmail');
     const statusDiv = document.getElementById('newsletterStatus');
     const email = emailInput.value.trim();
-    
+
     if (!email) {
         statusDiv.className = 'newsletter-status error';
         statusDiv.textContent = '⚠️ Please enter your email address';
         return;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         statusDiv.className = 'newsletter-status error';
         statusDiv.textContent = '⚠️ Please enter a valid email address';
         return;
     }
-    
+
     let subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
-    
+
     if (subscribers.includes(email)) {
         statusDiv.className = 'newsletter-status error';
         statusDiv.textContent = '⚠️ This email is already subscribed!';
         return;
     }
-    
+
     subscribers.push(email);
     localStorage.setItem('merkatoSubscribers', JSON.stringify(subscribers));
     updateSubscriberCount();
-    
+
     statusDiv.className = 'newsletter-status success';
     statusDiv.textContent = '✅ Thank you for subscribing! 🎉';
     emailInput.value = '';
@@ -2129,36 +2129,36 @@ function subscribeNewsletter(event) {
 
 function subscribeFooterNewsletter(event) {
     event.preventDefault();
-    
+
     const emailInput = document.getElementById('newsletterFooterEmail');
     const statusDiv = document.getElementById('footerNewsletterStatus');
     const email = emailInput.value.trim();
-    
+
     if (!email) {
         statusDiv.style.color = '#d9534f';
         statusDiv.textContent = '⚠️ Please enter your email address';
         return;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         statusDiv.style.color = '#d9534f';
         statusDiv.textContent = '⚠️ Please enter a valid email address';
         return;
     }
-    
+
     let subscribers = JSON.parse(localStorage.getItem('merkatoSubscribers')) || [];
-    
+
     if (subscribers.includes(email)) {
         statusDiv.style.color = '#d9534f';
         statusDiv.textContent = '⚠️ This email is already subscribed!';
         return;
     }
-    
+
     subscribers.push(email);
     localStorage.setItem('merkatoSubscribers', JSON.stringify(subscribers));
     updateSubscriberCount();
-    
+
     statusDiv.style.color = '#008000';
     statusDiv.textContent = '✅ Thank you for subscribing! 🎉';
     emailInput.value = '';
@@ -2186,7 +2186,7 @@ function getSubscriberCount() {
 function toggleOtherReason() {
     const reasonSelect = document.getElementById('return-reason');
     const otherInput = document.getElementById('otherReasonInput');
-    
+
     if (reasonSelect.value === 'other') {
         otherInput.classList.add('show');
         document.getElementById('other-reason-text').required = true;
@@ -2198,49 +2198,49 @@ function toggleOtherReason() {
 
 function submitReturnRequest(event) {
     event.preventDefault();
-    
+
     const orderNumber = document.getElementById('order-number').value.trim();
     const itemToReturn = document.getElementById('item-return').value;
     const quantity = document.getElementById('quantity').value;
     const returnReason = document.getElementById('return-reason').value;
     const otherReason = document.getElementById('other-reason-text').value.trim();
     const comments = document.getElementById('comments').value.trim();
-    
+
     if (!orderNumber) {
         showNotification('⚠️ Please enter your order number');
         return;
     }
-    
+
     if (!itemToReturn) {
         showNotification('⚠️ Please select an item to return');
         return;
     }
-    
+
     if (!returnReason) {
         showNotification('⚠️ Please select a reason for return');
         return;
     }
-    
+
     if (returnReason === 'other' && !otherReason) {
         showNotification('⚠️ Please specify your reason');
         return;
     }
-    
+
     const nonReturnableItems = ['buna', 'berbere', 'teff', 'shiro', 'korerima', 'kibe'];
     if (nonReturnableItems.includes(itemToReturn)) {
         showNotification('⚠️ This item is non-returnable (food/perishable items)');
         return;
     }
-    
+
     const itemSelect = document.getElementById('item-return');
     const itemName = itemSelect.options[itemSelect.selectedIndex].text;
-    
+
     const reasonSelect = document.getElementById('return-reason');
     let reasonText = reasonSelect.options[reasonSelect.selectedIndex].text;
     if (returnReason === 'other') {
         reasonText = otherReason;
     }
-    
+
     const returnRequest = {
         id: 'RET-' + Date.now().toString().slice(-8),
         orderNumber: orderNumber,
@@ -2256,14 +2256,14 @@ function submitReturnRequest(event) {
         }),
         dateSubmitted: new Date().toISOString()
     };
-    
+
     let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
     returns.unshift(returnRequest);
     localStorage.setItem('merkatoReturns', JSON.stringify(returns));
-    
+
     document.getElementById('returnForm').reset();
     document.getElementById('otherReasonInput').classList.remove('show');
-    
+
     loadReturnRequests();
     showReturnSuccessModal(returnRequest);
 }
@@ -2271,9 +2271,9 @@ function submitReturnRequest(event) {
 function loadReturnRequests() {
     const returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
     const container = document.getElementById('returnRequests');
-    
+
     if (!container) return;
-    
+
     if (returns.length === 0) {
         container.innerHTML = `
             <div style="text-align:center;padding:30px;color:#888;">
@@ -2283,22 +2283,22 @@ function loadReturnRequests() {
         `;
         return;
     }
-    
+
     let html = `
         <div style="margin-bottom:12px;font-size:14px;color:#666;">
             <strong>${returns.length}</strong> ${returns.length === 1 ? 'request' : 'requests'} found
         </div>
     `;
-    
+
     returns.forEach((returnReq) => {
         const statusColor = returnReq.status === 'Pending' ? '#ffa500' :
-                           returnReq.status === 'Approved' ? '#008000' :
-                           returnReq.status === 'Rejected' ? '#d9534f' : '#888';
-        
+            returnReq.status === 'Approved' ? '#008000' :
+                returnReq.status === 'Rejected' ? '#d9534f' : '#888';
+
         const statusIcon = returnReq.status === 'Pending' ? '⏳' :
-                          returnReq.status === 'Approved' ? '✅' :
-                          returnReq.status === 'Rejected' ? '❌' : '📋';
-        
+            returnReq.status === 'Approved' ? '✅' :
+                returnReq.status === 'Rejected' ? '❌' : '📋';
+
         html += `
             <div style="
                 background: #fff;
@@ -2342,8 +2342,8 @@ function loadReturnRequests() {
                         </span>
                         <span style="font-size:11px;color:#888;">
                             ${returnReq.status === 'Pending' ? '⏳ Awaiting review' :
-                              returnReq.status === 'Approved' ? '✅ Approved - Refund processing' :
-                              returnReq.status === 'Rejected' ? '❌ Not approved' : ''}
+                returnReq.status === 'Approved' ? '✅ Approved - Refund processing' :
+                    returnReq.status === 'Rejected' ? '❌ Not approved' : ''}
                         </span>
                     </div>
                 </div>
@@ -2372,11 +2372,11 @@ function loadReturnRequests() {
             </div>
         `;
     });
-    
+
     const pending = returns.filter(r => r.status === 'Pending').length;
     const approved = returns.filter(r => r.status === 'Approved').length;
     const rejected = returns.filter(r => r.status === 'Rejected').length;
-    
+
     html += `
         <div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:15px;padding:12px;background:#f8f9fa;border-radius:8px;">
             <span style="font-size:13px;color:#888;">
@@ -2390,7 +2390,7 @@ function loadReturnRequests() {
             </span>
         </div>
     `;
-    
+
     container.innerHTML = html;
 }
 
@@ -2399,7 +2399,7 @@ function showReturnSuccessModal(returnRequest) {
     if (existingModal) {
         existingModal.remove();
     }
-    
+
     const modal = document.createElement('div');
     modal.className = 'modal-overlay active';
     modal.innerHTML = `
@@ -2463,16 +2463,16 @@ function showReturnSuccessModal(returnRequest) {
             </div>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
-    modal.addEventListener('click', function(e) {
+
+    modal.addEventListener('click', function (e) {
         if (e.target === this) {
             closeReturnModal();
         }
     });
-    
-    document.addEventListener('keydown', function(e) {
+
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeReturnModal();
         }
@@ -2492,7 +2492,7 @@ function closeReturnModal() {
 function updateReturnStatus(requestId, newStatus) {
     let returns = JSON.parse(localStorage.getItem('merkatoReturns')) || [];
     const index = returns.findIndex(r => r.id === requestId);
-    
+
     if (index !== -1) {
         returns[index].status = newStatus;
         localStorage.setItem('merkatoReturns', JSON.stringify(returns));
@@ -2529,63 +2529,63 @@ function applyFilters() {
             selectedAisles.push(cb.value);
         }
     });
-    
+
     const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
     const maxPrice = parseFloat(document.getElementById('maxPrice').value) || 100000;
     const sortBy = document.getElementById('sortBy').value;
-    
+
     activeFilters.aisles = selectedAisles;
     activeFilters.minPrice = minPrice;
     activeFilters.maxPrice = maxPrice;
     activeFilters.sortBy = sortBy;
-    
+
     filterProducts(selectedAisles, minPrice, maxPrice, sortBy);
 }
 
 function filterProducts(aisles, minPrice, maxPrice, sortBy) {
     const productCards = document.querySelectorAll('.product-card');
     let visibleCount = 0;
-    
+
     productCards.forEach(card => {
         const cardAisle = card.dataset.aisle || '';
         const cardPrice = parseFloat(card.dataset.price) || 0;
-        
+
         let aisleMatch = aisles.includes('all') || aisles.includes(cardAisle);
         if (!aisleMatch) {
             card.style.display = 'none';
             return;
         }
-        
+
         if (cardPrice < minPrice || cardPrice > maxPrice) {
             card.style.display = 'none';
             return;
         }
-        
+
         card.style.display = '';
         visibleCount++;
     });
-    
+
     document.getElementById('productCount').textContent = visibleCount;
     showNoProductsMessage(visibleCount);
-    
+
     if (sortBy !== 'default') {
         sortProducts(sortBy);
     }
-    
+
     updateFilterTags(aisles, minPrice, maxPrice);
 }
 
 function sortProducts(sortBy) {
     const container = document.querySelector('.product-grid');
     const cards = Array.from(container.querySelectorAll('.product-card:not([style*="display: none"])'));
-    
+
     cards.sort((a, b) => {
         const priceA = parseFloat(a.dataset.price) || 0;
         const priceB = parseFloat(b.dataset.price) || 0;
         const nameA = a.querySelector('h3')?.textContent?.toLowerCase() || '';
         const nameB = b.querySelector('h3')?.textContent?.toLowerCase() || '';
-        
-        switch(sortBy) {
+
+        switch (sortBy) {
             case 'price-low':
                 return priceA - priceB;
             case 'price-high':
@@ -2600,14 +2600,14 @@ function sortProducts(sortBy) {
                 return 0;
         }
     });
-    
+
     cards.forEach(card => container.appendChild(card));
 }
 
 function showNoProductsMessage(visibleCount) {
     const container = document.querySelector('.product-grid');
     const existingMsg = document.querySelector('.no-products-message');
-    
+
     if (visibleCount === 0) {
         if (!existingMsg) {
             const msg = document.createElement('div');
@@ -2628,7 +2628,7 @@ function showNoProductsMessage(visibleCount) {
 function updateFilterTags(aisles, minPrice, maxPrice) {
     const container = document.getElementById('filterTags');
     let tags = [];
-    
+
     if (!aisles.includes('all')) {
         const aisleNames = {
             'food': '🍲 Food',
@@ -2643,11 +2643,11 @@ function updateFilterTags(aisles, minPrice, maxPrice) {
             }
         });
     }
-    
+
     if (minPrice > 0 || maxPrice < 100000) {
         tags.push(`<span class="filter-tag">💰 ${minPrice.toLocaleString()} - ${maxPrice.toLocaleString()} ETB <span class="remove-tag" onclick="removeFilter('price')">×</span></span>`);
     }
-    
+
     container.innerHTML = tags.length > 0 ? tags.join('') : '';
 }
 
@@ -2671,26 +2671,26 @@ function resetFilters() {
     document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(cb => {
         cb.checked = cb.value === 'all';
     });
-    
+
     document.getElementById('minPrice').value = 0;
     document.getElementById('maxPrice').value = 100000;
     document.getElementById('sortBy').value = 'default';
-    
+
     activeFilters = {
         aisles: ['all'],
         minPrice: 0,
         maxPrice: 100000,
         sortBy: 'default'
     };
-    
+
     applyFilters();
-    
+
     const sidebar = document.getElementById('filterSidebar');
     if (sidebar.classList.contains('active')) {
         sidebar.classList.remove('active');
         document.getElementById('filterToggleBtn').textContent = '🔍 Filter Products';
     }
-    
+
     showNotification('🔄 Filters have been reset');
 }
 
@@ -2701,28 +2701,28 @@ function resetFilters() {
 function getStockStatus(productId) {
     const data = productStock[productId];
     if (!data) return { status: 'in-stock', stock: 0 };
-    
+
     let status = 'in-stock';
     if (data.stock <= 0) {
         status = 'out-of-stock';
     } else if (data.stock <= 10) {
         status = 'low-stock';
     }
-    
+
     return { status: status, stock: data.stock };
 }
 
 function renderStockBadge(productId) {
     const { status, stock } = getStockStatus(productId);
-    
+
     const statusMap = {
         'in-stock': { icon: '✅', label: 'In Stock', class: 'in-stock' },
         'low-stock': { icon: '⚠️', label: `Low Stock (${stock} left)`, class: 'low-stock' },
         'out-of-stock': { icon: '❌', label: 'Out of Stock', class: 'out-of-stock' }
     };
-    
+
     const info = statusMap[status];
-    
+
     return `<span class="stock-status ${info.class}">
         <span class="stock-icon">${info.icon}</span>
         ${info.label}
@@ -2739,7 +2739,7 @@ function updateStockBadges() {
             if (existingBadge) {
                 existingBadge.remove();
             }
-            
+
             const stockHtml = renderStockBadge(productId);
             const priceElement = section.querySelector('div[style*="font-size:32px"]');
             if (priceElement) {
@@ -2749,7 +2749,7 @@ function updateStockBadges() {
             }
         }
     });
-    
+
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
         const productId = card.dataset.productId;
@@ -2774,13 +2774,13 @@ function updateStockBadges() {
                 '17': 'solar',
                 '18': 'phone'
             };
-            
+
             const actualId = productIdMap[productId] || productId;
             const existingBadge = card.querySelector('.stock-status');
             if (existingBadge) {
                 existingBadge.remove();
             }
-            
+
             const stockHtml = renderStockBadge(actualId);
             const priceElement = card.querySelector('.price');
             if (priceElement) {
@@ -2795,7 +2795,7 @@ function updateStockBadges() {
 function notifyMe(productId) {
     const productName = productStock[productId] ? productId.charAt(0).toUpperCase() + productId.slice(1) : 'Product';
     showNotification(`📧 We'll notify you when ${productName} is back in stock!`);
-    
+
     let notifications = JSON.parse(localStorage.getItem('merkatoNotifications')) || [];
     if (!notifications.includes(productId)) {
         notifications.push(productId);
@@ -2818,9 +2818,9 @@ function renderNotifyButton(productId) {
 async function loadOrders() {
     const userData = localStorage.getItem('merkatoUser');
     const container = document.getElementById('ordersContainer');
-    
+
     if (!container) return;
-    
+
     if (!userData || !isLoggedIn()) {
         container.innerHTML = `
             <div class="empty-orders">
@@ -2832,7 +2832,7 @@ async function loadOrders() {
         `;
         return;
     }
-    
+
     let orders = [];
     try {
         const apiOrders = await getMyOrders();
@@ -2851,7 +2851,7 @@ async function loadOrders() {
         showNotification('⚠️ Could not load orders from server');
         orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     }
-    
+
     if (orders.length === 0) {
         container.innerHTML = `
             <div class="empty-orders">
@@ -2863,16 +2863,16 @@ async function loadOrders() {
         `;
         return;
     }
-    
+
     const stats = {
         processing: orders.filter(o => o.status === 'Processing').length,
         shipped: orders.filter(o => o.status === 'Shipped').length,
         delivered: orders.filter(o => o.status === 'Delivered').length,
         cancelled: orders.filter(o => o.status === 'Cancelled').length
     };
-    
+
     let html = '';
-    
+
     html += `
         <div class="order-stats">
             <span class="stat-processing">⏳ Processing: <strong>${stats.processing}</strong></span>
@@ -2881,18 +2881,18 @@ async function loadOrders() {
             <span class="stat-cancelled">❌ Cancelled: <strong>${stats.cancelled}</strong></span>
         </div>
     `;
-    
+
     orders.forEach((order) => {
         const statusClass = order.status === 'Delivered' ? 'order-status-delivered' :
-                           order.status === 'Processing' ? 'order-status-processing' :
-                           order.status === 'Shipped' ? 'order-status-shipped' :
-                           order.status === 'Cancelled' ? 'order-status-cancelled' : '';
-        
+            order.status === 'Processing' ? 'order-status-processing' :
+                order.status === 'Shipped' ? 'order-status-shipped' :
+                    order.status === 'Cancelled' ? 'order-status-cancelled' : '';
+
         const statusIcon = order.status === 'Delivered' ? '✅' :
-                          order.status === 'Processing' ? '⏳' :
-                          order.status === 'Shipped' ? '🚚' :
-                          order.status === 'Cancelled' ? '❌' : '📋';
-        
+            order.status === 'Processing' ? '⏳' :
+                order.status === 'Shipped' ? '🚚' :
+                    order.status === 'Cancelled' ? '❌' : '📋';
+
         html += `
             <div class="order-card">
                 <div class="order-header">
@@ -2931,7 +2931,7 @@ async function loadOrders() {
             </div>
         `;
     });
-    
+
     container.innerHTML = html;
 }
 
@@ -2946,19 +2946,19 @@ async function cancelOrder(orderId) {
     });
 
     if (!confirmed) return;
-    
+
     try {
         const token = localStorage.getItem('merkatoToken');
         const response = await fetch(`http://localhost:5000/api/orders/${orderId}/cancel`, {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        
+
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
             throw new Error(err.message || 'Failed to cancel order');
         }
-        
+
         showNotification('Order cancelled successfully', 'info');
         await loadOrders();
     } catch (error) {
@@ -2985,11 +2985,11 @@ function viewOrderDetails(orderId) {
         showNotification('⚠️ Order not found');
         return;
     }
-    
+
     const statusColor = order.status === 'Delivered' ? '#008000' :
-                       order.status === 'Processing' ? '#ffa500' :
-                       order.status === 'Shipped' ? '#0066cc' : '#d9534f';
-    
+        order.status === 'Processing' ? '#ffa500' :
+            order.status === 'Shipped' ? '#0066cc' : '#d9534f';
+
     const modal = document.createElement('div');
     modal.style.cssText = `
         position: fixed;
@@ -3005,14 +3005,14 @@ function viewOrderDetails(orderId) {
         align-items: center;
         animation: modalFadeIn 0.3s ease;
     `;
-    
+
     let itemsHtml = order.items.map(item => `
         <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f0f0f0;">
             <span>${item.name} × ${item.quantity}</span>
             <span>${(item.price * item.quantity).toLocaleString()} ETB</span>
         </div>
     `).join('');
-    
+
     modal.innerHTML = `
         <div style="
             background: #fff;
@@ -3087,10 +3087,10 @@ function viewOrderDetails(orderId) {
             </button>
         </div>
     `;
-    
+
     document.body.appendChild(modal);
-    
-    modal.addEventListener('click', function(e) {
+
+    modal.addEventListener('click', function (e) {
         if (e.target === this) {
             this.remove();
         }
@@ -3105,7 +3105,7 @@ function toggleTheme() {
     const html = document.documentElement;
     const currentTheme = html.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
+
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('merkatoTheme', newTheme);
     updateThemeIcon(newTheme);
@@ -3126,7 +3126,7 @@ function updateThemeIcon(theme) {
     const headerIcon = document.getElementById('headerThemeIcon');
     const icon = theme === 'dark' ? '☀️' : '🌙';
     const title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    
+
     if (toggleBtn) {
         toggleBtn.textContent = icon;
         toggleBtn.title = title;
@@ -3212,12 +3212,12 @@ async function loadShopProducts() {
 function renderShopProducts(products) {
     // Find ALL product grids on the page
     const grids = document.querySelectorAll('.product-grid[id^="shopProductGrid"]');
-    
+
     if (!grids || grids.length === 0) {
         console.warn('No product grids found on page');
         return;
     }
-    
+
     if (!products || products.length === 0) {
         grids.forEach(grid => {
             grid.innerHTML = `
@@ -3230,7 +3230,7 @@ function renderShopProducts(products) {
         });
         return;
     }
-    
+
     // Define aisle mapping for grids
     const aisleMapping = {
         'shopProductGrid': 'food',
@@ -3239,7 +3239,7 @@ function renderShopProducts(products) {
         'shopProductGrid4': 'crafts',
         'shopProductGrid5': 'electronics'
     };
-    
+
     const aisleLabels = {
         food: 'AISLE 1 | FOOD',
         home: 'AISLE 2 | HOME',
@@ -3247,24 +3247,24 @@ function renderShopProducts(products) {
         crafts: 'AISLE 4 | CRAFTS',
         electronics: 'AISLE 5 | ELECTRONICS'
     };
-    
+
     let wishlistItems = JSON.parse(localStorage.getItem('merkatoWishlist')) || [];
     let reviews = JSON.parse(localStorage.getItem('merkatoReviews')) || {};
-    
+
     // For each grid, filter products by aisle
     grids.forEach(grid => {
         const gridId = grid.id;
         const targetAisle = aisleMapping[gridId];
-        
+
         if (!targetAisle) {
             // If grid ID not recognized, show all products
             renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabels);
             return;
         }
-        
+
         // Filter products for this aisle
         const aisleProducts = products.filter(p => p.aisle === targetAisle);
-        
+
         if (aisleProducts.length === 0) {
             grid.innerHTML = `
                 <div style="text-align:center;padding:40px 20px;grid-column:1/-1;color:#888;">
@@ -3280,12 +3280,12 @@ function renderShopProducts(products) {
 
 function renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabels) {
     let html = '';
-    
+
     products.forEach(product => {
         const inWishlist = wishlistItems.some(item => item.id === product.id.toString());
         const wishlistIcon = inWishlist ? '❤️' : '🤍';
         const wishlistColor = inWishlist ? '#d9534f' : '#888';
-        
+
         const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
         const stockLabels = {
             'in-stock': { icon: '✅', label: 'In Stock', color: '#2e7d32' },
@@ -3293,12 +3293,12 @@ function renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabel
             'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
         };
         const stockInfo = stockLabels[stockStatus];
-        
+
         const productReviews = reviews[product.id] || [];
         const reviewCount = productReviews.length;
         const avgRating = reviewCount > 0 ? (productReviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount) : 0;
         const stars = '⭐'.repeat(Math.round(avgRating)) + '☆'.repeat(5 - Math.round(avgRating));
-        
+
         html += `
             <div class="product-card" data-product-id="${product.id}" data-aisle="${product.aisle}" data-price="${product.price}">
                 <a href="product-detail.html?id=${product.id}">
@@ -3340,7 +3340,7 @@ function renderProductsInGrid(grid, products, wishlistItems, reviews, aisleLabel
 async function loadProductDetail() {
     const container = document.getElementById('productDetailContainer');
     if (!container) return;
-    
+
     const urlParams = new URLSearchParams(window.location.search);
     let productId = urlParams.get('id');
     if (!productId && window.location.hash) {
@@ -3349,7 +3349,7 @@ async function loadProductDetail() {
     if (!productId) {
         productId = 'prod_buna_1';
     }
-    
+
     let product;
     try {
         const apiProduct = await getProduct(productId);
@@ -3363,16 +3363,16 @@ async function loadProductDetail() {
     if (!product) {
         try {
             const all = await getProducts();
-            const found = all.find(p => 
-                (p._id && p._id.toString() === productId.toString()) || 
-                (p.id && p.id.toString() === productId.toString()) || 
-                (p.slug && p.slug === productId) || 
+            const found = all.find(p =>
+                (p._id && p._id.toString() === productId.toString()) ||
+                (p.id && p.id.toString() === productId.toString()) ||
+                (p.slug && p.slug === productId) ||
                 (p.name && p.name.toLowerCase().includes(productId.toLowerCase()))
             );
             if (found) product = { ...found, id: found._id || found.id };
-        } catch(e) {}
+        } catch (e) { }
     }
-    
+
     if (!product) {
         container.innerHTML = `
             <div style="text-align:center;padding:60px;background:#fff;border-radius:12px;border:1px solid #e0e0e0;">
@@ -3384,7 +3384,7 @@ async function loadProductDetail() {
         `;
         return;
     }
-    
+
     renderProductDetail(product);
     initAddToCartButtons();
 }
@@ -3392,7 +3392,7 @@ async function loadProductDetail() {
 function renderProductDetail(product) {
     const container = document.getElementById('productDetailContainer');
     if (!container) return;
-    
+
     const aisleLabels = {
         food: 'AISLE 1 | FOOD',
         home: 'AISLE 2 | HOME',
@@ -3400,7 +3400,7 @@ function renderProductDetail(product) {
         crafts: 'AISLE 4 | CRAFTS',
         electronics: 'AISLE 5 | ELECTRONICS'
     };
-    
+
     const aisleClass = {
         food: 'aisle-food',
         home: 'aisle-home',
@@ -3408,7 +3408,7 @@ function renderProductDetail(product) {
         crafts: 'aisle-crafts',
         electronics: 'aisle-electronics'
     };
-    
+
     const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
     const stockLabels = {
         'in-stock': { icon: '✅', label: `In Stock (${product.stock} available)`, color: '#2e7d32' },
@@ -3416,10 +3416,10 @@ function renderProductDetail(product) {
         'out-of-stock': { icon: '❌', label: 'Out of Stock', color: '#c62828' }
     };
     const stockInfo = stockLabels[stockStatus];
-    
+
     let wishlistItems = JSON.parse(localStorage.getItem('merkatoWishlist')) || [];
     const inWishlist = wishlistItems.some(item => item.id === product.id.toString());
-    
+
     container.innerHTML = `
         <section id="${product.id}" data-product-id="${product.id}" data-aisle="${product.aisle}" data-price="${product.price}">
             <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
@@ -3553,7 +3553,7 @@ function renderProductDetail(product) {
             </div>
         </section>
     `;
-    
+
     if (typeof displayReviews === 'function') {
         displayReviews(product.id);
         updateAverageRating(product.id);
@@ -3577,14 +3577,14 @@ function loadAdminStats() {
     const products = getAllProducts();
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     const users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
-    
+
     let totalRevenue = 0;
     orders.forEach(order => {
         if (order.status !== 'Cancelled') {
             totalRevenue += order.total || 0;
         }
     });
-    
+
     document.getElementById('statProducts').textContent = products.length;
     document.getElementById('statOrders').textContent = orders.length;
     document.getElementById('statRevenue').textContent = totalRevenue.toLocaleString();
@@ -3594,7 +3594,7 @@ function loadAdminStats() {
 function loadAdminProducts() {
     const container = document.getElementById('adminProductList');
     const products = getAllProducts();
-    
+
     if (products.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
@@ -3604,7 +3604,7 @@ function loadAdminProducts() {
         `;
         return;
     }
-    
+
     const aisleLabels = {
         food: '🍲 Food',
         home: '🏠 Home',
@@ -3612,7 +3612,7 @@ function loadAdminProducts() {
         crafts: '🎨 Crafts',
         electronics: '📱 Electronics'
     };
-    
+
     let html = '';
     products.forEach(product => {
         html += `
@@ -3637,7 +3637,7 @@ function loadAdminProducts() {
 function loadAdminOrders() {
     const container = document.getElementById('adminOrderList');
     let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
-    
+
     if (orders.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
@@ -3647,13 +3647,13 @@ function loadAdminOrders() {
         `;
         return;
     }
-    
+
     let html = '';
     orders.forEach(order => {
         const statusColor = order.status === 'Delivered' ? '#2e7d32' :
-                           order.status === 'Processing' ? '#e65100' :
-                           order.status === 'Shipped' ? '#1565c0' :
-                           order.status === 'Cancelled' ? '#c62828' : '#888';
+            order.status === 'Processing' ? '#e65100' :
+                order.status === 'Shipped' ? '#1565c0' :
+                    order.status === 'Cancelled' ? '#c62828' : '#888';
         html += `
             <div class="admin-order-item">
                 <div class="order-info">
@@ -3681,7 +3681,7 @@ function loadAdminOrders() {
 function loadAdminUsers() {
     const container = document.getElementById('adminUserList');
     let users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
-    
+
     if (users.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
@@ -3691,7 +3691,7 @@ function loadAdminUsers() {
         `;
         return;
     }
-    
+
     let html = '';
     users.forEach(user => {
         html += `
@@ -3722,11 +3722,11 @@ async function deleteProduct(id) {
     });
 
     if (!confirmed) return;
-    
+
     let products = getAllProducts();
     products = products.filter(p => p.id !== id);
     localStorage.setItem('merkatoProducts', JSON.stringify(products));
-    
+
     loadAdminProducts();
     loadAdminStats();
     showNotification('Product deleted successfully', 'info');
@@ -3743,11 +3743,11 @@ async function deleteUser(email) {
     });
 
     if (!confirmed) return;
-    
+
     let users = JSON.parse(localStorage.getItem('merkatoUsers')) || [];
     users = users.filter(u => u.email !== email);
     localStorage.setItem('merkatoUsers', JSON.stringify(users));
-    
+
     loadAdminUsers();
     loadAdminStats();
     showNotification('User removed successfully', 'info');
@@ -3772,11 +3772,11 @@ function viewOrderDetails(orderId) {
         showNotification('Order not found', 'error');
         return;
     }
-    
+
     const statusColor = order.status === 'Delivered' ? '#10b981' :
-                       order.status === 'Processing' ? '#f59e0b' :
-                       order.status === 'Shipped' ? '#3b82f6' : '#ef4444';
-    
+        order.status === 'Processing' ? '#f59e0b' :
+            order.status === 'Shipped' ? '#3b82f6' : '#ef4444';
+
     const itemsHtml = (order.items || []).map(item => `
         <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:13px;">
             <span>${escapeMarkup(item.name)} × ${item.quantity}</span>
@@ -3845,17 +3845,17 @@ function editProduct(id) {
         showNotification('⚠️ Product not found', 'error');
         return;
     }
-    
+
     document.getElementById('productName').value = product.name;
     document.getElementById('productAisle').value = product.aisle;
     document.getElementById('productPrice').value = product.price;
     document.getElementById('productStock').value = product.stock;
     document.getElementById('productImage').value = product.image || '';
     document.getElementById('productDescription').value = product.description || '';
-    
+
     document.getElementById('productSubmitBtn').textContent = '✏️ Update Product';
     document.getElementById('cancelEditBtn').style.display = 'inline-block';
-    
+
     switchTab('add-product');
     showNotification(`✏️ Editing "${product.name}"`);
 }
@@ -3867,15 +3867,15 @@ function addProduct() {
     const stock = parseInt(document.getElementById('productStock').value);
     const image = document.getElementById('productImage').value.trim();
     const description = document.getElementById('productDescription').value.trim();
-    
+
     if (!name || !price || !stock) {
         showNotification('⚠️ Please fill in all required fields', 'error');
         return;
     }
-    
+
     let products = getAllProducts();
     const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    
+
     products.push({
         id: newId,
         name: name,
@@ -3885,15 +3885,15 @@ function addProduct() {
         image: image || 'https://via.placeholder.com/130',
         description: description || ''
     });
-    
+
     localStorage.setItem('merkatoProducts', JSON.stringify(products));
-    
+
     document.getElementById('addProductForm').reset();
-    
+
     loadAdminProducts();
     loadAdminStats();
     showNotification(`✅ Product "${name}" added successfully!`);
-    
+
     switchTab('products');
 }
 
@@ -3904,21 +3904,21 @@ function updateProduct(id) {
     const stock = parseInt(document.getElementById('productStock').value);
     const image = document.getElementById('productImage').value.trim();
     const description = document.getElementById('productDescription').value.trim();
-    
+
     if (!name || !price || !stock) {
         showNotification('⚠️ Please fill in all required fields', 'error');
         return;
     }
-    
+
     let products = getAllProducts();
     const index = products.findIndex(p => p.id === id);
     if (index === -1) {
         showNotification('⚠️ Product not found', 'error');
         return;
     }
-    
+
     const oldName = products[index].name;
-    
+
     products[index] = {
         ...products[index],
         name: name,
@@ -3928,11 +3928,11 @@ function updateProduct(id) {
         image: image || products[index].image,
         description: description || products[index].description
     };
-    
+
     localStorage.setItem('merkatoProducts', JSON.stringify(products));
-    
+
     cancelEdit();
-    
+
     loadAdminProducts();
     loadAdminStats();
     showNotification(`✅ Product "${oldName}" updated to "${name}" successfully!`);
@@ -3949,7 +3949,7 @@ function switchTab(tab) {
         btn.classList.remove('active');
     });
     document.querySelector(`.admin-tabs button[onclick*="${tab}"]`).classList.add('active');
-    
+
     document.querySelectorAll('.admin-panel').forEach(panel => {
         panel.classList.remove('active');
     });
@@ -3957,7 +3957,7 @@ function switchTab(tab) {
     if (panel) {
         panel.classList.add('active');
     }
-    
+
     if (tab === 'products') loadAdminProducts();
     if (tab === 'orders') loadAdminOrders();
     if (tab === 'users') loadAdminUsers();
@@ -3967,7 +3967,7 @@ function switchTab(tab) {
 // DOM READY - Initialize Everything
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('📄 Page Loaded:', window.location.pathname);
 
     updateSubscriberCount();
@@ -4002,10 +4002,10 @@ document.addEventListener('DOMContentLoaded', function() {
         loadProductDetail();
         updateStockBadges();
     }
-// Add tracking buttons to orders
-if (window.location.pathname.includes('orders.html')) {
-    setTimeout(addTrackingButton, 100);
-}
+    // Add tracking buttons to orders
+    if (window.location.pathname.includes('orders.html')) {
+        setTimeout(addTrackingButton, 100);
+    }
     // ===== SHOP PAGE =====
     if (window.location.pathname.includes('shop.html')) {
         loadShopProducts();
@@ -4033,7 +4033,7 @@ if (window.location.pathname.includes('orders.html')) {
     // ===== PROFILE FORM =====
     const profileForm = document.getElementById('profileForm');
     if (profileForm) {
-        profileForm.addEventListener('submit', function(e) {
+        profileForm.addEventListener('submit', function (e) {
             e.preventDefault();
             saveUserProfile();
         });
@@ -4044,10 +4044,10 @@ if (window.location.pathname.includes('orders.html')) {
         displayCartItems();
     }
 
-// ===== CHECK ADMIN ACCESS =====
-if (window.location.pathname.includes('admin.html')) {
-    checkAdminAccess();
-}
+    // ===== CHECK ADMIN ACCESS =====
+    if (window.location.pathname.includes('admin.html')) {
+        checkAdminAccess();
+    }
 
     // ===== ADD TO CART BUTTONS =====
     initAddToCartButtons();
@@ -4056,7 +4056,7 @@ if (window.location.pathname.includes('admin.html')) {
     initialiseSearch();
 
     updateWishlistButtons();
-    
+
     console.log('✅ MERKATO JavaScript Ready!');
 });
 
@@ -4076,26 +4076,26 @@ function openPaymentModal() {
     const email = document.getElementById('email')?.value || '';
     const phone = document.getElementById('phone')?.value || '';
     const address = document.getElementById('address')?.value || '';
-    
+
     if (!fullname || !email || !phone || !address) {
         showNotification('⚠️ Please fill in all shipping details');
         return;
     }
-    
+
     if (cart.length === 0) {
         showNotification('⚠️ Your cart is empty');
         return;
     }
-    
+
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
-    
+
     document.getElementById('paymentAmount').textContent = total.toLocaleString() + ' ETB';
     document.getElementById('paymentModal').classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     // Reset states
     document.getElementById('paymentInitial').style.display = 'block';
     document.getElementById('paymentProcessing').style.display = 'none';
@@ -4109,14 +4109,14 @@ function closePaymentModal() {
 
 function selectPayment(method) {
     selectedPayment = method;
-    
+
     // Update button styles
     document.querySelectorAll('.payment-options button').forEach(btn => {
         btn.classList.remove('selected');
         btn.style.borderColor = '#e0e0e0';
         btn.style.background = '#fff';
     });
-    
+
     const btn = document.getElementById(`pay-${method}`);
     if (btn) {
         btn.classList.add('selected');
@@ -4133,11 +4133,11 @@ function initiatePaymentFlow() {
         const shipping = subtotal > 3000 ? 0 : 200;
         const tax = subtotal * 0.15;
         const total = subtotal + shipping + tax;
-        
+
         document.getElementById('paymentInitial').style.display = 'none';
         document.getElementById('telebirrAmount').textContent = total.toLocaleString() + ' ETB';
         document.getElementById('telebirrPhoneState').style.display = 'block';
-        
+
         // Auto-fill phone if available
         const phone = document.getElementById('phone')?.value;
         if (phone) {
@@ -4154,16 +4154,16 @@ async function requestTelebirrPin() {
         showNotification('⚠️ Please enter your phone number');
         return;
     }
-    
+
     const subtotal = getCartTotal();
     const shipping = subtotal > 3000 ? 0 : 200;
     const tax = subtotal * 0.15;
     const total = subtotal + shipping + tax;
-    
+
     const btn = document.getElementById('btnRequestPin');
     btn.disabled = true;
     btn.textContent = 'Sending...';
-    
+
     try {
         const response = await fetch('/api/payments/telebirr/request', {
             method: 'POST',
@@ -4173,23 +4173,23 @@ async function requestTelebirrPin() {
             },
             body: JSON.stringify({ phone, amount: total })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message || 'Failed to request PIN');
         }
-        
+
         telebirrTransactionId = data.transactionId;
-        
+
         // Move to PIN state
         document.getElementById('telebirrPhoneState').style.display = 'none';
         document.getElementById('telebirrPinState').style.display = 'block';
-        
+
         // In real app we wouldn't show this, but for demo:
         console.log("TEST PIN IS: " + data.testPin);
         showNotification('💬 SMS PIN Sent! (Check console for test pin: ' + data.testPin + ')');
-        
+
     } catch (error) {
         console.error('Telebirr error:', error);
         showNotification('❌ ' + error.message);
@@ -4202,18 +4202,18 @@ async function requestTelebirrPin() {
 async function verifyTelebirrPin() {
     const pin = document.getElementById('telebirrPinInput').value;
     const errorDiv = document.getElementById('telebirrError');
-    
+
     if (!pin || pin.length !== 4) {
         errorDiv.textContent = 'Please enter a valid 4-digit PIN';
         errorDiv.style.display = 'block';
         return;
     }
-    
+
     errorDiv.style.display = 'none';
     const btn = document.getElementById('btnVerifyPin');
     btn.disabled = true;
     btn.textContent = 'Verifying...';
-    
+
     try {
         const response = await fetch('/api/payments/telebirr/verify', {
             method: 'POST',
@@ -4223,17 +4223,17 @@ async function verifyTelebirrPin() {
             },
             body: JSON.stringify({ transactionId: telebirrTransactionId, pin })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message || 'Verification failed');
         }
-        
+
         // Payment verified! Now process the actual order
         document.getElementById('telebirrPinState').style.display = 'none';
         processPayment();
-        
+
     } catch (error) {
         console.error('Telebirr verification error:', error);
         errorDiv.textContent = '❌ ' + error.message;
@@ -4257,27 +4257,27 @@ function processPayment() {
     const email = document.getElementById('email')?.value || '';
     const phone = document.getElementById('phone')?.value || '';
     const address = document.getElementById('address')?.value || '';
-    
+
     // Show processing
     document.getElementById('paymentInitial').style.display = 'none';
     document.getElementById('paymentProcessing').style.display = 'block';
-    
+
     // Animated dots
     let dots = 0;
     const dotInterval = setInterval(() => {
         dots = (dots % 3) + 1;
         document.getElementById('processingDots').textContent = '.'.repeat(dots);
     }, 500);
-    
+
     // Simulate a brief processing delay, then place the real order
     setTimeout(async () => {
         clearInterval(dotInterval);
-        
+
         const subtotal = getCartTotal();
         const shipping = subtotal > 3000 ? 0 : 200;
         const tax = subtotal * 0.15;
         const total = subtotal + shipping + tax;
-        
+
         const orderPayload = {
             items: cart.map(item => ({
                 name: item.name,
@@ -4297,7 +4297,7 @@ function processPayment() {
             tax: tax,
             total: total
         };
-        
+
         if (!isLoggedIn()) {
             document.getElementById('paymentProcessing').style.display = 'none';
             document.getElementById('paymentInitial').style.display = 'block';
@@ -4305,7 +4305,7 @@ function processPayment() {
             setTimeout(() => { window.location.href = 'login.html'; }, 1500);
             return;
         }
-        
+
         let createdOrder;
         try {
             createdOrder = await createOrder(orderPayload);
@@ -4315,7 +4315,7 @@ function processPayment() {
             showNotification('❌ Order failed: ' + error.message);
             return;
         }
-        
+
         // Normalize the real order (MongoDB _id/createdAt) into the shape
         // the rest of this file (receipt printing, order history) expects.
         currentOrder = {
@@ -4326,30 +4326,30 @@ function processPayment() {
             })
         };
         const orderNumber = currentOrder.id;
-        
+
         // Keep a local mirror so order history/tracking pages (which read
         // this cache for display convenience) show the new order immediately.
         let orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
         orders.unshift(currentOrder);
         localStorage.setItem('merkatoOrders', JSON.stringify(orders));
         localStorage.setItem('lastOrderNumber', orderNumber);
-        
+
         // Clear cart
         cart = [];
         saveCart();
         updateCartCount();
-        
+
         // Show success
         document.getElementById('paymentProcessing').style.display = 'none';
         document.getElementById('paymentSuccess').style.display = 'block';
         document.getElementById('successOrderId').textContent = orderNumber;
-        document.getElementById('successPayment').textContent = selectedPayment === 'telebirr' ? 'Telebirr' : 
-                                                              selectedPayment === 'cod' ? 'Cash on Delivery' : 
-                                                              'Credit/Debit Card';
+        document.getElementById('successPayment').textContent = selectedPayment === 'telebirr' ? 'Telebirr' :
+            selectedPayment === 'cod' ? 'Cash on Delivery' :
+                'Credit/Debit Card';
         document.getElementById('successTotal').textContent = total.toLocaleString() + ' ETB';
-        
+
         showNotification('✅ Payment successful! Order #' + orderNumber);
-        
+
     }, 2500);
 }
 
@@ -4358,7 +4358,7 @@ function printOrderReceipt() {
         showNotification('⚠️ No order to print');
         return;
     }
-    
+
     const order = currentOrder;
     let itemsHtml = order.items.map(item => `
         <tr>
@@ -4368,7 +4368,7 @@ function printOrderReceipt() {
             <td>${item.subtotal.toLocaleString()} ETB</td>
         </tr>
     `).join('');
-    
+
     const receiptWindow = window.open('', '_blank', 'width=600,height=600');
     receiptWindow.document.write(`
         <html>
@@ -4451,27 +4451,27 @@ function processOrder(event) {
 function trackOrder(orderId) {
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     const order = orders.find(o => o.id === orderId);
-    
+
     if (!order) {
         showNotification('⚠️ Order not found');
         return;
     }
-    
+
     const modal = document.getElementById('trackingModal');
     const content = document.getElementById('trackingContent');
-    
+
     // Define tracking steps
     const steps = [
         { status: 'Processing', icon: '⏳', label: 'Order Received' },
         { status: 'Shipped', icon: '🚚', label: 'Shipped' },
         { status: 'Delivered', icon: '✅', label: 'Delivered' }
     ];
-    
+
     let currentStep = 0;
     if (order.status === 'Shipped') currentStep = 1;
     else if (order.status === 'Delivered') currentStep = 2;
     else if (order.status === 'Cancelled') currentStep = -1;
-    
+
     let html = `
         <div style="margin-bottom:15px;">
             <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -4490,7 +4490,7 @@ function trackOrder(orderId) {
             </div>
         </div>
     `;
-    
+
     if (order.status === 'Cancelled') {
         html += `
             <div style="text-align:center;padding:20px;background:#ffebee;border-radius:8px;">
@@ -4503,11 +4503,11 @@ function trackOrder(orderId) {
         html += `
             <div style="position:relative;padding:10px 0;">
                 ${steps.map((step, index) => {
-                    const isCompleted = index <= currentStep;
-                    const isActive = index === currentStep;
-                    const isLast = index === steps.length - 1;
-                    
-                    return `
+            const isCompleted = index <= currentStep;
+            const isActive = index === currentStep;
+            const isLast = index === steps.length - 1;
+
+            return `
                         <div style="display:flex;align-items:flex-start;gap:15px;margin-bottom:${isLast ? '0' : '20px'};">
                             <div style="position:relative;">
                                 <div style="
@@ -4547,10 +4547,10 @@ function trackOrder(orderId) {
                             </div>
                         </div>
                     `;
-                }).join('')}
+        }).join('')}
             </div>
         `;
-        
+
         // Show estimated delivery
         if (order.status === 'Processing') {
             const deliveryDate = new Date();
@@ -4576,7 +4576,7 @@ function trackOrder(orderId) {
             `;
         }
     }
-    
+
     content.innerHTML = html;
     modal.style.display = 'flex';
 }
@@ -4641,7 +4641,7 @@ function adminLogin(email, password) {
         };
         localStorage.setItem('merkatoUser', JSON.stringify(adminUser));
         localStorage.setItem('merkatoUserData', JSON.stringify(adminUser));
-        
+
         showNotification('✅ Admin logged in successfully!');
         setTimeout(() => {
             window.location.href = 'admin.html';
@@ -4743,7 +4743,7 @@ function toggleMobileMenu() {
 }
 
 // Close menu when a nav link is clicked
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (e.target.closest('.nav a')) {
         const nav = document.querySelector('.nav');
         const btn = document.getElementById('hamburgerBtn');
@@ -4850,7 +4850,7 @@ function initSearchAutocomplete() {
 
     let debounceTimer;
 
-    input.addEventListener('input', function() {
+    input.addEventListener('input', function () {
         clearTimeout(debounceTimer);
         const query = this.value.trim().toLowerCase();
 
@@ -4892,14 +4892,14 @@ function initSearchAutocomplete() {
     });
 
     // Close suggestions when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!form.contains(e.target)) {
             suggestionsDiv.classList.remove('active');
         }
     });
 
     // Close on Escape
-    input.addEventListener('keydown', function(e) {
+    input.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             suggestionsDiv.classList.remove('active');
         }
@@ -4957,7 +4957,7 @@ function openQuickView(productId) {
     });
 
     // Close on overlay click
-    overlay.addEventListener('click', function(e) {
+    overlay.addEventListener('click', function (e) {
         if (e.target === overlay) closeQuickView();
     });
 
@@ -5011,7 +5011,7 @@ function enhanceProductCards() {
             const cartBtn = document.createElement('button');
             cartBtn.className = 'card-add-cart';
             cartBtn.textContent = '🛒 Add to Cart';
-            cartBtn.onclick = function(e) {
+            cartBtn.onclick = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 addToCart(productId, productName, productPrice, productImage);
@@ -5053,7 +5053,7 @@ function enhanceCartLink() {
     cartLinks.forEach(link => {
         // Only intercept on non-cart pages  
         if (!window.location.pathname.includes('cart.html') && document.getElementById('cartDrawer')) {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 openCartDrawer();
             });
@@ -5065,7 +5065,7 @@ function enhanceCartLink() {
 // INIT ALL NEW FEATURES ON PAGE LOAD
 // ========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Scroll reveal animations
     setTimeout(initScrollReveal, 100);
 
@@ -5086,18 +5086,18 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadReviews(productId) {
     const listContainer = document.getElementById('reviewsList');
     if (!listContainer) return;
-    
+
     try {
         const response = await fetch('/api/reviews/product/' + productId);
         if (!response.ok) throw new Error('Failed to fetch reviews');
-        
+
         const reviews = await response.json();
-        
+
         if (reviews.length === 0) {
             listContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#888;">No reviews yet. Be the first to review this product!</div>';
             return;
         }
-        
+
         let html = '';
         reviews.forEach(r => {
             const date = new Date(r.createdAt || r.date).toLocaleDateString();
@@ -5113,9 +5113,9 @@ async function loadReviews(productId) {
                 </div>
             `;
         });
-        
+
         listContainer.innerHTML = html;
-        
+
     } catch (error) {
         console.error('Error loading reviews:', error);
         listContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#d9534f;">Failed to load reviews.</div>';
@@ -5125,31 +5125,31 @@ async function loadReviews(productId) {
 async function submitReview(event, productId) {
     event.preventDefault();
     const statusDiv = document.getElementById('reviewStatus');
-    
+
     const userJson = localStorage.getItem('merkatoUser');
     if (!userJson) {
         statusDiv.style.color = '#d9534f';
         statusDiv.innerHTML = 'You must be <a href="login.html" style="color:#d9534f;text-decoration:underline;">logged in</a> to write a review.';
         return;
     }
-    
+
     const user = JSON.parse(userJson);
     const token = user.token || localStorage.getItem('merkatoToken');
-    
+
     if (!token) {
         statusDiv.style.color = '#d9534f';
         statusDiv.innerHTML = 'Authentication error. Please log in again.';
         return;
     }
-    
+
     const rating = document.getElementById('reviewRating').value;
     const comment = document.getElementById('reviewComment').value;
     const submitBtn = event.target.querySelector('button[type="submit"]');
-    
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
     statusDiv.innerHTML = '';
-    
+
     try {
         const response = await fetch('/api/reviews', {
             method: 'POST',
@@ -5163,20 +5163,20 @@ async function submitReview(event, productId) {
                 comment: comment
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (!response.ok) {
             throw new Error(data.message || 'Failed to submit review');
         }
-        
+
         statusDiv.style.color = '#008000';
         statusDiv.innerHTML = '✅ Review submitted successfully!';
         document.getElementById('reviewForm').reset();
-        
+
         // Reload reviews
         loadReviews(productId);
-        
+
     } catch (error) {
         console.error('Submit review error:', error);
         statusDiv.style.color = '#d9534f';
@@ -5344,7 +5344,7 @@ function createLanguageToggle() {
             btn.type = 'button';
             btn.onclick = toggleLanguage;
             btn.innerHTML = currentLanguage === 'en' ? '🇪🇹 አማርኛ' : '🇬🇧 English';
-            
+
             const themeToggleWrapper = nav.querySelector('.theme-toggle-wrapper');
             if (themeToggleWrapper) {
                 themeToggleWrapper.parentNode.insertBefore(btn, themeToggleWrapper);
@@ -5403,7 +5403,7 @@ let appliedPromoData = JSON.parse(localStorage.getItem('merkatoActiveCoupon')) |
 async function applyCouponCode(codeToApply = null) {
     const input = document.getElementById('promoInput') || document.getElementById('checkoutPromoInput');
     const code = codeToApply || (input ? input.value.trim() : '');
-    
+
     if (!code) {
         showNotification('⚠️ Please enter a promo code');
         return;
@@ -5435,7 +5435,7 @@ async function applyCouponCode(codeToApply = null) {
             appliedPromoData = result.coupon;
             localStorage.setItem('merkatoActiveCoupon', JSON.stringify(appliedPromoData));
             showNotification(`🎉 ${result.message || 'Promo code applied successfully!'}`);
-            
+
             if (window.location.pathname.includes('cart.html')) {
                 updateCartSummary();
             }
@@ -5461,13 +5461,13 @@ function removeCouponCode() {
 }
 
 // Override / Enhance updateCartSummary to support discounts & zones
-window.updateCartSummary = function() {
+window.updateCartSummary = function () {
     const summaryContainer = document.querySelector('.cart-summary');
     if (!summaryContainer || cart.length === 0) return;
 
     const subtotal = getCartTotal();
     const baseShipping = getDeliveryZoneFee();
-    
+
     let discountAmount = 0;
     let isFreeShipping = subtotal > 3000;
 
@@ -5556,12 +5556,12 @@ window.updateCartSummary = function() {
 };
 
 // Override / Enhance loadCheckoutSummary
-window.loadCheckoutSummary = function() {
+window.loadCheckoutSummary = function () {
     const summaryContainer = document.getElementById('checkoutOrderSummary');
     const sidebarContainer = document.getElementById('checkoutSidebar');
-    
+
     if (!summaryContainer) return;
-    
+
     if (cart.length === 0) {
         summaryContainer.innerHTML = `
             <div style="text-align:center;padding:20px;color:#888;">
@@ -5577,7 +5577,7 @@ window.loadCheckoutSummary = function() {
 
     const subtotal = getCartTotal();
     const baseShipping = getDeliveryZoneFee();
-    
+
     let discountAmount = 0;
     let isFreeShipping = subtotal > 3000;
 
@@ -5597,7 +5597,7 @@ window.loadCheckoutSummary = function() {
     const tax = Math.round(discountedSubtotal * 0.15);
     const grandTotal = discountedSubtotal + shipping + tax;
     const count = getCartCount();
-    
+
     let itemsHtml = '';
     cart.forEach(item => {
         itemsHtml += `
@@ -5635,7 +5635,7 @@ window.loadCheckoutSummary = function() {
             </li>
         </ul>
     `;
-    
+
     if (sidebarContainer) {
         sidebarContainer.innerHTML = `
             <div class="summary-row">
@@ -5683,14 +5683,14 @@ window.loadCheckoutSummary = function() {
 
 let chapaTxRef = null;
 
-window.selectPayment = function(method) {
+window.selectPayment = function (method) {
     selectedPayment = method;
     document.querySelectorAll('.payment-options button').forEach(btn => {
         btn.classList.remove('selected');
         btn.style.borderColor = '#e0e0e0';
         btn.style.background = '#fff';
     });
-    
+
     const btn = document.getElementById(`pay-${method}`);
     if (btn) {
         btn.classList.add('selected');
@@ -5699,7 +5699,7 @@ window.selectPayment = function(method) {
     }
 };
 
-window.initiatePaymentFlow = function() {
+window.initiatePaymentFlow = function () {
     const subtotal = getCartTotal();
     let discountAmount = 0;
     let isFreeShipping = subtotal > 3000;
@@ -5725,7 +5725,7 @@ window.initiatePaymentFlow = function() {
         document.getElementById('paymentInitial').style.display = 'none';
         if (document.getElementById('telebirrPhoneState')) document.getElementById('telebirrPhoneState').style.display = 'none';
         if (document.getElementById('cbeState')) document.getElementById('cbeState').style.display = 'none';
-        
+
         let chapaBox = document.getElementById('chapaState');
         if (!chapaBox) {
             chapaBox = document.createElement('div');
@@ -5787,7 +5787,7 @@ window.initiatePaymentFlow = function() {
     }
 };
 
-window.resetPaymentModal = function() {
+window.resetPaymentModal = function () {
     if (document.getElementById('telebirrPhoneState')) document.getElementById('telebirrPhoneState').style.display = 'none';
     if (document.getElementById('telebirrPinState')) document.getElementById('telebirrPinState').style.display = 'none';
     if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
@@ -5795,13 +5795,13 @@ window.resetPaymentModal = function() {
     document.getElementById('paymentInitial').style.display = 'block';
 };
 
-window.processChapaPaymentFlow = async function() {
+window.processChapaPaymentFlow = async function () {
     showNotification('🔄 Initializing Chapa Secure Gateway...');
     if (document.getElementById('chapaState')) document.getElementById('chapaState').style.display = 'none';
     processPayment();
 };
 
-window.verifyCbePaymentFlow = async function() {
+window.verifyCbePaymentFlow = async function () {
     const ref = document.getElementById('cbeRefInput')?.value?.trim();
     if (!ref || ref.length < 5) {
         showNotification('⚠️ Please enter a valid CBE transaction reference (e.g. FT2608...)');
@@ -5838,7 +5838,7 @@ function initLiveSearch() {
             wrapper.appendChild(dropdown);
         }
 
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             clearTimeout(searchDebounceTimer);
             const query = this.value.trim().toLowerCase();
 
@@ -5864,7 +5864,7 @@ function initLiveSearch() {
 
 function renderLiveSearchResults(query, dropdown) {
     const allProducts = JSON.parse(localStorage.getItem('merkatoProducts')) || [];
-    
+
     // Search by name, aisle, description, or amharic keywords
     const matches = allProducts.filter(p => {
         const name = (p.name || '').toLowerCase();
@@ -6043,8 +6043,8 @@ function sendAIMessage() {
         } else if (lower.includes('selam') || lower.includes('hello') || lower.includes('hi') || lower.includes('ሰላም')) {
             appendAIMessage('bot', currentLanguage === 'am' ? 'ሰላም! ጤና ይስጥልኝ! በመርካቶ ምን ማዘዝ ወይም መፈለግ ይፈልጋሉ?' : 'Selam! How can I assist you with your shopping today?');
         } else {
-            appendAIMessage('bot', currentLanguage === 'am' ? 
-                `ለጥያቄዎ "${text}" እናመሰግናለን! በሱቃችን ውስጥ ከ 50+ በላይ የሀበሻ እና ዘመናዊ ምርቶች አሉ። ከላይ ያሉትን ፈጣን ምርጫዎች ወይም የፍለጋ ሳጥኑን መጠቀም ይችላሉ።` : 
+            appendAIMessage('bot', currentLanguage === 'am' ?
+                `ለጥያቄዎ "${text}" እናመሰግናለን! በሱቃችን ውስጥ ከ 50+ በላይ የሀበሻ እና ዘመናዊ ምርቶች አሉ። ከላይ ያሉትን ፈጣን ምርጫዎች ወይም የፍለጋ ሳጥኑን መጠቀም ይችላሉ።` :
                 `Thank you for asking about "${text}". You can explore our catalog of authentic Ethiopian coffees, spices, artisanal items, and electronics. Feel free to use the search bar above or choose a quick option below!`
             );
         }
@@ -6247,7 +6247,7 @@ function printTaxInvoice() {
 // 9. ENHANCED COURIER TRACKING WITH ADDIS ABABA MAP SIMULATOR
 // -------------------------------------------------------------------------
 
-window.trackOrder = function(orderId) {
+window.trackOrder = function (orderId) {
     const orders = JSON.parse(localStorage.getItem('merkatoOrders')) || [];
     const order = orders.find(o => o.id === orderId || o._id === orderId) || {
         id: orderId || 'ET-2026-4891',
@@ -6383,7 +6383,7 @@ function initNotificationCenter() {
         if (!nav.querySelector('.notif-bell-wrapper')) {
             const wrapper = document.createElement('div');
             wrapper.className = 'notif-bell-wrapper';
-            
+
             let listHtml = '';
             MERKATO_NOTIFICATIONS.forEach(n => {
                 listHtml += `
@@ -6755,7 +6755,7 @@ function sendTelegramOrderAlert(orderId) {
 // INITIALIZE ALL MERKATO ADVANCED SUITE AUTOMATICALLY
 // -------------------------------------------------------------------------
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     createLanguageToggle();
     applyTranslations(currentLanguage);
     initLiveSearch();
