@@ -61,6 +61,11 @@ while ($true) {
                 
                 # Commit autonomously
                 git commit -m $msg
+                
+                # Push autonomously to remote repository
+                Write-Output "🚀 Pushing changes to remote repository..."
+                git push origin HEAD
+                Write-Output "✅ Successfully synchronized with GitHub at $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
             }
         }
         
