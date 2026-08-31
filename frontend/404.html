@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MERKATO - Page not found">
+    <meta property="og:title" content="404 Page Not Found — MERKATO">
+    <meta property="og:description" content="The page you are looking for cannot be found on MERKATO.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://merkato.com/404.html">
+    <meta property="og:image" content="https://merkato.com/images/og-404.jpg">
     <title>404 Page Not Found — MERKATO</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
@@ -11,27 +17,35 @@
     <style>
         .error-container {
             text-align: center;
-            padding: 80px 20px;
-            max-width: 600px;
+            padding: 60px 20px;
+            max-width: 800px;
             margin: 40px auto;
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
         }
         .error-number {
-            font-size: 120px;
-            font-weight: 800;
-            color: #008000;
+            font-size: 150px;
+            font-weight: 900;
+            color: #0A5C36;
             line-height: 1;
-            margin-bottom: 20px;
-            text-shadow: 4px 4px 0 #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 6px 6px 0 #D4AF37;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-30px);}
+            60% {transform: translateY(-15px);}
         }
         .error-geez {
-            font-size: 80px;
-            color: #d9534f;
+            font-size: 40px;
+            color: #c4713b;
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .error-title {
             font-size: 32px;
@@ -39,20 +53,125 @@
             margin-bottom: 15px;
         }
         .error-subtitle {
-            font-size: 16px;
+            font-size: 18px;
             color: #666;
             margin-bottom: 30px;
             line-height: 1.6;
+        }
+        .search-bar-404 {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        .search-bar-404 input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px 0 0 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-bar-404 button {
+            padding: 12px 25px;
+            background: #0A5C36;
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            font-weight: bold;
         }
         .error-actions {
             display: flex;
             gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        .nav-card {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 12px;
+            width: 150px;
+            text-decoration: none;
+            color: #333;
+            transition: 0.3s;
+        }
+        .nav-card:hover {
+            transform: translateY(-5px);
+            border-color: #0A5C36;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-card .icon { font-size: 30px; margin-bottom: 10px; }
+        .nav-card .title { font-weight: bold; }
+        
+        .floating-emojis {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .floating-emoji {
+            position: absolute;
+            font-size: 40px;
+            animation: float-around 10s infinite linear;
+            opacity: 0.6;
+        }
+        .fe-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .fe-2 { top: 20%; right: 10%; animation-delay: -2s; }
+        .fe-3 { bottom: 20%; left: 15%; animation-delay: -4s; }
+        .fe-4 { bottom: 15%; right: 20%; animation-delay: -6s; }
+        @keyframes float-around {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -50px) rotate(120deg); }
+            66% { transform: translate(-20px, -20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        .proverb-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fdf5e6;
+            border-left: 4px solid #d4af37;
+            font-style: italic;
+            color: #3e2723;
+        }
+        
+        .btn-report {
+            background: transparent;
+            border: 2px solid #d9534f;
+            color: #d9534f;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn-report:hover {
+            background: #d9534f;
+            color: white;
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 4px;
+            background: #D4AF37;
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+        .page-transition {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body>
+<body class="page-transition">
+    <div id="scroll-progress"></div>
     <div class="container">
         <header class="header">
             <div class="header-inner">
@@ -64,20 +183,13 @@
                     <span></span><span></span><span></span>
                 </button>
                 <nav class="nav">
+                    <button class="lang-toggle-btn" onclick="toggleLanguage()" aria-label="Toggle Language" style="background:none;border:1px solid #ccc;border-radius:4px;padding:4px 8px;cursor:pointer;margin-right:10px;">EN/አማ</button>
                     <a href="index.html">Home</a>
                     <a href="shop.html">Shop</a>
-                    <a href="about.html">About</a>
                     <a href="contact.html">Contact</a>
-                    <a href="faq.html">FAQ</a>
-                    <a href="returns.html">Returns</a>
-                    <a href="admin.html">Admin</a>
-                    <a href="cart.html">Cart <span class="cart">0</span></a>
-                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
-                    <a href="orders.html">My Orders</a>
                     <span class="theme-toggle-wrapper">
                         <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
                     </span>
-                    <a href="login.html" class="nav-login">Sign In</a>
                 </nav>
             </div>
         </header>
@@ -88,13 +200,42 @@
     <main>
         <div class="container">
             <div class="error-container">
-                <div class="error-geez">፬፻፬</div>
+                <div class="floating-emojis">
+                    <div class="floating-emoji fe-1">☕</div>
+                    <div class="floating-emoji fe-2">🧺</div>
+                    <div class="floating-emoji fe-3">⭐</div>
+                    <div class="floating-emoji fe-4">🌿</div>
+                </div>
+                
                 <div class="error-number">404</div>
-                <h1 class="error-title">This page wandered off to the market</h1>
-                <p class="error-subtitle">The page you're looking for doesn't exist or has been moved.</p>
+                <div class="error-geez">ገጹ አልተገኘም (፬፻፬)</div>
+                <h1 class="error-title">Oops! This page wandered off to the market</h1>
+                <p class="error-subtitle">The page you're looking for doesn't exist, has been moved, or is temporarily unavailable.</p>
+                
+                <form class="search-bar-404" onsubmit="event.preventDefault(); window.location.href='shop.html?q='+this.querySelector('input').value">
+                    <input type="text" placeholder="Search for products..." required>
+                    <button type="submit">Search</button>
+                </form>
+
                 <div class="error-actions">
-                    <a href="index.html" class="btn btn-primary">🏠 Back to Home</a>
-                    <a href="shop.html" class="btn btn-secondary">🛒 Continue Shopping</a>
+                    <a href="index.html" class="nav-card">
+                        <div class="icon">🏠</div>
+                        <div class="title">Home</div>
+                    </a>
+                    <a href="shop.html" class="nav-card">
+                        <div class="icon">🛒</div>
+                        <div class="title">Shop</div>
+                    </a>
+                    <a href="contact.html" class="nav-card">
+                        <div class="icon">📞</div>
+                        <div class="title">Contact</div>
+                    </a>
+                </div>
+                
+                <button class="btn-report" onclick="reportBrokenLink()">🚩 Report Broken Link</button>
+                
+                <div class="proverb-container" id="proverb-container">
+                    <!-- Random proverb injected here -->
                 </div>
             </div>
         </div>
@@ -104,41 +245,54 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <div class="footer-brand">
-                        <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
-                            <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
-                            <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
-                        </a>
-                    </div>
-                    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
-                        Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
-                    </p>
-                </div>
-                <div class="footer-col">
-                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
-                    <ul style="list-style:none;padding:0;margin:0;">
-                        <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🏠 Home</a></li>
-                        <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🛒 Shop</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
-                    <ul style="list-style:none;padding:0;margin:0;">
-                        <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">🔄 Returns</a></li>
-                        <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;">📞 Contact</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-                <p><small>Made with ❤️ in Ethiopia</small></p>
             </div>
         </div>
     </footer>
+    
+    <div id="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
 
     <script src="api.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+        
+        // Report broken link
+        function reportBrokenLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const toast = document.createElement('div');
+                toast.style.background = '#0A5C36';
+                toast.style.color = 'white';
+                toast.style.padding = '15px 25px';
+                toast.style.borderRadius = '8px';
+                toast.style.marginBottom = '10px';
+                toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                toast.innerText = 'URL copied! Thank you for reporting.';
+                document.getElementById('toast-container').appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        }
+        
+        // Random Proverb
+        const proverbs = [
+            "ድር ቢያብር አንበሳ ያስር - When spider webs unite, they can tie up a lion.",
+            "ቀስ በቀስ እንቁላል በእግሩ ይሄዳል - Slowly, slowly, even an egg will walk.",
+            "የማያውቁት አገር አይናፍቅም - You don't miss a place you've never known.",
+            "ከአባይ ማዶ ላለው ህመምተኛ መድሀኒቱ አባይን መሻገር ነው - The cure for the sick person across the Nile is to cross the Nile."
+        ];
+        document.getElementById('proverb-container').innerText = proverbs[Math.floor(Math.random() * proverbs.length)];
+        
+        // Lang toggle mock
+        function toggleLanguage() {
+            alert("Language toggled between English and Amharic!");
+        }
+    </script>
 </body>
 </html>
