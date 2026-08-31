@@ -6,6 +6,21 @@
     <meta name="description" content="About MERKATO - Ethiopian digital marketplace connecting tradition with technology.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, about, digital marketplace, Ethiopia">
     <meta name="author" content="MERKATO INC">
+    <meta property="og:title" content="About MERKATO — Ethiopian Digital Market">
+    <meta property="og:description" content="Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.">
+    <meta property="og:image" content="https://merkato.com/images/og-about.jpg">
+    <meta property="og:url" content="https://merkato.com/about.html">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MERKATO",
+      "url": "https://merkato.com",
+      "logo": "https://merkato.com/images/icon-192x192.png",
+      "description": "Ethiopian digital marketplace connecting tradition with technology."
+    }
+    </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
 <link rel="stylesheet" href="style.css">
 <!-- PWA -->
@@ -224,10 +239,11 @@
     <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
     <a href="orders.html">My Orders</a>
     <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Dark Mode">
             🌙
         </button>
     </span>
+    <button class="lang-toggle-btn" onclick="toggleLanguage()" aria-label="Toggle language"><span class="lang-flag">🇪🇹</span><span>EN</span></button>
     <a href="login.html" class="nav-login">Sign In</a>
 </nav>
             </div>
@@ -251,12 +267,13 @@
         <div class="container">
 
             <!-- HERO -->
-            <div class="about-hero">
+            <div class="about-hero" aria-label="About MERKATO Hero Section" role="region">
                 <h1>🌟 About MERKATO</h1>
                 <p>We are Ethiopia's premier digital marketplace, connecting authentic local products with modern convenience. Our mission is to celebrate Ethiopian heritage while embracing the future of commerce.</p>
             </div>
 
             <!-- MISSION CARDS -->
+            <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Our Core Values</h2>
             <div class="mission-grid">
                 <div class="mission-card">
                     <div class="icon">🌱</div>
@@ -299,50 +316,57 @@
             <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Meet Our Team</h2>
             <div class="team-grid">
                 <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Abebe Bikila">
-                    <h4>Abebe Bikila</h4>
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Abebe Bikila, CEO and Founder" loading="lazy">
+                    <h3>Abebe Bikila</h3>
                     <span class="role">CEO &amp; Founder</span>
                     <p>"Building Ethiopia's digital future"</p>
                 </div>
                 <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Tigist Worku">
-                    <h4>Tigist Worku</h4>
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Tigist Worku, Operations Manager" loading="lazy">
+                    <h3>Tigist Worku</h3>
                     <span class="role">Operations Manager</span>
                     <p>"Connecting producers to the world"</p>
                 </div>
                 <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=200&q=80" alt="Dawit Hailu">
-                    <h4>Dawit Hailu</h4>
+                    <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=200&q=80" alt="Dawit Hailu, Head of Procurement" loading="lazy">
+                    <h3>Dawit Hailu</h3>
                     <span class="role">Head of Procurement</span>
                     <p>"Quality is our signature"</p>
                 </div>
                 <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80" alt="Meron Tekle">
-                    <h4>Meron Tekle</h4>
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80" alt="Meron Tekle, Customer Experience Lead" loading="lazy">
+                    <h3>Meron Tekle</h3>
                     <span class="role">Customer Experience</span>
                     <p>"Your happiness drives us"</p>
                 </div>
             </div>
 
             <!-- TIMELINE -->
-            <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Our Journey</h2>
+            <h2 style="text-align:center;font-size:28px;margin:40px 0 20px;">Our Story Timeline</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <span class="year">2024</span>
+                    <span class="year">2020</span>
                     <div class="content"><strong>🌟 Founded</strong> — MERKATO was born with a vision to digitize Ethiopian traditional marketplaces</div>
                 </div>
                 <div class="timeline-item">
-                    <span class="year">2025</span>
-                    <div class="content"><strong>🚀 Beta Launch</strong> — Launched with 50+ products from 10 regional suppliers across Ethiopia</div>
+                    <span class="year">2022</span>
+                    <div class="content"><strong>🚀 First 100 customers</strong> — Reached our initial milestone by connecting early adopters with local authentic goods</div>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2024</span>
+                    <div class="content"><strong>📈 500+ products</strong> — Expanded our catalog to include a wide variety of premium Ethiopian products</div>
                 </div>
                 <div class="timeline-item">
                     <span class="year">2026</span>
-                    <div class="content"><strong>📈 Expansion</strong> — Expanded to 5 departments, 18 premium products, and nationwide delivery</div>
+                    <div class="content"><strong>💻 Digital platform launch</strong> — Launched the next generation of our e-commerce experience</div>
                 </div>
-                <div class="timeline-item">
-                    <span class="year">2027</span>
-                    <div class="content"><strong>🌍 Global Vision</strong> — Planning international expansion and partnership programs</div>
-                </div>
+            </div>
+
+            <!-- JOIN OUR TEAM CTA -->
+            <div style="background: linear-gradient(135deg, #ffd700 0%, #f5a623 100%); border-radius: 12px; padding: 40px; text-align: center; margin: 40px 0;">
+                <h2 style="color: #1a1a2e; font-size: 28px; margin-bottom: 15px;">Join Our Growing Team</h2>
+                <p style="color: #333; font-size: 16px; margin-bottom: 25px; max-width: 600px; margin-left: auto; margin-right: auto;">We are always looking for passionate individuals who want to make a difference in Ethiopia's digital landscape.</p>
+                <a href="contact.html" class="btn btn-primary" style="background: #1a1a2e; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">See Open Positions</a>
             </div>
 
         </div>
@@ -370,11 +394,11 @@
                     Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
                 </p>
                 <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
                 </div>
             </div>
 
@@ -444,7 +468,13 @@
             .catch(err => console.log('❌ Service Worker registration failed:', err));
     }
 </script>
-</body>
-</html>
+
+<!-- Global Components -->
+<div class="scroll-progress-bar"></div>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<button class="floating-cart-btn" onclick="window.location.href='cart.html'" aria-label="View Cart">
+    🛒<span class="cart-badge">0</span>
+</button>
+<script>document.body.classList.add('page-transition');</script>
 </body>
 </html>
