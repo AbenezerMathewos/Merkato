@@ -6,6 +6,33 @@
     <meta name="description" content="MERKATO - Your saved items wishlist">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, wishlist, saved items">
     <meta name="author" content="MERKATO INC">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="My Wishlist — MERKATO">
+    <meta property="og:description" content="Save your favorite authentic Ethiopian products and come back to them later.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://merkato.com/wishlist.html">
+    <meta property="og:image" content="https://merkato.com/images/og-wishlist.jpg">
+    
+    <!-- JSON-LD BreadcrumbList schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://merkato.com/index.html"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "My Wishlist",
+        "item": "https://merkato.com/wishlist.html"
+      }]
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
@@ -93,6 +120,9 @@
         .empty-wishlist {
             text-align: center;
             padding: 60px 20px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
         }
         .empty-wishlist .icon {
             font-size: 64px;
@@ -106,6 +136,19 @@
         .empty-wishlist p {
             color: #888;
             margin-bottom: 20px;
+        }
+        .empty-wishlist a {
+            display: inline-block;
+            background: #008000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .empty-wishlist a:hover {
+            background: #006400;
         }
         .wishlist-actions {
             display: flex;
@@ -157,8 +200,11 @@
     <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
     <a href="orders.html">My Orders</a>
     <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle dark mode">
             🌙
+        </button>
+        <button class="lang-toggle-btn" id="langToggle" title="Toggle Language" aria-label="Toggle language" style="background:none;border:none;cursor:pointer;font-size:1.2rem;margin-left:8px;">
+            🇪🇹
         </button>
     </span>
     <a href="login.html" class="nav-login">Sign In</a>
@@ -181,21 +227,68 @@
     <!-- MAIN CONTENT -->
     <main>
         <div class="container">
-            <div class="page-title">
-                <h1>❤️ My Wishlist</h1>
-                <p>Save your favorite products and come back to them later</p>
+            <div class="page-title" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1>❤️ My Wishlist</h1>
+                    <p>Save your favorite products and come back to them later</p>
+                </div>
+                <div class="wishlist-top-actions" style="display: flex; gap: 10px;">
+                    <button type="button" onclick="shareWishlist()" style="background:#f0f0f0; border:1px solid #ddd; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:600; color:#333;">🔗 Share</button>
+                    <button type="button" class="btn" style="background:#008000; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">🛒 Add All to Cart</button>
+                </div>
+            </div>
+            
+            <!-- Gifting Hint Banner -->
+            <div class="gifting-hint" style="background: #fff8e1; border-left: 4px solid #ffd700; padding: 12px 20px; margin-bottom: 20px; border-radius: 4px; color: #5d4037; font-size: 0.95rem;">
+                🎁 <strong>Planning a gift?</strong> Share your wishlist with friends and family so they know exactly what authentic Ethiopian items you want!
+            </div>
+
+            <div class="wishlist-controls" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                <div class="wishlist-filters" style="display: flex; gap: 10px;">
+                    <button class="tab-btn active" style="padding: 6px 12px; border: 1px solid #008000; background: #008000; color: white; border-radius: 20px; cursor: pointer;">All Items</button>
+                    <button class="tab-btn" style="padding: 6px 12px; border: 1px solid #ccc; background: white; color: #333; border-radius: 20px; cursor: pointer;">In Stock</button>
+                    <button class="tab-btn" style="padding: 6px 12px; border: 1px solid #ccc; background: white; color: #333; border-radius: 20px; cursor: pointer;">On Sale</button>
+                </div>
+                <div class="wishlist-sort">
+                    <label for="wishlistSort" style="margin-right: 8px; font-weight: 600; font-size: 0.9rem;">Sort by:</label>
+                    <select id="wishlistSort" style="padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; outline: none;">
+                        <option value="recent">Recently Added</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
             </div>
 
             <div class="wishlist-container">
-                <div id="wishlistGrid" class="wishlist-grid">
+                <div id="wishlistGrid" class="wishlist-grid" aria-label="Wishlist items grid">
                     <!-- Wishlist items will be loaded here by JavaScript -->
                     <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
                         Loading your wishlist...
+                    </div>
+                    
+                    <!-- Empty State (hidden by default) -->
+                    <div id="empty-wishlist-state" class="empty-wishlist" style="display: none; grid-column: 1/-1;">
+                        <div class="icon">❤️</div>
+                        <h3>Your wishlist is empty</h3>
+                        <p>Save items you love to keep track of them for later.</p>
+                        <a href="shop.html">Explore Products</a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    
+    <script>
+        function shareWishlist() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const toast = document.createElement('div');
+                toast.textContent = "📋 Wishlist URL copied to clipboard!";
+                toast.style.cssText = "background:#333;color:white;padding:12px 20px;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,0.2);margin-top:10px;animation:fadeIn 0.3s;";
+                document.getElementById('toast-container').appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            });
+        }
+    </script>
 
     <hr class="divider">
 
@@ -280,8 +373,32 @@
     </div>
 </footer>
 
+    <!-- Bottom UI Elements -->
+    <div id="scroll-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:#ffd700;z-index:9999;width:0%;transition:width 0.1s;"></div>
+    <div id="toast-container" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+    <a href="cart.html" id="floating-cart-btn" style="position:fixed;bottom:80px;right:20px;background:#0A5C36;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:9998;transition:transform 0.3s;" aria-label="View Cart" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        🛒<span style="position:absolute;top:-2px;right:-2px;background:#d4af37;color:#000;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;">3</span>
+    </a>
+
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
+    <script>
+        // Page Transition
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease-in-out';
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+        
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById('scroll-progress-bar');
+            if(bar) bar.style.width = scrolled + '%';
+        });
+    </script>
     <script src="api.js"></script>
 <script src="script.js"></script>
 <!-- ===== SERVICE WORKER REGISTRATION ===== -->
