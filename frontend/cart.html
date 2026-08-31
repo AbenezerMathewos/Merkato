@@ -6,6 +6,33 @@
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
     <meta name="author" content="MERKATO INC">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Shopping Cart — MERKATO">
+    <meta property="og:description" content="Review your authentic Ethiopian products before checkout.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://merkato.com/cart.html">
+    <meta property="og:image" content="https://merkato.com/images/og-image.jpg">
+    
+    <!-- JSON-LD BreadcrumbList schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://merkato.com/index.html"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Shopping Cart",
+        "item": "https://merkato.com/cart.html"
+      }]
+    }
+    </script>
+
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <!-- PWA -->
@@ -47,8 +74,11 @@
     <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
     <a href="orders.html">My Orders</a>
     <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle dark mode">
             🌙
+        </button>
+        <button class="lang-toggle-btn" id="langToggle" title="Toggle Language" aria-label="Toggle language" style="background:none;border:none;cursor:pointer;font-size:1.2rem;margin-left:8px;">
+            🇪🇹
         </button>
     </span>
     <a href="login.html" class="nav-login">Sign In</a>
@@ -63,9 +93,9 @@
 
     <!-- BREADCRUMB -->
     <div class="container">
-        <div class="breadcrumb">
+        <div class="breadcrumb" aria-label="breadcrumbs">
             <a href="index.html">Home</a> &gt; 
-            <span><strong>Shopping Cart</strong></span>
+            <span aria-current="page"><strong>Shopping Cart</strong></span>
         </div>
     </div>
 
@@ -75,6 +105,7 @@
             <div class="page-title">
                 <h1>🛒 Your Shopping Cart</h1>
                 <p>Review your items before proceeding to checkout.</p>
+                <div aria-live="polite" class="sr-only" id="cart-announcer"></div>
             </div>
 
             <div class="cart-layout">
@@ -83,6 +114,14 @@
                         Cart Items
                         <span>3 Items</span>
                     </h2>
+
+                    <!-- Empty Cart State -->
+                    <div id="empty-cart-state" style="display: none; text-align: center; padding: 40px 20px; background: #fff; border-radius: 8px; border: 1px dashed #ccc; margin-bottom: 20px;">
+                        <div style="font-size: 64px; margin-bottom: 20px;">🛒</div>
+                        <h3 style="font-size: 24px; color: #1a1a2e; margin-bottom: 10px;">Your cart is empty</h3>
+                        <p style="color: #888; margin-bottom: 20px;">Looks like you haven't added any traditional items yet.</p>
+                        <a href="shop.html" style="display: inline-block; background: #008000; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; transition: background 0.3s;">Start Shopping</a>
+                    </div>
 
                     <!-- Item 1 -->
                     <div class="cart-item" data-product-id="1">
@@ -96,11 +135,14 @@
                         </div>
                         <div class="item-actions">
                             <div class="quantity-control">
-                                <button type="button">−</button>
-                                <input type="number" value="2" min="1" max="99">
-                                <button type="button">+</button>
+                                <button type="button" aria-label="Decrease quantity">−</button>
+                                <input type="number" value="2" min="1" max="99" aria-label="Quantity">
+                                <button type="button" aria-label="Increase quantity">+</button>
                             </div>
-                            <button type="button" class="remove-btn">✕ Remove</button>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px; margin-top: 5px;">
+                                <button type="button" class="remove-btn">✕ Remove</button>
+                                <button type="button" class="save-later-btn" style="background:none;border:none;color:#008000;cursor:pointer;font-size:0.85rem;text-decoration:underline;">Save for later</button>
+                            </div>
                         </div>
                     </div>
 
@@ -177,10 +219,22 @@
 
                     <a href="checkout.html" class="checkout-btn">Proceed to Checkout →</a>
 
+                    <!-- Trust Badges -->
+                    <div class="trust-badges" style="display:flex; justify-content:space-between; margin:15px 0; font-size:0.85rem; color:#555;">
+                        <span>🔒 Secure Checkout</span>
+                        <span>🚚 Fast Delivery</span>
+                        <span>↩️ Easy Returns</span>
+                    </div>
+
+                    <!-- Est Delivery -->
+                    <div class="est-delivery" style="background:#f9f9f9; padding:10px; border-radius:6px; margin-bottom:15px; font-size:0.9rem; border:1px solid #eee;">
+                        📅 <strong>Estimated delivery:</strong> 3-5 days
+                    </div>
+
                     <div class="promo-section">
                         <h3>🎁 Promo Code</h3>
-                        <div class="promo-input">
-                            <input type="text" placeholder="Enter promo code" value="MERKATO2026">
+                        <div class="promo-code-wrap promo-input">
+                            <input type="text" placeholder="Enter promo code" value="MERKATO2026" aria-label="Enter promo code">
                             <button type="button">Apply</button>
                         </div>
                         <small style="color: #888; display: block; margin-top: 8px;">
@@ -191,6 +245,22 @@
                     <a href="shop.html" class="continue-shopping">← Continue Shopping</a>
                 </div>
             </div>
+
+            <!-- You May Also Like -->
+            <section class="you-may-also-like" style="margin-top:50px; margin-bottom: 20px;">
+                <h2 style="margin-bottom:20px; font-size: 1.5rem; color: #1a1a2e;">You May Also Like</h2>
+                <div style="display:flex; gap:20px; overflow-x:auto; padding-bottom:10px;">
+                    <div class="skeleton" style="min-width:220px; height:280px; background:linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size:200% 100%; border-radius:8px; animation: shimmer 1.5s infinite;"></div>
+                    <div class="skeleton" style="min-width:220px; height:280px; background:linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size:200% 100%; border-radius:8px; animation: shimmer 1.5s infinite;"></div>
+                    <div class="skeleton" style="min-width:220px; height:280px; background:linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size:200% 100%; border-radius:8px; animation: shimmer 1.5s infinite;"></div>
+                </div>
+                <style>
+                    @keyframes shimmer {
+                        0% { background-position: 200% 0; }
+                        100% { background-position: -200% 0; }
+                    }
+                </style>
+            </section>
         </div>
     </main>
 
@@ -278,10 +348,35 @@
     </div>
 </footer>
 
+    <!-- Bottom UI Elements -->
+    <div id="scroll-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:#ffd700;z-index:9999;width:0%;transition:width 0.1s;"></div>
+    <div id="toast-container" aria-live="polite" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+    <a href="cart.html" id="floating-cart-btn" style="position:fixed;bottom:80px;right:20px;background:#0A5C36;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:9998;transition:transform 0.3s;" aria-label="View Cart" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        🛒<span style="position:absolute;top:-2px;right:-2px;background:#d4af37;color:#000;border-radius:50%;width:22px;height:22px;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;">3</span>
+    </a>
+
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-<script src="api.js"></script>
-<script src="script.js"></script>
+
+    <script>
+        // Page Transition
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease-in-out';
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '1';
+        });
+        
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById('scroll-progress-bar');
+            if(bar) bar.style.width = scrolled + '%';
+        });
+    </script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
 
 <!-- ===== SERVICE WORKER REGISTRATION ===== -->
 <script>
