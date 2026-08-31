@@ -107,13 +107,22 @@
             
             <div class="filter-section">
                 <h4>💰 Price Range</h4>
-                <div class="price-range">
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                        <input type="number" id="minPrice" placeholder="Min" value="0" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
-                        <input type="number" id="maxPrice" placeholder="Max" value="100000" onchange="applyFilters()" style="width:45%;padding:8px;border:1px solid #ddd;border-radius:4px;">
+                <div class="price-slider-container">
+                    <div class="price-slider-track" id="priceSliderTrack">
+                        <div class="price-slider-range" id="priceSliderRange"></div>
+                        <div class="price-slider-thumb" id="priceThumbMin" title="Min price"></div>
+                        <div class="price-slider-thumb" id="priceThumbMax" title="Max price"></div>
                     </div>
+                    <div class="price-slider-values">
+                        <span id="priceMinLabel">0 ETB</span>
+                        <span id="priceMaxLabel">100,000 ETB</span>
+                    </div>
+                    <!-- Hidden inputs for filter logic -->
+                    <input type="hidden" id="minPrice" value="0">
+                    <input type="hidden" id="maxPrice" value="100000">
                 </div>
             </div>
+
             
             <div class="filter-section">
                 <h4>📊 Sort By</h4>
@@ -165,9 +174,11 @@
                 </div>
                 <!-- DYNAMIC PRODUCTS WILL LOAD HERE -->
                 <div class="product-grid" id="shopProductGrid">
-                    <div style="text-align:center;padding:40px;color:#888;grid-column:1/-1;">
-                        Loading products...
-                    </div>
+                    <!-- SKELETON LOADING CARDS (Feature 9) -->
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-tag"></div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-title-short"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-tag"></div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-title-short"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-tag"></div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-title-short"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div>
+                    <div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-tag"></div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-title-short"></div><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div>
                 </div>
             </section>
 
@@ -450,5 +461,154 @@
     <div class="cart-drawer-footer" id="cartDrawerFooter"></div>
 </aside>
 
+<!-- ===== GLOBAL UI ELEMENTS ===== -->
+<div class="lightbox-overlay" id="mktoLightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-box">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="this.classList.toggle('zoomed')">
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<a href="cart.html" class="floating-cart-btn" id="floatingCartBtn" aria-label="Cart">🛒<span class="floating-cart-badge" id="floatingCartBadge">0</span></a>
+<div class="scroll-progress-bar" id="scrollProgressBar"></div>
+
+<!-- ===== SHOP FEATURE JS ===== -->
+<script>
+/* Dual price range slider */
+(function() {
+    const track    = document.getElementById('priceSliderTrack');
+    const rangeEl  = document.getElementById('priceSliderRange');
+    const thumbMin = document.getElementById('priceThumbMin');
+    const thumbMax = document.getElementById('priceThumbMax');
+    const minInput = document.getElementById('minPrice');
+    const maxInput = document.getElementById('maxPrice');
+    const minLabel = document.getElementById('priceMinLabel');
+    const maxLabel = document.getElementById('priceMaxLabel');
+    if (!track) return;
+
+    const MIN = 0, MAX = 100000;
+    let minVal = 0, maxVal = 100000;
+
+    function pct(v) { return ((v - MIN) / (MAX - MIN)) * 100; }
+
+    function render() {
+        thumbMin.style.left = pct(minVal) + '%';
+        thumbMax.style.left = pct(maxVal) + '%';
+        rangeEl.style.left  = pct(minVal) + '%';
+        rangeEl.style.width = (pct(maxVal) - pct(minVal)) + '%';
+        minLabel.textContent = minVal.toLocaleString() + ' ETB';
+        maxLabel.textContent = maxVal.toLocaleString() + ' ETB';
+        minInput.value = minVal;
+        maxInput.value = maxVal;
+    }
+
+    function drag(thumb, isMin) {
+        thumb.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            function onMove(e) {
+                const rect = track.getBoundingClientRect();
+                let pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                let val = Math.round(pos * (MAX - MIN) + MIN);
+                if (isMin) {
+                    minVal = Math.min(val, maxVal - 1000);
+                } else {
+                    maxVal = Math.max(val, minVal + 1000);
+                }
+                render();
+                if (typeof applyFilters === 'function') applyFilters();
+            }
+            function onUp() {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onUp);
+            }
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+        });
+        // Touch support
+        thumb.addEventListener('touchstart', function(e) {
+            function onMove(e) {
+                const rect = track.getBoundingClientRect();
+                let pos = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+                let val = Math.round(pos * (MAX - MIN) + MIN);
+                if (isMin) { minVal = Math.min(val, maxVal - 1000); }
+                else        { maxVal = Math.max(val, minVal + 1000); }
+                render();
+                if (typeof applyFilters === 'function') applyFilters();
+            }
+            function onEnd() {
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend',  onEnd);
+            }
+            document.addEventListener('touchmove', onMove, { passive: true });
+            document.addEventListener('touchend',  onEnd);
+        }, { passive: true });
+    }
+
+    drag(thumbMin, true);
+    drag(thumbMax, false);
+    render();
+})();
+
+/* Toast system */
+window.mktoast = function(msg, type = 'success', duration = 4000) {
+    const c = document.getElementById('toastContainer');
+    if (!c) return;
+    const icons = { success:'✅', error:'❌', warning:'⚠️', info:'ℹ️' };
+    const titles = { success:'Success', error:'Error', warning:'Warning', info:'Info' };
+    const el = document.createElement('div');
+    el.className = `toast toast-${type}`;
+    el.style.setProperty('--duration', `${duration}ms`);
+    el.innerHTML = `<span class="toast-icon">${icons[type]}</span><div class="toast-body"><div class="toast-title">${titles[type]}</div><div class="toast-message">${msg}</div></div><button class="toast-close" onclick="this.parentElement.remove()">✕</button><div class="toast-progress"></div>`;
+    c.appendChild(el);
+    setTimeout(() => { el.classList.add('toast-hiding'); setTimeout(() => el.remove(), 320); }, duration);
+};
+
+window.showNotification = function(msg, type='success') { window.mktoast(msg, type === 'error' ? 'error' : 'success'); };
+
+/* Lightbox */
+window.openLightbox = function(src, cap) {
+    const ol = document.getElementById('mktoLightbox');
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxImg').classList.remove('zoomed');
+    document.getElementById('lightboxCaption').textContent = cap || '';
+    ol.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
+window.closeLightbox = function(e) {
+    if (e && e.target !== document.getElementById('mktoLightbox')) return;
+    document.getElementById('mktoLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+};
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.getElementById('mktoLightbox')?.classList.remove('active'); });
+
+/* Quick add */
+window.quickAddToCart = function(id, name, price, img, aisle) {
+    if (typeof addToCart === 'function') addToCart(id, name, price, aisle, img);
+    window.mktoast(`<strong>${name}</strong> added to cart 🛒`, 'success', 3000);
+};
+
+/* Scroll reveal + back-to-top + scroll progress */
+const revealObs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObs.unobserve(e.target); } }), { threshold: 0.1 });
+document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+
+window.addEventListener('scroll', function() {
+    const btt = document.querySelector('.back-to-top');
+    if (btt) btt.classList.toggle('visible', window.scrollY > 400);
+    const bar = document.getElementById('scrollProgressBar');
+    if (bar) bar.style.width = ((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100) + '%';
+}, { passive: true });
+
+document.body.classList.add('page-transition');
+
+/* Update floating cart count */
+(function() {
+    const cart = JSON.parse(localStorage.getItem('merkatoCart') || '[]');
+    const count = cart.reduce((s, i) => s + (i.qty || i.quantity || 1), 0);
+    const badge = document.getElementById('floatingCartBadge');
+    if (badge) badge.textContent = count;
+})();
+</script>
+
 </body>
-</html>
+</html>
