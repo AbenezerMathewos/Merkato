@@ -1,11 +1,14 @@
-### Motivation
-- Improve the landing page visual design and hierarchy for a more modern, authentic digital marketplace experience.
-- Enhance user convenience and conversion with localized Ethiopian fintech integrations and multi-language support.
-- Streamline delivery logistics with sub-city calculation, live GPS order tracking, and official tax invoice generation.
+﻿## Pull Request Description
+Please describe what this PR changes or introduces.
 
-### Description
-- **Localization**: Added bilingual toggle for English and Amharic (አማርኛ) across all pages.
-- **Fintech & Payments**: Added Telebirr SMS OTP, Chapa Gateway, and Commercial Bank of Ethiopia (CBE) direct transfer.
-- **Promo Codes**: Added coupon validation engine with real-time discounts and VAT recalculation.
-- **Logistics & Orders**: Built interactive live courier route tracking simulator and official Ethiopian TIN tax receipts.
-- **Merkato AI**: Integrated floating Habesha shopping assistant with 1-click recipe bundles.
+### Type of Change
+- [ ] 🚀 New feature (non-breaking change which adds functionality)
+- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
+- [ ] 💅 UI / Design improvement
+- [ ] 📝 Documentation update
+- [ ] ⚡ Performance optimization
+
+### Verification Checklist
+- [ ] Verified locally in browser
+- [ ] Tested responsive mobile layout
+- [ ] No console errors
