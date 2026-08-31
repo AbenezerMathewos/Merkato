@@ -6,18 +6,38 @@
     <meta name="description" content="MERKATO - User Profile">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, profile, account">
     <meta name="author" content="MERKATO INC">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="My Profile — MERKATO">
+    <meta property="og:description" content="Manage your MERKATO account information, track orders, and view wishlist.">
+    <meta property="og:url" content="https://merkato.com/profile.html">
+    <meta property="og:type" content="profile">
+
+    <!-- JSON-LD Person Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "MERKATO User",
+        "url": "https://merkato.com/profile.html"
+      }
+    }
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230A5C36' stroke='%23D4AF37' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0A5C36">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
     <title>My Profile — MERKATO</title>
     <style>
         .profile-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 40px auto;
             background: #fff;
             border-radius: 16px;
@@ -27,11 +47,7 @@
         }
         .profile-header {
             text-align: center;
-            margin-bottom: 30px;
-        }
-        .profile-header .avatar {
-            font-size: 72px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         .profile-header h1 {
             font-size: 28px;
@@ -42,6 +58,116 @@
             color: #888;
             font-size: 14px;
         }
+        
+        /* Avatar Upload */
+        .avatar-upload {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+        .avatar-upload:hover {
+            transform: scale(1.05);
+        }
+        .camera-icon {
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            background: #0A5C36;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Profile Completion Bar */
+        .completion-bar-wrap {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+        }
+        .progress-track {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 75%;
+            height: 100%;
+            background: linear-gradient(90deg, #0A5C36, #2e8b57);
+            border-radius: 5px;
+        }
+
+        /* Stats Row */
+        .account-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            flex: 1;
+            background: #fff;
+            padding: 20px 10px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 24px;
+            color: #0A5C36;
+            margin: 0 0 5px;
+        }
+        
+        /* Tabs */
+        .profile-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        .profile-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #888;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+        .profile-tab.active {
+            color: #0A5C36;
+            border-bottom: 3px solid #0A5C36;
+        }
+        .profile-tab:hover:not(.active) {
+            color: #333;
+        }
+
         .profile-field {
             margin-bottom: 20px;
         }
@@ -49,7 +175,7 @@
             display: block;
             font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-size: 14px;
         }
         .profile-field input,
@@ -62,99 +188,158 @@
             font-family: inherit;
             transition: all 0.3s ease;
             background: #fafafa;
+            box-sizing: border-box;
         }
         .profile-field input:focus,
         .profile-field textarea:focus {
             outline: none;
-            border-color: #008000;
-            box-shadow: 0 0 0 3px rgba(0,128,0,0.1);
+            border-color: #0A5C36;
+            box-shadow: 0 0 0 3px rgba(10,92,54,0.1);
             background: #fff;
         }
         .profile-field .hint {
             font-size: 12px;
             color: #888;
-            margin-top: 4px;
+            margin-top: 6px;
         }
+        
         .profile-actions {
             display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
         }
         .profile-actions .btn {
             flex: 1;
-            min-width: 120px;
-            text-align: center;
-        }
-        .profile-join-date {
-            text-align: center;
-            padding: 15px;
-            background: #f8f9fa;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
             border-radius: 8px;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #888;
+            text-align: center;
+            cursor: pointer;
+            border: none;
         }
-        .profile-join-date strong {
-            color: #1a1a2e;
+        .btn-primary { background: #0A5C36; color: white; }
+        .btn-secondary { background: #eee; color: #333; text-decoration: none; }
+        
+        /* Danger Zone */
+        .danger-zone {
+            margin-top: 40px;
+            padding: 25px;
+            border: 1px solid #ffcdd2;
+            background: #ffebee;
+            border-radius: 12px;
         }
+        .danger-zone h3 {
+            color: #d32f2f;
+            margin: 0 0 10px;
+        }
+        
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #D4AF37;
+            z-index: 9999;
+            width: 0;
+            transition: width 0.1s;
+        }
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #0A5C36;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 999;
+            text-decoration: none;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+        .floating-cart-btn:hover {
+            transform: scale(1.1);
+            background: #063d23;
+        }
+        .page-transition {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
             .profile-container {
                 padding: 25px 20px;
                 margin: 20px 15px;
             }
-            .profile-header h1 {
-                font-size: 24px;
+            .profile-actions {
+                flex-direction: column;
+            }
+            .account-stats {
+                flex-direction: column;
             }
         }
     </style>
 </head>
-<body>
+<body class="page-transition">
 
-    <div class="top-bar">
+    <div class="scroll-progress-bar" id="scrollBar"></div>
+
+    <div class="top-bar" style="background:#0A5C36; color:#fff; text-align:center; padding:8px; font-size:14px;">
         ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
     </div>
 
     <div class="container">
         <header class="header">
-            <div class="header-inner">
-                <a href="index.html" class="logo-wrapper">
-    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
-    <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
-</a>
+            <div class="header-inner" style="display:flex; justify-content:space-between; align-items:center; padding:15px 0;">
+                <a href="index.html" class="logo-wrapper" style="text-decoration:none; display:flex; align-items:center;">
+                    <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif" style="width:40px; height:40px; border-radius:8px; margin-right:10px;">
+                    <span class="logo-text" style="font-size:24px; font-weight:800; color:#1a1a2e;">MERKATO<sup style="font-size:10px; color:#D4AF37;">ሱፐርማርኬት</sup></span>
+                </a>
 
-<button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
-    <span></span><span></span><span></span>
-</button>
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
-    <a href="orders.html">My Orders</a>
-    <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
-            🌙
-        </button>
-    </span>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="nav" style="display:flex; gap:15px; align-items:center;">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    
+                    <button class="lang-toggle-btn" aria-label="Toggle Language" style="background:none; border:none; cursor:pointer; font-size:18px;" title="Switch Language">🇪🇹</button>
+                    
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme" style="background:none; border:none; cursor:pointer; font-size:18px;">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
-        <!-- Profile Floating Container -->
-    <div id="profileContainer"></div>
-</header>
+            <div id="profileContainer"></div>
+        </header>
     </div>
 
-    <hr class="divider">
+    <hr class="divider" style="border:0; height:1px; background:#eee; margin:0;">
 
     <div class="container">
-        <div class="breadcrumb">
-            <a href="index.html">Home</a> &gt; 
+        <div class="breadcrumb" style="padding:15px 0; font-size:14px; color:#666;">
+            <a href="index.html" style="color:#0A5C36; text-decoration:none;">Home</a> &gt; 
             <span><strong>My Profile</strong></span>
         </div>
     </div>
@@ -163,143 +348,142 @@
         <div class="container">
             <div class="profile-container">
                 <div class="profile-header">
-                    <div class="avatar">👤</div>
+                    
+                    <!-- Avatar Upload -->
+                    <div class="avatar-upload" title="Upload Profile Picture">
+                        <span style="font-size:50px; color:#888;">👤</span>
+                        <div class="camera-icon">📷</div>
+                    </div>
+                    
                     <h1>My Profile</h1>
-                    <p>Manage your account information</p>
+                    <p>Manage your account information and preferences</p>
+                </div>
+                
+                <!-- Account Stats -->
+                <div class="account-stats">
+                    <div class="stat-card">
+                        <h3>12</h3>
+                        <small style="color:#888; font-weight:600;">Total Orders</small>
+                    </div>
+                    <div class="stat-card">
+                        <h3>5</h3>
+                        <small style="color:#888; font-weight:600;">Wishlist Items</small>
+                    </div>
+                    <div class="stat-card">
+                        <h3 style="color:#D4AF37;">450</h3>
+                        <small style="color:#888; font-weight:600;">Loyalty Points</small>
+                    </div>
+                </div>
+
+                <!-- Completion Bar -->
+                <div class="completion-bar-wrap">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <strong style="color:#1a1a2e;">75% Complete — Add your phone number</strong>
+                        <span style="color:#0A5C36; font-weight:bold;">75%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="profile-tabs">
+                    <button class="profile-tab active">Personal Info</button>
+                    <button class="profile-tab">Security</button>
+                    <button class="profile-tab">Preferences</button>
+                    <button class="profile-tab">Notifications</button>
                 </div>
 
                 <form id="profileForm">
                     <div class="profile-field">
                         <label for="profile-name">Full Name *</label>
-                        <input type="text" id="profile-name" name="name" placeholder="Your full name" required>
+                        <input type="text" id="profile-name" name="name" placeholder="Your full name" required value="Abebe Bikila">
                     </div>
 
                     <div class="profile-field">
                         <label for="profile-email">Email Address *</label>
-                        <input type="email" id="profile-email" name="email" placeholder="your@email.com" required>
+                        <input type="email" id="profile-email" name="email" placeholder="your@email.com" required value="abebe@example.com">
                     </div>
 
                     <div class="profile-field">
                         <label for="profile-phone">Phone Number</label>
                         <input type="tel" id="profile-phone" name="phone" placeholder="+251 91 123 4567">
-                        <div class="hint">Enter your phone number for delivery updates</div>
+                        <div class="hint">Enter your phone number for delivery updates via SMS.</div>
                     </div>
 
                     <div class="profile-field">
-                        <label for="profile-address">Delivery Address</label>
-                        <textarea id="profile-address" name="address" rows="3" placeholder="Street name, Sub-city, City"></textarea>
-                        <div class="hint">Your default delivery address</div>
+                        <label for="profile-address">Default Delivery Address</label>
+                        <textarea id="profile-address" name="address" rows="3" placeholder="Street name, Sub-city, City">Bole, Addis Ababa, Ethiopia</textarea>
+                        <div class="hint">This address will be pre-filled during checkout.</div>
                     </div>
 
                     <div class="profile-actions">
-                        <button type="submit" class="btn btn-primary">💾 Save Profile</button>
-                        <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+                        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                        <a href="index.html" class="btn btn-secondary" style="display:flex; align-items:center; justify-content:center;">← Back to Home</a>
                     </div>
                 </form>
 
-                <div class="profile-join-date">
-                    🗓️ Member since: <strong id="profile-join-date">Loading...</strong>
+                <!-- Danger Zone -->
+                <div class="danger-zone">
+                    <h3>Danger Zone</h3>
+                    <p style="font-size:14px; color:#666; margin-bottom:15px;">Once you delete your account, there is no going back. Please be certain.</p>
+                    <button type="button" onclick="confirmDelete()" style="background:#d32f2f; color:white; border:none; padding:12px 20px; border-radius:6px; cursor:pointer; font-weight:bold; transition:0.3s;" onmouseover="this.style.background='#b71c1c'" onmouseout="this.style.background='#d32f2f'">🗑️ Delete Account</button>
+                </div>
+
+                <div style="text-align:center; padding:15px; background:#f8f9fa; border-radius:8px; margin-top:30px; font-size:13px; color:#888;">
+                    🗓️ Member since: <strong>Jan 2026</strong>
                 </div>
             </div>
         </div>
     </main>
 
-    <hr class="divider">
+    <hr class="divider" style="border:0; height:1px; background:#eee; margin:0;">
 
-    <!-- FOOTER -->
-<!-- FOOTER -->
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container">
-        <!-- Footer Grid Layout -->
-        <div class="footer-grid">
-            
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
-                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
-                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
-                    </a>
-                </div>
-                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
-                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
-                </p>
-                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
-                </div>
+    <footer class="footer" style="background:#1a1a2e; color:#fff; padding:40px 0 20px;">
+        <div class="container">
+            <div class="footer-bottom" style="text-align:center; margin-top:20px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p><small>Made with ❤️ in Ethiopia</small></p>
             </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
-                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
-                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
-                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
-                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Support -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
-                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
-                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
-                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
-                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 4: Newsletter & Contact -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
-                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
-                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
-                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
-                </form>
-                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
-                
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
-                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
-                        📍 Addis Ababa, Ethiopia<br>
-                        📞 +251 11 123 4567<br>
-                        ✉️ support@merkato.com
-                    </p>
-                </div>
-            </div>
-
         </div>
+    </footer>
 
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
-        </div>
+    <!-- Floating Action Buttons -->
+    <a href="#" class="back-to-top" aria-label="Back to top" style="position:fixed; bottom:20px; right:20px; background:#0A5C36; color:#fff; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:50%; text-decoration:none; z-index:998;">↑</a>
+    
+    <a href="cart.html" class="floating-cart-btn" aria-label="View Cart">
+        🛒<span style="position:absolute; top:-5px; right:-5px; background:#d32f2f; color:white; border-radius:50%; width:24px; height:24px; font-size:14px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:2px solid #fff;">3</span>
+    </a>
 
-    </div>
-</footer>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
-    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
-
-    <!-- ===== JAVASCRIPT ===== -->
     <script src="api.js"></script>
-<script src="script.js"></script>
-<!-- ===== SERVICE WORKER REGISTRATION ===== -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('✅ Service Worker registered'))
-            .catch(err => console.log('❌ Service Worker registration failed:', err));
-    }
-</script>
+    <script src="script.js"></script>
+    <script>
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scrollBar').style.width = scrolled + '%';
+        });
+
+        // Tabs Logic (Visual only for mockup)
+        const tabs = document.querySelectorAll('.profile-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Confirm Delete
+        function confirmDelete() {
+            if(confirm('Are you absolutely sure you want to delete your MERKATO account? This action cannot be undone.')) {
+                alert('Account deletion requested.');
+            }
+        }
+    </script>
 </body>
 </html>
