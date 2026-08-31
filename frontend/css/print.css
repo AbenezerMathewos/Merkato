@@ -1,0 +1,13 @@
+﻿/* ==========================================================================
+   MERKATO — Print Stylesheet (Receipts & Invoices)
+   ========================================================================== */
+@media print {
+    body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+    .header, .nav, .footer, .back-to-top, .floating-cart-btn, .theme-toggle-btn, .lang-toggle-btn {
+        display: none !important;
+    }
+    .container { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    a { text-decoration: none !important; color: #000 !important; }
+    table { width: 100% !important; border-collapse: collapse !important; }
+    th, td { border: 1px solid #ddd !important; padding: 8px !important; }
+}
