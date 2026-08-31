@@ -59,27 +59,49 @@
             border: 1px solid #e0e0e0;
             transition: all 0.3s ease;
             text-align: center;
+            border-left: 4px solid #0a5c36;
+            position: relative;
+            overflow: hidden;
+        }
+        .admin-stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 60px; height: 60px;
+            background: radial-gradient(circle at top right, rgba(10,92,54,0.06), transparent);
+            pointer-events: none;
         }
         .admin-stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(10,92,54,0.12);
+            border-left-color: #d4af37;
         }
         .admin-stat-card .number {
             font-size: 36px;
             font-weight: 800;
-            color: #008000;
+            color: #0a5c36;
             display: block;
         }
         .admin-stat-card .label {
-            font-size: 14px;
+            font-size: 13px;
             color: #666;
             margin-top: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .admin-stat-card .icon {
             font-size: 30px;
             margin-bottom: 8px;
             display: block;
         }
+        .admin-stat-card .trend {
+            font-size: 11px;
+            margin-top: 6px;
+            font-weight: 700;
+        }
+        .admin-stat-card .trend.up   { color: #2e7d32; }
+        .admin-stat-card .trend.down { color: #d9534f; }
+
         .admin-tabs {
             display: flex;
             gap: 10px;
