@@ -3,9 +3,35 @@
 // ========================================
 
 const API_URL = 'http://localhost:5000/api';
+const IS_DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-// Helper function for API calls
-async function apiCall(endpoint, method = 'GET', data = null) {
+// Response cache map for GET requests
+const responseCache = new Map();
+
+/**
+ * Delays execution for a specified amount of time.
+ * @param {number} ms - Milliseconds to delay
+ * @returns {Promise<void>}
+ */
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Executes a fetch request with timeout, retries, and caching.
+ * @param {string} endpoint - The API endpoint to call (relative to API_URL)
+ * @param {string} [method='GET'] - HTTP method (GET, POST, PUT, DELETE)
+ * @param {Object} [data=null] - Request body for POST/PUT
+ * @param {number} [retries=3] - Number of retry attempts on failure
+ * @returns {Promise<any>} The parsed JSON response or fallback data
+ */
+async function apiCall(endpoint, method = 'GET', data = null, retries = 3) {
+    const cacheKey = `${method}:${endpoint}`;
+    
+    // Serve from cache if available and it's a GET request
+    if (method === 'GET' && responseCache.has(cacheKey)) {
+        if (IS_DEV) console.log(`[API Cache Hit] ${endpoint}`);
+        return responseCache.get(cacheKey);
+    }
+
     const options = {
         method,
         headers: {
@@ -23,25 +49,89 @@ async function apiCall(endpoint, method = 'GET', data = null) {
         options.body = JSON.stringify(data);
     }
 
-    try {
-        const response = await fetch(`${API_URL}${endpoint}`, options);
-        let result;
-        const text = await response.text();
+    let lastError;
+    
+    // Retry Loop
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        options.signal = controller.signal;
+
+        if (IS_DEV) {
+            console.log(`[API Request] ${method} ${endpoint} (Attempt ${attempt})`, data || '');
+        }
+
         try {
-            result = JSON.parse(text);
-        } catch (e) {
-            result = { message: text };
-        }
+            const response = await fetch(`${API_URL}${endpoint}`, options);
+            clearTimeout(timeoutId);
 
-        if (!response.ok) {
-            throw new Error(result.message || `Request failed with status ${response.status}`);
-        }
+            let result;
+            const text = await response.text();
+            try {
+                result = JSON.parse(text);
+            } catch (e) {
+                result = { message: text };
+            }
 
-        return result;
-    } catch (error) {
-        console.warn(`[API] Error on ${method} ${endpoint}:`, error.message);
-        throw error;
+            // Error Categorization & Handling
+            if (!response.ok) {
+                if (response.status === 429) {
+                    throw new Error('Rate limit exceeded. Please try again later. (429)');
+                }
+                if (response.status === 401 || response.status === 403) {
+                    throw new Error(result.message || 'Authentication error (401/403)');
+                }
+                if (response.status >= 500) {
+                    throw new Error(result.message || 'Server error (5xx)');
+                }
+                throw new Error(result.message || `Request failed with status ${response.status}`);
+            }
+
+            if (IS_DEV) {
+                console.log(`[API Success] ${method} ${endpoint}`, result);
+            }
+
+            // Cache GET responses
+            if (method === 'GET') {
+                responseCache.set(cacheKey, result);
+                // Clear cache after 5 minutes
+                setTimeout(() => responseCache.delete(cacheKey), 5 * 60 * 1000);
+            }
+
+            return result;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            lastError = error;
+            
+            if (IS_DEV) {
+                console.warn(`[API Error] ${method} ${endpoint}:`, error.message);
+            }
+
+            // Categorize network vs abort
+            if (error.name === 'AbortError') {
+                lastError = new Error('Request timed out (10s)');
+            } else if (!error.message.includes('status')) {
+                lastError = new Error(`Network error: ${error.message}`);
+            }
+
+            // Don't retry on Auth or Rate Limit or Client errors (4xx)
+            if (lastError.message.includes('401') || 
+                lastError.message.includes('403') || 
+                lastError.message.includes('429') ||
+                (lastError.message.includes('status 4') && !lastError.message.includes('429'))) {
+                break; 
+            }
+
+            // Exponential backoff
+            if (attempt < retries) {
+                const backoffMs = Math.pow(2, attempt) * 1000;
+                if (IS_DEV) console.log(`[API Retry] Waiting ${backoffMs}ms before next attempt...`);
+                await delay(backoffMs);
+            }
+        }
     }
+    
+    throw lastError;
 }
 
 // ========================================
