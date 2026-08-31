@@ -1,0 +1,32 @@
+﻿/* ==========================================================================
+   MERKATO — CSS Design Tokens & Variables
+   ========================================================================== */
+:root {
+    /* Brand Colors */
+    --color-primary: #0A5C36;        /* Ethiopian Forest Green */
+    --color-primary-dark: #074025;
+    --color-secondary: #D4AF37;      /* Imperial Gold */
+    --color-terracotta: #C4713B;     /* Ethiopian Clay */
+    --color-coffee: #3E2723;         /* Yirgacheffe Roast */
+    --color-cream: #FAF3E0;          /* Injera Cream */
+    --color-dark: #1A1A2E;           /* Midnight Dark */
+    --color-light: #F8F9FA;
+    --color-danger: #D9534F;
+    --color-success: #2E7D32;
+
+    /* Typography */
+    --font-main: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    --font-ethiopic: 'Noto Sans Ethiopic', 'Nyala', 'Abyssinica SIL', sans-serif;
+
+    /* Elevation & Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
+    --shadow-gold: 0 8px 25px rgba(212, 175, 55, 0.25);
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+    --radius-pill: 50px;
+}
