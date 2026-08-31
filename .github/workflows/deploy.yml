@@ -1,0 +1,14 @@
+﻿name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Trigger Production Webhook
+        run: |
+          echo "Triggering deployment to Render edge network..."
