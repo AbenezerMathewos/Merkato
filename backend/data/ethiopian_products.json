@@ -1,0 +1,63 @@
+﻿[
+  {
+    "id": "buna",
+    "name": "Yirgacheffe Buna (ቡና)",
+    "category": "food",
+    "aisle": "AISLE 1 | FOOD",
+    "price": 2500,
+    "rating": 5,
+    "origin": "Yirgacheffe, Gedeo Zone, SNNPR",
+    "roastLevel": "Medium Dark",
+    "description": "Authentic single-origin Ethiopian Arabica coffee beans from the birthplace of coffee."
+  },
+  {
+    "id": "mitad",
+    "name": "Digital Electric Mitad (ምጣድ)",
+    "category": "electronics",
+    "aisle": "AISLE 5 | ELECTRONICS",
+    "price": 18500,
+    "rating": 5,
+    "power": "3200W",
+    "description": "Digital temperature regulated clay-electric stove designed for the ultimate Ethiopian injera baking."
+  },
+  {
+    "id": "kemis",
+    "name": "Habesha Kemis (ሀበሻ ቀሚስ)",
+    "category": "apparel",
+    "aisle": "AISLE 3 | APPAREL",
+    "price": 12000,
+    "rating": 5,
+    "material": "100% Ethiopian Handspun Cotton (ሸማ)",
+    "description": "Exquisitely handwoven traditional dress adorned with golden Royal Tilet embroidery."
+  },
+  {
+    "id": "teff",
+    "name": "Magna White Teff (ነጭ ጤፍ)",
+    "category": "food",
+    "aisle": "AISLE 1 | FOOD",
+    "price": 4200,
+    "rating": 5,
+    "origin": "Ada'a / Debre Zeit, Oromia",
+    "description": "Nutrient-rich, gluten-free supergrain freshly harvested and stone-cleaned."
+  },
+  {
+    "id": "berbere",
+    "name": "Organic Berbere Spice Mix (በርበሬ)",
+    "category": "food",
+    "aisle": "AISLE 1 | FOOD",
+    "price": 1200,
+    "rating": 5,
+    "origin": "Mareko / Mojo, Oromia",
+    "description": "Vibrant, sun-ripened red pepper blend sun-dried and pounded with 14 indigenous aromatic spices."
+  },
+  {
+    "id": "mesob",
+    "name": "Woven Harari & Jimma Mesob (መሶብ)",
+    "category": "crafts",
+    "aisle": "AISLE 4 | CRAFTS",
+    "price": 8500,
+    "rating": 4.8,
+    "origin": "Jimma / Harar",
+    "description": "Hand-plaited straw and dyed grass dining basket serving as the centerpiece of Ethiopian dining culture."
+  }
+]
