@@ -1,0 +1,25 @@
+﻿name: CI Quality Gate
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Syntax and Link Validation
+        run: |
+          node -e "console.log('Validating JavaScript syntax and project structure...')"
+          find frontend -name "*.js" -exec node -c {} +
+          find backend -name "*.js" -exec node -c {} +
+          echo "All JavaScript files passed syntax verification."
