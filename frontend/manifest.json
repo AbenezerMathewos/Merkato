@@ -1,12 +1,19 @@
 {
-  "name": "MERKATO - Ethiopian Digital Market",
-  "short_name": "MERKATO",
-  "description": "Ethiopian digital supermarket with authentic products, electronics, and traditional items.",
-  "start_url": "index.html",
+  "name": "MERKATO - Ethiopian Digital Marketplace",
+  "short_name": "Merkato",
+  "description": "Ethiopia's premier digital supermarket. Shop authentic local products, electronics, and traditional items with fast delivery.",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#008000",
-  "orientation": "portrait",
+  "theme_color": "#0A5C36",
+  "orientation": "portrait-primary",
+  "categories": [
+    "shopping",
+    "lifestyle"
+  ],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "images/icon-72x72.png",
@@ -32,6 +39,45 @@
       "src": "images/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop Now",
+      "short_name": "Shop",
+      "description": "Browse our products",
+      "url": "/shop.html",
+      "icons": [{ "src": "images/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Shopping Cart",
+      "short_name": "Cart",
+      "description": "View your cart",
+      "url": "/cart.html",
+      "icons": [{ "src": "images/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "My Wishlist",
+      "short_name": "Wishlist",
+      "description": "View saved items",
+      "url": "/wishlist.html",
+      "icons": [{ "src": "images/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "description": "Merkato Desktop Home Page"
+    },
+    {
+      "src": "images/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "description": "Merkato Mobile Shopping Experience"
     }
   ]
 }
