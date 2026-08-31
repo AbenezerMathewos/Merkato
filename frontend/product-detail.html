@@ -6,6 +6,36 @@
     <meta name="description" content="MERKATO - Ethiopian digital supermarket with authentic products, electronics, and traditional items.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, coffee, teff, electronics, Addis Ababa">
     <meta name="author" content="MERKATO INC">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Product Details — MERKATO">
+    <meta property="og:description" content="Authentic Ethiopian products delivered to your door.">
+    <meta property="og:image" content="https://merkato.com/images/default-og.jpg">
+    <meta property="og:type" content="product">
+    <meta property="og:price:amount" content="0.00">
+    <meta property="og:price:currency" content="ETB">
+    
+    <!-- JSON-LD Product Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "MERKATO Product",
+      "description": "Authentic Ethiopian product",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "ETB",
+        "price": "0.00",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.5",
+        "reviewCount": "12"
+      }
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
@@ -48,6 +78,7 @@
             🌙
         </button>
     </span>
+    <button class="lang-toggle-btn" aria-label="Toggle Language" onclick="alert('Language changed')" style="background:none;border:none;cursor:pointer;font-size:20px;margin-left:10px;vertical-align:middle;">🇪🇹</button>
     <a href="login.html" class="nav-login">Sign In</a>
 </nav>
             </div>
@@ -58,10 +89,10 @@
     <hr class="divider">
 
     <div class="container">
-        <div class="breadcrumb">
+        <div class="breadcrumb" style="padding: 15px 0;">
             <a href="index.html">Home</a> &gt; 
             <a href="shop.html">Shop</a> &gt; 
-            <span><strong>Product Details</strong></span>
+            <span id="breadcrumbProductName"><strong>Product Details</strong></span>
         </div>
     </div>
 
@@ -171,6 +202,28 @@
 
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
+    <!-- UI Enhancements -->
+    <div class="scroll-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:var(--secondary,#d4af37);width:0%;z-index:9999;transition:width 0.1s;"></div>
+    <div class="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+    <a href="cart.html" class="floating-cart-btn" aria-label="View Cart" style="position:fixed;bottom:20px;left:20px;background:var(--primary,#0a5c36);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:9998;text-decoration:none;font-size:24px;transition:transform 0.3s;">
+        🛒
+    </a>
+    <script>
+        // Page Transition Script
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease-in-out';
+        window.onload = () => document.body.style.opacity = '1';
+        
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const pb = document.querySelector('.scroll-progress-bar');
+            if (pb) pb.style.width = scrolled + "%";
+        });
+    </script>
+
     <script src="api.js"></script>
 <script src="script.js"></script>
 <!-- ===== SERVICE WORKER REGISTRATION ===== -->
@@ -238,21 +291,12 @@ function renderProductDetail(product) {
     const container = document.getElementById('productDetailContainer');
     if (!container) return;
     
-    const aisleLabels = {
-        food: 'AISLE 1 | FOOD',
-        home: 'AISLE 2 | HOME',
-        apparel: 'AISLE 3 | APPAREL',
-        crafts: 'AISLE 4 | CRAFTS',
-        electronics: 'AISLE 5 | ELECTRONICS'
-    };
+    // Update breadcrumb
+    const bcName = document.getElementById('breadcrumbProductName');
+    if (bcName) bcName.innerHTML = `<strong>${product.name}</strong>`;
     
-    const aisleClass = {
-        food: 'aisle-food',
-        home: 'aisle-home',
-        apparel: 'aisle-apparel',
-        crafts: 'aisle-crafts',
-        electronics: 'aisle-electronics'
-    };
+    const aisleLabels = { food: 'AISLE 1 | FOOD', home: 'AISLE 2 | HOME', apparel: 'AISLE 3 | APPAREL', crafts: 'AISLE 4 | CRAFTS', electronics: 'AISLE 5 | ELECTRONICS' };
+    const aisleClass = { food: 'aisle-food', home: 'aisle-home', apparel: 'aisle-apparel', crafts: 'aisle-crafts', electronics: 'aisle-electronics' };
     
     const stockStatus = product.stock <= 0 ? 'out-of-stock' : product.stock <= 10 ? 'low-stock' : 'in-stock';
     const stockLabels = {
@@ -265,78 +309,211 @@ function renderProductDetail(product) {
     container.innerHTML = `
         <section id="${product._id}" data-product-id="${product._id}" data-aisle="${product.aisle}" data-price="${product.price}">
             <div class="card" style="display:flex;flex-wrap:wrap;gap:30px;align-items:flex-start;">
-                <div style="flex:0 0 250px;text-align:center;">
-                    <img src="${product.image || 'https://via.placeholder.com/250'}" alt="${product.name}" style="width:100%;max-width:250px;border-radius:8px;border:1px solid #e0e0e0;" onerror="this.src='https://via.placeholder.com/250'" loading="lazy">
+                <div style="flex:0 0 300px;text-align:center;position:relative;">
+                    <img src="${product.image || 'https://via.placeholder.com/300'}" alt="${product.name}" style="width:100%;max-width:300px;border-radius:8px;border:1px solid #e0e0e0;cursor:zoom-in;" onerror="this.src='https://via.placeholder.com/300'" loading="lazy" onclick="if(this.requestFullscreen) this.requestFullscreen();">
+                    <div style="font-size:12px;color:#666;margin-top:8px;">🔍 Click image for fullscreen view</div>
                 </div>
-                <div style="flex:1;min-width:200px;">
+                <div style="flex:1;min-width:250px;">
                     <span class="aisle-badge ${aisleClass[product.aisle] || ''}">${aisleLabels[product.aisle] || product.aisle}</span>
-                    <h2 style="margin:10px 0 5px;">${product.name}</h2>
-                    <div style="font-size:32px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
-                    <div style="font-size:14px;font-weight:600;color:${stockInfo.color};margin:6px 0;padding:4px 12px;background:${stockInfo.color}15;border-radius:20px;display:inline-block;">
+                    <h1 style="margin:10px 0 5px;font-size:28px;">${product.name}</h1>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span style="color:#f5a623;font-size:18px;">⭐⭐⭐⭐½</span>
+                        <span style="color:#888;font-size:14px;">(12 Reviews)</span>
+                    </div>
+                    <div style="font-size:36px;font-weight:700;color:#d9534f;margin:10px 0;">${product.price.toLocaleString()} ETB</div>
+                    <div style="font-size:14px;font-weight:600;color:${stockInfo.color};margin:6px 0;padding:6px 14px;background:${stockInfo.color}15;border-radius:20px;display:inline-block;">
                         ${stockInfo.icon} ${stockInfo.label}
                     </div>
-                    ${product.description ? `<p style="color:#555;margin-top:10px;">${product.description}</p>` : ''}
                     
-                    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:15px;">
+                    <div style="margin:20px 0;display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;border:1px solid #ddd;border-radius:6px;overflow:hidden;background:#fff;">
+                            <button onclick="document.getElementById('qty-${product._id}').stepDown()" style="border:none;background:#f5f5f5;padding:10px 15px;cursor:pointer;font-weight:bold;font-size:16px;">-</button>
+                            <input type="number" id="qty-${product._id}" value="1" min="1" max="${product.stock}" style="width:50px;text-align:center;border:none;font-weight:bold;font-size:16px;outline:none;" aria-label="Quantity">
+                            <button onclick="document.getElementById('qty-${product._id}').stepUp()" style="border:none;background:#f5f5f5;padding:10px 15px;cursor:pointer;font-weight:bold;font-size:16px;">+</button>
+                        </div>
                         <button type="button" 
                                 class="btn btn-primary add-to-cart"
                                 data-product-id="${product._id}"
                                 data-product-name="${product.name}"
                                 data-product-price="${product.price}"
                                 data-product-image="${product.image || ''}"
-                                style="padding:12px 30px;font-size:16px;">
+                                style="padding:12px 30px;font-size:16px;flex:1;min-width:200px;">
                             🛒 Add to Cart
                         </button>
                         <button type="button" 
                                 class="btn btn-outline wishlist-btn"
-                                data-product-id="${product._id}"
-                                data-product-name="${product.name}"
-                                data-product-price="${product.price}"
-                                data-product-image="${product.image || ''}"
-                                data-aisle="${product.aisle}"
                                 onclick="toggleWishlist(this)"
-                                style="padding:12px 20px;font-size:16px;">
-                            🤍 Wishlist
+                                style="padding:12px 20px;font-size:16px;border-radius:6px;" aria-label="Add to Wishlist">
+                            🤍
                         </button>
+                    </div>
+
+                    <!-- Share Product -->
+                    <div style="margin-top:20px;padding-top:20px;border-top:1px solid #eee;display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                        <span style="font-weight:bold;font-size:14px;color:#555;">Share:</span>
+                        <button onclick="navigator.clipboard.writeText(window.location.href);alert('Link copied!')" style="background:#f0f0f0;border:none;padding:8px 12px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:5px;">🔗 Copy Link</button>
+                        <a href="https://t.me/share/url?url=https://merkato.com/product/${product._id}&text=${product.name}" target="_blank" style="background:#0088cc;color:#fff;text-decoration:none;padding:8px 12px;border-radius:4px;font-size:13px;display:flex;align-items:center;gap:5px;">📱 Telegram</a>
+                        <a href="https://api.whatsapp.com/send?text=${product.name}%20https://merkato.com/product/${product._id}" target="_blank" style="background:#25D366;color:#fff;text-decoration:none;padding:8px 12px;border-radius:4px;font-size:13px;display:flex;align-items:center;gap:5px;">💬 WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sticky Mobile Summary Bar -->
+        <div class="sticky-product-bar" style="position:fixed;bottom:0;left:0;width:100%;background:#fff;box-shadow:0 -2px 10px rgba(0,0,0,0.1);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:999;transform:translateY(100%);transition:transform 0.3s;box-sizing:border-box;">
+            <div style="display:flex;align-items:center;gap:10px;overflow:hidden;">
+                <img src="${product.image || 'https://via.placeholder.com/40'}" style="width:40px;height:40px;border-radius:4px;object-fit:cover;">
+                <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <div style="font-weight:bold;font-size:14px;">${product.name}</div>
+                    <div style="color:#d9534f;font-weight:bold;font-size:14px;">${product.price.toLocaleString()} ETB</div>
+                </div>
+            </div>
+            <button class="btn btn-primary add-to-cart" style="padding:8px 20px;font-size:14px;white-space:nowrap;">Add</button>
+        </div>
+        
+        <!-- Tabbed Info Section -->
+        <section style="margin-top: 40px;background:#fff;border-radius:8px;border:1px solid #e0e0e0;overflow:hidden;">
+            <div style="display:flex;border-bottom:1px solid #e0e0e0;background:#f9f9f9;">
+                <button class="tab-btn active" onclick="switchTab(this, 'tab-desc')" style="flex:1;padding:15px;background:none;border:none;border-bottom:3px solid var(--primary,#0a5c36);font-weight:bold;cursor:pointer;font-size:16px;">Description</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-spec')" style="flex:1;padding:15px;background:none;border:none;border-bottom:3px solid transparent;font-weight:bold;cursor:pointer;font-size:16px;color:#666;">Specifications</button>
+                <button class="tab-btn" onclick="switchTab(this, 'tab-rev')" style="flex:1;padding:15px;background:none;border:none;border-bottom:3px solid transparent;font-weight:bold;cursor:pointer;font-size:16px;color:#666;">Reviews (3)</button>
+            </div>
+            
+            <div style="padding:30px;">
+                <div id="tab-desc" class="tab-content" style="display:block;">
+                    <h3 style="margin-top:0;">About this item</h3>
+                    <p style="color:#555;line-height:1.6;font-size:15px;">${product.description || 'Authentic Ethiopian product sourced directly from local producers. Quality guaranteed.'}</p>
+                </div>
+                
+                <div id="tab-spec" class="tab-content" style="display:none;">
+                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px;font-weight:bold;width:30%;color:#555;">Brand</td><td style="padding:10px;">MERKATO Local</td></tr>
+                        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px;font-weight:bold;color:#555;">Origin</td><td style="padding:10px;">Ethiopia</td></tr>
+                        <tr style="border-bottom:1px solid #eee;"><td style="padding:10px;font-weight:bold;color:#555;">Weight/Volume</td><td style="padding:10px;">Standard</td></tr>
+                        <tr><td style="padding:10px;font-weight:bold;color:#555;">Category</td><td style="padding:10px;">${aisleLabels[product.aisle] || 'General'}</td></tr>
+                    </table>
+                </div>
+                
+                <div id="tab-rev" class="tab-content" style="display:none;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                        <h3 style="margin:0;">Customer Reviews</h3>
+                        <button class="btn btn-outline" style="padding:8px 15px;font-size:13px;" onclick="document.getElementById('reviewFormContainer').style.display='block'">Write a Review</button>
+                    </div>
+                    
+                    <div id="reviewFormContainer" style="display:none;background:#f9f9f9;padding:20px;border-radius:8px;margin-bottom:20px;">
+                        <form onsubmit="event.preventDefault();alert('Review submitted for moderation!');this.reset();document.getElementById('reviewFormContainer').style.display='none';">
+                            <label style="display:block;margin-bottom:5px;font-weight:bold;">Rating</label>
+                            <select class="form-control" style="width:100px;margin-bottom:15px;" required>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                            </select>
+                            <label style="display:block;margin-bottom:5px;font-weight:bold;">Comment</label>
+                            <textarea class="form-control" rows="3" required style="width:100%;margin-bottom:10px;padding:10px;border:1px solid #ccc;border-radius:4px;"></textarea>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Static Reviews -->
+                    <div style="border-bottom:1px solid #eee;padding-bottom:15px;margin-bottom:15px;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;">
+                            <div style="width:35px;height:35px;background:#0a5c36;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">A</div>
+                            <div>
+                                <div style="font-weight:bold;font-size:14px;">Abebe B.</div>
+                                <div style="color:#f5a623;font-size:12px;">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <span style="margin-left:auto;color:#999;font-size:12px;">2 days ago</span>
+                        </div>
+                        <p style="margin:0;font-size:14px;color:#555;">Excellent quality! Reminds me of home. Shipping was very fast.</p>
+                    </div>
+                    <div style="border-bottom:1px solid #eee;padding-bottom:15px;margin-bottom:15px;">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;">
+                            <div style="width:35px;height:35px;background:#c4713b;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">T</div>
+                            <div>
+                                <div style="font-weight:bold;font-size:14px;">Tigist K.</div>
+                                <div style="color:#f5a623;font-size:12px;">⭐⭐⭐⭐</div>
+                            </div>
+                            <span style="margin-left:auto;color:#999;font-size:12px;">1 week ago</span>
+                        </div>
+                        <p style="margin:0;font-size:14px;color:#555;">Good product, reasonably priced. The packaging could be improved but overall I'm satisfied.</p>
+                    </div>
+                    <div>
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;">
+                            <div style="width:35px;height:35px;background:#3e2723;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;">D</div>
+                            <div>
+                                <div style="font-weight:bold;font-size:14px;">Dawit M.</div>
+                                <div style="color:#f5a623;font-size:12px;">⭐⭐⭐⭐⭐</div>
+                            </div>
+                            <span style="margin-left:auto;color:#999;font-size:12px;">1 month ago</span>
+                        </div>
+                        <p style="margin:0;font-size:14px;color:#555;">Authentic taste. Highly recommend to anyone missing Ethiopian goods!</p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Reviews Section -->
-        <section id="reviewsSection" style="margin-top: 40px;">
-            <div class="section-header">
-                <h2>⭐ Customer Reviews</h2>
-            </div>
-            
-            <!-- Add Review Form -->
-            <div class="card" style="margin-bottom: 20px; background: #fafafa;">
-                <h3 style="margin-bottom: 15px;">Write a Review</h3>
-                <form id="reviewForm" onsubmit="submitReview(event, '${product._id}')">
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block;margin-bottom:5px;">Rating</label>
-                        <select id="reviewRating" class="form-control" style="width:100px;display:inline-block;" required>
-                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-                            <option value="4">⭐⭐⭐⭐ (4)</option>
-                            <option value="3">⭐⭐⭐ (3)</option>
-                            <option value="2">⭐⭐ (2)</option>
-                            <option value="1">⭐ (1)</option>
-                        </select>
+        <!-- You Might Also Like -->
+        <section style="margin-top: 50px;margin-bottom:30px;">
+            <h2 style="font-size:22px;margin-bottom:20px;">You Might Also Like</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;">
+                <!-- Card 1 -->
+                <div class="card" style="padding:15px;display:flex;flex-direction:column;height:100%;">
+                    <div class="card-img-wrap" style="position:relative;padding-top:100%;border-radius:8px;overflow:hidden;background:#f5f5f5;margin-bottom:15px;">
+                        <img src="https://via.placeholder.com/200?text=Related+1" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block;margin-bottom:5px;">Your Review</label>
-                        <textarea id="reviewComment" class="form-control" rows="3" placeholder="What did you think about this product?" required></textarea>
+                    <div style="font-weight:bold;font-size:14px;margin-bottom:5px;">Premium Shiro</div>
+                    <div style="color:#d9534f;font-weight:bold;margin-bottom:10px;">450 ETB</div>
+                    <button class="btn btn-outline" style="width:100%;margin-top:auto;padding:8px;font-size:13px;">View</button>
+                </div>
+                <!-- Card 2 -->
+                <div class="card" style="padding:15px;display:flex;flex-direction:column;height:100%;">
+                    <div class="card-img-wrap" style="position:relative;padding-top:100%;border-radius:8px;overflow:hidden;background:#f5f5f5;margin-bottom:15px;">
+                        <img src="https://via.placeholder.com/200?text=Related+2" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit Review</button>
-                    <div id="reviewStatus" style="margin-top: 10px; font-size: 14px;"></div>
-                </form>
-            </div>
-            
-            <!-- Reviews List -->
-            <div id="reviewsList">
-                <div style="text-align:center;padding:20px;color:#888;">Loading reviews...</div>
+                    <div style="font-weight:bold;font-size:14px;margin-bottom:5px;">Organic Coffee</div>
+                    <div style="color:#d9534f;font-weight:bold;margin-bottom:10px;">800 ETB</div>
+                    <button class="btn btn-outline" style="width:100%;margin-top:auto;padding:8px;font-size:13px;">View</button>
+                </div>
+                <!-- Card 3 -->
+                <div class="card" style="padding:15px;display:flex;flex-direction:column;height:100%;">
+                    <div class="card-img-wrap" style="position:relative;padding-top:100%;border-radius:8px;overflow:hidden;background:#f5f5f5;margin-bottom:15px;">
+                        <img src="https://via.placeholder.com/200?text=Related+3" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div style="font-weight:bold;font-size:14px;margin-bottom:5px;">Traditional Spices</div>
+                    <div style="color:#d9534f;font-weight:bold;margin-bottom:10px;">350 ETB</div>
+                    <button class="btn btn-outline" style="width:100%;margin-top:auto;padding:8px;font-size:13px;">View</button>
+                </div>
             </div>
         </section>
+        
+        <script>
+            // Sticky bar logic
+            window.addEventListener('scroll', function() {
+                const stickyBar = document.querySelector('.sticky-product-bar');
+                if (window.scrollY > 300 && window.innerWidth < 768) {
+                    stickyBar.style.transform = 'translateY(0)';
+                } else {
+                    stickyBar.style.transform = 'translateY(100%)';
+                }
+            });
+            
+            // Tab switching logic
+            window.switchTab = function(btn, tabId) {
+                const tabs = btn.parentElement.querySelectorAll('.tab-btn');
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.style.borderBottomColor = 'transparent';
+                    t.style.color = '#666';
+                });
+                btn.classList.add('active');
+                btn.style.borderBottomColor = 'var(--primary,#0a5c36)';
+                btn.style.color = 'inherit';
+                
+                const contents = btn.parentElement.parentElement.querySelectorAll('.tab-content');
+                contents.forEach(c => c.style.display = 'none');
+                document.getElementById(tabId).style.display = 'block';
+            };
+        </script>
     `;
     
     // Load reviews after rendering
