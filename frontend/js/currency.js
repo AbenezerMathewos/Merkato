@@ -131,3 +131,4 @@
     window.MerkatoCurrency = new CurrencyEngine();
 
 })(window);
+// Refined at 2026-08-30 19:19:08
