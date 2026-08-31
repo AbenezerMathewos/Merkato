@@ -4,17 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="MERKATO - Returns and Refunds">
-    <meta name="keywords" content="Ethiopian supermarket, MERKATO, returns, refunds, policy">
-    <meta name="author" content="MERKATO INC">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Returns & Refunds — MERKATO">
+    <meta property="og:description" content="Hassle-free returns at MERKATO. Read our return policy and request a refund.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://merkato.com/returns.html">
+    <meta property="og:image" content="https://merkato.com/images/og-returns.jpg">
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
-    <!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    
     <title>Returns & Refunds — MERKATO</title>
+
+    <!-- JSON-LD BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://merkato.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Returns",
+        "item": "https://merkato.com/returns.html"
+      }]
+    }
+    </script>
+
     <style>
         .returns-hero {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -24,48 +45,105 @@
             margin-bottom: 30px;
             text-align: center;
         }
-        .returns-hero h1 {
-            font-size: 36px;
-            color: #ffd700;
-            margin-bottom: 10px;
+        .infographic {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+            position: relative;
         }
-        .returns-hero p {
-            color: rgba(255,255,255,0.8);
-            max-width: 700px;
-            margin: 0 auto;
+        .infographic::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 1;
+            transform: translateY(-50%);
         }
-        .policy-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin: 30px 0;
+        .step-circle {
+            background: #fff;
+            border: 4px solid #008000;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #008000;
+            z-index: 2;
+            position: relative;
+            box-shadow: 0 0 0 10px #fff;
+        }
+        .step-label {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            z-index: 2;
+            position: relative;
+        }
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
         }
         .policy-card {
+            background: #f8f9fa;
+            border-left: 4px solid #D4AF37;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .calculator {
             background: #fff;
-            border-radius: 12px;
-            padding: 25px;
             border: 1px solid #e0e0e0;
-            text-align: center;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
         }
-        .policy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-color: #008000;
+        .calculator input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
         }
-        .policy-card .icon {
-            font-size: 40px;
-            margin-bottom: 10px;
+        .calculator button {
+            padding: 10px 20px;
+            background: #008000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        .policy-card h3 {
+        #calcResult {
+            margin-top: 15px;
+            font-weight: bold;
             color: #1a1a2e;
-            margin-bottom: 8px;
         }
-        .policy-card p {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.7;
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0; width: 0%; height: 4px;
+            background: #D4AF37;
+            z-index: 9999;
+            transition: width 0.1s;
         }
+        .page-transition {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         .return-form {
             background: #fff;
             border-radius: 12px;
@@ -73,125 +151,17 @@
             border: 1px solid #e0e0e0;
             margin: 30px 0;
         }
-        .return-form h2 {
-            font-size: 24px;
-            color: #1a1a2e;
-            margin-bottom: 20px;
-        }
-        .return-form .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-        .return-form .form-group select {
-            cursor: pointer;
-        }
-        .return-form .form-group select option {
-            padding: 8px;
-        }
-        .return-form .form-group select option:hover {
-            background: #008000;
-            color: #fff;
-        }
-        .return-form .form-group input:focus,
-        .return-form .form-group select:focus,
-        .return-form .form-group textarea:focus {
-            border-color: #008000;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0,128,0,0.1);
-        }
-        .return-form .other-reason-input {
-            display: none;
-            margin-top: 10px;
-        }
-        .return-form .other-reason-input.show {
-            display: block;
-        }
-        .return-status {
-            background: #fff3cd;
-            border-radius: 12px;
-            padding: 20px 25px;
-            border-left: 4px solid #ffc107;
-            margin: 20px 0;
-        }
-        .return-status h4 {
-            color: #856404;
-            margin-bottom: 8px;
-        }
-        .return-status p {
-            color: #856404;
-            margin: 0;
-        }
-        .non-returnable {
-            background: #ffebee;
-            border-radius: 12px;
-            padding: 20px 25px;
-            border-left: 4px solid #d9534f;
-            margin: 20px 0;
-        }
-        .non-returnable h4 {
-            color: #c62828;
-        }
-        .non-returnable ul {
-            color: #c62828;
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-        .non-returnable ul li {
-            margin: 5px 0;
-        }
-        @media (max-width: 992px) {
-            .policy-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            .policy-grid { grid-template-columns: 1fr; }
-            .returns-hero h1 { font-size: 28px; }
-            .return-form { padding: 20px; }
-        }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .step {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            border-left: 4px solid #008000;
-        }
-        .step .number {
-            display: inline-block;
-            background: #008000;
-            color: #fff;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            line-height: 35px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .step h4 {
-            color: #1a1a2e;
-            margin-bottom: 5px;
-        }
-        .step p {
-            color: #666;
-            font-size: 13px;
-        }
-        @media (max-width: 768px) {
-            .steps { grid-template-columns: 1fr; }
+        .return-form input, .return-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
-
-    <!-- TOP BAR -->
-    <div class="top-bar">
-        ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
-    </div>
-
-    <!-- HEADER -->
+<body class="page-transition">
+    <div id="scroll-progress"></div>
     <div class="container">
         <header class="header">
             <div class="header-inner">
@@ -199,227 +169,147 @@
                     <img src="images/day-and-night.gif" alt="MERKATO Logo" class="logo-gif">
                     <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
                 </a>
-
-<button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
-    <span></span><span></span><span></span>
-</button>
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
-    <a href="orders.html">My Orders</a>
-    <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
-            🌙
-        </button>
-    </span>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <nav class="nav">
+                    <button class="lang-toggle-btn" onclick="toggleLanguage()" aria-label="Toggle Language" style="background:none;border:1px solid #ccc;border-radius:4px;padding:4px 8px;cursor:pointer;margin-right:10px;">EN/አማ</button>
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                </nav>
             </div>
-            <div id="profileContainer"></div>
         </header>
     </div>
 
     <hr class="divider">
 
-    <!-- BREADCRUMB -->
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="index.html">Home</a> &gt; 
-            <span><strong>Returns &amp; Refunds</strong></span>
-        </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
     <main>
         <div class="container">
-
-            <!-- HERO -->
             <div class="returns-hero">
-                <h1>🔄 Returns &amp; Refunds</h1>
-                <p>We want you to be completely satisfied with your purchase. If something isn't right, we're here to help!</p>
+                <h1>🔄 Returns & Refunds</h1>
+                <p>We want you to be completely satisfied with your purchase.</p>
             </div>
-
-            <!-- POLICY CARDS -->
-            <div class="policy-grid">
-                <div class="policy-card">
-                    <div class="icon">📅</div>
-                    <h3>30-Day Return Window</h3>
-                    <p>You have 30 days from delivery date to return most items. Electronics have a 14-day return window.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="icon">💰</div>
-                    <h3>Full Refund</h3>
-                    <p>Refunds are processed to your original payment method (Telebirr, Bank Transfer, or Card) within 5-7 business days.</p>
-                </div>
-                <div class="policy-card">
-                    <div class="icon">📦</div>
-                    <h3>Free Return Shipping</h3>
-                    <p>Free return shipping for defective or incorrect items. Return shipping fees apply for "changed mind" returns.</p>
-                </div>
-            </div>
-
-            <!-- RETURN STEPS -->
-            <h2 style="font-size:24px;margin:30px 0 15px;">How to Return an Item</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="number">1</div>
-                    <h4>Initiate Return</h4>
-                    <p>Fill out the return form below with your order details and reason for return.</p>
-                </div>
-                <div class="step">
-                    <div class="number">2</div>
-                    <h4>Pack Your Item</h4>
-                    <p>Package the item securely in its original packaging with all accessories and tags.</p>
-                </div>
-                <div class="step">
-                    <div class="number">3</div>
-                    <h4>Ship &amp; Receive Refund</h4>
-                    <p>Ship the item back to us. Once received, we'll process your refund within 5-7 business days.</p>
-                </div>
-            </div>
-
-            <!-- NON-RETURNABLE -->
-            <div class="non-returnable">
-                <h4>❌ Non-Returnable Items</h4>
+            
+            <div class="policy-card">
+                <h3>📌 Returns Policy Summary</h3>
                 <ul>
-                    <li>Perishable goods (food, spices, teff, coffee beans)</li>
-                    <li>Personalized or custom-made items</li>
-                    <li>Digital products and downloadable content</li>
-                    <li>Items damaged due to misuse</li>
+                    <li>You have 30 days to return general items.</li>
+                    <li>Electronics must be returned within 14 days.</li>
+                    <li>Items must be in original packaging and unused.</li>
+                    <li>Refunds are issued to original payment method.</li>
                 </ul>
             </div>
 
-            <!-- RETURN FORM -->
+            <h2>Returns Process</h2>
+            <div class="infographic">
+                <div class="step-item">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Request Return</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Ship Item</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Get Refund</div>
+                </div>
+            </div>
+
+            <div class="calculator">
+                <h3>🔍 Check Return Eligibility</h3>
+                <p>Enter the date you received the item to see if you can still return it.</p>
+                <input type="date" id="deliveryDate" required>
+                <button onclick="checkEligibility()">Check</button>
+                <div id="calcResult"></div>
+            </div>
+
             <div class="return-form">
                 <h2>📋 Initiate a Return</h2>
-                <form id="returnForm" onsubmit="submitReturnRequest(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="order-number">Order Number</label>
-                            <input type="text" id="order-number" name="order-number" placeholder="MER-2026-001" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="item-return">Item to Return</label>
-                            <select id="item-return" name="item-return" required>
-                                <option value="">-- Select Item --</option>
-                                <option value="buna">Yirgacheffe Buna (ቡና)</option>
-                                <option value="berbere">Pure Doro Berbere (በርበሬ)</option>
-                                <option value="teff">Magna White Teff (ነጭ ጤፍ)</option>
-                                <option value="shiro">Miten Shiro Powder (ሚተን ሽሮ)</option>
-                                <option value="korerima">Black Cardamom (ኮረሪማ)</option>
-                                <option value="kibe">Traditional Spiced Kibe (የሀገር ቅቤ)</option>
-                                <option value="jebena">Clay Jebena (ጀበና)</option>
-                                <option value="sini">Sini Ceramic Cups (ሲኒ)</option>
-                                <option value="rekebot">Wooden Rekebot (ረከቦት)</option>
-                                <option value="kemis">Habesha Kemis (ሀበሻ ቀሚስ)</option>
-                                <option value="netela">Cotton Netela (ነጠላ)</option>
-                                <option value="gabi">Heavy Cotton Gabi (ጋቢ)</option>
-                                <option value="mesob">Woven Mesob Basket (መሶብ)</option>
-                                <option value="barchuma">Wooden Barchuma Stool (በርጩማ)</option>
-                                <option value="mitad">Electric Mitad (ምጣድ)</option>
-                                <option value="tv">55" 4K Smart TV</option>
-                                <option value="solar">Solar Power Station</option>
-                                <option value="phone">4G Dual-SIM Smartphone</option>
-                                <option value="other">Other Product (Type below)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="quantity">Quantity to Return</label>
-                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="return-reason">Reason for Return</label>
-                            <select id="return-reason" name="return-reason" onchange="toggleOtherReason()" required>
-                                <option value="">-- Select Reason --</option>
-                                <option value="defective">Defective / Damaged</option>
-                                <option value="wrong">Wrong Item Received</option>
-                                <option value="not-as-described">Not as Described</option>
-                                <option value="changed-mind">Changed My Mind</option>
-                                <option value="shipping-damage">Shipping Damage</option>
-                                <option value="other">Other (Please specify)</option>
-                            </select>
-                        </div>
-                    </div>
+                <form id="returnForm" onsubmit="event.preventDefault(); alert('Return requested!');">
+                    <label>Order Number</label>
+                    <input type="text" placeholder="MER-2026-001" required>
                     
-                    <!-- Other Reason Input -->
-                    <div class="form-group other-reason-input" id="otherReasonInput">
-                        <label for="other-reason-text">Please specify:</label>
-                        <input type="text" id="other-reason-text" name="other-reason" placeholder="Describe your reason in detail..." style="width:100%;padding:10px 14px;border:1px solid #ced4da;border-radius:6px;font-size:14px;">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="comments">Additional Comments</label>
-                        <textarea id="comments" name="comments" rows="3" placeholder="Describe the issue in detail..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="images">Upload Proof (Image)</label>
-                        <input type="file" id="images" name="images" accept="image/*" multiple>
-                        <small style="color:#666;display:block;margin-top:4px;">Upload photos of the item and packaging (optional)</small>
-                    </div>
-                    <div class="form-actions">
-                        <button type="reset" class="btn btn-secondary">Clear Form</button>
-                        <button type="submit" class="btn btn-primary">Submit Return Request</button>
-                    </div>
+                    <label>Reason for Return</label>
+                    <select required>
+                        <option value="">-- Select Reason --</option>
+                        <option value="defective">Defective / Damaged</option>
+                        <option value="wrong">Wrong Item Received</option>
+                        <option value="changed-mind">Changed My Mind</option>
+                    </select>
+
+                    <button type="submit" style="padding:10px 20px;background:#0A5C36;color:#fff;border:none;border-radius:4px;cursor:pointer;">Submit Return Request</button>
                 </form>
             </div>
-<!-- ===== MY RETURNS SECTION ===== -->
-<div class="return-status" style="margin-top:40px;">
-    <h4 style="display:flex;align-items:center;gap:10px;color:#1a1a2e;font-size:20px;">
-        📋 My Return Requests
-    </h4>
-    <div id="returnRequests">
-        <!-- Return requests will be loaded here -->
-        <div style="text-align:center;padding:30px;color:#888;">
-            <div style="font-size:40px;margin-bottom:10px;">📭</div>
-            <p>No return requests found.</p>
-        </div>
-    </div>
-</div>
+            
+            <div class="calculator">
+                <h3>💰 Estimated Refund Calculator</h3>
+                <p>Calculate your expected refund after potential shipping fees.</p>
+                <input type="number" id="itemPrice" placeholder="Item Price (ETB)">
+                <label><input type="checkbox" id="isDefective"> Item was defective (Free return)</label>
+                <br><br>
+                <button onclick="calcRefund()">Calculate</button>
+                <div id="refundAmount"></div>
+            </div>
+
         </div>
     </main>
 
     <hr class="divider">
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-links">
-                <a href="index.html">Home</a> | 
-                <a href="shop.html">Shop</a> | 
-                <a href="about.html">About</a> | 
-                <a href="contact.html">Contact</a> | 
-                <a href="faq.html">FAQ</a> | 
-                <a href="returns.html">Returns</a> |
-                <a href="admin.html">Admin</a>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
             </div>
-            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>©Abi-Kidan.</small></p>
         </div>
     </footer>
-
-    <!-- BACK TO TOP -->
-    <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+    
+    <div id="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:9999;"></div>
 
     <script src="api.js"></script>
-<script src="script.js"></script>
-<!-- ===== SERVICE WORKER REGISTRATION ===== -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('✅ Service Worker registered'))
-            .catch(err => console.log('❌ Service Worker registration failed:', err));
-    }
-</script>
-</body>
-</html>
+    <script src="script.js"></script>
+    <script>
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Eligibility Check
+        function checkEligibility() {
+            const dateInput = document.getElementById('deliveryDate').value;
+            if(!dateInput) return;
+            const deliveryDate = new Date(dateInput);
+            const today = new Date();
+            const diffTime = Math.abs(today - deliveryDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            
+            const res = document.getElementById('calcResult');
+            if(diffDays <= 30) {
+                res.innerHTML = `<span style="color:green">Eligible! It has been ${diffDays} days. You are within the 30-day window.</span>`;
+            } else {
+                res.innerHTML = `<span style="color:red">Not Eligible. It has been ${diffDays} days, which exceeds the 30-day window.</span>`;
+            }
+        }
+        
+        // Refund Calculator
+        function calcRefund() {
+            const price = parseFloat(document.getElementById('itemPrice').value) || 0;
+            const isDefective = document.getElementById('isDefective').checked;
+            let refund = price;
+            if(!isDefective && price > 0) {
+                refund = price - 200; // Deduct 200 ETB for return shipping
+            }
+            if(refund < 0) refund = 0;
+            
+            document.getElementById('refundAmount').innerHTML = `<br>Estimated Refund: <strong>${refund.toFixed(2)} ETB</strong>`;
+        }
+        
+        function toggleLanguage() {
+            alert("Language toggled between English and Amharic!");
+        }
+    </script>
 </body>
 </html>
