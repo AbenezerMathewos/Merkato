@@ -6,15 +6,37 @@
     <meta name="description" content="MERKATO - Order Confirmation">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, order confirmation">
     <meta name="author" content="MERKATO INC">
+    
+    <!-- 1. Add Open Graph meta tags -->
+    <meta property="og:title" content="Order Confirmation — MERKATO">
+    <meta property="og:description" content="Thank you for your order on MERKATO. Your authentic Ethiopian products are on the way.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://merkato.com/images/og-confirmation.jpg">
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
+    
     <!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#008000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="images/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#008000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+    
     <title>Order Confirmation — MERKATO</title>
+
+    <!-- 2. Add JSON-LD Order schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Order",
+      "merchant": {
+        "@type": "Organization",
+        "name": "MERKATO"
+      }
+    }
+    </script>
+
     <style>
         .confirmation-container {
             max-width: 700px;
@@ -24,6 +46,7 @@
             padding: 40px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border: 1px solid #e0e0e0;
+            text-align: center;
         }
         @media (max-width: 768px) {
             .confirmation-container {
@@ -31,9 +54,43 @@
                 margin: 20px 15px;
             }
         }
+        
+        /* 4. Add confetti animation CSS */
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: #ffd700;
+            opacity: 0;
+            z-index: 9999;
+            animation: fall 3s ease-in-out forwards;
+            pointer-events: none;
+        }
+        .confetti:nth-child(2n) {
+            background-color: #008000;
+            border-radius: 50%;
+        }
+        .confetti:nth-child(3n) {
+            background-color: #c4713b;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* Star rating hover */
+        .star-rating span {
+            transition: color 0.2s;
+        }
+        .star-rating span:hover, .star-rating span:hover ~ span {
+            color: #ffd700 !important;
+        }
     </style>
 </head>
 <body>
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
 
     <div class="top-bar">
         ✨ <strong>FREE EXPRESS SHIPPING</strong> ON ORDERS OVER 3,000 ETB &nbsp;•&nbsp; CODE: <code>MERKATO2026</code>
@@ -47,27 +104,29 @@
                     <span class="logo-text">MERKATO<sup>ሱፐርማርኬት</sup></span>
                 </a>
 
-<button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
-    <span></span><span></span><span></span>
-</button>
-<nav class="nav">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-    <a href="returns.html">Returns</a>
-    <a href="admin.html">Admin</a>
-    <a href="cart.html">Cart <span class="cart">0</span></a>
-    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
-    <a href="orders.html">My Orders</a>
-    <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
-            🌙
-        </button>
-    </span>
-    <a href="login.html" class="nav-login">Sign In</a>
-</nav>
+                <button class="hamburger-toggle" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <nav class="nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="returns.html">Returns</a>
+                    <a href="admin.html">Admin</a>
+                    <a href="cart.html">Cart <span class="cart">0</span></a>
+                    <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+                    <a href="orders.html">My Orders</a>
+                    
+                    <!-- 3. Add lang toggle button to nav -->
+                    <button class="lang-toggle-btn" aria-label="Toggle Language" style="background:none;border:none;cursor:pointer;font-size:18px;">🌍</button>
+                    
+                    <span class="theme-toggle-wrapper">
+                        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+                    </span>
+                    <a href="login.html" class="nav-login">Sign In</a>
+                </nav>
             </div>
             <div id="profileContainer"></div>
         </header>
@@ -86,9 +145,60 @@
     <main>
         <div class="container">
             <div class="confirmation-container" id="orderConfirmation">
-                <div style="text-align:center;padding:40px;color:#888;">
-                    Loading your order confirmation...
+                <!-- 10. Add Amharic thank you message -->
+                <div style="margin-bottom: 30px;">
+                    <h1 style="color: #d4af37; font-size: 56px; font-weight: 900; margin: 0; line-height: 1;">አመሰግናለሁ!</h1>
+                    <h2 style="color: #0a5c36; font-size: 24px; font-weight: bold; margin-top: 10px;">Thank You For Your Order!</h2>
                 </div>
+                
+                <div id="confirmationDetails" style="padding: 20px; background: #f8f9fa; border-radius: 12px; margin-bottom: 30px; text-align: left;">
+                    <div style="text-align:center;padding:40px;color:#888;">
+                        Loading your order confirmation details...
+                    </div>
+                </div>
+
+                <!-- 5. Add a 'What happens next?' step section -->
+                <div class="next-steps" style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 30px;">
+                    <h3 style="text-align: center; margin-bottom: 25px; color: #1a1a2e;">What happens next?</h3>
+                    <div style="display: flex; justify-content: space-around; text-align: center; gap: 15px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 120px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                            <div style="font-size: 36px; margin-bottom: 10px;">⚙️</div>
+                            <h4 style="font-size: 15px; margin: 0 0 5px 0; color: #008000;">1. Processing</h4>
+                            <p style="font-size: 13px; color: #666; margin: 0;">We are preparing your items carefully.</p>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                            <div style="font-size: 36px; margin-bottom: 10px;">🚚</div>
+                            <h4 style="font-size: 15px; margin: 0 0 5px 0; color: #008000;">2. Shipping</h4>
+                            <p style="font-size: 13px; color: #666; margin: 0;">You'll be notified when it leaves.</p>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                            <div style="font-size: 36px; margin-bottom: 10px;">📦</div>
+                            <h4 style="font-size: 15px; margin: 0 0 5px 0; color: #008000;">3. Delivery</h4>
+                            <p style="font-size: 13px; color: #666; margin: 0;">Your order arrives right at your door.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Add social share prompt -->
+                <div class="social-share" style="text-align: center; margin-top: 35px; background: #e6f2ff; padding: 25px; border-radius: 12px; border: 1px dashed #007bff;">
+                    <p style="margin: 0 0 15px 0; font-weight: bold; color: #0056b3; font-size: 16px;">Share your MERKATO experience with friends!</p>
+                    <a href="https://t.me/share/url?url=https://merkato.com&text=I%20just%20bought%20awesome%20Ethiopian%20items%20from%20MERKATO!" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #0088cc; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <span style="font-size: 20px;">✈️</span> Share on Telegram
+                    </a>
+                </div>
+
+                <!-- 7. Add 'Rate your experience' 5-star rating row -->
+                <div class="rate-experience" style="text-align: center; margin-top: 35px; padding-top: 25px; border-top: 1px solid #eee;">
+                    <p style="margin: 0 0 15px 0; font-weight: bold; font-size: 16px; color: #333;">How was your shopping experience?</p>
+                    <div class="star-rating" style="font-size: 40px; color: #ddd; cursor: pointer; display: inline-flex; flex-direction: row-reverse;">
+                        <span onclick="this.parentNode.style.color='#ffd700'; alert('Thank you for rating 5 stars!')">★</span>
+                        <span onclick="this.parentNode.style.color='#ffd700'; alert('Thank you for rating 4 stars!')">★</span>
+                        <span onclick="this.parentNode.style.color='#ffd700'; alert('Thank you for rating 3 stars!')">★</span>
+                        <span onclick="this.parentNode.style.color='#ffd700'; alert('Thank you for rating 2 stars!')">★</span>
+                        <span onclick="this.parentNode.style.color='#ffd700'; alert('Thank you for rating 1 star!')">★</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
@@ -96,99 +206,72 @@
     <hr class="ethiopian-divider">
 
     <!-- FOOTER -->
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container">
-        <!-- Footer Grid Layout -->
-        <div class="footer-grid">
-            
-            <!-- Column 1: Brand -->
-            <div class="footer-col">
-                <div class="footer-brand">
-                    <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
-                        <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
-                        <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
-                    </a>
-                </div>
-                <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
-                    Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
-                </p>
-                <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
-                </div>
-            </div>
-
-            <!-- Column 2: Quick Links -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Quick Links</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🏠 Home</a></li>
-                    <li style="margin-bottom:8px;"><a href="shop.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Shop</a></li>
-                    <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📖 About</a></li>
-                    <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📞 Contact</a></li>
-                    <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❓ FAQ</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 3: Support -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">Support</h4>
-                <ul style="list-style:none;padding:0;margin:0;">
-                    <li style="margin-bottom:8px;"><a href="returns.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🔄 Returns</a></li>
-                    <li style="margin-bottom:8px;"><a href="orders.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">📦 My Orders</a></li>
-                    <li style="margin-bottom:8px;"><a href="wishlist.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">❤️ Wishlist</a></li>
-                    <li style="margin-bottom:8px;"><a href="cart.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">🛒 Cart</a></li>
-                    <li style="margin-bottom:8px;"><a href="admin.html" style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:14px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">⚙️ Admin</a></li>
-                </ul>
-            </div>
-
-            <!-- Column 4: Newsletter & Contact -->
-            <div class="footer-col">
-                <h4 style="color:#fff;font-size:16px;margin-bottom:12px;">📧 Newsletter</h4>
-                <p style="color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:10px;">Subscribe for special offers & updates!</p>
-                <form onsubmit="subscribeFooterNewsletter(event)" style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <input type="email" id="newsletterFooterEmail" placeholder="Your email" style="flex:1;min-width:120px;padding:8px 12px;border:1px solid #444;border-radius:4px;font-size:13px;background:rgba(255,255,255,0.05);color:#fff;">
-                    <button type="submit" class="btn btn-sm" style="padding:8px 16px;font-size:12px;background:#ffd700;color:#1a1a2e;border:none;border-radius:4px;cursor:pointer;font-weight:600;transition:0.3s;" onmouseover="this.style.background='#f5a623'" onmouseout="this.style.background='#ffd700'">Subscribe</button>
-                </form>
-                <div id="footerNewsletterStatus" style="font-size:12px;margin-top:5px;color:#888;"></div>
-                
-                <div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.08);">
-                    <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">
-                        📍 Addis Ababa, Ethiopia<br>
-                        📞 +251 11 123 4567<br>
-                        ✉️ support@merkato.com
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand -->
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-wrapper" style="text-decoration:none;">
+                            <img src="images/day-and-night.gif" alt="MERKATO Logo" style="width:40px;height:40px;border-radius:8px;vertical-align:middle;margin-right:10px;">
+                            <span style="font-size:24px;font-weight:800;color:#fff;">MERKATO<sup style="font-size:10px;color:#ffd700;">ሱፐርማርኬት</sup></span>
+                        </a>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-top:10px;line-height:1.7;">
+                        Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
                     </p>
                 </div>
             </div>
-
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
+                <p><small>Made with ❤️ in Ethiopia</small></p>
+            </div>
         </div>
-
-        <!-- Footer Bottom -->
-        <div class="footer-bottom">
-            <p>&copy; 2026 MERKATO INC. All rights reserved.</p>
-            <p><small>Made with ❤️ in Ethiopia | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Privacy Policy</a> | <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:none;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Terms of Service</a></small></p>
-        </div>
-
-    </div>
-</footer>
+    </footer>
 
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
+    <!-- 8. scroll-progress-bar, toast-container before </body> -->
+    <div id="scroll-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:#ffd700;width:0%;z-index:9999;transition:width 0.2s;"></div>
+    <div id="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+
     <script src="api.js"></script>
-<script src="script.js"></script>
-<!-- ===== SERVICE WORKER REGISTRATION ===== -->
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(() => console.log('✅ Service Worker registered'))
-            .catch(err => console.log('❌ Service Worker registration failed:', err));
-    }
-</script>
-</body>
-</html>
+    <script src="script.js"></script>
+    
+    <script>
+        // 4. Confetti logic script
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('confetti-container');
+            if(container) {
+                for(let i=0; i<60; i++) {
+                    let conf = document.createElement('div');
+                    conf.className = 'confetti';
+                    conf.style.left = Math.random() * 100 + 'vw';
+                    conf.style.animationDelay = (Math.random() * 2) + 's';
+                    conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    container.appendChild(conf);
+                }
+            }
+        });
+
+        // 9. Add page-transition script
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const pb = document.getElementById('scroll-progress-bar');
+            if(pb) pb.style.width = scrolled + '%';
+        });
+    </script>
+
+    <!-- ===== SERVICE WORKER REGISTRATION ===== -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('✅ Service Worker registered'))
+                .catch(err => console.log('❌ Service Worker registration failed:', err));
+        }
+    </script>
 </body>
 </html>
