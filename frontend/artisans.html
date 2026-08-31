@@ -6,11 +6,26 @@
     <meta name="description" content="MERKATO - Verified Ethiopian Artisans, Farmers & Craft Cooperatives">
     <meta name="keywords" content="Ethiopian artisans, coffee farmers, Yirgacheffe, Dorze weaving, Gondar spices, MERKATO">
     <meta name="author" content="MERKATO INC">
+    <!-- 1. Open Graph meta tags -->
+    <meta property="og:title" content="Verified Habesha Artisans & Farmers — MERKATO">
+    <meta property="og:description" content="Empowering local Ethiopian producers. Shop directly from family farmers, master weavers, and spice blenders.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/og-artisans.jpg">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#008000">
     <title>Verified Habesha Artisans & Farmers — MERKATO</title>
+    <!-- 2. JSON-LD Organization schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MERKATO Artisans",
+      "url": "https://merkato.com/artisans",
+      "description": "Network of Ethiopian Artisans and Farmers."
+    }
+    </script>
     <style>
         .artisan-hero {
             background: linear-gradient(135deg, #004d00 0%, #1a1a2e 100%);
@@ -28,6 +43,13 @@
             color: #ffd700;
             margin-bottom: 12px;
         }
+        /* 4. Amharic subtitle styling */
+        .artisan-hero h2.amharic-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffd700;
+            margin-bottom: 16px;
+        }
         .artisan-hero p {
             max-width: 650px;
             margin: 0 auto;
@@ -35,6 +57,30 @@
             font-size: 16px;
             line-height: 1.6;
         }
+        
+        /* 6. Region filter buttons styling */
+        .region-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0 30px 0;
+        }
+        .filter-pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #008000;
+            background: #fff;
+            color: #008000;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .filter-pill:hover, .filter-pill.active {
+            background: #008000;
+            color: #fff;
+        }
+
         .artisan-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -51,9 +97,10 @@
             display: flex;
             flex-direction: column;
         }
+        /* 7. Artisan card hover improvements (scale + shadow) */
         .artisan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 128, 0, 0.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 16px 40px rgba(0, 128, 0, 0.2);
             border-color: #008000;
         }
         .dark-mode .artisan-card {
@@ -186,6 +233,8 @@
                     <a href="cart.html">Cart <span class="cart">0</span></a>
                     <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
                     <a href="orders.html">My Orders</a>
+                    <!-- 3. Lang toggle button -->
+                    <button class="lang-toggle-btn" aria-label="Toggle Language" style="background:none;border:none;cursor:pointer;font-size:18px;">🌍</button>
                     <span class="theme-toggle-wrapper">
                         <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
                     </span>
@@ -202,14 +251,37 @@
         <!-- HERO BANNER -->
         <div class="artisan-hero">
             <h1>🤝 Verified Habesha Artisans & Farmers</h1>
+            <!-- 4. Amharic subtitle -->
+            <h2 class="amharic-subtitle">የተረጋገጡ የሀበሻ የእጅ ባለሙያዎች እና ገበሬዎች</h2>
             <p>Empowering local Ethiopian producers. Every purchase on MERKATO supports family farmers, master handloom weavers, spice blenders, and traditional craftspeople directly.</p>
+        </div>
+        
+        <!-- 6. Region filter buttons -->
+        <div class="region-filters">
+            <button class="filter-pill active">All</button>
+            <button class="filter-pill">Addis Ababa</button>
+            <button class="filter-pill">Oromia</button>
+            <button class="filter-pill">SNNPR</button>
+            <button class="filter-pill">Tigray</button>
+            <button class="filter-pill">Amhara</button>
+        </div>
+
+        <!-- 10. Featured Artisan Spotlight Card -->
+        <div class="featured-artisan" style="background:linear-gradient(90deg, #fff3cd 0%, #fff 100%); border-left: 5px solid #ffc107; padding: 20px; border-radius: 12px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div style="font-size:48px;">🏆</div>
+            <div style="flex: 1;">
+                <h3 style="margin:0; color:#856404; font-size:12px; text-transform:uppercase; letter-spacing:1px;">Featured Artisan of the Month</h3>
+                <h2 style="margin:5px 0; color:#1a1a2e; font-size: 24px;">Lalibela Woodworks</h2>
+                <p style="margin:0; color:#555; font-size:14px;">Master craftsmen creating exquisite olive wood crosses and traditional furniture in Amhara.</p>
+            </div>
+            <button class="btn btn-secondary" style="white-space: nowrap; padding: 10px 20px;">View Store →</button>
         </div>
 
         <!-- ARTISANS DIRECTORY -->
         <div class="artisan-grid">
             <!-- Artisan 1: Yirgacheffe Coffee Union -->
             <div class="artisan-card">
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Yirgacheffe Coffee" class="artisan-cover">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Yirgacheffe Coffee" class="artisan-cover" loading="lazy">
                 <div class="artisan-body">
                     <div class="artisan-avatar-row">
                         <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">☕</div>
@@ -235,7 +307,7 @@
 
             <!-- Artisan 2: Dorze Master Weavers -->
             <div class="artisan-card">
-                <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80" alt="Dorze Weaving" class="artisan-cover">
+                <img src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80" alt="Dorze Weaving" class="artisan-cover" loading="lazy">
                 <div class="artisan-body">
                     <div class="artisan-avatar-row">
                         <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">🧵</div>
@@ -261,7 +333,7 @@
 
             <!-- Artisan 3: Gondar Spice Masters -->
             <div class="artisan-card">
-                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80" alt="Spices" class="artisan-cover">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80" alt="Spices" class="artisan-cover" loading="lazy">
                 <div class="artisan-body">
                     <div class="artisan-avatar-row">
                         <div class="artisan-avatar" style="display:flex;align-items:center;justify-content:center;font-size:28px;">🌶️</div>
@@ -285,17 +357,42 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 5. 'Become an Artisan' CTA -->
+        <div class="become-artisan-cta" style="background: #f4fcf7; border: 2px dashed #008000; border-radius: 20px; padding: 40px 20px; text-align: center; margin-top: 40px;">
+            <h2 style="color: #008000; margin-bottom: 10px; font-size: 28px;">Are you an Ethiopian Artisan or Farmer?</h2>
+            <p style="color: #555; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.5;">Join the MERKATO marketplace and sell your authentic products directly to customers nationwide. No setup fees!</p>
+            <form style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 600px; margin: 0 auto;">
+                <input type="text" placeholder="Full Name" aria-label="Full Name" required style="padding: 12px 16px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 200px;">
+                <input type="email" placeholder="Email Address" aria-label="Email Address" required style="padding: 12px 16px; border-radius: 8px; border: 1px solid #ccc; flex: 1; min-width: 200px;">
+                <button type="button" class="btn btn-primary" onclick="alert('Thank you for your interest! We will contact you soon.')" style="padding: 12px 24px; font-weight: bold;">Apply Now</button>
+            </form>
+        </div>
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer">
+    <footer class="footer" style="margin-top: 50px;">
         <div class="container">
             <p>&copy; 2026 MERKATO INC. Empowering Ethiopian Producers.</p>
             <p><small>Made with ❤️ in Ethiopia</small></p>
         </div>
     </footer>
 
+    <!-- 8. Scroll progress bar & toast container -->
+    <div id="scroll-progress-bar" style="position: fixed; top: 0; left: 0; height: 4px; background: #ffd700; width: 0%; z-index: 9999; transition: width 0.2s ease;"></div>
+    <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
     <script src="api.js"></script>
     <script src="script.js"></script>
+    <!-- 9. Page transition script -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const pb = document.getElementById('scroll-progress-bar');
+            if (pb) pb.style.width = scrolled + '%';
+        });
+    </script>
 </body>
 </html>
