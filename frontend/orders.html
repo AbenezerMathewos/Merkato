@@ -6,6 +6,31 @@
     <meta name="description" content="MERKATO - My Orders">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, orders, tracking">
     <meta name="author" content="MERKATO INC">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="My Orders — MERKATO">
+    <meta property="og:description" content="Track your MERKATO orders here.">
+    <meta property="og:image" content="https://merkato.com/images/default-og.jpg">
+    <meta property="og:type" content="website">
+
+    <!-- JSON-LD BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://merkato.com/index.html"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "My Orders"
+      }]
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">
     <link rel="stylesheet" href="style.css">
     <!-- PWA -->
@@ -289,6 +314,7 @@
                     <span class="theme-toggle-wrapper">
                         <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
                     </span>
+                    <button class="lang-toggle-btn" aria-label="Toggle Language" onclick="alert('Language changed')" style="background:none;border:none;cursor:pointer;font-size:20px;margin-left:10px;vertical-align:middle;">🇪🇹</button>
                     <a href="login.html" class="nav-login">Sign In</a>
                 </nav>
             </div>
@@ -309,9 +335,23 @@
     <!-- MAIN CONTENT -->
     <main>
         <div class="container">
-            <div class="page-title">
-                <h1>📦 My Orders</h1>
-                <p>Track and view all your orders</p>
+            <div class="page-title" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:15px;margin-bottom:20px;">
+                <div>
+                    <h1 style="margin-bottom:5px;">📦 My Orders</h1>
+                    <p>Track and view all your orders</p>
+                </div>
+                <button class="btn btn-outline" onclick="alert('Exporting orders to CSV...')" style="padding:8px 15px;font-size:14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
+                    📥 Export Orders
+                </button>
+            </div>
+            
+            <!-- Order Filters -->
+            <div style="display:flex;gap:10px;margin-bottom:25px;overflow-x:auto;padding-bottom:5px;">
+                <button class="btn" style="background:var(--primary,#0a5c36);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:14px;white-space:nowrap;">All Orders</button>
+                <button class="btn" style="background:#f0f0f0;color:#555;border:none;padding:8px 20px;border-radius:20px;font-size:14px;white-space:nowrap;">Processing</button>
+                <button class="btn" style="background:#f0f0f0;color:#555;border:none;padding:8px 20px;border-radius:20px;font-size:14px;white-space:nowrap;">Shipped</button>
+                <button class="btn" style="background:#f0f0f0;color:#555;border:none;padding:8px 20px;border-radius:20px;font-size:14px;white-space:nowrap;">Delivered</button>
+                <button class="btn" style="background:#f0f0f0;color:#555;border:none;padding:8px 20px;border-radius:20px;font-size:14px;white-space:nowrap;">Cancelled</button>
             </div>
 
             <div class="orders-container" id="ordersContainer">
@@ -345,6 +385,28 @@
     <!-- BACK TO TOP -->
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 
+    <!-- UI Enhancements -->
+    <div class="scroll-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:var(--secondary,#d4af37);width:0%;z-index:9999;transition:width 0.1s;"></div>
+    <div class="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+    <a href="cart.html" class="floating-cart-btn" aria-label="View Cart" style="position:fixed;bottom:20px;left:20px;background:var(--primary,#0a5c36);color:#fff;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:9998;text-decoration:none;font-size:24px;transition:transform 0.3s;">
+        🛒
+    </a>
+    <script>
+        // Page Transition Script
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease-in-out';
+        window.onload = () => document.body.style.opacity = '1';
+        
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const pb = document.querySelector('.scroll-progress-bar');
+            if (pb) pb.style.width = scrolled + "%";
+        });
+    </script>
+
     <!-- ===== TRACKING MODAL ===== -->
     <div id="trackingModal">
         <div class="modal-box">
@@ -373,22 +435,106 @@
         // ========================================
 
         function addTrackingButtons() {
+            const container = document.getElementById('ordersContainer');
             const orderCards = document.querySelectorAll('.order-card');
+            
+            // Empty State Handling
+            if (orderCards.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-orders" style="background:#fff;border-radius:12px;border:1px dashed #ccc;padding:80px 20px;text-align:center;">
+                        <div style="font-size:80px;margin-bottom:20px;">📦</div>
+                        <h3 style="font-size:24px;color:#1a1a2e;margin-bottom:10px;">No Orders Yet</h3>
+                        <p style="color:#666;margin-bottom:25px;font-size:16px;">Looks like you haven't made any purchases with us.</p>
+                        <a href="shop.html" class="btn btn-primary" style="padding:12px 30px;font-size:16px;border-radius:30px;">Start Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+
             orderCards.forEach(card => {
                 const orderIdElement = card.querySelector('.order-id');
                 if (orderIdElement) {
                     const orderId = orderIdElement.textContent.trim();
                     const actionsDiv = card.querySelector('.order-actions');
+                    
                     if (actionsDiv) {
-                        // Check if tracking button already exists
+                        // Reorder Button
+                        if (!actionsDiv.querySelector('.reorder-btn')) {
+                            const reorderBtn = document.createElement('button');
+                            reorderBtn.className = 'btn btn-outline btn-sm reorder-btn';
+                            reorderBtn.textContent = '🔄 Reorder';
+                            reorderBtn.style.marginRight = '8px';
+                            reorderBtn.onclick = function() {
+                                alert('Items added to cart!');
+                            };
+                            actionsDiv.insertBefore(reorderBtn, actionsDiv.firstChild);
+                        }
+                    
+                        // Tracking Button
                         if (!actionsDiv.querySelector('.track-btn')) {
                             const trackBtn = document.createElement('button');
-                            trackBtn.className = 'btn btn-secondary btn-sm track-btn';
-                            trackBtn.textContent = '📦 Track';
+                            trackBtn.className = 'btn btn-primary btn-sm track-btn';
+                            trackBtn.textContent = '📍 Track Order';
                             trackBtn.onclick = function() {
                                 trackOrder(orderId);
                             };
                             actionsDiv.appendChild(trackBtn);
+                        }
+                    }
+                    
+                    // Add Delivery Address Summary
+                    const bodyDiv = card.querySelector('.order-body');
+                    if (bodyDiv && !bodyDiv.querySelector('.delivery-address')) {
+                        const addrDiv = document.createElement('div');
+                        addrDiv.className = 'delivery-address';
+                        addrDiv.style.cssText = 'margin-top:15px;padding:10px;background:#f9f9f9;border-radius:6px;font-size:13px;color:#555;display:flex;align-items:flex-start;gap:10px;';
+                        addrDiv.innerHTML = `
+                            <div style="font-size:18px;">🏠</div>
+                            <div>
+                                <strong style="color:#333;display:block;margin-bottom:3px;">Delivery Address</strong>
+                                Bole Road, Mega Building, Floor 3<br>
+                                Addis Ababa, Ethiopia<br>
+                                Phone: +251 911 234 567
+                            </div>
+                        `;
+                        bodyDiv.appendChild(addrDiv);
+                    }
+                    
+                    // Add timeline component inside order body
+                    if (bodyDiv && !bodyDiv.querySelector('.mini-timeline')) {
+                        const statusElem = card.querySelector('.order-status');
+                        const status = statusElem ? statusElem.textContent.trim().toLowerCase() : 'processing';
+                        let step = 1;
+                        if(status.includes('shipped')) step = 2;
+                        if(status.includes('delivered')) step = 3;
+                        if(status.includes('cancelled')) step = -1;
+                        
+                        if(step !== -1) {
+                            const tl = document.createElement('div');
+                            tl.className = 'mini-timeline';
+                            tl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding-top:15px;border-top:1px dashed #eee;';
+                            
+                            const steps = ['Processing', 'Shipped', 'Delivered'];
+                            let tlHtml = '';
+                            
+                            steps.forEach((s, idx) => {
+                                const isDone = idx < step;
+                                const isActive = idx === step - 1;
+                                const color = isDone ? '#008000' : '#ccc';
+                                const fw = isActive ? 'bold' : 'normal';
+                                
+                                tlHtml += `
+                                    <div style="display:flex;flex-direction:column;align-items:center;flex:1;position:relative;">
+                                        <div style="width:20px;height:20px;border-radius:50%;background:${color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;z-index:2;box-shadow:0 0 0 3px #fff;">
+                                            ${isDone ? '✓' : ''}
+                                        </div>
+                                        <div style="font-size:11px;color:${isDone ? '#333' : '#999'};margin-top:5px;font-weight:${fw};">${s}</div>
+                                        ${idx < 2 ? `<div style="position:absolute;top:10px;left:50%;width:100%;height:2px;background:${idx < step - 1 ? '#008000' : '#eee'};z-index:1;"></div>` : ''}
+                                    </div>
+                                `;
+                            });
+                            tl.innerHTML = tlHtml;
+                            bodyDiv.appendChild(tl);
                         }
                     }
                 }
