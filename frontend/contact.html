@@ -6,6 +6,27 @@
     <meta name="description" content="Contact MERKATO - Ethiopian digital marketplace support.">
     <meta name="keywords" content="Ethiopian supermarket, MERKATO, contact, support">
     <meta name="author" content="MERKATO INC">
+    <meta property="og:title" content="Contact Us — MERKATO">
+    <meta property="og:description" content="Get in touch with MERKATO support. We're here to help with your Ethiopian digital marketplace needs.">
+    <meta property="og:image" content="https://merkato.com/images/og-contact.jpg">
+    <meta property="og:url" content="https://merkato.com/contact.html">
+    <meta property="og:type" content="website">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "MERKATO",
+      "image": "https://merkato.com/images/icon-192x192.png",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Bole Sub-city, Woreda 3",
+        "addressLocality": "Addis Ababa",
+        "addressCountry": "ET"
+      },
+      "telephone": "+251111234567",
+      "url": "https://merkato.com"
+    }
+    </script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23008000' stroke='%23ffd700' stroke-width='3'/><text x='50' y='72' font-family='Arial' font-size='60' font-weight='bold' fill='%23fff' text-anchor='middle'>M</text></svg>">    
 <link rel="stylesheet" href="style.css">
 <!-- PWA -->
@@ -160,10 +181,11 @@
     <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
     <a href="orders.html">My Orders</a>
     <span class="theme-toggle-wrapper">
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Dark Mode">
             🌙
         </button>
     </span>
+    <button class="lang-toggle-btn" onclick="toggleLanguage()" aria-label="Toggle language"><span class="lang-flag">🇪🇹</span><span>EN</span></button>
     <a href="login.html" class="nav-login">Sign In</a>
 </nav>
             </div>
@@ -196,10 +218,10 @@
                 <!-- CONTACT FORM -->
                 <div class="contact-form-card">
                     <h2>Send Us a Message</h2>
-                    <form action="#" method="POST">
+                    <form action="#" method="POST" id="contactForm">
                         <div class="form-group">
                             <label for="fullname">Full Name</label>
-                            <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required>
+                            <input type="text" id="fullname" name="fullname" placeholder="Abebe Bikila" required pattern="[A-Za-z \-]{3,}" title="Please enter a valid name (at least 3 characters)">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -207,7 +229,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone Number (Optional)</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567">
+                            <input type="tel" id="phone" name="phone" placeholder="+251 91 123 4567" pattern="[\+0-9\s\-]{9,}">
                         </div>
                         <div class="form-group">
                             <label for="subject">Subject</label>
@@ -222,17 +244,20 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="position: relative;">
                             <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+                            <textarea id="message" name="message" rows="5" placeholder="Describe your issue in detail..." required maxlength="500" oninput="document.getElementById('charCount').textContent = this.value.length"></textarea>
+                            <small style="position: absolute; right: 0; bottom: -20px; color: #666;"><span id="charCount">0</span>/500</small>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top: 20px;">
                             <label for="order-ref">Order Reference (Optional)</label>
                             <input type="text" id="order-ref" name="order-ref" placeholder="MER-2026-001">
                         </div>
                         <div class="form-actions">
                             <button type="reset" class="btn btn-secondary">Clear</button>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button type="submit" class="btn btn-primary" id="contactSubmitBtn" aria-label="Send Message" onclick="this.classList.add('loading')">
+                                <span class="btn-text">Send Message</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -279,16 +304,22 @@
                     </div>
 
                     <div class="social-links">
-                        <a href="#">📘 Facebook</a>
-                        <a href="#">✈️ Telegram</a>
-                        <a href="#">💬 WhatsApp</a>
-                        <a href="#">📷 Instagram</a>
+                        <a href="#" rel="noopener noreferrer">📘 Facebook</a>
+                        <a href="#" rel="noopener noreferrer">✈️ Telegram</a>
+                        <a href="#" rel="noopener noreferrer">💬 WhatsApp</a>
+                        <a href="#" rel="noopener noreferrer">📷 Instagram</a>
+                        <a href="#" rel="noopener noreferrer">✉️ Email</a>
                     </div>
                 </div>
 
             </div>
+            
+            <!-- MAP PLACEHOLDER -->
+            <div style="background: #e8f5e9; border: 2px dashed #008000; border-radius: 12px; height: 300px; display: flex; align-items: center; justify-content: center; margin: 30px 0; color: #008000; font-size: 24px; font-weight: bold;">
+                📍 Addis Ababa, Ethiopia (Map Placeholder)
+            </div>
 
-            <!-- FAQ PREVIEW -->
+            <!-- FAQ PREVIEW AND QUICK LINKS -->
             <div class="faq-preview">
                 <h3>💡 Frequently Asked Questions</h3>
                 <div class="faq-item">
@@ -308,6 +339,14 @@
                         <summary>How long does delivery take?</summary>
                         <p>Delivery within Addis Ababa takes 1-3 business days. Regional deliveries take 3-7 business days.</p>
                     </details>
+                </div>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #f0f0f0;">
+                    <h4 style="margin-bottom:10px; font-size:16px;">Quick Help Links</h4>
+                    <ul style="list-style:none; padding:0; display:flex; gap:15px; flex-wrap:wrap;">
+                        <li><a href="returns.html" style="color:#008000; text-decoration:none; font-weight:bold;">Refund Policy ➔</a></li>
+                        <li><a href="faq.html#shipping" style="color:#008000; text-decoration:none; font-weight:bold;">Shipping Rates ➔</a></li>
+                        <li><a href="shop.html" style="color:#008000; text-decoration:none; font-weight:bold;">Browse Products ➔</a></li>
+                    </ul>
                 </div>
                 <div style="text-align:right;margin-top:10px;">
                     <a href="faq.html" class="btn btn-sm">View All FAQs →</a>
@@ -339,11 +378,11 @@
                     Ethiopia's premier digital marketplace connecting authentic local products with modern convenience.
                 </p>
                 <div style="display:flex;gap:12px;margin-top:15px;flex-wrap:wrap;">
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
-                    <a href="#" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📘</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">✈️</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">📷</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">💬</a>
+                    <a href="#" rel="noopener noreferrer" style="color:rgba(255,255,255,0.6);font-size:20px;transition:0.3s;" onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">▶️</a>
                 </div>
             </div>
 
@@ -413,7 +452,13 @@
             .catch(err => console.log('❌ Service Worker registration failed:', err));
     }
 </script>
-</body>
-</html>
+
+<!-- Global Components -->
+<div class="scroll-progress-bar"></div>
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<button class="floating-cart-btn" onclick="window.location.href='cart.html'" aria-label="View Cart">
+    🛒<span class="cart-badge">0</span>
+</button>
+<script>document.body.classList.add('page-transition');</script>
 </body>
 </html>
