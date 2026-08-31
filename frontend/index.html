@@ -277,6 +277,9 @@
             🌙
         </button>
     </span>
+    <button class="lang-toggle-btn" id="langToggle" onclick="toggleLanguage()" title="Toggle Language / ቋንቋ ቀይር">
+        <span class="lang-flag">🇪🇹</span><span id="langLabel">EN</span>
+    </button>
     <a href="login.html" class="nav-login">Sign In</a>
 </nav>
             </div>
@@ -298,32 +301,98 @@
     <!-- MAIN CONTENT -->
     <main>
         <div class="container">
+            <!-- HERO CAROUSEL -->
+            <section class="hero-carousel" id="heroCarousel" aria-label="Featured products carousel">
+                <div class="slides-wrapper" id="slidesWrapper">
 
-            <!-- HERO SECTION -->
-            <section class="hero" id="heroSection">
-                <div class="hero-content">
-                    <div class="tag">የ2018/2026 የሀገር ውስጥ ምርቶች</div>
-                    <h1>Authentic Ethiopian <br><span>Supermarket</span> &amp; <span>Electronics</span></h1>
-                    <p>From premium Yirgacheffe Buna to modern Smart TVs and Electric Mitad Stoves. Quality, provenance, and everyday delight in one thoughtful marketplace.</p>
-                    <div class="hero-actions">
-                        <a href="shop.html" class="btn">Explore the market <span aria-hidden="true">→</span></a>
-                        <a href="#featured-aisles" class="text-link">See what’s in season</a>
+                    <!-- Slide 1: Coffee -->
+                    <div class="slide slide-1">
+                        <div class="slide-content">
+                            <span class="slide-tag" data-en="የ2018/2026 የሀገር ውስጥ ምርቶች" data-am="ለ2018/2026 ዓ.ም. ዓለምአቀፍ ምርቶች">የ2018/2026 የሀገር ውስጥ ምርቶች</span>
+                            <h2 data-en="Authentic Ethiopian <span>Coffee</span>" data-am="የኢትዮጵያ <span>ቡና</span>">Authentic Ethiopian <span>Coffee</span></h2>
+                            <p>Premium Yirgacheffe Buna — rich, aromatic, and sourced directly from local farmers.</p>
+                            <div class="slide-actions">
+                                <a href="product-detail.html#buna" class="btn-slide">Shop Coffee →</a>
+                                <a href="#featured-aisles" class="text-link-slide">See all products</a>
+                            </div>
+                        </div>
+                        <img src="images/products/buna.jpg" alt="Yirgacheffe Coffee" class="slide-img" loading="lazy">
                     </div>
-                    <div class="hero-proof" aria-label="Merkato highlights">
-                        <span><strong>18+</strong> curated finds</span>
-                        <span><strong>100%</strong> Ethiopian spirit</span>
+
+                    <!-- Slide 2: Mitad -->
+                    <div class="slide slide-2">
+                        <div class="slide-content">
+                            <span class="slide-tag">⚡ Electronics</span>
+                            <h2>Digital Electric <span>Mitad</span></h2>
+                            <p>Modern meets tradition — the electric injera stove built for Ethiopian homes, with precision heat control.</p>
+                            <div class="slide-actions">
+                                <a href="product-detail.html#mitad" class="btn-slide">Shop Electronics →</a>
+                                <a href="shop.html#aisle-electronics" class="text-link-slide">View all electronics</a>
+                            </div>
+                        </div>
+                        <img src="images/products/mitad.jpg" alt="Digital Electric Mitad" class="slide-img" loading="lazy">
+                    </div>
+
+                    <!-- Slide 3: Kemis -->
+                    <div class="slide slide-3">
+                        <div class="slide-content">
+                            <span class="slide-tag">👗 Cultural Apparel</span>
+                            <h2>Habesha <span>Kemis</span> — Heritage Woven</h2>
+                            <p>Celebrate Ethiopian culture with handwoven traditional dress, made by skilled local artisans.</p>
+                            <div class="slide-actions">
+                                <a href="product-detail.html#kemis" class="btn-slide">Shop Apparel →</a>
+                                <a href="artisans.html" class="text-link-slide">Meet the artisans</a>
+                            </div>
+                        </div>
+                        <img src="images/products/kemis.jpg" alt="Habesha Kemis" class="slide-img" loading="lazy">
                     </div>
                 </div>
-                <img src="images/products/buna.jpg" alt="Specialty Ethiopian Coffee Beans - Yirgacheffe Buna" loading="lazy">
+
+                <!-- Controls -->
+                <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous slide">‹</button>
+                <button class="carousel-btn next" id="carouselNext" aria-label="Next slide">›</button>
+
+                <!-- Dots -->
+                <div class="carousel-dots" role="tablist" aria-label="Slide navigation">
+                    <button class="carousel-dot active" data-slide="0" role="tab" aria-label="Slide 1"></button>
+                    <button class="carousel-dot" data-slide="1" role="tab" aria-label="Slide 2"></button>
+                    <button class="carousel-dot" data-slide="2" role="tab" aria-label="Slide 3"></button>
+                </div>
             </section>
 
             <section class="trust-strip" aria-label="Our shopping promises">
+
                 <div><span class="trust-icon">01</span><p><strong>Curated locally</strong><small>Products with a story</small></p></div>
                 <div><span class="trust-icon">02</span><p><strong>Clear pricing</strong><small>No surprises at checkout</small></p></div>
                 <div><span class="trust-icon">03</span><p><strong>Careful delivery</strong><small>Handled from market to home</small></p></div>
             </section>
 
+            <!-- ANIMATED STATS STRIP (Feature 3) -->
+            <div class="merkato-stats reveal-on-scroll" id="statsStrip" aria-label="Merkato highlights">
+                <div class="merkato-stat">
+                    <span class="stat-icon">😊</span>
+                    <span class="stat-number" data-target="1200" id="statCustomers">0</span>
+                    <span class="stat-label">Happy Customers</span>
+                </div>
+                <div class="merkato-stat">
+                    <span class="stat-icon">📦</span>
+                    <span class="stat-number" data-target="18" id="statProducts">0</span>
+                    <span class="stat-label">Products</span>
+                </div>
+                <div class="merkato-stat">
+                    <span class="stat-icon">🌍</span>
+                    <span class="stat-number" data-target="5" id="statCategories">0</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="merkato-stat">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-number" id="statRating">4.8★</span>
+                    <span class="stat-label">Avg Rating</span>
+                </div>
+            </div>
+
             <!-- FEATURED BANNER -->
+
             <div class="featured-banner">
                 <div class="content">
                     <h3>🎉 New Arrivals!</h3>
@@ -379,94 +448,140 @@
             <div class="product-grid">
 
                 <!-- PRODUCT 1: Buna -->
-                <div class="product-card" data-product-id="1" data-aisle="food" data-price="2500">
-                    <a href="product-detail.html#buna">
-                        <img src="images/products/buna.jpg" alt="Yirgacheffe Coffee Beans" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll" data-product-id="1" data-aisle="food" data-price="2500">
+                    <div class="card-img-wrap">
+                        <span class="new-badge">🆕 NEW</span>
+                        <a href="product-detail.html#buna">
+                            <img src="images/products/buna.jpg" alt="Yirgacheffe Coffee Beans" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('buna','Yirgacheffe Buna (ቡና)',2500,'images/products/buna.jpg','food')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'buna','Yirgacheffe Buna (ቡና)',2500,'images/products/buna.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 1 | FOOD</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(42)</span></div>
                     <h3><a href="product-detail.html#buna">Yirgacheffe Buna (ቡና)</a></h3>
                     <div class="price">2,500 ETB</div>
-                    <a href="product-detail.html#buna" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#buna" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 2: Mitad -->
-                <div class="product-card" data-product-id="2" data-aisle="electronics" data-price="18500">
-                    <a href="product-detail.html#mitad">
-                        <img src="images/products/mitad.jpg" alt="Digital Electric Mitad Stove" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll delay-1" data-product-id="2" data-aisle="electronics" data-price="18500">
+                    <div class="card-img-wrap">
+                        <span class="discount-badge">-15% OFF</span>
+                        <a href="product-detail.html#mitad">
+                            <img src="images/products/mitad.jpg" alt="Digital Electric Mitad Stove" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('mitad','Digital Electric Mitad (ምጣድ)',18500,'images/products/mitad.jpg','electronics')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'mitad','Digital Electric Mitad (ምጣድ)',18500,'images/products/mitad.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(15)</span></div>
                     <h3><a href="product-detail.html#mitad">Digital Electric Mitad (ምጣድ)</a></h3>
                     <div class="price">18,500 ETB</div>
-                    <a href="product-detail.html#mitad" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#mitad" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 3: Habesha Kemis -->
-                <div class="product-card" data-product-id="3" data-aisle="apparel" data-price="12000">
-                    <a href="product-detail.html#kemis">
-                        <img src="images/products/kemis.jpg" alt="Habesha Kemis Traditional Dress" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll delay-2" data-product-id="3" data-aisle="apparel" data-price="12000">
+                    <div class="card-img-wrap">
+                        <a href="product-detail.html#kemis">
+                            <img src="images/products/kemis.jpg" alt="Habesha Kemis Traditional Dress" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('kemis','Habesha Kemis (ሀበሻ ቀሚስ)',12000,'images/products/kemis.jpg','apparel')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'kemis','Habesha Kemis (ሀበሻ ቀሚስ)',12000,'images/products/kemis.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 3 | APPAREL</div>
+                    <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-count">(27)</span></div>
                     <h3><a href="product-detail.html#kemis">Habesha Kemis (ሀበሻ ቀሚስ)</a></h3>
                     <div class="price">12,000 ETB</div>
-                    <a href="product-detail.html#kemis" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#kemis" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 4: Smart TV -->
-                <div class="product-card" data-product-id="4" data-aisle="electronics" data-price="68000">
-                    <a href="product-detail.html#tv">
-                        <img src="images/products/tv.jpg" alt="55 inch 4K Smart TV" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll delay-3" data-product-id="4" data-aisle="electronics" data-price="68000">
+                    <div class="card-img-wrap">
+                        <span class="discount-badge">-10% OFF</span>
+                        <a href="product-detail.html#tv">
+                            <img src="images/products/tv.jpg" alt="55 inch 4K Smart TV" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('tv','55&quot; 4K Smart TV',68000,'images/products/tv.jpg','electronics')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'tv','55&quot; 4K Smart TV',68000,'images/products/tv.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(8)</span></div>
                     <h3><a href="product-detail.html#tv">55" 4K Smart TV</a></h3>
                     <div class="price">68,000 ETB</div>
-                    <a href="product-detail.html#tv" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#tv" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 5: Teff -->
-                <div class="product-card" data-product-id="5" data-aisle="food" data-price="4200">
-                    <a href="product-detail.html#teff">
-                        <img src="images/products/teff.jpg" alt="Teff Grain" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll" data-product-id="5" data-aisle="food" data-price="4200">
+                    <div class="card-img-wrap">
+                        <a href="product-detail.html#teff">
+                            <img src="images/products/teff.jpg" alt="Teff Grain" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('teff','Magna White Teff (ነጭ ጤፍ)',4200,'images/products/teff.jpg','food')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'teff','Magna White Teff (ነጭ ጤፍ)',4200,'images/products/teff.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 1 | FOOD</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(110)</span></div>
                     <h3><a href="product-detail.html#teff">Magna White Teff (ነጭ ጤፍ)</a></h3>
                     <div class="price">4,200 ETB</div>
-                    <a href="product-detail.html#teff" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#teff" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 6: Mesob -->
-                <div class="product-card" data-product-id="6" data-aisle="crafts" data-price="8500">
-                    <a href="product-detail.html#mesob">
-                        <img src="images/products/mesob.jpg" alt="Mesob Basket" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll delay-1" data-product-id="6" data-aisle="crafts" data-price="8500">
+                    <div class="card-img-wrap">
+                        <span class="new-badge">🆕 NEW</span>
+                        <a href="product-detail.html#mesob">
+                            <img src="images/products/mesob.jpg" alt="Mesob Basket" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('mesob','Woven Mesob Basket (መሶብ)',8500,'images/products/mesob.jpg','crafts')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'mesob','Woven Mesob Basket (መሶብ)',8500,'images/products/mesob.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 4 | CRAFTS</div>
+                    <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-count">(12)</span></div>
                     <h3><a href="product-detail.html#mesob">Woven Mesob Basket (መሶብ)</a></h3>
                     <div class="price">8,500 ETB</div>
-                    <a href="product-detail.html#mesob" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#mesob" class="btn btn-sm">View →</a>
                 </div>
 
                 <!-- PRODUCT 7: Solar -->
-                <div class="product-card" data-product-id="7" data-aisle="electronics" data-price="42000">
-                    <a href="product-detail.html#solar">
-                        <img src="images/products/solar.jpg" alt="Solar Power" loading="lazy">
-                    </a>
+                <div class="product-card reveal-on-scroll delay-2" data-product-id="7" data-aisle="electronics" data-price="42000">
+                    <div class="card-img-wrap">
+                        <a href="product-detail.html#solar">
+                            <img src="images/products/solar.jpg" alt="Solar Power" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('solar','Solar Power Station',42000,'images/products/solar.jpg','electronics')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'solar','Solar Power Station',42000,'images/products/solar.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 5 | ELECTRONICS</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(12)</span></div>
                     <h3><a href="product-detail.html#solar">Solar Power Station</a></h3>
                     <div class="price">42,000 ETB</div>
-                    <a href="product-detail.html#solar" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html#solar" class="btn btn-sm">View →</a>
                 </div>
 
-                <!-- PRODUCT 8: Kemis -->
-                <div class="product-card" data-product-id="8" data-aisle="food" data-price="1200">
-                    <a href="product-detail.html?id=berbere">
-                        <img src="images/products/berbere.jpg" alt="Ethiopian Berbere Spice" loading="lazy">
-                    </a>
+                <!-- PRODUCT 8: Berbere -->
+                <div class="product-card reveal-on-scroll delay-3" data-product-id="8" data-aisle="food" data-price="1200">
+                    <div class="card-img-wrap">
+                        <span class="discount-badge">-20% OFF</span>
+                        <a href="product-detail.html?id=berbere">
+                            <img src="images/products/berbere.jpg" alt="Ethiopian Berbere Spice" loading="lazy">
+                        </a>
+                        <button class="quick-add-btn ripple-btn" onclick="quickAddToCart('berbere','Berbere Spice Mix (በርበሬ)',1200,'images/products/berbere.jpg','food')">🛒 Quick Add</button>
+                        <button class="card-wishlist-btn" onclick="toggleWishlistHeart(this,'berbere','Berbere Spice Mix (በርበሬ)',1200,'images/products/berbere.jpg')" aria-label="Add to wishlist">🤍</button>
+                    </div>
                     <div class="aisle">AISLE 1 | FOOD</div>
+                    <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-count">(85)</span></div>
                     <h3><a href="product-detail.html?id=berbere">Berbere Spice Mix (በርበሬ)</a></h3>
                     <div class="price">1,200 ETB</div>
-                    <a href="product-detail.html?id=berbere" class="btn btn-sm">View &rarr;</a>
+                    <a href="product-detail.html?id=berbere" class="btn btn-sm">View →</a>
                 </div>
 
             </div>
+
 
             <!-- TESTIMONIALS -->
             <div class="section-header" style="margin-top:30px;">
@@ -523,6 +638,17 @@
 
         </div>
     </main>
+
+    <!-- RECENTLY VIEWED (Feature 7) — populated by JS -->
+    <div class="container">
+        <div class="recently-viewed-section reveal-on-scroll" id="recentlyViewedSection" style="display:none;">
+            <div class="section-header">
+                <h2>👁️ Recently Viewed</h2>
+                <a href="shop.html">Shop all →</a>
+            </div>
+            <div class="recently-viewed-track" id="recentlyViewedTrack"></div>
+        </div>
+    </div>
 
     <hr class="ethiopian-divider">
 
@@ -612,7 +738,326 @@
     <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
 <script src="api.js"></script>
 <script src="script.js"></script>
+
+<!-- ===== MERKATO 2026 — FEATURE JS (All 15) ===== -->
+<script>
+/* ================================================
+   FEATURE 1: HERO CAROUSEL
+   ================================================ */
+(function() {
+    const wrapper = document.getElementById('slidesWrapper');
+    const dots    = document.querySelectorAll('.carousel-dot');
+    if (!wrapper) return;
+    let current = 0, total = wrapper.children.length, timer, startX = 0;
+
+    function goTo(idx) {
+        current = (idx + total) % total;
+        wrapper.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    document.getElementById('carouselNext').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+    document.getElementById('carouselPrev').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+    dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.slide); resetTimer(); }));
+
+    // Touch / swipe
+    wrapper.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    wrapper.addEventListener('touchend',   e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+        resetTimer();
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+    });
+
+    function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 5000); }
+    resetTimer();
+})();
+
+/* ================================================
+   FEATURE 3: ANIMATED STATS COUNT-UP
+   ================================================ */
+function countUp(el, target, duration) {
+    let start = 0, step = target / (duration / 16);
+    const interval = setInterval(() => {
+        start += step;
+        if (start >= target) { start = target; clearInterval(interval); }
+        el.textContent = Math.round(start).toLocaleString();
+    }, 16);
+}
+
+const statsStrip = document.getElementById('statsStrip');
+if (statsStrip) {
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                obs.unobserve(e.target);
+                document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+                    countUp(el, +el.dataset.target, 1800);
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+    obs.observe(statsStrip);
+}
+
+/* ================================================
+   FEATURE 5: ENHANCED TOAST NOTIFICATIONS
+   ================================================ */
+window.mktoast = function(msg, type = 'success', duration = 4000) {
+    const c = document.getElementById('toastContainer');
+    if (!c) { console.log(msg); return; }
+    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+    const titles = { success: 'Success', error: 'Error', warning: 'Warning', info: 'Info' };
+    const el = document.createElement('div');
+    el.className = `toast toast-${type}`;
+    el.style.setProperty('--duration', `${duration}ms`);
+    el.innerHTML = `
+        <span class="toast-icon">${icons[type]}</span>
+        <div class="toast-body">
+            <div class="toast-title">${titles[type]}</div>
+            <div class="toast-message">${msg}</div>
+        </div>
+        <button class="toast-close" onclick="dismissToast(this.parentElement)">✕</button>
+        <div class="toast-progress"></div>`;
+    c.appendChild(el);
+    setTimeout(() => dismissToast(el), duration + 400);
+};
+
+window.dismissToast = function(el) {
+    if (!el || el.classList.contains('toast-hiding')) return;
+    el.classList.add('toast-hiding');
+    setTimeout(() => el.remove(), 320);
+};
+
+// Override existing showNotification to use new toast system
+const _origShowNotification = window.showNotification;
+window.showNotification = function(msg, type = 'success') {
+    window.mktoast(msg, type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'success');
+};
+
+/* ================================================
+   FEATURE 6: IMAGE LIGHTBOX
+   ================================================ */
+window.openLightbox = function(src, caption) {
+    const overlay = document.getElementById('mktoLightbox');
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxImg').classList.remove('zoomed');
+    document.getElementById('lightboxCaption').textContent = caption || '';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeLightbox = function(e) {
+    if (e && e.target !== document.getElementById('mktoLightbox')) return;
+    document.getElementById('mktoLightbox').classList.remove('active');
+    document.body.style.overflow = '';
+};
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.getElementById('mktoLightbox')?.classList.remove('active');
+});
+
+// Auto-attach lightbox to product card images
+document.querySelectorAll('.card-img-wrap img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function(e) {
+        if (e.target.closest('a')) return; // let link clicks pass
+        openLightbox(this.src, this.alt);
+    });
+});
+
+/* ================================================
+   FEATURE 7: RECENTLY VIEWED
+   ================================================ */
+const RV_KEY = 'merkatoRecentlyViewed';
+const MAX_RV = 10;
+
+function trackRecentlyViewed(id, name, price, img, href) {
+    let rv = JSON.parse(localStorage.getItem(RV_KEY) || '[]');
+    rv = rv.filter(p => p.id !== id);
+    rv.unshift({ id, name, price, img, href });
+    if (rv.length > MAX_RV) rv = rv.slice(0, MAX_RV);
+    localStorage.setItem(RV_KEY, JSON.stringify(rv));
+}
+
+function renderRecentlyViewed() {
+    const section = document.getElementById('recentlyViewedSection');
+    const track   = document.getElementById('recentlyViewedTrack');
+    if (!section || !track) return;
+    const rv = JSON.parse(localStorage.getItem(RV_KEY) || '[]');
+    if (rv.length < 2) return;
+    track.innerHTML = rv.map(p => `
+        <a href="${p.href}" class="rv-card" onclick="trackRecentlyViewed('${p.id}','${p.name}',${p.price},'${p.img}','${p.href}')">
+            <img src="${p.img}" alt="${p.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect fill=%22%23f0f0f0%22 width=%2280%22 height=%2280%22/%3E%3C/svg%3E'">
+            <div class="rv-name">${p.name}</div>
+            <div class="rv-price">${Number(p.price).toLocaleString()} ETB</div>
+        </a>`).join('');
+    section.style.display = '';
+}
+
+// Wire up product cards on this page to track views
+document.querySelectorAll('.product-card a[href*="product-detail"]').forEach(a => {
+    a.addEventListener('click', function() {
+        const card = this.closest('.product-card');
+        if (!card) return;
+        const img  = card.querySelector('img');
+        const name = card.querySelector('h3')?.textContent?.trim() || '';
+        const price = card.dataset.price || '0';
+        const id   = card.dataset.productId || name.replace(/\s+/g, '-').toLowerCase();
+        trackRecentlyViewed(id, name, price, img?.src || '', this.href);
+    });
+});
+
+renderRecentlyViewed();
+
+/* ================================================
+   FEATURE 10: LANGUAGE TOGGLE (EN / አማርኛ)
+   ================================================ */
+const LANG_KEY = 'merkatoLang';
+const translations = {
+    am: {
+        '[data-en="Shop Coffee →"]': 'ቡና ግዛ →',
+        '[data-en="See all products"]': 'ሁሉም ምርቶች',
+        '[data-en="Authentic Ethiopian <span>Coffee</span>"]': 'የኢትዮጵያ <span>ቡና</span>',
+    }
+};
+
+window.toggleLanguage = function() {
+    const current = localStorage.getItem(LANG_KEY) || 'en';
+    const next    = current === 'en' ? 'am' : 'en';
+    localStorage.setItem(LANG_KEY, next);
+    applyLanguage(next);
+};
+
+function applyLanguage(lang) {
+    document.body.classList.toggle('lang-am', lang === 'am');
+    const label = document.getElementById('langLabel');
+    if (label) label.textContent = lang === 'am' ? 'አማ' : 'EN';
+
+    // Switch data-en / data-am attributes for tagged elements
+    document.querySelectorAll('[data-en][data-am]').forEach(el => {
+        const val = lang === 'am' ? el.dataset.am : el.dataset.en;
+        if (val !== undefined) el.innerHTML = val;
+    });
+}
+
+// Apply persisted language on load
+applyLanguage(localStorage.getItem(LANG_KEY) || 'en');
+
+/* ================================================
+   FEATURE 11: QUICK ADD TO CART (card overlay btn)
+   ================================================ */
+window.quickAddToCart = function(id, name, price, img, aisle) {
+    if (typeof addToCart === 'function') {
+        addToCart(id, name, price, aisle, img);
+    }
+    // Badge pop
+    document.querySelectorAll('.cart-count, #cartCount').forEach(el => {
+        el.classList.remove('badge-pop');
+        void el.offsetWidth; // reflow
+        el.classList.add('badge-pop');
+        setTimeout(() => el.classList.remove('badge-pop'), 500);
+    });
+    window.mktoast(`<strong>${name}</strong> added to cart 🛒`, 'success', 3000);
+    trackRecentlyViewed(id, name, price, img, `product-detail.html?id=${id}`);
+    updateFloatingCartBadge();
+};
+
+/* ================================================
+   FEATURE 11: WISHLIST HEART TOGGLE (card overlay)
+   ================================================ */
+window.toggleWishlistHeart = function(btn, id, name, price, img) {
+    if (typeof toggleWishlist === 'function') {
+        btn.classList.toggle('wishlisted');
+        const isWishlisted = btn.classList.contains('wishlisted');
+        btn.textContent = isWishlisted ? '❤️' : '🤍';
+        const wl = JSON.parse(localStorage.getItem('merkatoWishlist') || '[]');
+        if (isWishlisted) {
+            if (!wl.find(p => p.id === id)) wl.push({ id, name, price, img });
+            window.mktoast(`Added to wishlist ❤️`, 'success', 2500);
+        } else {
+            const idx = wl.findIndex(p => p.id === id);
+            if (idx > -1) wl.splice(idx, 1);
+            window.mktoast(`Removed from wishlist`, 'info', 2000);
+        }
+        localStorage.setItem('merkatoWishlist', JSON.stringify(wl));
+    }
+};
+
+// On page load: reflect wishlisted state
+(function() {
+    const wl = JSON.parse(localStorage.getItem('merkatoWishlist') || '[]');
+    document.querySelectorAll('.card-wishlist-btn').forEach(btn => {
+        const card = btn.closest('.product-card');
+        if (!card) return;
+        const pid = card.dataset.productId;
+        if (wl.find(p => p.id === pid || p.id === String(pid))) {
+            btn.classList.add('wishlisted');
+            btn.textContent = '❤️';
+        }
+    });
+})();
+
+/* ================================================
+   FEATURE 15: MICRO-INTERACTIONS
+   ================================================ */
+
+// Ripple on ripple-btn
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.ripple-btn');
+    if (!btn) return;
+    const rect  = btn.getBoundingClientRect();
+    const size  = Math.max(rect.width, rect.height);
+    const wave  = document.createElement('span');
+    wave.className = 'ripple-wave';
+    wave.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.appendChild(wave);
+    setTimeout(() => wave.remove(), 650);
+});
+
+// Scroll reveal using IntersectionObserver
+const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            revealObs.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+
+// Back-to-top visibility + floating cart badge + scroll progress
+function updateFloatingCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('merkatoCart') || '[]');
+    const count = cart.reduce((s, i) => s + (i.qty || i.quantity || 1), 0);
+    const badge = document.getElementById('floatingCartBadge');
+    if (badge) badge.textContent = count;
+}
+updateFloatingCartBadge();
+
+window.addEventListener('scroll', function() {
+    // Back-to-top
+    const btt = document.querySelector('.back-to-top');
+    if (btt) btt.classList.toggle('visible', window.scrollY > 400);
+    // Scroll progress bar
+    const bar = document.getElementById('scrollProgressBar');
+    if (bar) {
+        const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        bar.style.width = pct + '%';
+    }
+}, { passive: true });
+
+// Page fade-in
+document.body.classList.add('page-transition');
+</script>
+
 <!-- ===== SERVICE WORKER REGISTRATION ===== -->
+
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
@@ -642,6 +1087,26 @@
         <a href="wishlist.html"><i>❤️</i> Wishlist</a>
         <a href="#" id="floatingLogout"><i>🚪</i> Logout</a>
     </div>
+    <!-- GLOBAL LIGHTBOX (Feature 6) -->
+    <div class="lightbox-overlay" id="mktoLightbox" onclick="closeLightbox(event)">
+        <div class="lightbox-box">
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+            <img src="" alt="" class="lightbox-img" id="lightboxImg" onclick="this.classList.toggle('zoomed')">
+            <p class="lightbox-caption" id="lightboxCaption"></p>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER (Feature 5) -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- FLOATING CART BUBBLE — mobile only (Feature 4) -->
+    <a href="cart.html" class="floating-cart-btn" id="floatingCartBtn" aria-label="Cart">
+        🛒
+        <span class="floating-cart-badge" id="floatingCartBadge">0</span>
+    </a>
+
+    <!-- SCROLL PROGRESS BAR (Feature 15) -->
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
 
 </body>
-</html>
+</html>
