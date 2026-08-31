@@ -1,106 +1,50 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 
-// Defined coupon database
-const coupons = [
-    {
-        code: 'MERKATO2026',
-        discountType: 'percentage',
-        discountValue: 10,
-        minOrder: 1000,
-        freeShipping: true,
-        description: '10% OFF + Free Express Shipping on orders over 1,000 ETB'
-    },
-    {
-        code: 'HABESHA15',
-        discountType: 'percentage',
-        discountValue: 15,
-        minOrder: 1500,
-        freeShipping: false,
-        description: '15% OFF on all Ethiopian Coffee, Spices & Cultural items'
-    },
-    {
-        code: 'ENKUTATASH',
-        discountType: 'fixed',
-        discountValue: 500,
-        minOrder: 2000,
-        freeShipping: false,
-        description: '500 ETB flat discount on orders over 2,000 ETB'
-    },
-    {
-        code: 'FREESHIP',
-        discountType: 'shipping',
-        discountValue: 100,
-        minOrder: 500,
-        freeShipping: true,
-        description: '100% Free delivery across all Addis Ababa sub-cities'
-    }
-];
+const COUPONS_DATABASE = {
+    'MERKATO2026': { discountType: 'percentage', value: 10, minOrder: 1000, maxDiscount: 500, description: '10% off for 2026 launch' },
+    'ETHIOPIA':    { discountType: 'percentage', value: 15, minOrder: 2000, maxDiscount: 800, description: '15% national pride discount' },
+    'FREESHIP':    { discountType: 'shipping',   value: 100, minOrder: 1500, maxDiscount: 300, description: 'Free Express Shipping' },
+    'BUNA500':     { discountType: 'fixed',      value: 500, minOrder: 3000, maxDiscount: 500, description: '500 ETB off premium coffee' },
+    'ENKUTATASH':  { discountType: 'percentage', value: 20, minOrder: 2500, maxDiscount: 1000, description: '20% Ethiopian New Year Special' }
+};
 
-/**
- * @route   POST /api/coupons/validate
- * @desc    Validate a promo code against current cart subtotal
- * @access  Public
- */
 router.post('/validate', (req, res) => {
-    const { code, subtotal = 0 } = req.body;
+    const { code, subtotal } = req.body;
+    if (!code) return res.status(400).json({ valid: false, message: 'Please provide a coupon code' });
 
-    if (!code) {
-        return res.status(400).json({ success: false, message: 'Please enter a promo code' });
-    }
-
-    const cleanCode = String(code).trim().toUpperCase();
-    const coupon = coupons.find(c => c.code === cleanCode);
+    const normalized = code.trim().toUpperCase();
+    const coupon = COUPONS_DATABASE[normalized];
 
     if (!coupon) {
-        return res.status(404).json({ success: false, message: 'Invalid or expired promo code' });
+        return res.status(404).json({ valid: false, message: 'Invalid or expired coupon code' });
     }
 
-    if (subtotal < coupon.minOrder) {
+    const orderTotal = parseFloat(subtotal) || 0;
+    if (orderTotal < coupon.minOrder) {
         return res.status(400).json({
-            success: false,
-            message: `Minimum order amount of ${coupon.minOrder.toLocaleString()} ETB required for code ${coupon.code}`
+            valid: false,
+            message: `Coupon requires a minimum subtotal of ${coupon.minOrder.toLocaleString()} ETB`
         });
     }
 
     let discountAmount = 0;
     if (coupon.discountType === 'percentage') {
-        discountAmount = Math.round((subtotal * coupon.discountValue) / 100);
+        discountAmount = Math.min((orderTotal * coupon.value) / 100, coupon.maxDiscount);
     } else if (coupon.discountType === 'fixed') {
-        discountAmount = Math.min(coupon.discountValue, subtotal);
+        discountAmount = Math.min(coupon.value, orderTotal);
     } else if (coupon.discountType === 'shipping') {
-        discountAmount = 0; // handled via free shipping flag
+        discountAmount = coupon.value; // Shipping discount
     }
 
-    return res.json({
-        success: true,
-        message: `🎉 Promo code "${coupon.code}" applied successfully!`,
-        coupon: {
-            code: coupon.code,
-            discountType: coupon.discountType,
-            discountValue: coupon.discountValue,
-            discountAmount,
-            freeShipping: coupon.freeShipping,
-            description: coupon.description
-        }
+    res.json({
+        valid: true,
+        code: normalized,
+        discountType: coupon.discountType,
+        discountValue: coupon.value,
+        discountAmount: Math.round(discountAmount),
+        description: coupon.description
     });
-});
-
-/**
- * @route   GET /api/coupons
- * @desc    Get public active coupons
- * @access  Public
- */
-router.get('/', (req, res) => {
-    const publicList = coupons.map(({ code, discountType, discountValue, minOrder, freeShipping, description }) => ({
-        code,
-        discountType,
-        discountValue,
-        minOrder,
-        freeShipping,
-        description
-    }));
-    res.json(publicList);
 });
 
 module.exports = router;
