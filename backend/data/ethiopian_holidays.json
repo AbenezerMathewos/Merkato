@@ -1,0 +1,7 @@
+﻿[
+  { "id": "enkutatash", "name": "Enkutatash (እንቁጣጣሽ - Ethiopian New Year)", "month": "Meskerem (September)", "discountCode": "ENKUTATASH" },
+  { "id": "meskel", "name": "Meskel (መስቀል - Finding of the True Cross)", "month": "Meskerem (September)", "discountCode": "MESKEL" },
+  { "id": "genna", "name": "Genna (ገና - Ethiopian Christmas)", "month": "Tahsas (January)", "discountCode": "GENNA" },
+  { "id": "timkat", "name": "Timkat (ጥምቀት - Epiphany)", "month": "Tir (January)", "discountCode": "TIMKAT" },
+  { "id": "fasika", "name": "Fasika (ፋሲካ - Ethiopian Easter)", "month": "Miyazya (April/May)", "discountCode": "FASIKA" }
+]
