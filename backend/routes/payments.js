@@ -16,6 +16,14 @@ router.post('/telebirr/request', protect, (req, res) => {
     if (!phone || !amount) {
         return res.status(400).json({ message: 'Phone and amount are required' });
     }
+
+    const cleanPhone = String(phone).replace(/[\s\-()]/g, '');
+    const ETHIO_PHONE_REGEX = /^(\+?251|0)?[79]\d{8}$/;
+    if (!ETHIO_PHONE_REGEX.test(cleanPhone)) {
+        return res.status(400).json({ 
+            message: 'Invalid Ethiopian phone number. Please enter a valid 09... (Ethio Telecom) or 07... (Safaricom) mobile number.' 
+        });
+    }
     
     // Simulate telebirr API call latency
     setTimeout(() => {
@@ -176,6 +184,62 @@ router.post('/cbe/verify', protect, (req, res) => {
         receiptNumber: 'CBE-' + Math.floor(1000000 + Math.random() * 9000000),
         bank: 'Commercial Bank of Ethiopia (CBE)'
     });
+});
+
+/**
+ * @route   GET /api/payments/status/:transactionId
+ * @desc    Query the current status of any payment transaction
+ * @access  Private
+ */
+router.get('/status/:transactionId', protect, (req, res) => {
+    const { transactionId } = req.params;
+    const payment = pendingPayments.get(transactionId);
+
+    if (!payment) {
+        return res.json({
+            transactionId,
+            status: 'completed_or_not_found',
+            active: false
+        });
+    }
+
+    const isExpired = payment.expires && payment.expires < Date.now();
+    if (isExpired) {
+        pendingPayments.delete(transactionId);
+        return res.json({
+            transactionId,
+            status: 'expired',
+            active: false
+        });
+    }
+
+    res.json({
+        transactionId,
+        status: payment.status || 'pending',
+        amount: payment.amount,
+        phone: payment.phone,
+        active: true,
+        expiresInSeconds: Math.max(0, Math.round((payment.expires - Date.now()) / 1000))
+    });
+});
+
+/**
+ * @route   POST /api/payments/chapa/webhook
+ * @desc    Receive asynchronous payment notification webhook from Chapa
+ * @access  Public (webhook endpoint)
+ */
+router.post('/chapa/webhook', (req, res) => {
+    const { tx_ref, status, reference } = req.body || {};
+    console.log(`\n[CHAPA WEBHOOK] 🔔 Received webhook for tx_ref: ${tx_ref}, status: ${status}`);
+
+    if (tx_ref && pendingPayments.has(tx_ref)) {
+        if (status === 'success') {
+            pendingPayments.delete(tx_ref);
+            console.log(`[CHAPA WEBHOOK] ✅ Transaction ${tx_ref} marked paid.`);
+        }
+    }
+
+    res.status(200).json({ status: 'success', received: true });
 });
 
 module.exports = router;

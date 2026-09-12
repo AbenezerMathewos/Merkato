@@ -23,36 +23,59 @@ self.addEventListener('install', event => {
     console.log(`[SW] Installing ${STATIC_CACHE}`);
     self.skipWaiting();
     event.waitUntil(
-    // Cache-first strategy for static assets
-    event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                if (response) {
-                    return response;
-                }
-                return fetch(event.request).catch(() => {
-                    // Offline fallback for navigation requests
-                    if (event.request.mode === 'navigate') {
-                        return caches.match('/offline.html');
-                    }
-                });
-            })
+        caches.open(STATIC_CACHE).then(cache => {
+            return cache.addAll(STATIC_FILES).catch(err => {
+                console.warn('[SW] Pre-cache warning (some assets may be dynamic):', err);
+            });
+        })
     );
 });
 
-// Update service worker & clean up old caches
+// ─── ACTIVATE: clean up obsolete caches ──────────────────────────
 self.addEventListener('activate', event => {
-    const cacheWhitelist = [CACHE_NAME];
+    const cacheWhitelist = [STATIC_CACHE, DYNAMIC_CACHE, API_CACHE];
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                    if (!cacheWhitelist.includes(cacheName)) {
+                        console.log(`[SW] Deleting old cache: ${cacheName}`);
                         return caches.delete(cacheName);
                     }
                 })
             );
         }).then(() => self.clients.claim())
+    );
+});
+
+// ─── FETCH: cache-first with network fallback & offline support ───
+self.addEventListener('fetch', event => {
+    if (event.request.method !== 'GET') return;
+
+    // Do not intercept external API calls to Render or third parties
+    if (event.request.url.includes('/api/')) {
+        return;
+    }
+
+    event.respondWith(
+        caches.match(event.request).then(cachedResponse => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            return fetch(event.request).then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                    const responseClone = networkResponse.clone();
+                    caches.open(DYNAMIC_CACHE).then(cache => {
+                        cache.put(event.request, responseClone);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => {
+                if (event.request.mode === 'navigate') {
+                    return caches.match('/404.html');
+                }
+            });
+        })
     );
 });
 

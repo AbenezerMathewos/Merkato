@@ -683,13 +683,22 @@
                 
                 let html = '';
                 allProducts.forEach(product => {
+                    let stockBadge = '';
+                    if (product.stock <= 0) {
+                        stockBadge = '<span class="stock-badge badge-out" style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">⚠️ Out of Stock</span>';
+                    } else if (product.stock < 10) {
+                        stockBadge = `<span class="stock-badge badge-low" style="background:#fef3c7;color:#d97706;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">⚡ Low Stock (${product.stock})</span>`;
+                    } else {
+                        stockBadge = `<span class="stock-badge badge-ok" style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">✅ In Stock (${product.stock})</span>`;
+                    }
+
                     html += `
                         <div class="admin-product-item" data-product-id="${product._id}">
                             <div class="product-info">
                                 <img src="${product.image || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22%3E%3Crect width=%2250%22 height=%2250%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23999%22%3E📦%3C/text%3E%3C/svg%3E'}" alt="${product.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22%3E%3Crect width=%2250%22 height=%2250%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23999%22%3E📦%3C/text%3E%3C/svg%3E'">
                                 <div>
                                     <div class="name">${product.name}</div>
-                                    <div class="details">${aisleLabels[product.aisle] || product.aisle} • ${product.price.toLocaleString()} ETB • ${product.stock} in stock</div>
+                                    <div class="details">${aisleLabels[product.aisle] || product.aisle} • ${product.price.toLocaleString()} ETB ${stockBadge}</div>
                                 </div>
                             </div>
                             <div class="product-actions">

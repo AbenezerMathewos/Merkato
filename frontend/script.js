@@ -3615,13 +3615,22 @@ function loadAdminProducts() {
 
     let html = '';
     products.forEach(product => {
+        let stockBadge = '';
+        if (product.stock <= 0) {
+            stockBadge = '<span class="stock-badge badge-out" style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">⚠️ Out of Stock</span>';
+        } else if (product.stock < 10) {
+            stockBadge = `<span class="stock-badge badge-low" style="background:#fef3c7;color:#d97706;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">⚡ Low Stock (${product.stock})</span>`;
+        } else {
+            stockBadge = `<span class="stock-badge badge-ok" style="background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-left:6px;">✅ In Stock (${product.stock})</span>`;
+        }
+
         html += `
             <div class="admin-product-item" data-product-id="${product.id}">
                 <div class="product-info">
                     <img src="${product.image || 'https://via.placeholder.com/50'}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/50'">
                     <div>
                         <div class="name">${product.name}</div>
-                        <div class="details">${aisleLabels[product.aisle] || product.aisle} • ${product.price.toLocaleString()} ETB • ${product.stock} in stock</div>
+                        <div class="details">${aisleLabels[product.aisle] || product.aisle} • ${product.price.toLocaleString()} ETB ${stockBadge}</div>
                     </div>
                 </div>
                 <div class="product-actions">

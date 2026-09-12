@@ -1,4 +1,4 @@
-﻿// ============================================================================
+// ============================================================================
 // MERKATO - Internationalization (i18n) Engine
 // Supported: English (en), Amharic (am), Afaan Oromoo (om), Tigrinya (ti), Somali (so)
 // ============================================================================
@@ -44,7 +44,14 @@
             electronics: "Electronics",
             recently_viewed: "Recently Viewed",
             customer_reviews: "Customer Reviews",
-            copyright: "All rights reserved. MERKATO Supermarket Inc."
+            copyright: "All rights reserved. MERKATO Supermarket Inc.",
+            telebirr_payment: "Telebirr Payment",
+            cbe_transfer: "CBE Bank Transfer",
+            enter_phone: "Enter phone number",
+            enter_pin: "Enter 4-digit PIN",
+            coupon_applied: "Coupon applied successfully",
+            low_stock: "Low Stock",
+            healthy_stock: "In Stock"
         },
         am: {
             brand_name: "መርካቶ",
@@ -81,7 +88,14 @@
             electronics: "ኤሌክትሮኒክስ",
             recently_viewed: "በቅርቡ የተመለከቷቸው",
             customer_reviews: "የደንበኞች አስተያየት",
-            copyright: "መብቱ በሕግ የተጠበቀ ነው። መርካቶ ሱፐርማርኬት"
+            copyright: "መብቱ በሕግ የተጠበቀ ነው። መርካቶ ሱፐርማርኬት",
+            telebirr_payment: "የቴሌብር ክፍያ",
+            cbe_transfer: "የሲቢኢ የባንክ ዝውውር",
+            enter_phone: "ስልክ ቁጥር ያስገቡ",
+            enter_pin: "ባለ 4 አሃዝ ሚስጥር ቁጥር ያስገቡ",
+            coupon_applied: "ኩፖን ተቀባይነት አግኝቷል",
+            low_stock: "ዝቅተኛ ቀሪ ክምችት",
+            healthy_stock: "በቂ ክምችት አለ"
         },
         om: {
             brand_name: "MARKAATOO",
@@ -118,7 +132,14 @@
             electronics: "Elektirooniksii",
             recently_viewed: "Dhiheenya Kan Ilaalaman",
             customer_reviews: "Yaada Maamiltootaa",
-            copyright: "Mirgi hundaa eegamaadha. Markaatoo Supermarket."
+            copyright: "Mirgi hundaa eegamaadha. Markaatoo Supermarket.",
+            telebirr_payment: "Kaffaltii Telebirr",
+            cbe_transfer: "Dabarsa Baankii CBE",
+            enter_phone: "Lakkoofsa bilbilaa galchaa",
+            enter_pin: "Koodii iccitii digitii 4 galchaa",
+            coupon_applied: "Kuppooniin milkaa'inaan fudhatama argateera",
+            low_stock: "Qabeenya Xiqqaa",
+            healthy_stock: "Qabeenya Ga'aa"
         },
         ti: {
             brand_name: "መርካቶ",
@@ -155,7 +176,14 @@
             electronics: "ኤሌክትሮኒክስ",
             recently_viewed: "ኣቐዲምኩም ዝረኣኹምዎ",
             customer_reviews: "ናይ ዓደግቲ ርእይቶ",
-            copyright: "ኩሉ መሰል ብሕጊ ዝተሓለወ እዩ። መርካቶ ሱፐርማርኬት"
+            copyright: "ኩሉ መሰል ብሕጊ ዝተሓለወ እዩ። መርካቶ ሱፐርማርኬት",
+            telebirr_payment: "ናይ ቴሌብር ክፍሊት",
+            cbe_transfer: "ናይ ሲቢኢ ባንክ ምትሕልላፍ",
+            enter_phone: "ቑጽሪ ተሌፎን የእትዉ",
+            enter_pin: "ናይ 4 ኣሃዝ ኮድ የእትዉ",
+            coupon_applied: "ኩፖን ብዓወት ተቐባልነት ረኺቡ",
+            low_stock: "ትሑት ዝተረፈ መጠን",
+            healthy_stock: "እኹል ክምችት ኣሎ"
         }
     };
 
