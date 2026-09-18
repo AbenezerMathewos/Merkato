@@ -90,3 +90,7 @@
     window.MerkatoSearch = new SearchEngine();
 
 })(window);
+
+/**
+ * Fuzzy search indexer with Amharic transliteration tolerance.
+ */
