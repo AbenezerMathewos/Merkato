@@ -115,3 +115,4 @@
 /**
  * Client-side privacy-first telemetry and analytics collector.
  */
+// Batched event dispatch queue for reduced network overhead
