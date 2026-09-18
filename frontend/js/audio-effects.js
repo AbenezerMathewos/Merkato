@@ -107,3 +107,7 @@
     window.MerkatoAudio = new AudioEffects();
 
 })(window);
+
+/**
+ * Web Audio API synthesizer for tactile shopping feedback.
+ */
