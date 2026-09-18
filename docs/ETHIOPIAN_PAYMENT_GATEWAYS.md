@@ -28,3 +28,8 @@ Commercial Bank of Ethiopia direct payment verification.
 
 ## 3. Chapa (ቻፓ)
 Unified gateway supporting Ethiopian and International debit/credit cards (Visa, Mastercard) alongside Telebirr and Awash Birr.
+
+### Telebirr USSD Integration Flow
+1. Merchant generates encrypted order payload.
+2. Telebirr USSD prompt sent to customer phone.
+3. Asynchronous notification posted to merchant webhook.
