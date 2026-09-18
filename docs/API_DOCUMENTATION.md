@@ -67,3 +67,6 @@ Authorization: Bearer <your_jwt_token>
 
 ### Authentication Headers
 Clients must pass the JWT token inside the `Authorization: Bearer <token>` header for protected endpoints.
+
+### Pagination Parameters
+List endpoints accept `?page=1&limit=20` query parameters with default limit 20 and max 100.
