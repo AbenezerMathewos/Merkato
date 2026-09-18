@@ -64,3 +64,6 @@ Authorization: Bearer <your_jwt_token>
 - `404 Not Found` — Resource not found
 - `429 Too Many Requests` — Rate limit exceeded
 - `500 Internal Server Error` — Server exception
+
+### Authentication Headers
+Clients must pass the JWT token inside the `Authorization: Bearer <token>` header for protected endpoints.
