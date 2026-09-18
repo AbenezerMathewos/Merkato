@@ -26,3 +26,5 @@ async function main() {
 }
 
 main();
+
+// Benchmark execution timer records total test duration across all suites
