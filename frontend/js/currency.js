@@ -211,3 +211,4 @@
 /**
  * Currency conversion module with realtime ETB, USD, EUR, and GBP exchange rates.
  */
+// Validate currency input to prevent NaN during runtime calculations
