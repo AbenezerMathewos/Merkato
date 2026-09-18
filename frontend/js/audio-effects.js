@@ -111,3 +111,4 @@
 /**
  * Web Audio API synthesizer for tactile shopping feedback.
  */
+// Sine oscillator synthesis profiles for cart add and payment confirmation
