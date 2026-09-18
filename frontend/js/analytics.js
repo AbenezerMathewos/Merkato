@@ -111,3 +111,7 @@
     });
 
 })(window);
+
+/**
+ * Client-side privacy-first telemetry and analytics collector.
+ */
