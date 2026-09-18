@@ -7,3 +7,8 @@ All notable changes to Merkato Ethiopian Digital Marketplace will be documented 
 - Initial MVP release of Merkato marketplace
 - Core shopping catalog and local product listings
 
+## [2.0.0] - 2026-08-15
+### Added
+- Multi-language support (Amharic, Afaan Oromoo, Tigrinya)
+- Geez numeral and calendar formatting engine
+
