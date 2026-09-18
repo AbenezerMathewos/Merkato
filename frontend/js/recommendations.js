@@ -87,3 +87,7 @@
     window.MerkatoRecommendations = new RecommendationEngine();
 
 })(window);
+
+/**
+ * Recommendation engine utilizing collaborative product tagging.
+ */
