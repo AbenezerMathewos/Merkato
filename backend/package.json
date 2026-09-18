@@ -1,6 +1,6 @@
 {
   "name": "merkato-backend",
-  "version": "1.0.0",
+  "version": "2.7.0",
   "description": "MERKATO - Ethiopian Digital Marketplace Backend",
   "main": "server.js",
   "scripts": {
