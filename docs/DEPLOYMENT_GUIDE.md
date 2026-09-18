@@ -26,3 +26,6 @@ Run using Docker Compose:
 ```bash
 docker-compose up -d --build
 ```
+
+### Healthcheck Endpoints
+The endpoint `GET /api` reports cluster connectivity and service readiness for load balancers.
