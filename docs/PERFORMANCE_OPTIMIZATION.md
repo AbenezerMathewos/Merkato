@@ -8,3 +8,6 @@
 
 ### Static Asset Caching
 Configure `Cache-Control: public, max-age=31536000, immutable` for versioned CSS and JS assets.
+
+### Ethiopic Font Preloading
+Preload Nyala and Abyssinica SIL web fonts with `rel="preload" as="font" crossorigin` to eliminate FOIT.
