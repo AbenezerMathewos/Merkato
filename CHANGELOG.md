@@ -12,3 +12,8 @@ All notable changes to Merkato Ethiopian Digital Marketplace will be documented 
 - Multi-language support (Amharic, Afaan Oromoo, Tigrinya)
 - Geez numeral and calendar formatting engine
 
+## [2.5.0] - 2026-08-30
+### Added
+- Direct integrations for Telebirr, CBE Birr, and Chapa
+- Sub-city delivery fee calculation matrix
+
