@@ -94,3 +94,4 @@
 /**
  * Fuzzy search indexer with Amharic transliteration tolerance.
  */
+// Levenshtein metric thresholds for typo-tolerant product queries
