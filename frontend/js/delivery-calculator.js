@@ -67,3 +67,7 @@
     window.MerkatoDelivery = new DeliveryCalculator();
 
 })(window);
+
+/**
+ * Delivery tariff calculation engine for Addis Ababa sub-cities and regions.
+ */
