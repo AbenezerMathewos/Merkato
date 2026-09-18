@@ -91,3 +91,4 @@
 /**
  * Recommendation engine utilizing collaborative product tagging.
  */
+// Weight metrics: category affinity (0.6), artisan origin (0.4)
