@@ -36,3 +36,6 @@ Unified gateway supporting Ethiopian and International debit/credit cards (Visa,
 
 ### CBE Birr Dynamic QR Generation
 CBE Birr dynamic QR payloads encode the merchant account, transaction amount, and order ID.
+
+### Chapa Webhook Verification
+Verify the `x-chapa-signature` HMAC-SHA256 header using the secret key before processing orders.
