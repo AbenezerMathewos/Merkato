@@ -5,3 +5,6 @@
 2. **Service Worker v3 Cache-First Hierarchy**: Static assets (images, CSS, JS) load in < 15ms from CacheStorage.
 3. **Decoded Async Images**: High-resolution photos use `loading="lazy"` and `decoding="async"`.
 4. **CSS Content Visibility**: Offscreen DOM elements leverage CSS containment.
+
+### Static Asset Caching
+Configure `Cache-Control: public, max-age=31536000, immutable` for versioned CSS and JS assets.
