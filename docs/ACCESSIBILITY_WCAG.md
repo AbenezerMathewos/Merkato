@@ -5,3 +5,6 @@
 - **Keyboard Navigation & Focus Traps**: All modals, dropdowns, and lightboxes trap focus and respond to `Escape`.
 - **High-Contrast Ethiopic Scripting**: Typography tokens configured for readability across both Latin and Ge'ez glyphs.
 - **Screen Reader Live Regions**: Cart additions and search updates broadcast via `aria-live="polite"`.
+
+### Screen Reader Compatibility
+Ensure all Geez numeral representations include `aria-label` translations in Latin digits.
