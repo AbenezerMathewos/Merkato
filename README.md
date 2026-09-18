@@ -205,3 +205,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Abenezer Mathewos - [GitHub Profile](https://github.com/AbenezerMathewos)
 
 Project Link: [https://github.com/AbenezerMathewos/Merkato](https://github.com/AbenezerMathewos/Merkato)
+
+## Quick Verification
+Run `npm test` to execute the unified zero-dependency test suite verifying all payment, currency, and i18n modules.
