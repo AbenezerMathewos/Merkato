@@ -8,3 +8,6 @@
 
 ### Screen Reader Compatibility
 Ensure all Geez numeral representations include `aria-label` translations in Latin digits.
+
+### Focus Order and Trapping
+Modal dialogs must trap focus upon opening and return focus to the trigger element on close.
