@@ -248,3 +248,4 @@
 /**
  * Localization engine with support for Ethiopian regional languages.
  */
+// Default fallback language is set to Amharic (am)
