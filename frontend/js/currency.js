@@ -207,3 +207,7 @@
 // Optimized at 2026-08-30 19:26:07.462
 // Optimized at 2026-08-30 19:26:07.854
 // Optimized at 2026-08-30 19:26:08.192
+
+/**
+ * Currency conversion module with realtime ETB, USD, EUR, and GBP exchange rates.
+ */
