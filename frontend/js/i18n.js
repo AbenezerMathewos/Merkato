@@ -244,3 +244,7 @@
     });
 
 })(window);
+
+/**
+ * Localization engine with support for Ethiopian regional languages.
+ */
