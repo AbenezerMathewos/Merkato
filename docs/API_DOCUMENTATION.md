@@ -70,3 +70,6 @@ Clients must pass the JWT token inside the `Authorization: Bearer <token>` heade
 
 ### Pagination Parameters
 List endpoints accept `?page=1&limit=20` query parameters with default limit 20 and max 100.
+
+### Standard Error Response
+All 4xx and 5xx errors return `{ "error": true, "message": string, "code": string }`.
