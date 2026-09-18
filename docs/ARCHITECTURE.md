@@ -23,3 +23,6 @@ graph TD
 - **Zero Heavy Bundler Dependency**: Pure semantic HTML5, modern CSS3 variables, and vanilla ES6+ for maximum load speed on Ethiopian networks.
 - **Service Worker v3 Cache-First Architecture**: Instant loading across slow 3G/4G connections.
 - **Privacy-First Analytics**: Completely local event tracking without invasive third-party cookies.
+
+### Service Communication Flow
+Client requests traverse Cloudflare Edge -> Nginx Reverse Proxy -> Node.js Express -> MongoDB Cluster.
