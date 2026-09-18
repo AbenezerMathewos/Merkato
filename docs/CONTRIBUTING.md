@@ -15,3 +15,8 @@ Thank you for contributing to Ethiopia's premier digital marketplace!
 - `style(scope): CSS design improvements`
 - `refactor(scope): refactor internal logic`
 - `chore(scope): repository maintenance`
+
+### Pull Request Checklist
+- [ ] All automated tests pass
+- [ ] Code formatted according to project conventions
+- [ ] Documentation updated
