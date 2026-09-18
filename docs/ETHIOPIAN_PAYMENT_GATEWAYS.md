@@ -33,3 +33,6 @@ Unified gateway supporting Ethiopian and International debit/credit cards (Visa,
 1. Merchant generates encrypted order payload.
 2. Telebirr USSD prompt sent to customer phone.
 3. Asynchronous notification posted to merchant webhook.
+
+### CBE Birr Dynamic QR Generation
+CBE Birr dynamic QR payloads encode the merchant account, transaction amount, and order ID.
