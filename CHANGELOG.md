@@ -17,3 +17,6 @@ All notable changes to Merkato Ethiopian Digital Marketplace will be documented 
 - Direct integrations for Telebirr, CBE Birr, and Chapa
 - Sub-city delivery fee calculation matrix
 
+## [2.7.0] - 2026-09-17
+### Changed
+- Bumped platform version to 2.7.0 with enhanced documentation and test suite.
